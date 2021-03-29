@@ -1,7 +1,6 @@
 
 [![Swift Version][swift-image]][swift-url]
 [![Build Status][travis-image]][travis-url]
-[![License][license-image]][license-url]
 [![Platform](https://img.shields.io/cocoapods/p/LFAlertController.svg?style=flat)](http://cocoapods.org/pods/LFAlertController)
 
 # ShopLive SDK iOS
@@ -14,7 +13,7 @@
 
 ## Features
 
-- [x] Feature 1
+- [x] PIP
 
 ## Requirements
 
@@ -47,37 +46,36 @@ xcodebuild -create-xcframework \
 ## Installation
 
 #### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `YourLibrary` by adding it to your `Podfile`:
+You can use [CocoaPods](http://cocoapods.org/) to install `ShopLiveSDK` by adding it to your `Podfile`:
 
 ```ruby
-platform :ios, '8.0'
+platform :ios, '13.0'
 use_frameworks!
-pod 'YourLibrary'
+pod 'ShopLive'
 ```
 
-To get the full benefits import `YourLibrary` wherever you import UIKit
+To get the full benefits import `ShopLiveSDK` wherever you import UIKit
 
 ``` swift
 import UIKit
-import YourLibrary
+import ShopLiveSDK
 ```
 
 #### Manually
-1. Download and drop ```YourLibrary.swift``` in your project.  
+1. Download and drop ```ShopLiveSDK.xcframework``` in your project.  
 2. Congratulations!  
 
 ## Usage example
 
 ```swift
-import EZSwiftExtensions
-ez.detectScreenShot { () -> () in
-    print("User took a screen shot")
-}
+import ShopLiveSDK
+
+ShopLive.play()
 ```
 
 ## Contribute
 
-We would love you for the contribution to **YourLibraryName**, check the ``LICENSE`` file for more info.
+We would love you for the contribution to **ShopLiveSDK**, check the ``LICENSE`` file for more info.
 
 ## Meta
 
