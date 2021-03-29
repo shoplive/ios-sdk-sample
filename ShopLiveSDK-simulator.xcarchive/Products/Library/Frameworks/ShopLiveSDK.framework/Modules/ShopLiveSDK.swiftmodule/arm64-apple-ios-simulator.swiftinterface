@@ -1,0 +1,123 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target arm64-apple-ios13.2-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveSDK
+import AVFoundation
+import AVKit
+import Combine
+import Foundation
+@_exported import ShopLiveSDK
+import Swift
+import UIKit
+import WebKit
+import os.log
+import os
+@objc public protocol ShopLiveSDKDelegate : AnyObject {
+  @objc func handleNavigation(with url: Foundation.URL)
+  @objc func handleDownloadCoupon(with couponId: Swift.String, completion: @escaping () -> Swift.Void)
+  @objc func handleCommand(_ command: Swift.String, with payload: Any?)
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class ShopLive : ObjectiveC.NSObject {
+  @objc deinit
+}
+extension ShopLive {
+  @objc public enum PipPosition : Swift.Int {
+    case topLeft
+    case topRight
+    case bottomLeft
+    case bottomRight
+    case `default`
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public enum PresentationStyle : Swift.Int {
+    case unknown
+    case fullScreen
+    case pip
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLive {
+  @objc final public class func startPictureInPicture()
+  @objc final public class var authToken: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc final public class var user: ShopLiveSDK.ShopLiveUser? {
+    @objc get
+    @objc set
+  }
+  @objc final public class func configure(with accessKey: Swift.String)
+  @objc final public class func play(with campaignKey: Swift.String?)
+  @objc final public class func reloadLive()
+  @objc final public class func startPictureInPicture(with position: ShopLiveSDK.ShopLive.PipPosition, scale: CoreGraphics.CGFloat)
+  @objc final public class func stopPictureInPicture()
+  @objc final public class var style: ShopLiveSDK.ShopLive.PresentationStyle {
+    @objc get
+  }
+  @objc final public class var pipPosition: ShopLiveSDK.ShopLive.PipPosition {
+    @objc get
+    @objc set
+  }
+  @objc final public class var pipScale: CoreGraphics.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc final public class var delegate: ShopLiveSDK.ShopLiveSDKDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc final public class var webViewConfiguration: WebKit.WKWebViewConfiguration? {
+    @objc get
+    @objc set
+  }
+}
+extension ShopLive : AVKit.AVPictureInPictureControllerDelegate {
+  @objc final public func pictureInPictureController(_ pictureInPictureController: AVKit.AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Swift.Bool) -> Swift.Void)
+  @objc final public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc final public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc final public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+  @objc final public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVKit.AVPictureInPictureController)
+}
+@objc public class ShopLiveUser : ObjectiveC.NSObject, Swift.Codable {
+  @objc public init(id: Swift.String = "", name: Swift.String = "", gender: ShopLiveSDK.ShopLiveUser.Gender = .unknown, age: Swift.Int = -1)
+  @objc deinit
+  @objc override dynamic public init()
+  required public init(from decoder: Swift.Decoder) throws
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension ShopLiveUser {
+  @objc public enum Gender : Swift.Int, Swift.Codable, Swift.CaseIterable {
+    case female = 1
+    case male = 2
+    case neutral = 3
+    case unknown = 0
+    public var description: Swift.String {
+      get
+    }
+    public typealias RawValue = Swift.Int
+    public init?(rawValue: Swift.Int)
+    public var rawValue: Swift.Int {
+      get
+    }
+    public typealias AllCases = [ShopLiveSDK.ShopLiveUser.Gender]
+    public static var allCases: [ShopLiveSDK.ShopLiveUser.Gender] {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.RawRepresentable {}
