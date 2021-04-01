@@ -116,7 +116,7 @@ import WebKit
         style = .fullScreen
     }
     
-    func hideShopLiveView() {
+    func hideShopLiveView(_ animated: Bool = true) {
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSession = AVAudioSession.sharedInstance()
             do {
@@ -135,29 +135,37 @@ import WebKit
         if let videoWindowSwipeDownGestureRecognizer = self.videoWindowSwipeDownGestureRecognizer {
             shopLiveWindow?.removeGestureRecognizer(videoWindowSwipeDownGestureRecognizer)
         }
-        
-        shopLiveWindow?.resignKey()
-        mainWindow?.makeKeyAndVisible()
-        
-        pipControllerPublisherCancellableSet.forEach({ $0.cancel() })
-        pipControllerPublisherCancellableSet.removeAll()
-        
-        videoWindowPanGestureRecognizer = nil
-        videoWindowTapGestureRecognizer = nil
-        pictureInPictureController = nil
-        
-        liveStreamViewController?.removeFromParent()
-        liveStreamViewController?.stop()
-        liveStreamViewController?.delegate = nil
-        liveStreamViewController = nil
-        
-        mainWindow = nil
-        shopLiveWindow?.removeFromSuperview()
-        shopLiveWindow?.rootViewController = nil
-        
-        shopLiveWindow = nil
-        style = .unknown
-        
+    
+        let transform = self.shopLiveWindow?.transform.concatenating(CGAffineTransform(scaleX: 0.1, y: 0.1)) ?? .identity
+        let animateDuration = animated ? 0.2 : 0.0
+        UIView.animate(withDuration: animateDuration, delay: 0, options: [.curveEaseIn]) {
+            self.shopLiveWindow?.transform = transform
+            self.shopLiveWindow?.alpha = 0
+        } completion: { (isCompleted) in
+            self.shopLiveWindow?.transform = .identity
+            self.shopLiveWindow?.alpha = 1
+            
+            self.shopLiveWindow?.resignKey()
+            self.mainWindow?.makeKeyAndVisible()
+            
+            
+            
+            self.videoWindowPanGestureRecognizer = nil
+            self.videoWindowTapGestureRecognizer = nil
+            self.pictureInPictureController = nil
+            
+            self.liveStreamViewController?.removeFromParent()
+            self.liveStreamViewController?.stop()
+            self.liveStreamViewController?.delegate = nil
+            self.liveStreamViewController = nil
+            
+            self.mainWindow = nil
+            self.shopLiveWindow?.removeFromSuperview()
+            self.shopLiveWindow?.rootViewController = nil
+            
+            self.shopLiveWindow = nil
+            self.style = .unknown
+        }
 //        overlayUrl = nil
     }
     

@@ -51,7 +51,7 @@ You can use [CocoaPods](http://cocoapods.org/) to install `ShopLiveSDK` by addin
 ```ruby
 platform :ios, '13.0'
 use_frameworks!
-pod 'ShopLive'
+pod 'ShopLiveSDK'
 ```
 
 To get the full benefits import `ShopLiveSDK` wherever you import UIKit
