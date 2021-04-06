@@ -14,6 +14,7 @@ protocol OverlayWebViewDelegate: class {
     func reloadVideo()
     func didUpdatePoster(with url: URL)
     func didUpdateForegroundPoster(with url: URL)
+    func replay(with size: CGSize)
     
     func didTouchPlayButton()
     func didTouchPauseButton()
@@ -29,7 +30,9 @@ class OverlayWebView: UIView {
     @Published var overlayUrl: URL?
     @Published var isMuted: Bool = false
     @Published var isPlaying: Bool = false
+    @Published var isPipMode: Bool = false
     
+    private var isSystemInitialized: Bool = false
     private weak var webView: ShopLiveWebView?
     private lazy var cancellableSet = Set<AnyCancellable>()
     
@@ -77,7 +80,11 @@ class OverlayWebView: UIView {
     }
     
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
-        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: webViewConfiguration ?? WKWebViewConfiguration())
+        let configuration = webViewConfiguration ?? WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.allowsPictureInPictureMediaPlayback = false
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -101,7 +108,6 @@ class OverlayWebView: UIView {
         }
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(self, name: "ShopLiveAppInterface")
-        webView.uiDelegate = webviewUIDelegate
         self.webView = webView
     }
     
@@ -118,7 +124,9 @@ class OverlayWebView: UIView {
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] (isPlayingVideo) in
-                self?.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_PLAYING_VIDEO', \(isPlayingVideo));", completionHandler: nil)
+                guard let self = self else { return }
+                guard self.isSystemInitialized else { return }
+                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_PLAYING_VIDEO', \(isPlayingVideo));", completionHandler: nil)
             }
             .store(in: &cancellableSet)
         
@@ -126,7 +134,20 @@ class OverlayWebView: UIView {
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] (isMuted) in
-                self?.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_MUTE', \(isMuted));", completionHandler: nil)
+                guard let self = self else { return }
+                guard self.isSystemInitialized else { return }
+                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_MUTE', \(isMuted));", completionHandler: nil)
+            }
+            .store(in: &cancellableSet)
+        
+        $isPipMode
+            .dropFirst()
+            .removeDuplicates()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (isPipMode) in
+                guard let self = self else { return }
+                guard self.isSystemInitialized else { return }
+                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(isPipMode));", completionHandler: nil)
             }
             .store(in: &cancellableSet)
         
@@ -159,7 +180,9 @@ class OverlayWebView: UIView {
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
-                guard let webView = self?.webView else { return }
+                guard let self = self else { return }
+                guard self.isSystemInitialized else { return }
+                guard let webView = self.webView else { return }
                 webView.evaluateJavaScript("window.__receiveAppEvent('SHOW_GOODS_UI');", completionHandler: nil)
             }
             .store(in: &cancellableSet)
@@ -175,6 +198,10 @@ class OverlayWebView: UIView {
     
     func didCompleteDownloadCoupon(with couponId: String) {
         webView?.evaluateJavaScript("window.__receiveAppEvent('COMPLETE_DOWNLOAD_COUPON', '\(couponId)');", completionHandler: nil)
+    }
+    
+    func updatePipStyle(with style: ShopLive.PresentationStyle) {
+        isPipMode = style == .pip
     }
 }
 
@@ -194,9 +221,13 @@ extension OverlayWebView: WKScriptMessageHandler {
         switch interface {
         case .systemInit:
             ShopLiveLogger.debugLog("systemInit")
+            self.isSystemInitialized = true
             self.webView?.evaluateJavaScript("window.__receiveAppEvent('VIDEO_INITIALIZED');", completionHandler: nil)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_VIDEO_MUTE', \(self.isMuted));", completionHandler: nil)
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
+                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(self.isPipMode));", completionHandler: nil)
             }
         case .setVideoMute(let isMuted):
             ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
@@ -244,6 +275,9 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.isPlaying = false
         case .clickShareButton(let url):
             ShopLiveLogger.debugLog("clickShareButton(\(url))")
+        case .replay(let width, let height):
+            ShopLiveLogger.debugLog("replay")
+            self.delegate?.replay(with: CGSize(width: width, height: height))
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)

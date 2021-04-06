@@ -16,6 +16,7 @@ protocol LiveStreamViewControllerDelegate: class {
     func didTouchNavigation(with url: URL)
     func didTouchCoupon(with couponId: String)
     func handleCommand(_ command: String, with payload: Any?)
+    func replay(with size: CGSize)
 }
 
 class LiveStreamViewController: UIViewController {
@@ -28,6 +29,7 @@ class LiveStreamViewController: UIViewController {
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
     private var foregroundImageView: UIImageView?
+    var isReplayMode: Bool = false
     private lazy var videoView: VideoView = VideoView()
     
     var playerLayer: AVPlayerLayer? {
@@ -73,16 +75,21 @@ class LiveStreamViewController: UIViewController {
         $isHiddenOverlay
             .receive(on: RunLoop.main)
             .sink { [weak self] (isHiddenOverlay) in
-                guard !isHiddenOverlay else {
-                    self?.overlayView?.isHidden = isHiddenOverlay
+                guard let self = self else { return }
+                guard !self.isReplayMode else {
+                    self.overlayView?.isUserInteractionEnabled = !isHiddenOverlay
                     return
                 }
-                self?.overlayView?.alpha = 0
-                self?.overlayView?.isHidden = false
+                guard !isHiddenOverlay else {
+                    self.overlayView?.isHidden = isHiddenOverlay
+                    return
+                }
+                self.overlayView?.alpha = 0
+                self.overlayView?.isHidden = false
                 UIView.animate(withDuration: 0.3) {
-                    self?.overlayView?.alpha = 1.0
+                    self.overlayView?.alpha = 1.0
                 } completion: { (completion) in
-                    self?.overlayView?.isHidden = isHiddenOverlay
+                    self.overlayView?.isHidden = isHiddenOverlay
                 }
             }
             .store(in: &cancellableSet)
@@ -186,8 +193,8 @@ class LiveStreamViewController: UIViewController {
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                                      overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                                     overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         
         self.overlayView = overlayView
@@ -238,6 +245,11 @@ class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func replay(with size: CGSize) {
+        isReplayMode = true
+        delegate?.replay(with: size)
+    }
+    
     func didTouchCoupon(with couponId: String) {
         delegate?.didTouchCoupon(with: couponId)
     }
@@ -294,6 +306,10 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     
     func didTouchNavigation(with url: URL) {
         delegate?.didTouchNavigation(with: url)
+    }
+    
+    func updatePipStyle(with style: ShopLive.PresentationStyle) {
+        overlayView?.updatePipStyle(with: style)
     }
     
     @objc func didTouchPipButton() {

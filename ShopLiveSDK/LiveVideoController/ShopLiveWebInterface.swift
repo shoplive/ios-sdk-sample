@@ -27,6 +27,7 @@ enum WebInterface {
     case playVideo
     case pauseVideo
     case clickShareButton(url: URL)
+    case replay(width: CGFloat, height: CGFloat)
     case command(command: String, payload: Any?)
     
     var functionString: String {
@@ -59,6 +60,8 @@ enum WebInterface {
             return WebFunction.pauseVideo.rawValue
         case .clickShareButton:
             return WebFunction.clickShareButton.rawValue
+        case .replay:
+            return WebFunction.replay.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -81,6 +84,7 @@ enum WebInterface {
         case playVideo = "PLAY_VIDEO"
         case pauseVideo = "PAUSE_VIDEO"
         case clickShareButton = "CLICK_SHARE_BTN"
+        case replay = "REPLAY"
         case command = "COMMAND"
     }
 }
@@ -135,6 +139,11 @@ extension WebInterface {
             guard let urlString = parameters?["url"] as? String else { return nil }
             guard let url = URL(string: urlString) else { return nil }
             self = .clickShareButton(url:  url)
+        case .replay:
+            guard let width = parameters?["width"] as? CGFloat else { return nil }
+            guard let height = parameters?["height"] as? CGFloat else { return nil }
+            debugPrint("width: \(width) x height: \(height)")
+            self = .replay(width: width, height: height)
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]
