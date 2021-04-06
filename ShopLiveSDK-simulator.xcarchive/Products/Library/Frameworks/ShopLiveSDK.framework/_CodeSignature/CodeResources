@@ -6,7 +6,7 @@
 	<dict>
 		<key>Headers/ShopLiveSDK-Swift.h</key>
 		<data>
-		lzAqmS0tJVMp1rtSQeUvE1V4Z3U=
+		6VEe/HeU9M/3Sbz1bjMpHZDvnzQ=
 		</data>
 		<key>Headers/ShopLiveSDK.h</key>
 		<data>
@@ -26,7 +26,7 @@
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/arm64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		+UvCrsq7C7QS/tQbZx30wd0Rguc=
+		lPYui7P5sQKEBSXeICXuHRfLlcQ=
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/arm64.swiftdoc</key>
 		<data>
@@ -38,7 +38,7 @@
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/arm64.swiftmodule</key>
 		<data>
-		+UvCrsq7C7QS/tQbZx30wd0Rguc=
+		lPYui7P5sQKEBSXeICXuHRfLlcQ=
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
 		<data>
@@ -50,7 +50,7 @@
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64-apple-ios-simulator.swiftmodule</key>
 		<data>
-		YjkGae5o+9K5yb7xAKA4CSsKzsQ=
+		I9xDAAyNSHDklMeInVnZXueYsqY=
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64.swiftdoc</key>
 		<data>
@@ -62,7 +62,7 @@
 		</data>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64.swiftmodule</key>
 		<data>
-		YjkGae5o+9K5yb7xAKA4CSsKzsQ=
+		I9xDAAyNSHDklMeInVnZXueYsqY=
 		</data>
 		<key>Modules/module.modulemap</key>
 		<data>
@@ -75,7 +75,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			+s8nw5mkB8iHqotdM1wvNKbvlIsL2ECW2XuyV2D3WqE=
+			IA8hkXMZKE0lII0XrZl5ej3B0TlQ64dwGiQx+mcsaUs=
 			</data>
 		</dict>
 		<key>Headers/ShopLiveSDK.h</key>
@@ -103,7 +103,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hB9sgv6KQ/flHvhza7VTf+xObFWY/sEAhFTNuh55h3M=
+			oGCmevDuE7KapnV9swBt0jnnzyiixwk+FbEVKzU2qwI=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveSDK.swiftmodule/arm64.swiftdoc</key>
@@ -124,7 +124,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			hB9sgv6KQ/flHvhza7VTf+xObFWY/sEAhFTNuh55h3M=
+			oGCmevDuE7KapnV9swBt0jnnzyiixwk+FbEVKzU2qwI=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64-apple-ios-simulator.swiftdoc</key>
@@ -145,7 +145,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			S5G/vxWITcBXNqkazlmRK3Dxp/ex+hfUQRjyEcUzja0=
+			khTaHhoYqY8GVAjDbc0o1l2J8eIVuJWh159ArczOJho=
 			</data>
 		</dict>
 		<key>Modules/ShopLiveSDK.swiftmodule/x86_64.swiftdoc</key>
@@ -166,7 +166,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			S5G/vxWITcBXNqkazlmRK3Dxp/ex+hfUQRjyEcUzja0=
+			khTaHhoYqY8GVAjDbc0o1l2J8eIVuJWh159ArczOJho=
 			</data>
 		</dict>
 		<key>Modules/module.modulemap</key>

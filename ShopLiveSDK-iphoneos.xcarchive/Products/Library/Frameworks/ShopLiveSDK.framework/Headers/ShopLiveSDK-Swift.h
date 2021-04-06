@@ -234,7 +234,6 @@ typedef SWIFT_ENUM(NSInteger, PresentationStyle, open) {
   PresentationStylePip = 2,
 };
 
-
 @class AVPictureInPictureController;
 
 @interface ShopLive (SWIFT_EXTENSION(ShopLiveSDK)) <AVPictureInPictureControllerDelegate>
@@ -244,6 +243,7 @@ typedef SWIFT_ENUM(NSInteger, PresentationStyle, open) {
 - (void)pictureInPictureControllerWillStopPictureInPicture:(AVPictureInPictureController * _Nonnull)pictureInPictureController;
 - (void)pictureInPictureControllerDidStopPictureInPicture:(AVPictureInPictureController * _Nonnull)pictureInPictureController;
 @end
+
 
 @class ShopLiveUser;
 @protocol ShopLiveSDKDelegate;

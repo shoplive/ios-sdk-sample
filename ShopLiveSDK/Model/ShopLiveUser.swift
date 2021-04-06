@@ -31,11 +31,11 @@ extension ShopLiveUser {
         public var description: String {
             switch self {
             case .female:
-                return "female"
+                return "f"
             case .male:
-                return "male"
+                return "m"
             case .neutral:
-                return "neutral"
+                return "n"
             case .unknown:
                 return "unknown"
             }
