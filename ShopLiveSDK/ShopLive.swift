@@ -60,6 +60,10 @@ import WebKit
         $user.removeDuplicates().sink { [weak self] (user) in
             self?.liveStreamViewController?.viewModel.user = user
         }.store(in: &cancellableSet)
+        
+        $style.dropFirst().removeDuplicates().sink { (style) in
+            self.liveStreamViewController?.updatePipStyle(with: style)
+        }.store(in: &cancellableSet)
     }
     
     func showShopLiveView(with overlayUrl: URL) {
@@ -183,7 +187,6 @@ import WebKit
         if AVPictureInPictureController.isPictureInPictureSupported() {
             // Create a new controller, passing the reference to the AVPlayerLayer.
             pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
-
             pictureInPictureController?.delegate = self
 //            pictureInPictureController?.publisher(for: \.isPictureInPicturePossible)
 //                .receive(on: RunLoop.main)
