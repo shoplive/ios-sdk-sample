@@ -271,36 +271,76 @@ import WebKit
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
         
-        //pip 애니메이션시 완료되었을 때와 중간 transform 되었을 때 영상 사이즈가 달라지기 때문에 맞추기 위해 중간 사이즈와 중간 센터를 설정함
-        let midScale = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
-        let midWidth = pipSize.width / midScale
-        let currentCenter = shopLiveWindow.center
-        shopLiveWindow.bounds = CGRect(x: 0, y: 0, width: midWidth, height: shopLiveWindow.bounds.height)
-        shopLiveWindow.center = currentCenter
-        
-        let transformScaleX = pipSize.width / shopLiveWindow.frame.width
-        let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
-        let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
-        
-        let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
-        
-        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-            self.liveStreamViewController?.isHiddenOverlay = true
-            shopLiveWindow.transform = transform
-            shopLiveWindow.center = midCenter
-        } completion: { (isCompleted) in
-            let bounds = CGRect(x: 0, y: 0, width: pipSize.width, height: pipSize.height)
-            shopLiveWindow.transform = .identity
-            shopLiveWindow.bounds = bounds
-            shopLiveWindow.center = pipCenter
-            shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-            shopLiveWindow.rootViewController?.view.clipsToBounds = true
-            shopLiveWindow.rootViewController?.view.backgroundColor = .black
-            shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
-            shopLiveWindow.layer.shadowOpacity = 0.5
-            shopLiveWindow.layer.shadowOffset = .zero
-            shopLiveWindow.layer.shadowRadius = 10
+        if liveStreamViewController?.isReplayMode ?? false {
+            //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
+            //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
+            //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
+            let transformScaleX = pipSize.width / shopLiveWindow.frame.width
+            let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
+            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
+            let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                self.liveStreamViewController?.isHiddenOverlay = true
+                shopLiveWindow.transform = transform
+                shopLiveWindow.center = midCenter
+            } completion: { (isCompleted) in
+                guard let snapshop = shopLiveWindow.snapshotView(afterScreenUpdates: false) else { return }
+                let bounds = CGRect(x: 0, y: 0, width: pipSize.width, height: pipSize.height)
+                self.liveStreamViewController?.view.isHidden = true
+                shopLiveWindow.addSubview(snapshop)
+                snapshop.frame = CGRect(x: 0, y: -(safeAreaInset.top * transformScaleY), width: pipSize.width, height: pipSize.height + (safeAreaInset.top * transformScaleY))
+//                snapshop.center = shopLiveWindow.center
+                shopLiveWindow.transform = .identity
+                shopLiveWindow.bounds = bounds
+                shopLiveWindow.center = pipCenter
+                shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+                shopLiveWindow.rootViewController?.view.clipsToBounds = true
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
+                shopLiveWindow.layer.shadowOpacity = 0.5
+                shopLiveWindow.layer.shadowOffset = .zero
+                shopLiveWindow.layer.shadowRadius = 10
+                
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100)) {
+                    self.liveStreamViewController?.view.isHidden = false
+                    snapshop.removeFromSuperview()
+                }
+            }
         }
+        else {
+            //pip 애니메이션시 완료되었을 때와 중간 transform 되었을 때 영상 사이즈가 달라지기 때문에 맞추기 위해 중간 사이즈와 중간 센터를 설정함
+            let midScale = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
+            let midWidth = pipSize.width / midScale
+            let currentCenter = shopLiveWindow.center
+            shopLiveWindow.bounds = CGRect(x: 0, y: 0, width: midWidth, height: shopLiveWindow.bounds.height)
+            shopLiveWindow.center = currentCenter
+            
+            let transformScaleX = pipSize.width / shopLiveWindow.frame.width
+            let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
+            let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
+            
+            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                self.liveStreamViewController?.isHiddenOverlay = true
+                shopLiveWindow.transform = transform
+                shopLiveWindow.center = midCenter
+            } completion: { (isCompleted) in
+                let bounds = CGRect(x: 0, y: 0, width: pipSize.width, height: pipSize.height)
+                shopLiveWindow.transform = .identity
+                shopLiveWindow.bounds = bounds
+                shopLiveWindow.center = pipCenter
+                shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+                shopLiveWindow.rootViewController?.view.clipsToBounds = true
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
+                shopLiveWindow.layer.shadowOpacity = 0.5
+                shopLiveWindow.layer.shadowOffset = .zero
+                shopLiveWindow.layer.shadowRadius = 10
+            }
+        }
+        
 
         style = .pip
     }
@@ -318,26 +358,64 @@ import WebKit
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
         
-        let safeAreaInset = mainWindow.safeAreaInsets
-        let transformScale = (mainWindow.bounds.height - safeAreaInset.top) / shopLiveWindow.bounds.height
-        let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScale, y: transformScale))
-        let midCenter = CGPoint(x: mainWindow.center.x, y: mainWindow.center.y + safeAreaInset.top / 2)
+        
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
         
-        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-            shopLiveWindow.transform = transform
-            shopLiveWindow.center = midCenter
-            shopLiveWindow.layer.cornerRadius = 0
-            shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-        } completion: { (isCompleted) in
-            shopLiveWindow.transform = .identity
-            shopLiveWindow.frame = mainWindow.bounds
-            shopLiveWindow.rootViewController?.view.clipsToBounds = false
-            shopLiveWindow.rootViewController?.view.backgroundColor = .black
-            self.liveStreamViewController?.showBackgroundPoster()
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-                self.liveStreamViewController?.isHiddenOverlay = false
-            })
+        if liveStreamViewController?.isReplayMode ?? false {
+            //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
+            //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
+            //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
+            let safeAreaInset = mainWindow.safeAreaInsets
+            let transformScale = (mainWindow.bounds.height - safeAreaInset.top) / shopLiveWindow.bounds.height
+            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScale, y: transformScale))
+            let midCenter = CGPoint(x: mainWindow.center.x, y: mainWindow.center.y + safeAreaInset.top / 2)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                shopLiveWindow.transform = transform
+                shopLiveWindow.center = midCenter
+                shopLiveWindow.layer.cornerRadius = 0
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+            } completion: { (isCompleted) in
+                
+                guard let snapshop = shopLiveWindow.snapshotView(afterScreenUpdates: false) else { return }
+                self.liveStreamViewController?.view.isHidden = true
+                shopLiveWindow.addSubview(snapshop)
+                snapshop.frame = CGRect(x: 0, y: safeAreaInset.top, width: shopLiveWindow.bounds.width * transformScale , height: mainWindow.bounds.height - safeAreaInset.top)
+                snapshop.center.x = mainWindow.center.x
+                
+                shopLiveWindow.transform = .identity
+                shopLiveWindow.frame = mainWindow.bounds
+                shopLiveWindow.rootViewController?.view.clipsToBounds = false
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                self.liveStreamViewController?.showBackgroundPoster()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
+                    self.liveStreamViewController?.isHiddenOverlay = false
+                    self.liveStreamViewController?.view.isHidden = false
+                    snapshop.removeFromSuperview()
+                })
+            }
+        }
+        else {
+            let safeAreaInset = mainWindow.safeAreaInsets
+            let transformScale = (mainWindow.bounds.height - safeAreaInset.top) / shopLiveWindow.bounds.height
+            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScale, y: transformScale))
+            let midCenter = CGPoint(x: mainWindow.center.x, y: mainWindow.center.y + safeAreaInset.top / 2)
+            
+            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+                shopLiveWindow.transform = transform
+                shopLiveWindow.center = midCenter
+                shopLiveWindow.layer.cornerRadius = 0
+                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+            } completion: { (isCompleted) in
+                shopLiveWindow.transform = .identity
+                shopLiveWindow.frame = mainWindow.bounds
+                shopLiveWindow.rootViewController?.view.clipsToBounds = false
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
+                self.liveStreamViewController?.showBackgroundPoster()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
+                    self.liveStreamViewController?.isHiddenOverlay = false
+                })
+            }
         }
         
         style = .fullScreen
