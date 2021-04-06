@@ -16,6 +16,7 @@ protocol LiveStreamViewControllerDelegate: class {
     func didTouchNavigation(with url: URL)
     func didTouchCoupon(with couponId: String)
     func handleCommand(_ command: String, with payload: Any?)
+    func replay(with size: CGSize)
 }
 
 class LiveStreamViewController: UIViewController {
@@ -192,8 +193,8 @@ class LiveStreamViewController: UIViewController {
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                                      overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     overlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     overlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                                     overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                                     overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
         
         self.overlayView = overlayView
@@ -244,8 +245,9 @@ class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
-    func replay() {
+    func replay(with size: CGSize) {
         isReplayMode = true
+        delegate?.replay(with: size)
     }
     
     func didTouchCoupon(with couponId: String) {

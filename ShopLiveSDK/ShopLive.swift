@@ -28,7 +28,7 @@ import WebKit
     
     private var lastPipPosition: PipPosition = .default
     private var lastPipScale: CGFloat = 2/5
-    
+    private var replaySize: CGSize = CGSize(width: 9, height: 16)
     weak private var mainWindow: UIWindow? = nil
     
     @Published var style: PresentationStyle = .unknown
@@ -225,7 +225,7 @@ import WebKit
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard let mainWindow = self.mainWindow else { return .zero }
         var videoSize = liveStreamViewController?.viewModel.videoPlayer.currentItem?.presentationSize ?? .zero
-        videoSize = videoSize == .zero ? CGSize(width: 9, height: 16) : videoSize
+        videoSize = videoSize == .zero ? replaySize : videoSize
         
         let width = mainWindow.bounds.width * scale
         let height = (videoSize.height / videoSize.width) * width
@@ -714,6 +714,10 @@ extension ShopLive: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLive: LiveStreamViewControllerDelegate {
+    func replay(with size: CGSize) {
+        replaySize = size
+    }
+    
     func didTouchPipButton() {
         startShopLivePictureInPicture()
     }

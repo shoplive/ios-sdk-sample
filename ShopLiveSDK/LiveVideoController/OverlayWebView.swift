@@ -14,7 +14,7 @@ protocol OverlayWebViewDelegate: class {
     func reloadVideo()
     func didUpdatePoster(with url: URL)
     func didUpdateForegroundPoster(with url: URL)
-    func replay()
+    func replay(with size: CGSize)
     
     func didTouchPlayButton()
     func didTouchPauseButton()
@@ -275,9 +275,9 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.isPlaying = false
         case .clickShareButton(let url):
             ShopLiveLogger.debugLog("clickShareButton(\(url))")
-        case .replay:
+        case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
-            self.delegate?.replay()
+            self.delegate?.replay(with: CGSize(width: width, height: height))
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
