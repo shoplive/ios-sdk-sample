@@ -42,37 +42,6 @@ xcodebuild -create-xcframework \
  -output ../ShopLiveSDK-library/ShopLiveSDK.xcframework
 ```
 
-
-## Installation
-
-#### CocoaPods
-You can use [CocoaPods](http://cocoapods.org/) to install `ShopLiveSDK` by adding it to your `Podfile`:
-
-```ruby
-platform :ios, '13.0'
-use_frameworks!
-pod 'ShopLiveSDK'
-```
-
-To get the full benefits import `ShopLiveSDK` wherever you import UIKit
-
-``` swift
-import UIKit
-import ShopLiveSDK
-```
-
-#### Manually
-1. Download and drop ```ShopLiveSDK.xcframework``` in your project.  
-2. Congratulations!  
-
-## Usage example
-
-```swift
-import ShopLiveSDK
-
-ShopLive.play()
-```
-
 ## Contribute
 
 We would love you for the contribution to **ShopLiveSDK**, check the ``LICENSE`` file for more info.
