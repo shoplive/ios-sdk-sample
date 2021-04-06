@@ -80,7 +80,11 @@ class OverlayWebView: UIView {
     }
     
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
-        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: webViewConfiguration ?? WKWebViewConfiguration())
+        let configuration = webViewConfiguration ?? WKWebViewConfiguration()
+        configuration.allowsInlineMediaPlayback = true
+        configuration.allowsPictureInPictureMediaPlayback = false
+        configuration.mediaTypesRequiringUserActionForPlayback = []
+        let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -104,7 +108,6 @@ class OverlayWebView: UIView {
         }
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(self, name: "ShopLiveAppInterface")
-        webView.uiDelegate = webviewUIDelegate
         self.webView = webView
     }
     
