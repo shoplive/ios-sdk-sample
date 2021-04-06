@@ -183,7 +183,7 @@ class OverlayWebView: UIView {
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
                 guard let webView = self.webView else { return }
-                webView.evaluateJavaScript("window.__receiveAppEvent('SHOW_GOODS_UI');", completionHandler: nil)
+                webView.evaluateJavaScript("window.__receiveAppEvent('DOWN_KEYBOARD');", completionHandler: nil)
             }
             .store(in: &cancellableSet)
     }
