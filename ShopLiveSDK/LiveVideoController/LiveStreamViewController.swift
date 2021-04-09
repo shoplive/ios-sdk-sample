@@ -106,9 +106,21 @@ class LiveStreamViewController: UIViewController {
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] (status) in
-                self?.overlayView?.isPlaying = status == .playing
+                switch status {
+                case .paused:
+                    self?.overlayView?.isPlaying = false
+                case .waitingToPlayAtSpecifiedRate: //버퍼링
+                    break
+                case .playing:
+                    self?.overlayView?.isPlaying = true
+                }
             }
             .store(in: &cancellableSet)
+        
+        viewModel.$isPlaybackLikelyToKeepUp.dropFirst().removeDuplicates().receive(on: RunLoop.main).sink { (isPlaybackLikelyToKeepUp) in
+            //show loading here
+            //
+        }.store(in: &cancellableSet)
         
         viewModel.$playerItemStatus
             .removeDuplicates()

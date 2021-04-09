@@ -14,6 +14,7 @@ final class LiveStreamViewModel {
     @Published var playerItemStatus: AVPlayerItem.Status = .unknown
     @Published var isMuted: Bool = false
     @Published var timeControlStatus: AVPlayer.TimeControlStatus = .paused
+    @Published var isPlaybackLikelyToKeepUp: Bool = false
     
     
     var overayUrl: URL?
@@ -33,6 +34,7 @@ final class LiveStreamViewModel {
     private var playerItemTimebaseCancellable: AnyCancellable?
     private var playerItemPlaybackStalledCancellable: AnyCancellable?
     private var urlAssetIsPlayableCancellable: AnyCancellable?
+    private var playItemIsPlaybackLikelyToKeepUpCancellable: AnyCancellable?
     
     deinit {
         resetPlayer()
@@ -68,6 +70,7 @@ final class LiveStreamViewModel {
                 
                 self.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 self.playerItemStatusCancellable = playerItem.publisher(for: \.status).assign(to: \.playerItemStatus, on: self)
+                self.playItemIsPlaybackLikelyToKeepUpCancellable = playerItem.publisher(for: \.isPlaybackLikelyToKeepUp).assign(to: \.isPlaybackLikelyToKeepUp, on: self)
                 self.playerItemTimebaseCancellable = NotificationCenter.default.publisher(for: .TimebaseEffectiveRateChangedNotification, object: playerItem.timebase)
                     .compactMap({ $0.object })
                     .map({ $0 as! CMTimebase })
@@ -101,6 +104,8 @@ final class LiveStreamViewModel {
         playerItemPlaybackStalledCancellable = nil
         urlAssetIsPlayableCancellable?.cancel()
         urlAssetIsPlayableCancellable = nil
+        playItemIsPlaybackLikelyToKeepUpCancellable?.cancel()
+        playItemIsPlaybackLikelyToKeepUpCancellable = nil
         
         perfMeasurements?.playbackEnded()
         perfMeasurements = nil
