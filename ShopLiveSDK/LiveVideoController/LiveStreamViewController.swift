@@ -39,6 +39,7 @@ class LiveStreamViewController: UIViewController {
     @Published var isHiddenOverlay: Bool = false
     
     private lazy var cancellableSet = Set<AnyCancellable>()
+    private var waitingPlayCancellable: AnyCancellable? = nil
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
@@ -49,6 +50,8 @@ class LiveStreamViewController: UIViewController {
             cancellable.cancel()
         }
         cancellableSet.removeAll()
+        waitingPlayCancellable?.cancel()
+        waitingPlayCancellable = nil
     }
     
     override func removeFromParent() {
@@ -103,32 +106,45 @@ class LiveStreamViewController: UIViewController {
         
         
         viewModel.$timeControlStatus
-            .removeDuplicates()
+            .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] (status) in
+                self?.waitingPlayCancellable?.cancel()
                 switch status {
                 case .paused:
                     self?.overlayView?.isPlaying = false
                 case .waitingToPlayAtSpecifiedRate: //버퍼링
-                    break
+                    self?.waitingPlayCancellable = Just(false).delay(for: 10, scheduler: RunLoop.main).sink { (isPlaying) in
+                        self?.overlayView?.isPlaying = isPlaying
+                    }
                 case .playing:
                     self?.overlayView?.isPlaying = true
+                @unknown default:
+                     break
                 }
             }
             .store(in: &cancellableSet)
         
-        viewModel.$isPlaybackLikelyToKeepUp.dropFirst().removeDuplicates().receive(on: RunLoop.main).sink { (isPlaybackLikelyToKeepUp) in
+        viewModel.$isPlaybackLikelyToKeepUp
+            .dropFirst()
+            .removeDuplicates()
+            .receive(on: RunLoop.main).sink { (isPlaybackLikelyToKeepUp) in
             //show loading here
             //
-        }.store(in: &cancellableSet)
+            }
+            .store(in: &cancellableSet)
         
         viewModel.$playerItemStatus
-            .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] (itemStatus) in
                 switch itemStatus {
                 case .readyToPlay:
                     self?.play()
+                case .failed:
+                    self?.waitingPlayCancellable?.cancel()
+                    self?.waitingPlayCancellable = Just(false).delay(for: 10, scheduler: RunLoop.main).sink { (isPlaying) in
+                        self?.overlayView?.isPlaying = isPlaying
+                    }
                 default:
                     break
                 }
@@ -148,7 +164,7 @@ class LiveStreamViewController: UIViewController {
     }
     
     func play() {
-        viewModel.videoPlayer.play()
+        viewModel.play()
     }
     
     func pause() {

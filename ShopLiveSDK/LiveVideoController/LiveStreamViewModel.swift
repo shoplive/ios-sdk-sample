@@ -57,6 +57,13 @@ final class LiveStreamViewModel {
     }
     
     private func updatePlayerItem(with url: URL) {
+        //같은 url이 들어왔을 때 play item 의 상태와 현태 play 상태를 보고 url을 변경할지 결정한다.
+        //끝나지 않는 버퍼링 상태(evaluatingBufferingRate) 일때 url 다시 세팅
+        let isSameUrl = (playerItem?.asset as? AVURLAsset)?.url == url
+        guard !isSameUrl || timeControlStatus != .playing else { return }
+        guard !isSameUrl || playerItemStatus != .readyToPlay || videoPlayer.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate else {
+            return
+        }
         resetPlayer()
         
         urlAsset = AVURLAsset(url: url)
@@ -112,6 +119,15 @@ final class LiveStreamViewModel {
         
         playerItem = nil
         urlAsset = nil
+    }
+    
+    func play() {
+        if let url = videoUrl, (playerItemStatus == .failed || videoPlayer.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+            updatePlayerItem(with: url)
+        }
+        else {
+            videoPlayer.play()
+        }
     }
     
     func stop() {
