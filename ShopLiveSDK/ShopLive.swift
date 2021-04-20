@@ -684,12 +684,12 @@ extension ShopLive: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        UIView.animate(withDuration: 0.2) {
-            self.shopLiveWindow?.alpha = 0
-        } completion: { (isCompleted) in
-            self.shopLiveWindow?.isHidden = true
-            self.shopLiveWindow?.alpha = 1.0
-        }
+//        UIView.animate(withDuration: 0.2) {
+//            self.shopLiveWindow?.alpha = 0
+//        } completion: { (isCompleted) in
+//            self.shopLiveWindow?.isHidden = true
+//            self.shopLiveWindow?.alpha = 1.0
+//        }
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -703,7 +703,7 @@ extension ShopLive: AVPictureInPictureControllerDelegate {
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         if isRestoredPip { //touch stop pip button in OS PIP view
             self.shopLiveWindow?.isHidden = false
-            stopShopLivePictureInPicture()
+//            stopShopLivePictureInPicture()
         }
         else { //touch close pip button in OS PIP view
             self.hideShopLiveView()
