@@ -46,14 +46,27 @@ final class LiveStreamViewModel {
     }
     
     init() {
-        $videoUrl.receive(on: RunLoop.main).sink { [weak self] (url) in
-            guard let videoUrl = url else { return }
-            self?.updatePlayerItem(with: videoUrl)
-        }
-        .store(in: &cancellableSet)
+        $videoUrl
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (url) in
+                guard let videoUrl = url else { return }
+                self?.updatePlayerItem(with: videoUrl)
+            }
+            .store(in: &cancellableSet)
         
-        videoPlayer.publisher(for: \.isMuted).removeDuplicates().receive(on: RunLoop.main).assign(to: \.isMuted, on: self).store(in: &cancellableSet)
-        videoPlayer.publisher(for: \.timeControlStatus).removeDuplicates().receive(on: RunLoop.main).assign(to: \.timeControlStatus, on: self).store(in: &cancellableSet)
+        videoPlayer.publisher(for: \.isMuted)
+            .dropFirst()
+            .removeDuplicates()
+            .receive(on: RunLoop.main)
+            .assign(to: \.isMuted, on: self)
+            .store(in: &cancellableSet)
+        
+        videoPlayer.publisher(for: \.timeControlStatus)
+            .dropFirst()
+            .receive(on: RunLoop.main)
+            .assign(to: \.timeControlStatus, on: self)
+            .store(in: &cancellableSet)
     }
     
     private func updatePlayerItem(with url: URL) {

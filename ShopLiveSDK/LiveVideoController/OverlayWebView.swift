@@ -121,7 +121,7 @@ class OverlayWebView: UIView {
             .store(in: &cancellableSet)
         
         $isPlaying
-            .removeDuplicates()
+            .dropFirst()
             .receive(on: RunLoop.main)
             .sink { [weak self] (isPlayingVideo) in
                 guard let self = self else { return }
@@ -142,7 +142,6 @@ class OverlayWebView: UIView {
         
         $isPipMode
             .dropFirst()
-            .removeDuplicates()
             .receive(on: RunLoop.main)
             .sink { [weak self] (isPipMode) in
                 guard let self = self else { return }
