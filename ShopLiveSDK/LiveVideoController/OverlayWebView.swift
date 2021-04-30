@@ -33,6 +33,7 @@ class OverlayWebView: UIView {
     @Published var isPipMode: Bool = false
     
     private var isSystemInitialized: Bool = false
+    private var isShownKeyboard: Bool = false
     private weak var webView: ShopLiveWebView?
     private lazy var cancellableSet = Set<AnyCancellable>()
     
@@ -150,12 +151,21 @@ class OverlayWebView: UIView {
             }
             .store(in: &cancellableSet)
         
+        // handle keyboard event
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (notification) in
+                self?.isShownKeyboard = true
+            }
+            .store(in: &cancellableSet)
+        
         NotificationCenter.default.publisher(for: UIResponder.keyboardDidChangeFrameNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
                 guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
                 guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
                 guard let self = self else { return }
+                guard self.isShownKeyboard else { return }
                 let keyboardScreenBeginFrame = keyboardFrameBeginUserInfo.cgRectValue
                 let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
                 
@@ -172,6 +182,7 @@ class OverlayWebView: UIView {
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
                 guard let self = self else { return }
+                guard self.isShownKeyboard else { return }
                 self.webView?.scrollView.contentOffset.y = -self.safeAreaInsets.top
             }
             .store(in: &cancellableSet)
@@ -180,8 +191,10 @@ class OverlayWebView: UIView {
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
                 guard let self = self else { return }
+                guard self.isShownKeyboard else { return }
                 guard self.isSystemInitialized else { return }
                 guard let webView = self.webView else { return }
+                self.isShownKeyboard = false
                 webView.evaluateJavaScript("window.__receiveAppEvent('DOWN_KEYBOARD');", completionHandler: nil)
             }
             .store(in: &cancellableSet)
