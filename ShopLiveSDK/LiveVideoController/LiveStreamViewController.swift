@@ -10,7 +10,7 @@ import WebKit
 import Combine
 import AVKit
 
-protocol LiveStreamViewControllerDelegate: class {
+protocol LiveStreamViewControllerDelegate: AnyObject {
     func didTouchPipButton()
     func didTouchCloseButton()
     func didTouchNavigation(with url: URL)

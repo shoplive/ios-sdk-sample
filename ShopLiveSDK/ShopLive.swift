@@ -25,6 +25,7 @@ import WebKit
     private var webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
+    private var phase: Phase = Phase.REAL
     
     private var lastPipPosition: PipPosition = .default
     private var lastPipScale: CGFloat = 2/5
@@ -548,7 +549,17 @@ import WebKit
             completionHandler(nil)
             return
         }
-        let url = "https://static.shoplive.cloud/sdk/player.html"
+
+        let url: String = {
+            switch phase {
+            case .DEV:
+                return "https://dev-static.shoplive.cloud/sdk/player.html"
+            case .STAGE:
+                return "https://stg-static.shoplive.cloud/sdk/player.html"
+            default:
+                return "https://static.shoplive.cloud/sdk/player.html"
+            }
+        }()
         
         var urlComponents = URLComponents(string: url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
@@ -576,6 +587,12 @@ extension ShopLive {
         case fullScreen
         case pip
     }
+
+    @objc public enum Phase: Int {
+        case DEV
+        case STAGE
+        case REAL
+    }
 }
 
 extension ShopLive: ShopLiveSDKInterface {
@@ -601,8 +618,13 @@ extension ShopLive: ShopLiveSDKInterface {
         }
     }
     
-    @objc public class func configure(with accessKey: String) {
+    @objc public class func configure(with accessKey: String, phase: Phase) {
         shared.accessKey = accessKey
+        shared.phase = phase
+    }
+
+    @objc public class func configure(with accessKey: String) {
+        configure(with: accessKey, phase: Phase.REAL)
     }
     
     @objc public class func play(with campaignKey: String?) {
