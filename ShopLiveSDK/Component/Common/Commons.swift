@@ -9,6 +9,20 @@ import Foundation
 import UIKit
 import CoreMedia
 
+@objc internal final class Commons: NSObject {
+    static var phase: ShopLive.Phase = .REAL
+    static let url: String = {
+                switch phase {
+                case .DEV:
+                    return "https://dev-static.shoplive.cloud/sdk/player.html"
+                case .STAGE:
+                    return "https://stg-static.shoplive.cloud/sdk/player.html"
+                default:
+                    return "https://static.shoplive.cloud/sdk/player.html"
+                }
+            }()
+}
+
 protocol LiveStreamViewControllerDelegate: AnyObject {
     func didTouchPipButton()
     func didTouchCloseButton()

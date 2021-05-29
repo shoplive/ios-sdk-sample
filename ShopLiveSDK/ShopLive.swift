@@ -21,6 +21,7 @@ import WebKit
     @objc var user: ShopLiveUser? { get set }
 
     @objc func configure(with accessKey: String)
+    @objc func configure(with accessKey: String, phase: ShopLive.Phase)
     @objc func play(with campaignKey: String?, _ parent: UIViewController?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
@@ -57,6 +58,12 @@ extension ShopLive {
         case unknown
         case fullScreen
         case pip
+    }
+
+    @objc public enum Phase: Int {
+        case DEV
+        case STAGE
+        case REAL
     }
 }
 
@@ -122,6 +129,10 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static func configure(with accessKey: String) {
         shared.instance.configure(with: accessKey)
+    }
+
+    public static func configure(with accessKey: String, phase: ShopLive.Phase) {
+        shared.instance.configure(with: accessKey, phase: phase)
     }
 
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {

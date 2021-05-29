@@ -25,6 +25,7 @@ import WebKit
     @objc static var user: ShopLiveUser? { get set }
     
     @objc static func configure(with accessKey: String)
+    @objc static func configure(with accessKey: String, phase: ShopLive.Phase)
     @objc static func play(with campaignKey: String?, _ parent: UIViewController?)
     @objc static func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc static func startPictureInPicture()

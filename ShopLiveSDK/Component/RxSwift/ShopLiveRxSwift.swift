@@ -22,6 +22,11 @@ import RxCocoa
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
+    private var phase: ShopLive.Phase = .REAL {
+        didSet {
+            Commons.phase = phase
+        }
+    }
 
     private var lastPipPosition: ShopLive.PipPosition = .default
     private var lastPipScale: CGFloat = 2/5
@@ -573,9 +578,8 @@ import RxCocoa
             completionHandler(nil)
             return
         }
-        let url = "https://static.shoplive.cloud/sdk/player.html"
-
-        var urlComponents = URLComponents(string: url)
+        
+        var urlComponents = URLComponents(string: Commons.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {
@@ -613,6 +617,12 @@ extension ShopLiveRxSwift: ShopLiveComponent {
 
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey
+        self.phase = .REAL
+    }
+
+    @objc func configure(with accessKey: String, phase: ShopLive.Phase) {
+        self.accessKey = accessKey
+        self.phase = phase
     }
 
     @objc func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
