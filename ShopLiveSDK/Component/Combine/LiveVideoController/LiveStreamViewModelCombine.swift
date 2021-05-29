@@ -2,14 +2,15 @@
 //  LiveStreamViewModel.swift
 //  ShopLiveSDK
 //
-//  Created by purpleworks on 2021/02/04.
+//  Created by ShopLive on 2021/02/04.
 //
 
 import Foundation
 import Combine
 import AVKit
 
-final class LiveStreamViewModel {
+@available(iOS 13.0, *)
+final class LiveStreamViewModelCombine {
     @Published var videoUrl: URL?
     @Published var playerItemStatus: AVPlayerItem.Status = .unknown
     @Published var isMuted: Bool = false
@@ -155,9 +156,4 @@ final class LiveStreamViewModel {
         
         updatePlayerItem(with: url)
     }
-}
-
-extension Notification.Name {
-    /// Notification for when a timebase changed rate
-    static let TimebaseEffectiveRateChangedNotification = Notification.Name(rawValue: kCMTimebaseNotification_EffectiveRateChanged as String)
 }

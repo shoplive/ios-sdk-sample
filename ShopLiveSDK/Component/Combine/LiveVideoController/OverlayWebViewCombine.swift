@@ -2,31 +2,15 @@
 //  OverlayWebView.swift
 //  ShopLiveSDK
 //
-//  Created by purpleworks on 2021/02/08.
+//  Created by ShopLive on 2021/02/08.
 //
 
 import UIKit
 import WebKit
 import Combine
 
-protocol OverlayWebViewDelegate: class {
-    func didUpdateVideo(with url: URL)
-    func reloadVideo()
-    func didUpdatePoster(with url: URL)
-    func didUpdateForegroundPoster(with url: URL)
-    func replay(with size: CGSize)
-    
-    func didTouchPlayButton()
-    func didTouchPauseButton()
-    func didTouchMuteButton(with isMuted: Bool)
-    func didTouchPipButton()
-    func didTouchCloseButton()
-    func didTouchNavigation(with url: URL)
-    func didTouchCoupon(with couponId: String)
-    func handleCommand(_ command: String, with payload: Any?)
-}
-
-class OverlayWebView: UIView {
+@available(iOS 13.0, *)
+class OverlayWebViewCombine: UIView {
     @Published var overlayUrl: URL?
     @Published var isMuted: Bool = false
     @Published var isPlaying: Bool = false
@@ -217,7 +201,8 @@ class OverlayWebView: UIView {
     }
 }
 
-extension OverlayWebView: WKNavigationDelegate {
+@available(iOS 13.0, *)
+extension OverlayWebViewCombine: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
     }
@@ -227,7 +212,8 @@ extension OverlayWebView: WKNavigationDelegate {
     }
 }
 
-extension OverlayWebView: WKScriptMessageHandler {
+@available(iOS 13.0, *)
+extension OverlayWebViewCombine: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let interface = WebInterface(message: message) else { return }
         switch interface {

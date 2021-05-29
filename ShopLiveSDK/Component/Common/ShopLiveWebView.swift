@@ -2,7 +2,7 @@
 //  ShopLiveWebView.swift
 //  shopliveWebviewOveray
 //
-//  Created by purpleworks on 2021/03/12.
+//  Created by ShopLive on 2021/03/12.
 //
 
 import Foundation

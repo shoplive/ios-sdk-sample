@@ -2,7 +2,7 @@
 //  ShopLiveLogger.swift
 //  ShopLiveSDK
 //
-//  Created by purpleworks on 2021/03/02.
+//  Created by ShopLive on 2021/03/02.
 //
 
 import Foundation

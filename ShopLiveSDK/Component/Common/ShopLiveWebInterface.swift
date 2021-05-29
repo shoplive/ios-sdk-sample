@@ -2,7 +2,7 @@
 //  ShopLiveWebInterface.swift
 //  ShopLiveSDK
 //
-//  Created by purpleworks on 2021/02/05.
+//  Created by ShopLive on 2021/02/05.
 //
 
 import Foundation
