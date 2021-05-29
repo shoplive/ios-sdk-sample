@@ -2,7 +2,7 @@
 //  SwiftDemoTests.swift
 //  SwiftDemoTests
 //
-//  Created by whkim on 2021/05/23.
+//  Created by ShopLive on 2021/05/23.
 //
 
 import XCTest
