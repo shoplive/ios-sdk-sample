@@ -68,6 +68,7 @@ class OverlayWebViewCombine: UIView {
         super.init(frame: frame)
         initWebView()
         initKeyboardView()
+        initObserver()
     }
     
     override func layoutSubviews() {
@@ -107,7 +108,7 @@ class OverlayWebViewCombine: UIView {
         webView.scrollView.isScrollEnabled = false
         webView.allowsLinkPreview = false
         self.clipsToBounds = true
-        
+
         webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
             if let webView = webView, let defaultUserAgent = result as? String {
                 webView.customUserAgent = defaultUserAgent + " shoplive/1.0.0"

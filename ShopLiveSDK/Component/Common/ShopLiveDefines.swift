@@ -22,7 +22,7 @@ import CoreMedia
                 }
             }()
 
-    static let webInterface: String = ShopLiveDefines.webInterface
+    static let webInterface: String = "ShopLiveAppInterface"
 }
 
 protocol LiveStreamViewControllerDelegate: AnyObject {
