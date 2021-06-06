@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 import CoreMedia
 
-@objc internal final class Commons: NSObject {
+@objc internal final class ShopLiveDefines: NSObject {
     static var phase: ShopLive.Phase = .REAL
     static let url: String = {
                 switch phase {
@@ -21,6 +21,8 @@ import CoreMedia
                     return "https://static.shoplive.cloud/sdk/player.html"
                 }
             }()
+
+    static let webInterface: String = ShopLiveDefines.webInterface
 }
 
 protocol LiveStreamViewControllerDelegate: AnyObject {

@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
-        ShopLive.play(with: "55fb5331d9f5", self)
+        ShopLive.play(with: "c5496db11cd2", self)
     }
 
     @IBAction func didTouchSignInButton(_ sender: Any) {
@@ -35,18 +35,18 @@ class ViewController: UIViewController {
 
             let user = ShopLiveUser(id: userId, name: userName, gender: userGender, age: userAge)
             ShopLive.user = user
-            ShopLive.play(with: "55fb5331d9f5")
+            ShopLive.play(with: "c5496db11cd2")
         }
     }
 
     @IBAction func didTouchCustomSizePipPlayButton(_ sender: Any) {
         ShopLive.pipScale = 0.2
-        ShopLive.play(with: "55fb5331d9f5")
+        ShopLive.play(with: "c5496db11cd2")
     }
 
     @IBAction func didTouchCustomPositionPipPlayButton(_ sender: Any) {
         ShopLive.pipPosition = .topLeft
-        ShopLive.play(with: "55fb5331d9f5")
+        ShopLive.play(with: "c5496db11cd2")
     }
     
 }

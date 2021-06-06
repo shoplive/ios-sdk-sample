@@ -28,8 +28,13 @@ enum WebInterface {
     case pauseVideo
     case clickShareButton(url: URL)
     case replay(width: CGFloat, height: CGFloat)
+    case downKeyboard
+    case onPipModeChanged
+    case setIsMute
+    case completeDownloadCoupon
+    case videoInitialized
     case command(command: String, payload: Any?)
-    
+
     var functionString: String {
         switch self {
         case .systemInit:
@@ -62,6 +67,16 @@ enum WebInterface {
             return WebFunction.clickShareButton.rawValue
         case .replay:
             return WebFunction.replay.rawValue
+        case .downKeyboard:
+            return WebFunction.downKeyboard.rawValue
+        case .onPipModeChanged:
+            return WebFunction.onPipModeChanged.rawValue
+        case .setIsMute:
+            return WebFunction.setIsMute.rawValue
+        case .completeDownloadCoupon:
+            return WebFunction.completeDownloadCoupon.rawValue
+        case .videoInitialized:
+            return WebFunction.videoInitialized.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -85,13 +100,18 @@ enum WebInterface {
         case pauseVideo = "PAUSE_VIDEO"
         case clickShareButton = "CLICK_SHARE_BTN"
         case replay = "REPLAY"
+        case downKeyboard = "DOWN_KEYBOARD"
+        case onPipModeChanged = "ON_PIP_MODE_CHANGED"
+        case setIsMute = "SET_IS_MUTE"
+        case completeDownloadCoupon = "COMPLETE_DOWNLOAD_COUPON"
+        case videoInitialized = "VIDEO_INITIALIZED"
         case command = "COMMAND"
     }
 }
 
 extension WebInterface {
     init?(message: WKScriptMessage) {
-        guard message.name == "ShopLiveAppInterface" else { return nil }
+        guard message.name == ShopLiveDefines.webInterface else { return nil }
         guard let body = message.body as? [String: Any] else { return nil }
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
@@ -144,6 +164,16 @@ extension WebInterface {
             guard let height = parameters?["height"] as? CGFloat else { return nil }
             debugPrint("width: \(width) x height: \(height)")
             self = .replay(width: width, height: height)
+        case .downKeyboard:
+            self = .downKeyboard
+        case .onPipModeChanged:
+            self = .onPipModeChanged
+        case .setIsMute:
+            self = .setIsMute
+        case .completeDownloadCoupon:
+            self = .completeDownloadCoupon
+        case .videoInitialized:
+            self = .videoInitialized
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]

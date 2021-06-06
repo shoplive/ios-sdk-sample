@@ -19,6 +19,13 @@ class OverlayWebViewCombine: UIView {
     private var isSystemInitialized: Bool = false
     private var isShownKeyboard: Bool = false
     private weak var webView: ShopLiveWebView?
+    private lazy var keyboardBG: UIView = {
+        let bgView = UIView()
+        bgView.backgroundColor = .white
+        return bgView
+    }()
+    private var heightAnchorWhenShow: NSLayoutConstraint?
+    private var heightAnchorWhenHide: NSLayoutConstraint?
     private lazy var cancellableSet = Set<AnyCancellable>()
     
     weak var delegate: OverlayWebViewDelegate?
@@ -38,7 +45,7 @@ class OverlayWebViewCombine: UIView {
     
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "ShopLiveAppInterface")
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
         webView = nil
     }
@@ -46,24 +53,39 @@ class OverlayWebViewCombine: UIView {
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
         initWebView(with: webViewConfiguration)
+        initKeyboardView()
         initObserver()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initWebView()
+        initKeyboardView()
         initObserver()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         initWebView()
+        initKeyboardView()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
     }
-    
+
+    private func initKeyboardView() {
+        self.addSubview(keyboardBG)
+        keyboardBG.translatesAutoresizingMaskIntoConstraints = false
+
+        keyboardBG.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 0).isActive = true
+        keyboardBG.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: 0).isActive = true
+        keyboardBG.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 0).isActive = true
+
+        heightAnchorWhenHide = keyboardBG.heightAnchor.constraint(equalToConstant: 0)
+        heightAnchorWhenShow?.isActive = true
+    }
+
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
         let configuration = webViewConfiguration ?? WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
@@ -92,7 +114,7 @@ class OverlayWebViewCombine: UIView {
             }
         }
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
-        webView.configuration.userContentController.add(self, name: "ShopLiveAppInterface")
+        webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
         self.webView = webView
     }
     
@@ -111,7 +133,7 @@ class OverlayWebViewCombine: UIView {
             .sink { [weak self] (isPlayingVideo) in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_PLAYING_VIDEO', \(isPlayingVideo));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: isPlayingVideo), isPlayingVideo)
             }
             .store(in: &cancellableSet)
         
@@ -121,7 +143,7 @@ class OverlayWebViewCombine: UIView {
             .sink { [weak self] (isMuted) in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_MUTE', \(isMuted));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setIsMute, isMuted)
             }
             .store(in: &cancellableSet)
         
@@ -131,7 +153,7 @@ class OverlayWebViewCombine: UIView {
             .sink { [weak self] (isPipMode) in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(isPipMode));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .onPipModeChanged, isPipMode)
             }
             .store(in: &cancellableSet)
         
@@ -139,49 +161,43 @@ class OverlayWebViewCombine: UIView {
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
-                self?.isShownKeyboard = true
-            }
-            .store(in: &cancellableSet)
-        
-        NotificationCenter.default.publisher(for: UIResponder.keyboardDidChangeFrameNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] (notification) in
-                guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-                guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
                 guard let self = self else { return }
-                guard self.isShownKeyboard else { return }
-                let keyboardScreenBeginFrame = keyboardFrameBeginUserInfo.cgRectValue
-                let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-                
-                if keyboardScreenBeginFrame == .zero, keyboardScreenEndFrame.width != self.webView?.bounds.width {
-                    self.webView?.scrollView.contentOffset.y = -self.safeAreaInsets.top
-                }
-                else {
-                    self.webView?.scrollView.contentOffset.y = keyboardScreenEndFrame.height - (self.safeAreaInsets.top)
-                }
+                self.isShownKeyboard = true
+                self.setKeyboard(notification: notification)
             }
             .store(in: &cancellableSet)
-        
-        NotificationCenter.default.publisher(for: UIResponder.keyboardDidHideNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] (notification) in
-                guard let self = self else { return }
-                guard self.isShownKeyboard else { return }
-                self.webView?.scrollView.contentOffset.y = -self.safeAreaInsets.top
-            }
-            .store(in: &cancellableSet)
-        
+
         NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
             .receive(on: RunLoop.main)
             .sink { [weak self] (notification) in
                 guard let self = self else { return }
                 guard self.isShownKeyboard else { return }
                 guard self.isSystemInitialized else { return }
-                guard let webView = self.webView else { return }
                 self.isShownKeyboard = false
-                webView.evaluateJavaScript("window.__receiveAppEvent('DOWN_KEYBOARD');", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .downKeyboard)
+                self.setKeyboard(notification: notification)
             }
             .store(in: &cancellableSet)
+    }
+
+    private func setKeyboard(notification: Notification) {
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+//        guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
+
+        var willShow: Bool = false
+        switch notification.name.rawValue {
+        case "UIKeyboardWillHideNotification":
+            willShow = false
+        case "keyboardWillShowNotification":
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+            self.heightAnchorWhenShow = self.keyboardBG.heightAnchor.constraint(equalToConstant: keyboardScreenEndFrame.height)
+            willShow = true
+        default:
+            break
+        }
+
+        self.heightAnchorWhenShow?.isActive = willShow
+        self.heightAnchorWhenHide?.isActive = !willShow
     }
     
     private func loadOverlay(with url: URL) {
@@ -193,7 +209,7 @@ class OverlayWebViewCombine: UIView {
     }
     
     func didCompleteDownloadCoupon(with couponId: String) {
-        webView?.evaluateJavaScript("window.__receiveAppEvent('COMPLETE_DOWNLOAD_COUPON', '\(couponId)');", completionHandler: nil)
+        self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
     }
     
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
@@ -220,12 +236,12 @@ extension OverlayWebViewCombine: WKScriptMessageHandler {
         case .systemInit:
             ShopLiveLogger.debugLog("systemInit")
             self.isSystemInitialized = true
-            self.webView?.evaluateJavaScript("window.__receiveAppEvent('VIDEO_INITIALIZED');", completionHandler: nil)
+            self.webView?.sendEventToWeb(event: .videoInitialized)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_VIDEO_MUTE', \(self.isMuted));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: self.isMuted), self.isMuted)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(self.isPipMode));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
             }
         case .setVideoMute(let isMuted):
             ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
@@ -279,6 +295,8 @@ extension OverlayWebViewCombine: WKScriptMessageHandler {
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
+        default:
+            break
         }
     }
 }

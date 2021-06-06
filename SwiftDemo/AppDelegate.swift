@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        ShopLive.configure(with: "9M2FwM5BmJf9RVeesKeg")
+        ShopLive.configure(with: "7xxPlb8yOhZnchquMQHO")
         ShopLive.delegate = self
 
         return true

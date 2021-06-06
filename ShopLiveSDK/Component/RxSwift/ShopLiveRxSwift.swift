@@ -24,7 +24,7 @@ import RxCocoa
     private var accessKey: String? = nil
     private var phase: ShopLive.Phase = .REAL {
         didSet {
-            Commons.phase = phase
+            ShopLiveDefines.phase = phase
         }
     }
 
@@ -579,7 +579,7 @@ import RxCocoa
             return
         }
         
-        var urlComponents = URLComponents(string: Commons.url)
+        var urlComponents = URLComponents(string: ShopLiveDefines.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {

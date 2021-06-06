@@ -28,6 +28,13 @@ class OverlayWebViewRxSwift: UIView {
     private var isSystemInitialized: Bool = false
     private var isShownKeyboard: Bool = false
     private weak var webView: ShopLiveWebView?
+    private lazy var keyboardBG: UIView = {
+        let bgView = UIView()
+        bgView.backgroundColor = .white
+        return bgView
+    }()
+    private var heightAnchorWhenShow: NSLayoutConstraint?
+    private var heightAnchorWhenHide: NSLayoutConstraint?
     private lazy var cancellableDisposeBag = DisposeBag()
 
     weak var delegate: OverlayWebViewDelegate?
@@ -44,7 +51,7 @@ class OverlayWebViewRxSwift: UIView {
 
     override func removeFromSuperview() {
         super.removeFromSuperview()
-        webView?.configuration.userContentController.removeScriptMessageHandler(forName: "ShopLiveAppInterface")
+        webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
         webView = nil
     }
@@ -52,22 +59,37 @@ class OverlayWebViewRxSwift: UIView {
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
         initWebView(with: webViewConfiguration)
+        initKeyboardView()
         initObserver()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initWebView()
+        initKeyboardView()
         initObserver()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         initWebView()
+        initKeyboardView()
     }
 
     override func layoutSubviews() {
         super.layoutSubviews()
+    }
+
+    private func initKeyboardView() {
+        self.addSubview(keyboardBG)
+        keyboardBG.translatesAutoresizingMaskIntoConstraints = false
+
+        keyboardBG.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 0).isActive = true
+        keyboardBG.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: 0).isActive = true
+        keyboardBG.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 0).isActive = true
+
+        heightAnchorWhenHide = keyboardBG.heightAnchor.constraint(equalToConstant: 0)
+        heightAnchorWhenShow?.isActive = true
     }
 
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
@@ -98,7 +120,7 @@ class OverlayWebViewRxSwift: UIView {
             }
         }
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
-        webView.configuration.userContentController.add(self, name: "ShopLiveAppInterface")
+        webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
         self.webView = webView
     }
 
@@ -117,7 +139,7 @@ class OverlayWebViewRxSwift: UIView {
             .bind(onNext: { [weak self] isPlayingVideo in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_PLAYING_VIDEO', \(isPlayingVideo));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: isPlayingVideo), isPlayingVideo)
             }).disposed(by: cancellableDisposeBag)
 
         isMuted
@@ -126,7 +148,7 @@ class OverlayWebViewRxSwift: UIView {
             .bind { [weak self] isMuted in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_IS_MUTE', \(isMuted));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setIsMute, isMuted)
             }.disposed(by: cancellableDisposeBag)
 
         isPipMode
@@ -135,40 +157,16 @@ class OverlayWebViewRxSwift: UIView {
             .bind { [weak self] isPipMode in
                 guard let self = self else { return }
                 guard self.isSystemInitialized else { return }
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(isPipMode));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .onPipModeChanged, isPipMode)
             }.disposed(by: cancellableDisposeBag)
 
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
                 .observe(on: MainScheduler.instance)
-            .subscribe({ [weak self] _ in
+            .subscribe(onNext: { [weak self] notification in
                 self?.isShownKeyboard = true
-            }).disposed(by: cancellableDisposeBag)
-
-        NotificationCenter.default.rx.notification(UIResponder.keyboardDidChangeFrameNotification)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] notification in
-                guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-                guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
-                guard let self = self else { return }
-                guard self.isShownKeyboard else { return }
-                let keyboardScreenBeginFrame = keyboardFrameBeginUserInfo.cgRectValue
-                let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-
-                if keyboardScreenBeginFrame == .zero, keyboardScreenEndFrame.width != self.webView?.bounds.width {
-                    self.webView?.scrollView.contentOffset.y = -self.safeAreaInsets.top
-                }
-                else {
-                    self.webView?.scrollView.contentOffset.y = keyboardScreenEndFrame.height - (self.safeAreaInsets.top)
-                }
-            }).disposed(by: cancellableDisposeBag)
-
-        NotificationCenter.default.rx.notification(UIResponder.keyboardDidHideNotification)
-            .observe(on: MainScheduler.instance)
-            .subscribe(onNext: { [weak self] notification in
-                guard let self = self else { return }
-                guard self.isShownKeyboard else { return }
-                self.webView?.scrollView.contentOffset.y = -self.safeAreaInsets.top
-            }).disposed(by: cancellableDisposeBag)
+                self?.setKeyboard(notification: notification)
+            })
+            .disposed(by: cancellableDisposeBag)
 
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
             .observe(on: MainScheduler.instance)
@@ -176,10 +174,30 @@ class OverlayWebViewRxSwift: UIView {
                 guard let self = self else { return }
                 guard self.isShownKeyboard else { return }
                 guard self.isSystemInitialized else { return }
-                guard let webView = self.webView else { return }
                 self.isShownKeyboard = false
-                webView.evaluateJavaScript("window.__receiveAppEvent('DOWN_KEYBOARD');", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .downKeyboard)
+                self.setKeyboard(notification: notification)
             }).disposed(by: cancellableDisposeBag)
+    }
+
+    private func setKeyboard(notification: Notification) {
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+//        guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
+
+        var willShow: Bool = false
+        switch notification.name.rawValue {
+        case "UIKeyboardWillHideNotification":
+            willShow = false
+        case "keyboardWillShowNotification":
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+            self.heightAnchorWhenShow = self.keyboardBG.heightAnchor.constraint(equalToConstant: keyboardScreenEndFrame.height)
+            willShow = true
+        default:
+            break
+        }
+
+        self.heightAnchorWhenShow?.isActive = willShow
+        self.heightAnchorWhenHide?.isActive = !willShow
     }
 
     private func loadOverlay(with url: URL) {
@@ -191,7 +209,7 @@ class OverlayWebViewRxSwift: UIView {
     }
 
     func didCompleteDownloadCoupon(with couponId: String) {
-        webView?.evaluateJavaScript("window.__receiveAppEvent('COMPLETE_DOWNLOAD_COUPON', '\(couponId)');", completionHandler: nil)
+        webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
     }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
@@ -218,12 +236,12 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
         case .systemInit:
             ShopLiveLogger.debugLog("systemInit")
             self.isSystemInitialized = true
-            self.webView?.evaluateJavaScript("window.__receiveAppEvent('VIDEO_INITIALIZED');", completionHandler: nil)
+            self.webView?.sendEventToWeb(event: .videoInitialized)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('SET_VIDEO_MUTE', \(self.isMuted));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: self.isMuted.value), self.isMuted.value)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                self.webView?.evaluateJavaScript("window.__receiveAppEvent('ON_PIP_MODE_CHANGED', \(self.isPipMode));", completionHandler: nil)
+                self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode.value)
             }
         case .setVideoMute(let isMuted):
             ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
@@ -277,6 +295,8 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
+        default:
+            break
         }
     }
 }

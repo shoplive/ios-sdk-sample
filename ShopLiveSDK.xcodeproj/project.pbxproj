@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -24,11 +24,9 @@
 		BFAD8E9B265A211E00202160 /* ShopLiveRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8E265A211E00202160 /* ShopLiveRxSwift.swift */; };
 		BFAD8E9C265A211E00202160 /* OverlayWebViewRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8F265A211E00202160 /* OverlayWebViewRxSwift.swift */; };
 		BFAD8E9D265A211E00202160 /* ShopLiveWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */; };
-		BFAD8E9E265A211E00202160 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E92265A211E00202160 /* Commons.swift */; };
+		BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */; };
 		BFAD8E9F265A211E00202160 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */; };
 		BFAD8EA0265A211E00202160 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E94265A211E00202160 /* VideoView.swift */; };
-		BFAD8EA3265A214100202160 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BFAD8EA2265A214100202160 /* RxSwift */; };
-		BFAD8EA5265A214100202160 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFAD8EA4265A214100202160 /* RxCocoa */; };
 		BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
 		BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
 		BFAD8EB1265A23FD00202160 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EB0265A23FD00202160 /* ViewController.swift */; };
@@ -42,7 +40,7 @@
 		BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */; };
 		BFAD8EDD265A24DA00202160 /* LiveStreamViewControllerCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E89265A211E00202160 /* LiveStreamViewControllerCombine.swift */; };
 		BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
-		BFAD8EDF265A24DA00202160 /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E92265A211E00202160 /* Commons.swift */; };
+		BFAD8EDF265A24DA00202160 /* ShopLiveDefines.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */; };
 		BFAD8EE0265A24DA00202160 /* VideoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E94265A211E00202160 /* VideoView.swift */; };
 		BFAD8EE1265A24DA00202160 /* ShopLiveSDKInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */; };
 		BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
@@ -54,8 +52,6 @@
 		BFAD8EE8265A24DA00202160 /* LiveStreamViewModelRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8C265A211E00202160 /* LiveStreamViewModelRxSwift.swift */; };
 		BFAD8EE9265A24DA00202160 /* LiveStreamViewControllerRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8D265A211E00202160 /* LiveStreamViewControllerRxSwift.swift */; };
 		BFAD8EEA265A24DA00202160 /* ShopLiveRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8E265A211E00202160 /* ShopLiveRxSwift.swift */; };
-		BFAD8EED265A24FC00202160 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFAD8EEC265A24FC00202160 /* RxCocoa */; };
-		BFAD8EEF265A24FC00202160 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BFAD8EEE265A24FC00202160 /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,10 +99,10 @@
 		BFAD8E8E265A211E00202160 /* ShopLiveRxSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveRxSwift.swift; sourceTree = "<group>"; };
 		BFAD8E8F265A211E00202160 /* OverlayWebViewRxSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWebViewRxSwift.swift; sourceTree = "<group>"; };
 		BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveWebView.swift; sourceTree = "<group>"; };
-		BFAD8E92265A211E00202160 /* Commons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveDefines.swift; sourceTree = "<group>"; };
 		BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveWebInterface.swift; sourceTree = "<group>"; };
 		BFAD8E94265A211E00202160 /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		BFAD8EAA265A23FD00202160 /* SwiftDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAD8EAC265A23FD00202160 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BFAD8EB0265A23FD00202160 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -127,8 +123,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFAD8EA5265A214100202160 /* RxCocoa in Frameworks */,
-				BFAD8EA3265A214100202160 /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,8 +138,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFAD8EEF265A24FC00202160 /* RxSwift in Frameworks */,
-				BFAD8EED265A24FC00202160 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +184,7 @@
 			children = (
 				1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */,
 				1BA5155625CBDCD100070181 /* ShopLiveSDKTests.xctest */,
-				BFAD8EAA265A23FD00202160 /* SwiftDemo.app */,
+				BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */,
 				BFAD8EBF265A23FE00202160 /* SwiftDemoTests.xctest */,
 				BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */,
 			);
@@ -267,7 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */,
-				BFAD8E92265A211E00202160 /* Commons.swift */,
+				BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */,
 				BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */,
 				BFAD8E94265A211E00202160 /* VideoView.swift */,
 			);
@@ -342,8 +334,6 @@
 			);
 			name = ShopLiveSDK;
 			packageProductDependencies = (
-				BFAD8EA2265A214100202160 /* RxSwift */,
-				BFAD8EA4265A214100202160 /* RxCocoa */,
 			);
 			productName = ShopLiveSDK;
 			productReference = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */;
@@ -367,9 +357,9 @@
 			productReference = 1BA5155625CBDCD100070181 /* ShopLiveSDKTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BFAD8EA9265A23FD00202160 /* SwiftDemo */ = {
+		BFAD8EA9265A23FD00202160 /* ShopLiveDemo */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BFAD8ED1265A23FE00202160 /* Build configuration list for PBXNativeTarget "SwiftDemo" */;
+			buildConfigurationList = BFAD8ED1265A23FE00202160 /* Build configuration list for PBXNativeTarget "ShopLiveDemo" */;
 			buildPhases = (
 				BFAD8EA6265A23FD00202160 /* Sources */,
 				BFAD8EA7265A23FD00202160 /* Frameworks */,
@@ -379,13 +369,11 @@
 			);
 			dependencies = (
 			);
-			name = SwiftDemo;
+			name = ShopLiveDemo;
 			packageProductDependencies = (
-				BFAD8EEC265A24FC00202160 /* RxCocoa */,
-				BFAD8EEE265A24FC00202160 /* RxSwift */,
 			);
 			productName = SwiftDemo;
-			productReference = BFAD8EAA265A23FD00202160 /* SwiftDemo.app */;
+			productReference = BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BFAD8EBE265A23FE00202160 /* SwiftDemoTests */ = {
@@ -463,7 +451,6 @@
 			);
 			mainGroup = 1BA5154325CBDCD100070181;
 			packageReferences = (
-				BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -471,7 +458,7 @@
 			targets = (
 				1BA5154C25CBDCD100070181 /* ShopLiveSDK */,
 				1BA5155525CBDCD100070181 /* ShopLiveSDKTests */,
-				BFAD8EA9265A23FD00202160 /* SwiftDemo */,
+				BFAD8EA9265A23FD00202160 /* ShopLiveDemo */,
 				BFAD8EBE265A23FE00202160 /* SwiftDemoTests */,
 				BFAD8EC9265A23FE00202160 /* SwiftDemoUITests */,
 			);
@@ -532,7 +519,7 @@
 				BFAD8EA0265A211E00202160 /* VideoView.swift in Sources */,
 				BFAD8E95265A211E00202160 /* ShopLiveCombine.swift in Sources */,
 				1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */,
-				BFAD8E9E265A211E00202160 /* Commons.swift in Sources */,
+				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
 				BFAD8E99265A211E00202160 /* LiveStreamViewModelRxSwift.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFAD8E9D265A211E00202160 /* ShopLiveWebView.swift in Sources */,
@@ -565,7 +552,7 @@
 				BFAD8EDD265A24DA00202160 /* LiveStreamViewControllerCombine.swift in Sources */,
 				BFAD8EE6265A24DA00202160 /* ShopLiveUser.swift in Sources */,
 				BFAD8EE7265A24DA00202160 /* OverlayWebViewRxSwift.swift in Sources */,
-				BFAD8EDF265A24DA00202160 /* Commons.swift in Sources */,
+				BFAD8EDF265A24DA00202160 /* ShopLiveDefines.swift in Sources */,
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
 				BFAD8EE0265A24DA00202160 /* VideoView.swift in Sources */,
 				BFAD8EE9265A24DA00202160 /* LiveStreamViewControllerRxSwift.swift in Sources */,
@@ -605,12 +592,12 @@
 		};
 		BFAD8EC1265A23FE00202160 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BFAD8EA9265A23FD00202160 /* SwiftDemo */;
+			target = BFAD8EA9265A23FD00202160 /* ShopLiveDemo */;
 			targetProxy = BFAD8EC0265A23FE00202160 /* PBXContainerItemProxy */;
 		};
 		BFAD8ECC265A23FE00202160 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = BFAD8EA9265A23FD00202160 /* SwiftDemo */;
+			target = BFAD8EA9265A23FD00202160 /* ShopLiveDemo */;
 			targetProxy = BFAD8ECB265A23FE00202160 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -867,8 +854,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ShopLiveDemo;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -879,16 +868,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7U9CV7795M;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
+				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = ShopLiveDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Adhoc";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1010,7 +1003,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BFAD8ED1265A23FE00202160 /* Build configuration list for PBXNativeTarget "SwiftDemo" */ = {
+		BFAD8ED1265A23FE00202160 /* Build configuration list for PBXNativeTarget "ShopLiveDemo" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BFAD8ED2265A23FE00202160 /* Debug */,
@@ -1038,40 +1031,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 6.2.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		BFAD8EA2265A214100202160 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-		BFAD8EA4265A214100202160 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		BFAD8EEC265A24FC00202160 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		BFAD8EEE265A24FC00202160 /* RxSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFAD8EA1265A214100202160 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxSwift;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1BA5154425CBDCD100070181 /* Project object */;
 }
