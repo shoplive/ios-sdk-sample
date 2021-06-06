@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
-        ShopLive.play(with: "c5496db11cd2", self)
+        ShopLive.play(with: "c5496db11cd2")
     }
 
     @IBAction func didTouchSignInButton(_ sender: Any) {
