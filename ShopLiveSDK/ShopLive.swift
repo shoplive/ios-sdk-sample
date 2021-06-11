@@ -143,7 +143,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func startPictureInPicture() {
-        shared.instance.stopPictureInPicture()
+        shared.instance.startPictureInPicture()
     }
 
     public static func stopPictureInPicture() {

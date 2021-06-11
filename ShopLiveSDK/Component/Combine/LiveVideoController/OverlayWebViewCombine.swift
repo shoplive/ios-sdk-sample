@@ -92,6 +92,9 @@ class OverlayWebViewCombine: UIView {
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
+        //viewport-fit=cover //content="viewport-fit=cover"
+        let source: String = "var meta = document.createElement('meta');" + "meta.name = 'viewport';" + "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';" + "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);";
+
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -106,7 +109,10 @@ class OverlayWebViewCombine: UIView {
         webView.backgroundColor = UIColor.clear
         webView.scrollView.backgroundColor = UIColor.clear
         webView.scrollView.isScrollEnabled = false
+        webView.scrollView.contentInsetAdjustmentBehavior = .always
         webView.allowsLinkPreview = false
+        webView.scrollView.layer.masksToBounds = false
+        webView.configuration.userContentController.addUserScript(WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: false))
         self.clipsToBounds = true
 
         webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
@@ -185,11 +191,12 @@ class OverlayWebViewCombine: UIView {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
 //        guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
 
+//        print(notification.name.rawValue)
         var willShow: Bool = false
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             willShow = false
-        case "keyboardWillShowNotification":
+        case "UIKeyboardWillShowNotification":
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             self.heightAnchorWhenShow = self.keyboardBG.heightAnchor.constraint(equalToConstant: keyboardScreenEndFrame.height)
             willShow = true

@@ -97,6 +97,7 @@ class OverlayWebViewRxSwift: UIView {
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
+        let source: String = "var meta = document.createElement('meta');" + "meta.name = 'viewport';" + "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';" + "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);";
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -111,7 +112,10 @@ class OverlayWebViewRxSwift: UIView {
         webView.backgroundColor = UIColor.clear
         webView.scrollView.backgroundColor = UIColor.clear
         webView.scrollView.isScrollEnabled = false
+        webView.scrollView.contentInsetAdjustmentBehavior = .always
         webView.allowsLinkPreview = false
+        webView.scrollView.layer.masksToBounds = false
+        webView.configuration.userContentController.addUserScript(WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: false))
         self.clipsToBounds = true
 
         webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
@@ -185,10 +189,11 @@ class OverlayWebViewRxSwift: UIView {
 //        guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
 
         var willShow: Bool = false
+//        print("notification.name.rawValue: \(notification.name.rawValue)")
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             willShow = false
-        case "keyboardWillShowNotification":
+        case "UIKeyboardWillShowNotification":
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             self.heightAnchorWhenShow = self.keyboardBG.heightAnchor.constraint(equalToConstant: keyboardScreenEndFrame.height)
             willShow = true

@@ -52,8 +52,13 @@
 		BFAD8EE8265A24DA00202160 /* LiveStreamViewModelRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8C265A211E00202160 /* LiveStreamViewModelRxSwift.swift */; };
 		BFAD8EE9265A24DA00202160 /* LiveStreamViewControllerRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8D265A211E00202160 /* LiveStreamViewControllerRxSwift.swift */; };
 		BFAD8EEA265A24DA00202160 /* ShopLiveRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8E265A211E00202160 /* ShopLiveRxSwift.swift */; };
+		BFBBB03A2670ECA50025ED1D /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */; };
+		BFBBB03C2670ECB10025ED1D /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */; };
+		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
+		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
 		BFF91D83266D219700B659C1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFF91D82266D219700B659C1 /* RxCocoa */; };
 		BFF91D85266D21A500B659C1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFF91D84266D21A500B659C1 /* RxCocoa */; };
+		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,6 +123,10 @@
 		BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAD8ECE265A23FE00202160 /* SwiftDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftDemoUITests.swift; sourceTree = "<group>"; };
 		BFAD8ED0265A23FE00202160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
+		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
+		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
+		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -141,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 				BFF91D85266D21A500B659C1 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -206,6 +216,7 @@
 				1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */,
 				1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */,
 				1BA5155125CBDCD100070181 /* Info.plist */,
+				BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */,
 			);
 			path = ShopLiveSDK;
 			sourceTree = "<group>";
@@ -273,9 +284,11 @@
 		BFAD8EAB265A23FD00202160 /* SwiftDemo */ = {
 			isa = PBXGroup;
 			children = (
+				BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */,
 				BFAD8EAC265A23FD00202160 /* AppDelegate.swift */,
 				BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */,
 				BFAD8EB0265A23FD00202160 /* ViewController.swift */,
+				BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */,
 				BFAD8EB2265A23FD00202160 /* Main.storyboard */,
 				BFAD8EB5265A23FE00202160 /* Assets.xcassets */,
 				BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */,
@@ -305,6 +318,7 @@
 		BFAD8EEB265A24FC00202160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFF91D86266D2FE800B659C1 /* SafariServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -524,6 +538,7 @@
 				BFAD8E98265A211E00202160 /* LiveStreamViewModelCombine.swift in Sources */,
 				BFAD8E9A265A211E00202160 /* LiveStreamViewControllerRxSwift.swift in Sources */,
 				BFAD8E96265A211E00202160 /* OverlayWebViewCombine.swift in Sources */,
+				BFBBB03A2670ECA50025ED1D /* ShopLiveConfiguration.swift in Sources */,
 				1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */,
 				BFAD8EA0265A211E00202160 /* VideoView.swift in Sources */,
 				BFAD8E95265A211E00202160 /* ShopLiveCombine.swift in Sources */,
@@ -554,6 +569,7 @@
 			files = (
 				BFAD8EDA265A24DA00202160 /* LiveStreamViewModelCombine.swift in Sources */,
 				BFAD8EB1265A23FD00202160 /* ViewController.swift in Sources */,
+				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFAD8EE8265A24DA00202160 /* LiveStreamViewModelRxSwift.swift in Sources */,
 				BFAD8EDB265A24DA00202160 /* OverlayWebViewCombine.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
@@ -565,10 +581,12 @@
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
 				BFAD8EE0265A24DA00202160 /* VideoView.swift in Sources */,
 				BFAD8EE9265A24DA00202160 /* LiveStreamViewControllerRxSwift.swift in Sources */,
+				BFBBB03C2670ECB10025ED1D /* ShopLiveConfiguration.swift in Sources */,
 				BFAD8EEA265A24DA00202160 /* ShopLiveRxSwift.swift in Sources */,
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
 				BFAD8EE1265A24DA00202160 /* ShopLiveSDKInterface.swift in Sources */,
 				BFAD8EE4265A24DA00202160 /* ShopLiveWebInterface.swift in Sources */,
+				BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */,
 				BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */,
 				BFAD8EE3265A24DA00202160 /* ShopLiveLogger.swift in Sources */,
 				BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */,
@@ -863,7 +881,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7U9CV7795M;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -871,10 +891,11 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -887,6 +908,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = SwiftDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -894,7 +916,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.2;
+				MARKETING_VERSION = 1.0.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;

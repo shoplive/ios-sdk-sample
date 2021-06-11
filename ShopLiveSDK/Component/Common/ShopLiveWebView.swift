@@ -22,7 +22,7 @@ class ShopLiveWebView: WKWebView {
     }
 
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil) {
-        let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', '\(String(describing: param!))');"
+        let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', \(String(describing: param!)));"
 
         self.evaluateJavaScript(command, completionHandler: nil)
     }

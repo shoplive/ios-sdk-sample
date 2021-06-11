@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SafariServices
 
 @available(iOS 13.0, *)
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -51,3 +52,25 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+@available(iOS 13.0, *)
+extension SceneDelegate: ShopLiveSDKDelegate {
+    func handleCommand(_ command: String, with payload: Any?) {
+
+    }
+
+    func handleNavigation(with url: URL) {
+        ShopLive.startPictureInPicture()
+        let safari = SFSafariViewController(url: url)
+        window?.rootViewController?.present(safari, animated: true, completion: nil)
+    }
+
+    func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
+        NSLog("handle download coupon: %@", couponId)
+        DispatchQueue.main.async {
+            NSLog("complete download coupon: %@", couponId)
+            completion()
+        }
+    }
+
+
+}

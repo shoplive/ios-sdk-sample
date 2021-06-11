@@ -13,8 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        ShopLive.configure(with: "7xxPlb8yOhZnchquMQHO")
-        ShopLive.delegate = self
 
         return true
     }
@@ -37,18 +35,34 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 }
 
-extension AppDelegate: ShopLiveSDKDelegate {
-    func handleNavigation(with url: URL) {
-
-    }
-
-    func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
-
-    }
-
-    func handleCommand(_ command: String, with payload: Any?) {
-
-    }
-
-
-}
+//extension AppDelegate: ShopLiveSDKDelegate {
+//    func handleCommand(_ command: String, with payload: Any?) {
+//
+//    }
+//
+//    func handleNavigation(with url: URL) {
+//        if #available(iOS 13, *) {
+//
+//        } else {
+////            ShopLive.startPictureInPicture()
+//            let safari = SFSafariViewController(url: url)
+//            UIApplication.shared.keyWindow?.rootViewController?.present(safari, animated: true)
+//        }
+//
+//    }
+//
+//    func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
+//        if #available(iOS 13, *) {
+//
+//        } else {
+//            NSLog("handle download coupon: %@", couponId)
+//            DispatchQueue.main.async {
+//                NSLog("complete download coupon: %@", couponId)
+//                completion()
+//            }
+//        }
+//
+//    }
+//
+//
+//}
