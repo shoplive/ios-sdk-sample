@@ -24,8 +24,9 @@ final class KeySetRegisterController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        loadDatas()
+        setupViews()
         hideKeyboard()
+        loadDatas()
     }
 
     private func loadDatas() {
@@ -33,6 +34,13 @@ final class KeySetRegisterController: UIViewController {
         keysets = ShopLiveDemoKeyTools.shared.alias()
         tableView.reloadData()
     }
+
+    private func setupViews() {
+        let tableTapGesture = UIGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tableView.addGestureRecognizer(tableTapGesture)
+    }
+
+    
 
     /*
     // MARK: - Navigation
@@ -67,6 +75,7 @@ final class KeySetRegisterController: UIViewController {
         ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: key.alias)
         self.dismiss(animated: true, completion: {
             self.delegate?.upateKeyInfo(key: key)
+            self.dismissKeyboard()
         })
     }
 
@@ -75,6 +84,7 @@ final class KeySetRegisterController: UIViewController {
 
         keySheet.addAction(.init(title: "수정", style: .default, handler: { _ in
             self.configure(key: key)
+            self.dismissKeyboard()
         }))
         keySheet.addAction(.init(title: "삭제", style: .default, handler: { _ in
             ShopLiveDemoKeyTools.shared.delete(alias: key.alias)
