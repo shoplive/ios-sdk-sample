@@ -114,7 +114,6 @@ import RxCocoa
 //        if #available(iOS 13.0, *) {
         shopLiveWindow = UIWindow()
 //        shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        shopLiveWindow?.backgroundColor = .red
         shopLiveWindow?.windowLevel = .init(rawValue: 1)
         shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
         shopLiveWindow?.setNeedsLayout()

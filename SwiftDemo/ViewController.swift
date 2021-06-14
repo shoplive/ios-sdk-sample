@@ -40,13 +40,16 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
 
         ShopLive.delegate = self
-        setupViews()
+
+        #if DEBUG
+        ShopLiveDemoKeyTools.shared.clearKey()
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
+//        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "3729407a4ee1", accessKey: "9M2FwM5BmJf9RVeesKeg"))
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
+        #endif
+
         hideKeyboard()
         loadKeyData()
-    }
-
-    private func setupViews() {
-
     }
 
     @IBAction private func switchAction(swItem: UISwitch) {
@@ -80,6 +83,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
+        dismissKeyboard()
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
 
             // sign in
@@ -120,6 +124,7 @@ class ViewController: UIViewController {
     }
 
     @IBAction func didTouchKeySetEditorButton(_ sender: Any) {
+        dismissKeyboard()
         guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "KeySetRegisterController") as? KeySetRegisterController else { return }
         vc.delegate = self
         self.present(vc, animated: true, completion: nil)
@@ -204,9 +209,11 @@ extension ViewController: UITextFieldDelegate {
         var editing = false
         switch textField {
         case gender:
+            dismissKeyboard()
             selectGender()
             break
         case pipCustomPosition:
+            dismissKeyboard()
             selectPipCustomPosition()
             break
         default:

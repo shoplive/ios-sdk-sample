@@ -94,7 +94,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NeR-pe-pA5">
                                                                 <rect key="frame" x="0.0" y="0.0" width="337.5" height="31"/>
                                                                 <subviews>
-                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="On" translatesAutoresizingMaskIntoConstraints="NO" id="esh-FE-XRh">
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="esh-FE-XRh">
                                                                         <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="31" id="UNa-ef-sd0"/>
@@ -121,7 +121,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n0Z-Oh-5lh">
                                                                 <rect key="frame" x="0.0" y="36" width="337.5" height="31"/>
                                                                 <subviews>
-                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="On" translatesAutoresizingMaskIntoConstraints="NO" id="gFS-CL-RGM">
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="gFS-CL-RGM">
                                                                         <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="height" constant="31" id="8Vd-sR-hYk"/>
@@ -169,7 +169,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0Ov-Xj-QCU">
                                                                 <rect key="frame" x="0.0" y="0.0" width="337.5" height="31"/>
                                                                 <subviews>
-                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="On" translatesAutoresizingMaskIntoConstraints="NO" id="9oV-aS-GrK">
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="9oV-aS-GrK">
                                                                         <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="49" id="3YE-Bj-s1T"/>
@@ -199,7 +199,7 @@
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wst-Tj-vig">
                                                                 <rect key="frame" x="0.0" y="36" width="337.5" height="31"/>
                                                                 <subviews>
-                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" title="Off" translatesAutoresizingMaskIntoConstraints="NO" id="vgw-ae-1EG">
+                                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="vgw-ae-1EG">
                                                                         <rect key="frame" x="0.0" y="0.0" width="51" height="31"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" constant="49" id="oEd-wu-GIR"/>

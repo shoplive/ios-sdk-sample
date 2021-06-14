@@ -39,6 +39,10 @@ final class ShopLiveDemoKeyTools {
 
     }
 
+    func clearKey() {
+        keys.removeAll()
+    }
+
     func saveCurrentKey(alias: String) {
         curKey = alias
         UserDefaults.standard.setValue(curKey, forKey: ShopLiveDemoKeyTools.currentKeyIdentifier)
