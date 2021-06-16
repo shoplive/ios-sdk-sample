@@ -361,6 +361,7 @@ import RxCocoa
                 shopLiveWindow.bounds = bounds
                 shopLiveWindow.center = pipCenter
                 shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
+                shopLiveWindow.layer.backgroundColor = UIColor.clear.cgColor
                 shopLiveWindow.rootViewController?.view.clipsToBounds = true
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
