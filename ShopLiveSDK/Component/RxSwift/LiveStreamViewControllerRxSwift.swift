@@ -228,7 +228,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         view.addSubview(videoView)
         videoView.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([videoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        NSLayoutConstraint.activate([videoView.topAnchor.constraint(equalTo: view.topAnchor),
                                      videoView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
