@@ -15,6 +15,8 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
+		BF6765862679281E00A9232B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BF6765852679281E00A9232B /* RxCocoa */; };
+		BF6765882679285800A9232B /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BF6765872679285800A9232B /* RxCocoa */; };
 		BFAD8E95265A211E00202160 /* ShopLiveCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E86265A211E00202160 /* ShopLiveCombine.swift */; };
 		BFAD8E96265A211E00202160 /* OverlayWebViewCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E88265A211E00202160 /* OverlayWebViewCombine.swift */; };
 		BFAD8E97265A211E00202160 /* LiveStreamViewControllerCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E89265A211E00202160 /* LiveStreamViewControllerCombine.swift */; };
@@ -56,8 +58,6 @@
 		BFBBB03C2670ECB10025ED1D /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
-		BFF91D83266D219700B659C1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFF91D82266D219700B659C1 /* RxCocoa */; };
-		BFF91D85266D21A500B659C1 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFF91D84266D21A500B659C1 /* RxCocoa */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -134,7 +134,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFF91D83266D219700B659C1 /* RxCocoa in Frameworks */,
+				BF6765862679281E00A9232B /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,8 +150,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF6765882679285800A9232B /* RxCocoa in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
-				BFF91D85266D21A500B659C1 /* RxCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,7 +354,7 @@
 			);
 			name = ShopLiveSDK;
 			packageProductDependencies = (
-				BFF91D82266D219700B659C1 /* RxCocoa */,
+				BF6765852679281E00A9232B /* RxCocoa */,
 			);
 			productName = ShopLiveSDK;
 			productReference = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */;
@@ -392,7 +392,7 @@
 			);
 			name = ShopLiveDemo;
 			packageProductDependencies = (
-				BFF91D84266D21A500B659C1 /* RxCocoa */,
+				BF6765872679285800A9232B /* RxCocoa */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */;
@@ -1083,6 +1083,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF6765852679281E00A9232B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		BF6765872679285800A9232B /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
 		BFF91D7E266D214800B659C1 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
@@ -1092,16 +1102,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		BFF91D82266D219700B659C1 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
-		};
-		BFF91D84266D21A500B659C1 /* RxCocoa */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFF91D79266D20F700B659C1 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

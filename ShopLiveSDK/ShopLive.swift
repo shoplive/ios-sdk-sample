@@ -63,6 +63,17 @@ extension ShopLive {
         case DEV
         case STAGE
         case REAL
+
+        var name: String {
+            switch self {
+            case .DEV:
+                return "DEV"
+            case .STAGE:
+                return "STAGE"
+            case .REAL:
+                return "REAL"
+            }
+        }
     }
 }
 

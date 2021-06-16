@@ -12,9 +12,11 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var menuItemViews: UIStackView!
 
+    @IBOutlet weak var keyPhase: UITextField!
     @IBOutlet weak var keyAlias: UITextField!
     @IBOutlet weak var keyCampaign: UITextField!
     @IBOutlet weak var keyAccess: UITextField!
+    var phase: ShopLive.Phase = .REAL
 
     @IBOutlet weak var userId: UITextField!
     @IBOutlet weak var userName: UITextField!
@@ -73,13 +75,12 @@ class ViewController: UIViewController {
             keyAlias.text = currentKey.alias
             keyCampaign.text = currentKey.campaignKey
             keyAccess.text = currentKey.accessKey
-
-            ShopLive.configure(with: currentKey.accessKey)
         } else {
             keyAlias.text = ""
             keyCampaign.text = ""
             keyAccess.text = ""
         }
+        keyPhase.text = phase.name
     }
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
@@ -118,7 +119,7 @@ class ViewController: UIViewController {
                 }
             }
 
-            ShopLive.configure(with: key.accessKey)
+            ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)
         }
     }
@@ -173,6 +174,24 @@ class ViewController: UIViewController {
         alert.addAction(.init(title: "cancel", style: .cancel, handler: nil))
         self.present(alert, animated: true, completion: nil)
     }
+
+    private func selectPhase() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
+            self.phase = .DEV
+            self.keyPhase.text = "DEV"
+        }))
+        alert.addAction(.init(title: "STAGE", style: .default, handler: { _IOFBF in
+            self.phase = .STAGE
+            self.keyPhase.text = "STAGE"
+        }))
+        alert.addAction(.init(title: "REAL", style: .default, handler: { _IOFBF in
+            self.phase = .REAL
+            self.keyPhase.text = "REAL"
+        }))
+        alert.addAction(.init(title: "cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension ViewController: KeySetRegisterDelegate {
@@ -215,6 +234,10 @@ extension ViewController: UITextFieldDelegate {
         case pipCustomPosition:
             dismissKeyboard()
             selectPipCustomPosition()
+            break
+        case keyPhase:
+            dismissKeyboard()
+            selectPhase()
             break
         default:
             editing = true
