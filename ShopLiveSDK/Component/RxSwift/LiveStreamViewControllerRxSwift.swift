@@ -37,10 +37,6 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         return .lightContent
     }
 
-//    override var inputAccessoryView: UIView? {
-//        return toolbar
-//    }
-
     private lazy var textField: UITextField = .init(frame: .init(x: 0, y: 0, width: self.view.frame.width, height: 48))
 
     deinit {
@@ -65,11 +61,66 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         foregroundImageView = nil
     }
 
+    private func setupRx() {
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
+                .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] notification in
+                guard let self = self else { return }
+                self.chatInputView.isHidden = false
+                self.chatInputBG.isHidden = false
+                self.setKeyboard(notification: notification)
+            })
+            .disposed(by: cancellableDisposeBag)
+
+        NotificationCenter.default.rx.notification(UIResponder.keyboardWillHideNotification)
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] notification in
+                guard let self = self else { return }
+                self.setKeyboard(notification: notification)
+            }).disposed(by: cancellableDisposeBag)
+    }
+
+    private func setKeyboard(notification: Notification) {
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
+              let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
+
+        var isHiddenView = true
+        switch notification.name.rawValue {
+        case "UIKeyboardWillHideNotification":
+            chatConstraint.constant = 0
+            break
+        case "UIKeyboardWillShowNotification":
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+
+            chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
+            isHiddenView = false
+        default:
+            break
+        }
+
+        let options = UIView.AnimationOptions(rawValue: curve << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options) {
+            if isHiddenView {
+                self.chatInputView.isHidden = isHiddenView
+                self.chatInputBG.isHidden = isHiddenView
+            }
+            self.view.layoutIfNeeded()
+        } completion: { (isComplete) in
+            if isComplete {
+                self.chatInputView.focusOut()
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupView()
+        setupRx()
         loadOveray()
+        setupChatInputView()
 
         isHiddenOverlay
             .observe(on: MainScheduler.instance)
@@ -154,6 +205,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         setupPlayerView()
         setupForegroungImageView()
         setupOverayWebview()
+
     }
 
     func play() {
@@ -178,6 +230,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
 
     func hideBackgroundPoster() {
         imageView?.isHidden = true
+        dismissKeyboard()
     }
 
     func showBackgroundPoster() {
@@ -233,6 +286,47 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
                                      videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+
+    private var chatConstraint: NSLayoutConstraint!
+    private lazy var chatInputView: ChattingWriteView = {
+        let chatView = ChattingWriteView()
+        chatView.isHidden = true
+        chatView.translatesAutoresizingMaskIntoConstraints = false
+        chatView.delegate = self
+        return chatView
+    }()
+
+    private lazy var chatInputBG: UIView = {
+            let chatBG = UIView()
+            chatBG.translatesAutoresizingMaskIntoConstraints = false
+            chatBG.backgroundColor = .white
+            chatBG.isHidden = true
+            return chatBG
+        }()
+
+    private func setupChatInputView() {
+        view.addSubview(chatInputView)
+
+        chatConstraint = NSLayoutConstraint.init(item: chatInputView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 0)
+        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: 0)
+
+        self.view.addConstraints([
+            chatLeading, chatTrailing, chatConstraint
+        ])
+
+        self.view.addSubview(chatInputBG)
+        NSLayoutConstraint.activate([
+                                     chatInputBG.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                                     chatInputBG.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
+        self.view.addConstraints([
+            NSLayoutConstraint(item: chatInputBG, attribute: .top, relatedBy: .equal, toItem: self.chatInputView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: chatInputBG, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+        ])
+
+        self.view.updateConstraints()
+        self.view.layoutIfNeeded()
     }
 
     private func loadOveray() {
@@ -335,7 +429,8 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
     }
 
     @objc func didTouchPipButton() {
-        delegate?.didTouchPipButton()
+        chatInputView.focus()
+//        delegate?.didTouchPipButton()
     }
 
     @objc func didTouchCloseButton() {
@@ -343,7 +438,19 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
-        delegate?.handleCommand(command, with: payload)
+        let interface = WebInterface.WebFunction.init(rawValue: command)
+        switch interface  {
+        case .setConf:
+
+            break
+        case .showChatInput:
+            break
+        case .written:
+            break
+        default:
+            delegate?.handleCommand(command, with: payload)
+            break
+        }
     }
 
     func showDefaultAlert(with title: String?, message: String?, handler: (() -> ())? = nil) {
@@ -359,16 +466,11 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
 
 extension LiveStreamViewControllerRxSwift: WKUIDelegate {
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
-        // 여기서 키보드 악세사리뷰 넣어서 테스트 ( 공유버튼 눌러서 테스트 )
-//        txtView.becomeFirstResponder()
-        completionHandler()
-/*
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             completionHandler()
         }))
         present(alertController, animated: true, completion: nil)
- */
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
@@ -404,5 +506,11 @@ extension LiveStreamViewControllerRxSwift: WKUIDelegate {
             completionHandler(nil)
         }))
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
+    func didTouchSendButton() {
+        print("didTouchSendButton")
     }
 }

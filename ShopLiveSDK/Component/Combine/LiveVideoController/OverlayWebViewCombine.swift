@@ -17,15 +17,8 @@ class OverlayWebViewCombine: UIView {
     @Published var isPipMode: Bool = false
     
     private var isSystemInitialized: Bool = false
-    private var isShownKeyboard: Bool = false
     private weak var webView: ShopLiveWebView?
-    private lazy var keyboardBG: UIView = {
-        let bgView = UIView()
-        bgView.backgroundColor = .white
-        return bgView
-    }()
-    private var heightAnchorWhenShow: NSLayoutConstraint?
-    private var heightAnchorWhenHide: NSLayoutConstraint?
+
     private lazy var cancellableSet = Set<AnyCancellable>()
     
     weak var delegate: OverlayWebViewDelegate?
@@ -53,38 +46,23 @@ class OverlayWebViewCombine: UIView {
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
         initWebView(with: webViewConfiguration)
-        initKeyboardView()
         initObserver()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initWebView()
-        initKeyboardView()
         initObserver()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         initWebView()
-        initKeyboardView()
         initObserver()
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-    }
-
-    private func initKeyboardView() {
-        self.addSubview(keyboardBG)
-        keyboardBG.translatesAutoresizingMaskIntoConstraints = false
-
-        keyboardBG.leadingAnchor.constraint(equalTo: self.leadingAnchor,constant: 0).isActive = true
-        keyboardBG.trailingAnchor.constraint(equalTo: self.trailingAnchor,constant: 0).isActive = true
-        keyboardBG.bottomAnchor.constraint(equalTo: self.bottomAnchor,constant: 0).isActive = true
-
-        heightAnchorWhenHide = keyboardBG.heightAnchor.constraint(equalToConstant: 0)
-        heightAnchorWhenShow?.isActive = true
     }
 
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
@@ -163,49 +141,6 @@ class OverlayWebViewCombine: UIView {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, isPipMode)
             }
             .store(in: &cancellableSet)
-        
-        // handle keyboard event
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] (notification) in
-                guard let self = self else { return }
-                self.isShownKeyboard = true
-                self.setKeyboard(notification: notification)
-            }
-            .store(in: &cancellableSet)
-
-        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
-            .receive(on: RunLoop.main)
-            .sink { [weak self] (notification) in
-                guard let self = self else { return }
-                guard self.isShownKeyboard else { return }
-                guard self.isSystemInitialized else { return }
-                self.isShownKeyboard = false
-                self.webView?.sendEventToWeb(event: .downKeyboard)
-                self.setKeyboard(notification: notification)
-            }
-            .store(in: &cancellableSet)
-    }
-
-    private func setKeyboard(notification: Notification) {
-        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-//        guard let keyboardFrameBeginUserInfo = notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue else { return }
-
-//        print(notification.name.rawValue)
-        var willShow: Bool = false
-        switch notification.name.rawValue {
-        case "UIKeyboardWillHideNotification":
-            willShow = false
-        case "UIKeyboardWillShowNotification":
-            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-            self.heightAnchorWhenShow = self.keyboardBG.heightAnchor.constraint(equalToConstant: keyboardScreenEndFrame.height)
-            willShow = true
-        default:
-            break
-        }
-
-        self.heightAnchorWhenShow?.isActive = willShow
-        self.heightAnchorWhenHide?.isActive = !willShow
     }
     
     private func loadOverlay(with url: URL) {

@@ -12,31 +12,31 @@ import AVKit
 
 @available(iOS 13.0, *)
 final class LiveStreamViewControllerCombine: UIViewController {
-    
+
     lazy var viewModel: LiveStreamViewModelCombine = LiveStreamViewModelCombine()
     weak var delegate: LiveStreamViewControllerDelegate?
-    
+
     var webViewConfiguration: WKWebViewConfiguration?
-    
+
     private var overlayView: OverlayWebViewCombine?
     private var imageView: UIImageView?
     private var foregroundImageView: UIImageView?
     var isReplayMode: Bool = false
     private lazy var videoView: VideoView = VideoView()
-    
+
     var playerLayer: AVPlayerLayer? {
         return videoView.playerLayer
     }
-    
+
     @Published var isHiddenOverlay: Bool = false
-    
+
     private lazy var cancellableSet = Set<AnyCancellable>()
     private var waitingPlayCancellable: AnyCancellable? = nil
-    
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
+
     deinit {
         for cancellable in cancellableSet {
             cancellable.cancel()
@@ -45,28 +45,84 @@ final class LiveStreamViewControllerCombine: UIViewController {
         waitingPlayCancellable?.cancel()
         waitingPlayCancellable = nil
     }
-    
+
     override func removeFromParent() {
         super.removeFromParent()
-        
+
         videoView.playerLayer.player = nil
         overlayView?.delegate = nil
-        
+
         overlayView?.removeFromSuperview()
         imageView?.removeFromSuperview()
         foregroundImageView?.removeFromSuperview()
         videoView.removeFromSuperview()
-        
+
         overlayView = nil
         imageView = nil
         foregroundImageView = nil
     }
-    
+
+    private func setupKeyboardEvent() {
+        // handle keyboard event
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillShowNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (notification) in
+                guard let self = self else { return }
+                self.chatInputView.isHidden = false
+                self.chatInputBG.isHidden = false
+                self.setKeyboard(notification: notification)
+            }
+            .store(in: &cancellableSet)
+
+        NotificationCenter.default.publisher(for: UIResponder.keyboardWillHideNotification)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (notification) in
+                guard let self = self else { return }
+                self.setKeyboard(notification: notification)
+            }
+            .store(in: &cancellableSet)
+    }
+
+    private func setKeyboard(notification: Notification) {
+        guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+              let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
+              let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
+              let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
+
+        var isHiddenView = true
+        switch notification.name.rawValue {
+        case "UIKeyboardWillHideNotification":
+            chatConstraint.constant = 0
+            break
+        case "UIKeyboardWillShowNotification":
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+
+            chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
+            isHiddenView = false
+        default:
+            break
+        }
+
+        let options = UIView.AnimationOptions(rawValue: curve << 16)
+        UIView.animate(withDuration: duration, delay: 0, options: options) {
+            if isHiddenView {
+                self.chatInputView.isHidden = isHiddenView
+                self.chatInputBG.isHidden = isHiddenView
+            }
+            self.view.layoutIfNeeded()
+        } completion: { (isComplete) in
+            if isComplete {
+                self.chatInputView.focusOut()
+            }
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        setupKeyboardEvent()
         loadOveray()
-        
+
         $isHiddenOverlay
             .receive(on: RunLoop.main)
             .sink { [weak self] (isHiddenOverlay) in
@@ -88,15 +144,15 @@ final class LiveStreamViewControllerCombine: UIViewController {
                 }
             }
             .store(in: &cancellableSet)
-        
+
         viewModel.$isMuted
             .removeDuplicates()
             .receive(on: RunLoop.main).sink(receiveValue: { [weak self] (isMuted) in
                 self?.overlayView?.isMuted = isMuted
             })
             .store(in: &cancellableSet)
-        
-        
+
+
         viewModel.$timeControlStatus
             .dropFirst()
             .receive(on: RunLoop.main)
@@ -116,7 +172,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
                 }
             }
             .store(in: &cancellableSet)
-        
+
         viewModel.$isPlaybackLikelyToKeepUp
             .dropFirst()
             .removeDuplicates()
@@ -125,7 +181,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
             //
             }
             .store(in: &cancellableSet)
-        
+
         viewModel.$playerItemStatus
             .receive(on: RunLoop.main)
             .sink { [weak self] (itemStatus) in
@@ -142,47 +198,49 @@ final class LiveStreamViewControllerCombine: UIViewController {
                 }
             }
             .store(in: &cancellableSet)
-        
-        
+
+
     }
-    
+
     private func setupView() {
         view.backgroundColor = .black
-        
+
         setupBackgroundImageView()
         setupPlayerView()
         setupForegroungImageView()
         setupOverayWebview()
+        setupChatInputView()
     }
-    
+
     func play() {
         viewModel.play()
     }
-    
+
     func pause() {
         viewModel.videoPlayer.pause()
     }
-    
+
     func stop() {
         viewModel.stop()
     }
-    
+
     func reload() {
         overlayView?.overlayUrl = playUrl
     }
-    
+
     func didCompleteDownLoadCoupon(with couponId: String) {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
-    
+
     func hideBackgroundPoster() {
         imageView?.isHidden = true
+        dismissKeyboard()
     }
-    
+
     func showBackgroundPoster() {
         imageView?.isHidden = false
     }
-    
+
     private func setupForegroungImageView() {
         let foregroundImageView = UIImageView()
         foregroundImageView.isHidden = true
@@ -193,7 +251,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[foregroundImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["foregroundImageView": foregroundImageView]))
         self.foregroundImageView = foregroundImageView
     }
-    
+
     private func setupBackgroundImageView() {
         let imageView = UIImageView()
         view.addSubview(imageView)
@@ -203,12 +261,12 @@ final class LiveStreamViewControllerCombine: UIViewController {
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["imageView": imageView]))
         self.imageView = imageView
     }
-    
+
     private func setupOverayWebview() {
         let overlayView = OverlayWebViewCombine(with: webViewConfiguration)
         overlayView.webviewUIDelegate = self
         overlayView.delegate = self
-        
+
         view.addSubview(overlayView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -216,33 +274,74 @@ final class LiveStreamViewControllerCombine: UIViewController {
                                      overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
-        
+
         self.overlayView = overlayView
     }
-    
+
     private func setupPlayerView() {
         videoView.playerLayer.videoGravity = .resizeAspectFill
         videoView.playerLayer.player = viewModel.videoPlayer
-        
+
         view.addSubview(videoView)
         videoView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         NSLayoutConstraint.activate([videoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
                                      videoView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
+
+    private var chatConstraint: NSLayoutConstraint!
+    private lazy var chatInputView: ChattingWriteView = {
+        let chatView = ChattingWriteView()
+        chatView.isHidden = true
+        chatView.translatesAutoresizingMaskIntoConstraints = false
+        chatView.delegate = self
+        return chatView
+    }()
+
+    private lazy var chatInputBG: UIView = {
+            let chatBG = UIView()
+            chatBG.translatesAutoresizingMaskIntoConstraints = false
+            chatBG.backgroundColor = .white
+            chatBG.isHidden = true
+            return chatBG
+        }()
+
+    private func setupChatInputView() {
+        view.addSubview(chatInputView)
+
+        chatConstraint = NSLayoutConstraint.init(item: chatInputView, attribute: .bottom, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
+        let chatLeading = NSLayoutConstraint.init(item: chatInputView, attribute: .leading, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .leading, multiplier: 1.0, constant: 0)
+        let chatTrailing = NSLayoutConstraint.init(item: chatInputView, attribute: .trailing, relatedBy: .equal, toItem: self.view.safeAreaLayoutGuide, attribute: .trailing, multiplier: 1.0, constant: 0)
+
+        self.view.addConstraints([
+            chatLeading, chatTrailing, chatConstraint
+        ])
+
+        self.view.addSubview(chatInputBG)
+        NSLayoutConstraint.activate([
+                                     chatInputBG.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                                     chatInputBG.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)])
+        self.view.addConstraints([
+            NSLayoutConstraint(item: chatInputBG, attribute: .top, relatedBy: .equal, toItem: self.chatInputView, attribute: .bottom, multiplier: 1, constant: 0),
+            NSLayoutConstraint(item: chatInputBG, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1, constant: 0)
+        ])
+
+        self.view.updateConstraints()
+        self.view.layoutIfNeeded()
+    }
+
     private func loadOveray() {
         overlayView?.overlayUrl = playUrl
     }
-    
+
     private var playUrl: URL? {
         guard let baseUrl = viewModel.overayUrl else { return nil }
         var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        
+
         if let authToken = viewModel.authToken, !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
@@ -270,19 +369,19 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
         isReplayMode = true
         delegate?.replay(with: size)
     }
-    
+
     func didTouchCoupon(with couponId: String) {
         delegate?.didTouchCoupon(with: couponId)
     }
-    
+
     func didTouchMuteButton(with isMuted: Bool) {
         viewModel.videoPlayer.isMuted = isMuted
     }
-    
+
     func reloadVideo() {
         viewModel.reloadVideo()
     }
-    
+
     func didUpdatePoster(with url: URL) {
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: url) else { return }
@@ -292,7 +391,7 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             }
         }
     }
-    
+
     func didUpdateForegroundPoster(with url: URL) {
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: url) else { return }
@@ -303,19 +402,19 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             }
         }
     }
-    
+
     func didUpdateVideo(with url: URL) {
         viewModel.videoUrl = url
     }
-    
+
     func didTouchPlayButton() {
         play()
     }
-    
+
     func didTouchPauseButton() {
         pause()
     }
-    
+
     func didTouchPlayButton(with isPlaying: Bool) {
         if isPlaying {
             play()
@@ -324,30 +423,43 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             pause()
         }
     }
-    
+
     func didTouchNavigation(with url: URL) {
         delegate?.didTouchNavigation(with: url)
     }
-    
+
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
         overlayView?.updatePipStyle(with: style)
     }
-    
+
     @objc func didTouchPipButton() {
-        delegate?.didTouchPipButton()
+        chatInputView.focus()
+//        delegate?.didTouchPipButton()
     }
-    
+
     @objc func didTouchCloseButton() {
         delegate?.didTouchCloseButton()
     }
-    
+
     func handleCommand(_ command: String, with payload: Any?) {
-        delegate?.handleCommand(command, with: payload)
+        let interface = WebInterface.WebFunction.init(rawValue: command)
+        switch interface  {
+        case .setConf:
+
+            break
+        case .showChatInput:
+            break
+        case .written:
+            break
+        default:
+            delegate?.handleCommand(command, with: payload)
+            break
+        }
     }
-    
+
     func showDefaultAlert(with title: String?, message: String?, handler: (() -> ())? = nil) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        
+
         alertController.addAction(UIAlertAction(title: "확인", style: .cancel, handler: { (action) in
             handler?()
         }))
@@ -365,28 +477,28 @@ extension LiveStreamViewControllerCombine: WKUIDelegate {
         }))
         present(alertController, animated: true, completion: nil)
     }
-    
+
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
-        
+
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             completionHandler(true)
         }))
-        
+
         alertController.addAction(UIAlertAction(title: "Cancel", style: .default, handler: { (action) in
             completionHandler(false)
         }))
-        
+
         present(alertController, animated: true, completion: nil)
     }
-    
+
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
         let alertController = UIAlertController(title: nil, message: prompt, preferredStyle: .actionSheet)
-        
+
         alertController.addTextField { (textField) in
             textField.text = defaultText
         }
-        
+
         alertController.addAction(UIAlertAction(title: "확인", style: .default, handler: { (action) in
             if let text = alertController.textFields?.first?.text {
                 completionHandler(text)
@@ -394,10 +506,17 @@ extension LiveStreamViewControllerCombine: WKUIDelegate {
                 completionHandler(defaultText)
             }
         }))
-        
+
         alertController.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action) in
             completionHandler(nil)
         }))
         present(alertController, animated: true, completion: nil)
+    }
+}
+
+@available(iOS 13.0, *)
+extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
+    func didTouchSendButton() {
+        print("didTouchSendButton")
     }
 }

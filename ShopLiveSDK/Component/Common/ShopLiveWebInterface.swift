@@ -33,7 +33,11 @@ enum WebInterface {
     case setIsMute
     case completeDownloadCoupon
     case videoInitialized
-    case chatOn
+    case showChatInput
+    case hiddenChatInput
+    case setConf
+    case write
+    case written
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -78,8 +82,16 @@ enum WebInterface {
             return WebFunction.completeDownloadCoupon.rawValue
         case .videoInitialized:
             return WebFunction.videoInitialized.rawValue
-        case .chatOn:
-            return WebFunction.chatOn.rawValue
+        case .showChatInput:
+            return WebFunction.showChatInput.rawValue
+        case .hiddenChatInput:
+            return WebFunction.hiddenChatInput.rawValue
+        case .setConf:
+            return WebFunction.setConf.rawValue
+        case .write:
+            return WebFunction.write.rawValue
+        case .written:
+            return WebFunction.written.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -108,8 +120,12 @@ enum WebInterface {
         case setIsMute = "SET_IS_MUTE"
         case completeDownloadCoupon = "COMPLETE_DOWNLOAD_COUPON"
         case videoInitialized = "VIDEO_INITIALIZED"
-        case chatOn = "CHAT_ON"
         case command = "COMMAND"
+        case showChatInput = "SHOW_CHAT_INPUT"
+        case hiddenChatInput = "HIDDEN_CHAT_INPUT"
+        case setConf = "SET_CONF"
+        case write = "WRITE"
+        case written = "WRITTEN"
     }
 }
 
@@ -178,8 +194,16 @@ extension WebInterface {
             self = .completeDownloadCoupon
         case .videoInitialized:
             self = .videoInitialized
-        case .chatOn:
-            self = .chatOn
+        case .showChatInput:
+            self = .showChatInput
+        case .hiddenChatInput:
+            self = .hiddenChatInput
+        case .write:
+            self = .write
+        case .written:
+            self = .written
+        case .setConf:
+            self = .setConf
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]
