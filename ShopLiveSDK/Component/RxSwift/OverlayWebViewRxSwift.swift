@@ -159,6 +159,10 @@ class OverlayWebViewRxSwift: UIView {
         isPipMode.accept(style == .pip)
     }
 
+    func sendEventToWeb(event: WebInterface, _ param: Any? = nil) {
+        self.webView?.sendEventToWeb(event: event, param)
+    }
+
 }
 
 

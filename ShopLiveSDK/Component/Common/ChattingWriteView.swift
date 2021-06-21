@@ -27,6 +27,11 @@ final class ChattingWriteView: UIView {
     weak var delegate: ChattingWriteDelegate?
     private var viewModel: ViewModel?
 
+    var chatText: String {
+        get {
+            return chatTextView.textView.text
+        }
+    }
     private var isFocus: Bool = false
     init() {
         super.init(frame: .zero)
@@ -67,6 +72,10 @@ final class ChattingWriteView: UIView {
 
     func focusOut() {
         isFocus = false
+    }
+
+    func clear() {
+        chatTextView.textView.text.removeAll()
     }
 
     private var topShadow: UIView = {

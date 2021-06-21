@@ -158,6 +158,10 @@ class OverlayWebViewCombine: UIView {
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
         isPipMode = style == .pip
     }
+
+    func sendEventToWeb(event: WebInterface, _ param: Any? = nil) {
+        self.webView?.sendEventToWeb(event: event, param)
+    }
 }
 
 @available(iOS 13.0, *)

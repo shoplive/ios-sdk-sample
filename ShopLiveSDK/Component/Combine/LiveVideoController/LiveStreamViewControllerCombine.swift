@@ -92,6 +92,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
         var isHiddenView = true
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
+            overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
@@ -433,8 +434,7 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
     }
 
     @objc func didTouchPipButton() {
-        chatInputView.focus()
-//        delegate?.didTouchPipButton()
+        delegate?.didTouchPipButton()
     }
 
     @objc func didTouchCloseButton() {
@@ -445,11 +445,18 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
         let interface = WebInterface.WebFunction.init(rawValue: command)
         switch interface  {
         case .setConf:
-
+            let chatInitData = payload as? [String : Any]
+            let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
+            let sendText = chatInitData?["chatInputSendText"] as? String
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기"))
             break
         case .showChatInput:
+            chatInputView.focus()
             break
         case .written:
+            let writtenResult = payload as? [String : Any]
+            let result = (writtenResult?["_s"] as? Int ?? 1) == 0
+            if result { chatInputView.clear() }
             break
         default:
             delegate?.handleCommand(command, with: payload)
@@ -517,6 +524,6 @@ extension LiveStreamViewControllerCombine: WKUIDelegate {
 @available(iOS 13.0, *)
 extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
     func didTouchSendButton() {
-        print("didTouchSendButton")
+        overlayView?.sendEventToWeb(event: .write, ["message" : chatInputView.chatText])
     }
 }

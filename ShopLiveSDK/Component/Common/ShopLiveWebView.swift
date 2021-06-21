@@ -27,3 +27,16 @@ class ShopLiveWebView: WKWebView {
         self.evaluateJavaScript(command, completionHandler: nil)
     }
 }
+
+extension Dictionary {
+
+    func toJson()->String?{
+        let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [])
+        if let jsonString = String(data: jsonData!, encoding: .utf8){
+            return jsonString
+        }else{
+            return nil
+        }
+    }
+
+}

@@ -89,6 +89,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         var isHiddenView = true
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
+            overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
@@ -196,6 +197,13 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
                     break
                 }
             }).disposed(by: cancellableDisposeBag)
+
+        overlayView?.isPipMode
+            .skip(1)
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] isPipMode in
+                self?.updateTopAnchor(isPip: isPipMode)
+            }.disposed(by: cancellableDisposeBag)
     }
 
     private func setupView() {
@@ -274,18 +282,27 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         self.overlayView = overlayView
     }
 
+    var topAnchor: NSLayoutConstraint!
+    var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         videoView.playerLayer.videoGravity = .resizeAspectFill
         videoView.playerLayer.player = viewModel.videoPlayer
 
         view.addSubview(videoView)
+        topAnchor = videoView.topAnchor.constraint(equalTo: view.topAnchor)
+        topSafeAnchor = videoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         videoView.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([videoView.topAnchor.constraint(equalTo: view.topAnchor),
-                                     videoView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        updateTopAnchor(isPip: false)
+        NSLayoutConstraint.activate([videoView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+
+    private func updateTopAnchor(isPip: Bool) {
+        topAnchor.isActive = isPip
+        topSafeAnchor.isActive = !isPip
     }
 
     private var chatConstraint: NSLayoutConstraint!
@@ -429,8 +446,7 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
     }
 
     @objc func didTouchPipButton() {
-        chatInputView.focus()
-//        delegate?.didTouchPipButton()
+        delegate?.didTouchPipButton()
     }
 
     @objc func didTouchCloseButton() {
@@ -441,11 +457,18 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
         let interface = WebInterface.WebFunction.init(rawValue: command)
         switch interface  {
         case .setConf:
-
+            let chatInitData = payload as? [String : Any]
+            let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
+            let sendText = chatInitData?["chatInputSendText"] as? String
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기"))
             break
         case .showChatInput:
+            chatInputView.focus()
             break
         case .written:
+            let writtenResult = payload as? [String : Any]
+            let result = (writtenResult?["_s"] as? Int ?? 1) == 0
+            if result { chatInputView.clear() }
             break
         default:
             delegate?.handleCommand(command, with: payload)
@@ -511,6 +534,6 @@ extension LiveStreamViewControllerRxSwift: WKUIDelegate {
 
 extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
     func didTouchSendButton() {
-        print("didTouchSendButton")
+        overlayView?.sendEventToWeb(event: .write, ["message" : chatInputView.chatText])
     }
 }
