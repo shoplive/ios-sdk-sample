@@ -195,15 +195,19 @@ extension WebInterface {
         case .videoInitialized:
             self = .videoInitialized
         case .showChatInput:
-            self = .showChatInput
+            self = .command(command: command, payload: nil)
         case .hiddenChatInput:
             self = .hiddenChatInput
         case .write:
             self = .write
         case .written:
-            self = .written
+            guard let customCommand = parameters?["action"] as? String else { return nil }
+            let customPayload = parameters?["payload"]
+            self = .command(command: customCommand, payload: customPayload)
         case .setConf:
-            self = .setConf
+            guard let customCommand = parameters?["action"] as? String else { return nil }
+            let customPayload = parameters?["payload"]
+            self = .command(command: customCommand, payload: customPayload)
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]
