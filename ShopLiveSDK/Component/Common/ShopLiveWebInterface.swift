@@ -136,7 +136,7 @@ extension WebInterface {
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
-        
+        debugPrint("whkim  \(function)")
         switch function {
         case .systemInit:
             self = .systemInit
@@ -182,7 +182,6 @@ extension WebInterface {
         case .replay:
             guard let width = parameters?["width"] as? CGFloat else { return nil }
             guard let height = parameters?["height"] as? CGFloat else { return nil }
-            debugPrint("width: \(width) x height: \(height)")
             self = .replay(width: width, height: height)
         case .downKeyboard:
             self = .downKeyboard
@@ -201,13 +200,9 @@ extension WebInterface {
         case .write:
             self = .write
         case .written:
-            guard let customCommand = parameters?["action"] as? String else { return nil }
-            let customPayload = parameters?["payload"]
-            self = .command(command: customCommand, payload: customPayload)
+            self = .command(command: WebFunction.written.rawValue, payload: parameters?["_s"])
         case .setConf:
-            guard let customCommand = parameters?["action"] as? String else { return nil }
-            let customPayload = parameters?["payload"]
-            self = .command(command: customCommand, payload: customPayload)
+            self = .command(command: WebFunction.setConf.rawValue, payload: parameters)
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]

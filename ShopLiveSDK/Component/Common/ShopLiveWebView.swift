@@ -23,14 +23,12 @@ class ShopLiveWebView: WKWebView {
 
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', \(String(describing: param!)));"
-
         self.evaluateJavaScript(command, completionHandler: nil)
     }
 }
 
 extension Dictionary {
-
-    func toJson()->String?{
+    func toJson() -> String? {
         let jsonData = try? JSONSerialization.data(withJSONObject: self, options: [])
         if let jsonString = String(data: jsonData!, encoding: .utf8){
             return jsonString
@@ -38,5 +36,4 @@ extension Dictionary {
             return nil
         }
     }
-
 }

@@ -466,9 +466,7 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
             chatInputView.focus()
             break
         case .written:
-            let writtenResult = payload as? [String : Any]
-            let result = (writtenResult?["_s"] as? Int ?? 1) == 0
-            if result { chatInputView.clear() }
+            if (payload as? Int ?? 1) == 0 { chatInputView.clear() }
             break
         default:
             delegate?.handleCommand(command, with: payload)
@@ -534,6 +532,7 @@ extension LiveStreamViewControllerRxSwift: WKUIDelegate {
 
 extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
     func didTouchSendButton() {
-        overlayView?.sendEventToWeb(event: .write, ["message" : chatInputView.chatText])
+        let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
+        overlayView?.sendEventToWeb(event: .write, message.toJson())
     }
 }

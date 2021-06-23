@@ -118,4 +118,12 @@ internal class SLNextGrowingInternalTextView: UITextView {
   private func updatePlaceholder() {
     placeholderDisplayLabel.isHidden = !text.isEmpty
   }
+
+  override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
+    if action == #selector(UIResponderStandardEditActions.paste(_:)) || action == #selector(UIResponderStandardEditActions.copy(_:)) {
+      return false
+    }
+
+    return super.canPerformAction(action, withSender: sender)
+  }
 }

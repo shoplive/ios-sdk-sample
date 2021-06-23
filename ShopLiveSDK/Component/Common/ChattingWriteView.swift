@@ -108,6 +108,7 @@ final class ChattingWriteView: UIView {
         chatView.delegate = self
         chatView.textView.delegate = self
 
+        chatView.textView.returnKeyType = .send
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
         chatView.textView.typingAttributes = [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)]
@@ -118,8 +119,8 @@ final class ChattingWriteView: UIView {
     private func setSendButtonTitle(title: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
-        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1)]), for: .normal)
-        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor:  UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1)]), for: .disabled)
+        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
+        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor:  UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
     }
 
     private func updateSendButtonBackground() {
@@ -230,5 +231,14 @@ extension ChattingWriteView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         sendButton.isEnabled = textView.text.count > 0
         updateSendButtonBackground()
+    }
+
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            self.didTouchSendButton()
+            return false
+        } else{
+            return true
+        }
     }
 }
