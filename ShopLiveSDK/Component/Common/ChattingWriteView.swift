@@ -10,6 +10,7 @@ import Foundation
 
 protocol ChattingWriteDelegate: AnyObject {
     func didTouchSendButton()
+    func updateHeight()
 }
 
 final class ChattingWriteView: UIView {
@@ -163,7 +164,7 @@ final class ChattingWriteView: UIView {
         self.addSubview(chatTextView)
         self.addSubview(sendButton)
         self.addSubview(topShadow)
-//
+
         let topShadowTop = NSLayoutConstraint.init(item: topShadow, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1.0, constant: 0)
         let topShadowLeading = NSLayoutConstraint.init(item: topShadow, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 12)
         let topShadowTrailing = NSLayoutConstraint.init(item: topShadow, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: -8)
@@ -199,6 +200,12 @@ final class ChattingWriteView: UIView {
             } else {
                 self.chatTopEqual.isActive = true
                 self.chatTopMin.isActive = false
+            }
+
+            DispatchQueue.main.async {
+                if !self.isHidden {
+                    self.delegate?.updateHeight()
+                }
             }
         }
     }

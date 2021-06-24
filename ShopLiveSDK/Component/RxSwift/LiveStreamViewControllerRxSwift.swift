@@ -80,6 +80,11 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             }).disposed(by: cancellableDisposeBag)
     }
 
+    private func updateOverlayView() {
+            let bottomSpacing = lastKeyboardHeight == 0 ? 290 : lastKeyboardHeight - bottomItemSpacing
+            overlayConstraint.constant = -(bottomSpacing + self.chatInputView.frame.height)
+        }
+
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
@@ -89,13 +94,16 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         var isHiddenView = true
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
-            overlayView?.sendEventToWeb(event: .hiddenChatInput)
+            lastKeyboardHeight = 0
+            self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
+            overlayConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
-
+            lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
+            updateOverlayView()
             isHiddenView = false
         default:
             break
@@ -266,6 +274,8 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         self.imageView = imageView
     }
 
+    private var overlayConstraint: NSLayoutConstraint!
+    private let bottomItemSpacing: CGFloat = 21
     private func setupOverayWebview() {
         let overlayView = OverlayWebViewRxSwift(with: webViewConfiguration)
         overlayView.webviewUIDelegate = self
@@ -273,8 +283,10 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
 
         view.addSubview(overlayView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
+
+        overlayConstraint = NSLayoutConstraint.init(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0)
+        self.view.addConstraint(overlayConstraint)
         NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-                                     overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
@@ -322,6 +334,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             return chatBG
         }()
 
+    private var lastKeyboardHeight: CGFloat = 0
     private func setupChatInputView() {
         view.addSubview(chatInputView)
 
@@ -534,5 +547,9 @@ extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
         overlayView?.sendEventToWeb(event: .write, message.toJson())
+    }
+
+    func updateHeight() {
+        updateOverlayView()
     }
 }
