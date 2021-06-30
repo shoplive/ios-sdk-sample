@@ -11,12 +11,27 @@ final class ShopLiveDemoKeyTools {
 
     private static let saveIdentifier: String = "ShopLiveDemoKeys"
     private static let currentKeyIdentifier: String = "currentKey"
+    private static let phaseIdentifier: String = "phaseInfo"
 
     static let shared: ShopLiveDemoKeyTools = ShopLiveDemoKeyTools()
 
     private var keys: [ShopLiveKeySet] = []
 
     private var curKey: String = ""
+
+    var phase: String {
+        set(phase) {
+            guard self.phase != phase else {
+                return
+            }
+            UserDefaults.standard.setValue(phase, forKey: ShopLiveDemoKeyTools.phaseIdentifier)
+        }
+
+        get {
+            let phaseData: String = (UserDefaults.standard.string(forKey: ShopLiveDemoKeyTools.phaseIdentifier) ?? "")
+            return phaseData.isEmpty ? "REAL" : phaseData
+        }
+    }
 
     private init() {
         loadData()

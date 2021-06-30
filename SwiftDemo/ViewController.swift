@@ -48,6 +48,7 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
 //        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "3729407a4ee1", accessKey: "9M2FwM5BmJf9RVeesKeg"))
         ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
+//        ShopLiveDemoKeyTools.shared.phase = ShopLive.Phase.DEV.name
         #endif
 
         hideKeyboard()
@@ -80,6 +81,8 @@ class ViewController: UIViewController {
             keyCampaign.text = ""
             keyAccess.text = ""
         }
+
+        self.phase = ShopLive.Phase.init(name: ShopLiveDemoKeyTools.shared.phase) ?? .REAL
         keyPhase.text = phase.name
     }
 
@@ -179,14 +182,17 @@ class ViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
             self.phase = .DEV
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
             self.keyPhase.text = "DEV"
         }))
         alert.addAction(.init(title: "STAGE", style: .default, handler: { _IOFBF in
             self.phase = .STAGE
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
             self.keyPhase.text = "STAGE"
         }))
         alert.addAction(.init(title: "REAL", style: .default, handler: { _IOFBF in
             self.phase = .REAL
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
             self.keyPhase.text = "REAL"
         }))
         alert.addAction(.init(title: "cancel", style: .cancel, handler: nil))

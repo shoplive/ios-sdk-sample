@@ -40,6 +40,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didUpdatePoster(with url: URL)
     func didUpdateForegroundPoster(with url: URL)
     func replay(with size: CGSize)
+    func didTouchBlockView()
 
     func didTouchPlayButton()
     func didTouchPauseButton()

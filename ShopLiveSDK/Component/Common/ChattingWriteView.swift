@@ -16,12 +16,14 @@ protocol ChattingWriteDelegate: AnyObject {
 final class ChattingWriteView: UIView {
 
     class ViewModel {
-        var chatInputPlaceholderText: String?
-        var chatInputSendText: String?
+        var chatInputPlaceholderText: String = "채팅을 입력하세요"
+        var chatInputSendText: String = "보내기"
+        var chatInputMaxLength: Int = 50
 
-        init(placeholder: String, sendText: String) {
+        init(placeholder: String, sendText: String, maxLength: Int) {
             chatInputPlaceholderText = placeholder
             chatInputSendText = sendText
+            chatInputMaxLength = maxLength
         }
     }
 
@@ -55,14 +57,10 @@ final class ChattingWriteView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
 
-        if let placeHolder: String = viewModel.chatInputPlaceholderText {
-            chatTextView.placeholderAttributedText = NSMutableAttributedString(string: placeHolder, attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
-        }
+        chatTextView.placeholderAttributedText = NSMutableAttributedString(string: viewModel.chatInputPlaceholderText, attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
 
-        if let sendText = viewModel.chatInputSendText {
-            setSendButtonTitle(title: sendText)
-        }
-        updateSendButtonBackground()
+
+        setSendButtonTitle(title: viewModel.chatInputSendText)
     }
 
     func focus() {
@@ -120,12 +118,8 @@ final class ChattingWriteView: UIView {
     private func setSendButtonTitle(title: String) {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
-        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
+        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
         sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor:  UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
-    }
-
-    private func updateSendButtonBackground() {
-        sendButton.backgroundColor = isChatEnable() ? UIColor(red: 1, green: 0.944, blue: 0.944, alpha: 1) : UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
     }
 
     private func isChatEnable() -> Bool {
@@ -136,15 +130,15 @@ final class ChattingWriteView: UIView {
         let send = UIButton()
         send.translatesAutoresizingMaskIntoConstraints = false
         send.layer.masksToBounds = true
-        send.backgroundColor = UIColor(red: 0.965, green: 0.965, blue: 0.965, alpha: 1)
+        send.backgroundColor = .white
         send.layer.cornerRadius = 4
         send.isEnabled = false
 
         var paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.9
         send.titleLabel?.textAlignment = .center
-        send.setAttributedTitle(NSMutableAttributedString(string: "Send", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 13, weight: .medium)]), for: .normal)
-        send.setAttributedTitle(NSMutableAttributedString(string: "Send", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 13, weight: .medium)]), for: .disabled)
+        send.setAttributedTitle(NSMutableAttributedString(string: "보내기", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
+        send.setAttributedTitle(NSMutableAttributedString(string: "보내기", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
 
         send.addTarget(self, action: #selector(didTouchSendButton), for: .touchUpInside)
         return send
@@ -178,7 +172,7 @@ final class ChattingWriteView: UIView {
         let chatLeading = NSLayoutConstraint.init(item: chatTextView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 12)
         let chatTrailing = NSLayoutConstraint.init(item: chatTextView, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: -8)
 
-        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -4)
+        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -5)
         let sendTrailing = NSLayoutConstraint.init(item: sendButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -4)
         let sendWidth = NSLayoutConstraint.init(item: sendButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 68)
         let sendHeight = NSLayoutConstraint.init(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 36)
@@ -237,10 +231,18 @@ extension ChattingWriteView: UIScrollViewDelegate {
 extension ChattingWriteView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         sendButton.isEnabled = textView.text.count > 0
-        updateSendButtonBackground()
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        guard let originText = textView.text else { return true }
+
+
+        let newLength = originText.count + text.count - range.length
+
+        guard newLength <= (viewModel?.chatInputMaxLength ?? 50) else {
+            return false
+        }
+
         if text == "\n" {
             self.didTouchSendButton()
             return false

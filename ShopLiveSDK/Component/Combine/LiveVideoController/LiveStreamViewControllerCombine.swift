@@ -83,11 +83,6 @@ final class LiveStreamViewControllerCombine: UIViewController {
             .store(in: &cancellableSet)
     }
 
-    private func updateOverlayView() {
-        let bottomSpacing = lastKeyboardHeight == 0 ? 290 : lastKeyboardHeight - bottomItemSpacing
-        overlayConstraint.constant = -(bottomSpacing + self.chatInputView.frame.height)
-    }
-
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
@@ -98,15 +93,17 @@ final class LiveStreamViewControllerCombine: UIViewController {
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
+            self.overlayView?.setBlockView(show: false)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "0px", true)
             self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
-            overlayConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
-            updateOverlayView()
+            self.overlayView?.setBlockView(show: true)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "384px", true)
             isHiddenView = false
         default:
             break
@@ -276,7 +273,6 @@ final class LiveStreamViewControllerCombine: UIViewController {
         self.imageView = imageView
     }
 
-    private var overlayConstraint: NSLayoutConstraint!
     private let bottomItemSpacing: CGFloat = 21
     private func setupOverayWebview() {
         let overlayView = OverlayWebViewCombine(with: webViewConfiguration)
@@ -286,9 +282,8 @@ final class LiveStreamViewControllerCombine: UIViewController {
         view.addSubview(overlayView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
 
-        overlayConstraint = NSLayoutConstraint.init(item: overlayView, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 1.0, constant: 0)
-        self.view.addConstraint(overlayConstraint)
         NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                                     overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
@@ -394,6 +389,10 @@ final class LiveStreamViewControllerCombine: UIViewController {
 
 @available(iOS 13.0, *)
 extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
+    func didTouchBlockView() {
+        dismissKeyboard()
+    }
+
     func replay(with size: CGSize) {
         isReplayMode = true
         delegate?.replay(with: size)
@@ -476,7 +475,8 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             let chatInitData = payload as? [String : Any]
             let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
             let sendText = chatInitData?["chatInputSendText"] as? String
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기"))
+            let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
             break
         case .showChatInput:
             chatInputView.focus()
@@ -555,6 +555,6 @@ extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
     }
 
     func updateHeight() {
-        updateOverlayView()
+
     }
 }

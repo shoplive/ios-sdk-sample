@@ -65,6 +65,15 @@ class OverlayWebViewCombine: UIView {
         super.layoutSubviews()
     }
 
+    private lazy var blockTouchView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = .red
+//        view.alpha = 0.3
+        view.isHidden = true
+        return view
+    }()
+
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
         let configuration = webViewConfiguration ?? WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
@@ -101,6 +110,27 @@ class OverlayWebViewCombine: UIView {
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
         self.webView = webView
+        setupBlockTouchView()
+    }
+
+    private func setupBlockTouchView() {
+        self.addSubview(blockTouchView)
+        self.bringSubviewToFront(blockTouchView)
+        NSLayoutConstraint.activate([blockTouchView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+                                     blockTouchView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                                     blockTouchView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                                     blockTouchView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        ])
+
+        self.blockTouchView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tapBLockTouchView)))
+    }
+
+    func setBlockView(show: Bool) {
+        self.blockTouchView.isHidden = !show
+    }
+
+    @objc private func tapBLockTouchView() {
+        delegate?.didTouchBlockView()
     }
     
     private func initObserver() {
@@ -159,8 +189,8 @@ class OverlayWebViewCombine: UIView {
         isPipMode = style == .pip
     }
 
-    func sendEventToWeb(event: WebInterface, _ param: Any? = nil) {
-        self.webView?.sendEventToWeb(event: event, param)
+    func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
+        self.webView?.sendEventToWeb(event: event, param, wrapping)
     }
 }
 

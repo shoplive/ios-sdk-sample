@@ -74,6 +74,21 @@ extension ShopLive {
                 return "REAL"
             }
         }
+
+        init?(name: String) {
+            switch name {
+            case Phase.DEV.name:
+                self = .DEV
+            case Phase.STAGE.name:
+                self = .STAGE
+            case Phase.REAL.name:
+                self = .REAL
+            default:
+                return nil
+            }
+
+        }
+
     }
 }
 

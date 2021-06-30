@@ -391,6 +391,10 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
 
 
 extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
+    func didTouchBlockView() {
+        
+    }
+
     func replay(with size: CGSize) {
         isReplayMode = true
         delegate?.replay(with: size)
@@ -473,7 +477,8 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
             let chatInitData = payload as? [String : Any]
             let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
             let sendText = chatInitData?["chatInputSendText"] as? String
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기"))
+            let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
             break
         case .showChatInput:
             chatInputView.focus()

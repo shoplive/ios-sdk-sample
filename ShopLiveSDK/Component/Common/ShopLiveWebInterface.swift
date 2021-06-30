@@ -38,6 +38,7 @@ enum WebInterface {
     case setConf
     case write
     case written
+    case setChatListMarginBottom
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -92,6 +93,8 @@ enum WebInterface {
             return WebFunction.write.rawValue
         case .written:
             return WebFunction.written.rawValue
+        case .setChatListMarginBottom:
+            return WebFunction.setChatListMarginBottom.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -126,6 +129,7 @@ enum WebInterface {
         case setConf = "SET_CONF"
         case write = "WRITE"
         case written = "WRITTEN"
+        case setChatListMarginBottom = "SET_CHAT_LIST_MARGIN_BOTTOM"
     }
 }
 
@@ -203,6 +207,8 @@ extension WebInterface {
             self = .command(command: WebFunction.written.rawValue, payload: parameters?["_s"])
         case .setConf:
             self = .command(command: WebFunction.setConf.rawValue, payload: parameters)
+        case .setChatListMarginBottom:
+            self = .setChatListMarginBottom
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]
