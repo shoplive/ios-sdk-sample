@@ -65,6 +65,7 @@ class OverlayWebViewCombine: UIView {
         super.layoutSubviews()
     }
 
+    
     private lazy var blockTouchView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +111,7 @@ class OverlayWebViewCombine: UIView {
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
         self.webView = webView
-        setupBlockTouchView()
+        // setupBlockTouchView()
     }
 
     private func setupBlockTouchView() {

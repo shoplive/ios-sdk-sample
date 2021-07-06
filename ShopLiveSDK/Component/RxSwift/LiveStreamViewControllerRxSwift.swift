@@ -80,11 +80,6 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             }).disposed(by: cancellableDisposeBag)
     }
 
-    private func updateOverlayView() {
-            let bottomSpacing = lastKeyboardHeight == 0 ? 290 : lastKeyboardHeight - bottomItemSpacing
-            overlayConstraint.constant = -(bottomSpacing + self.chatInputView.frame.height)
-        }
-
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
@@ -95,17 +90,18 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
+//            self.overlayView?.setBlockView(show: false)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "0px", true)
             self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
-            overlayConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
-            updateOverlayView()
-            isHiddenView = false
-        default:
+//            self.overlayView?.setBlockView(show: true)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+            isHiddenView = false        default:
             break
         }
 
@@ -129,7 +125,6 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         setupView()
         setupRx()
         loadOveray()
-        setupChatInputView()
 
         isHiddenOverlay
             .observe(on: MainScheduler.instance)
@@ -221,7 +216,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         setupPlayerView()
         setupForegroungImageView()
         setupOverayWebview()
-
+        setupChatInputView()
     }
 
     func play() {
@@ -555,6 +550,9 @@ extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
     }
 
     func updateHeight() {
-        updateOverlayView()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+            debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(self.lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+        })
     }
 }

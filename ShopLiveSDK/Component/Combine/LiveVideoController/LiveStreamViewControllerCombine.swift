@@ -93,7 +93,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
-            self.overlayView?.setBlockView(show: false)
+//            self.overlayView?.setBlockView(show: false)
             self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "0px", true)
             self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
@@ -102,8 +102,8 @@ final class LiveStreamViewControllerCombine: UIViewController {
             let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
-            self.overlayView?.setBlockView(show: true)
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "384px", true)
+//            self.overlayView?.setBlockView(show: true)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(lastKeyboardHeight + self.chatInputView.frame.height))px", true)
             isHiddenView = false
         default:
             break
@@ -476,7 +476,7 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
             let sendText = chatInitData?["chatInputSendText"] as? String
             let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "메시지를 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
             break
         case .showChatInput:
             chatInputView.focus()
@@ -555,6 +555,9 @@ extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
     }
 
     func updateHeight() {
-
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
+            debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(self.lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+        })
     }
 }

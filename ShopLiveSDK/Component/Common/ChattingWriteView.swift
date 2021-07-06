@@ -29,6 +29,7 @@ final class ChattingWriteView: UIView {
 
     weak var delegate: ChattingWriteDelegate?
     private var viewModel: ViewModel?
+    private var inputFrame: CGRect = .zero
 
     var chatText: String {
         get {
@@ -172,7 +173,7 @@ final class ChattingWriteView: UIView {
         let chatLeading = NSLayoutConstraint.init(item: chatTextView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1.0, constant: 12)
         let chatTrailing = NSLayoutConstraint.init(item: chatTextView, attribute: .trailing, relatedBy: .equal, toItem: sendButton, attribute: .leading, multiplier: 1.0, constant: -8)
 
-        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -5)
+        let sendBottom = NSLayoutConstraint.init(item: sendButton, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1.0, constant: -8)
         let sendTrailing = NSLayoutConstraint.init(item: sendButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1.0, constant: -4)
         let sendWidth = NSLayoutConstraint.init(item: sendButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 68)
         let sendHeight = NSLayoutConstraint.init(item: sendButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 36)
@@ -186,6 +187,7 @@ final class ChattingWriteView: UIView {
         chatTopEqual.isActive = false
         chatTopMin.isActive = true
 
+        self.inputFrame = self.baseRect
         chatTextView.delegates.didChangeHeight = { [weak self] height in
           guard let `self` = self else { return }
             if height == self.baseRect.height {
@@ -197,7 +199,9 @@ final class ChattingWriteView: UIView {
             }
 
             DispatchQueue.main.async {
-                if !self.isHidden {
+                if !self.isHidden && self.inputFrame.height != height {
+                    self.inputFrame.size = .init(width: self.inputFrame.width, height: height)
+                    debugPrint("heightLog self.inputFrame.height: \(self.inputFrame.height)")
                     self.delegate?.updateHeight()
                 }
             }
