@@ -210,25 +210,6 @@ extension ViewController: KeySetRegisterDelegate {
     }
 }
 
-extension UIViewController
-{
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(UIViewController.dismissKeyboard))
-
-        view.addGestureRecognizer(tap)
-        if let vc = self as? KeySetRegisterController {
-            tap.delegate = vc
-        }
-    }
-    @objc func dismissKeyboard()
-    {
-        view.endEditing(true)
-    }
-}
-
 extension ViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         var editing = false
@@ -256,6 +237,21 @@ extension ViewController: UITextFieldDelegate {
 
 extension ViewController: SFSafariViewControllerDelegate {
 
+}
+
+extension UIViewController
+{
+    func hideKeyboard()
+    {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+
+        view.addGestureRecognizer(tap)
+        if let vc = self as? KeySetRegisterController {
+            tap.delegate = vc
+        }
+    }
 }
 
 extension ViewController: ShopLiveSDKDelegate {

@@ -64,6 +64,7 @@
 		BFBBB03C2670ECB10025ED1D /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
+		BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 /* End PBXBuildFile section */
 
@@ -135,6 +136,7 @@
 		BFBBB0392670ECA50025ED1D /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
+		BFC00CBD26947B2700BD8733 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -297,6 +299,7 @@
 				BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */,
 				BFAD8E94265A211E00202160 /* VideoView.swift */,
 				BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */,
+				BFC00CBD26947B2700BD8733 /* Extensions.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -563,6 +566,7 @@
 				BFAD8EA0265A211E00202160 /* VideoView.swift in Sources */,
 				BFAD8E95265A211E00202160 /* ShopLiveCombine.swift in Sources */,
 				1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */,
+				BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */,
 				BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
 				BF8D7255267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,

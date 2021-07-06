@@ -2,7 +2,7 @@
 //  ChattingWriteView.swift
 //  ShopLiveSDK
 //
-//  Created by whkim on 2021/06/17.
+//  Created by ShopLive on 2021/06/17.
 //
 
 import UIKit

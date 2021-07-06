@@ -2,7 +2,7 @@
 //  ShopLiveDemoKeyTools.swift
 //  ShopLiveDemo
 //
-//  Created by whkim on 2021/06/09.
+//  Created by ShopLive on 2021/06/09.
 //
 
 import Foundation
