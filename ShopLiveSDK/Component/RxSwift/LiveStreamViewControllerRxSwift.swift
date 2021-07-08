@@ -473,7 +473,7 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
             let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
             let sendText = chatInitData?["chatInputSendText"] as? String
             let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "채팅을 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
             break
         case .showChatInput:
             chatInputView.focus()

@@ -140,7 +140,7 @@ extension WebInterface {
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
-        debugPrint("whkim  \(function)")
+        debugPrint("ShopLive WebInterface \(function)")
         switch function {
         case .systemInit:
             self = .systemInit

@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 import Combine
 import AVKit
+import ExternalAccessory
 
 @available(iOS 13.0, *)
 final class LiveStreamViewControllerCombine: UIViewController {
@@ -83,32 +84,41 @@ final class LiveStreamViewControllerCombine: UIViewController {
             .store(in: &cancellableSet)
     }
 
+    var hasKeyboard: Bool = false
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
               let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
               let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
 
+        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+        let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
+        let height = self.view.frame.size.height
+        hasKeyboard = (keyboard.origin.y + keyboard.size.height) > height
+
         var isHiddenView = true
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
 //            self.overlayView?.setBlockView(show: false)
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "0px", true)
+            if hasKeyboard {
+                isHiddenView = false
+                self.chatInputView.isHidden = false
+                self.chatInputBG.isHidden = false
+            }
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px", true)
             self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
-            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
 //            self.overlayView?.setBlockView(show: true)
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int((hasKeyboard ? 0 : lastKeyboardHeight) + self.chatInputView.frame.height))px", true)
             isHiddenView = false
         default:
             break
         }
-
         let options = UIView.AnimationOptions(rawValue: curve << 16)
         UIView.animate(withDuration: duration, delay: 0, options: options) {
             if isHiddenView {
@@ -476,7 +486,7 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
             let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
             let sendText = chatInitData?["chatInputSendText"] as? String
             let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
-            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? "메시지를 입력하세요", sendText: sendText ?? "보내기", maxLength: chatInputMaxLength ?? 50))
+            chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
             break
         case .showChatInput:
             chatInputView.focus()
@@ -557,7 +567,7 @@ extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
     func updateHeight() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
             debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(self.lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int((self.hasKeyboard ? 0 : self.lastKeyboardHeight) + self.chatInputView.frame.height))px", true)
         })
     }
 }

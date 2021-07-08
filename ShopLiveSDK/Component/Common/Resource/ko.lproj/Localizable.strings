@@ -1,0 +1,9 @@
+/* 
+  Localizable.strings
+  ShopLiveSDK
+
+  Created by ShopLive on 2021/07/07.
+  
+*/
+"chat.placeholder" = "메시지를 입력하세요";
+"chat.send.title" = "보내기";

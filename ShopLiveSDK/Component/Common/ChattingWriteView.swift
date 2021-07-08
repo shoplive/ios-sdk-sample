@@ -16,8 +16,8 @@ protocol ChattingWriteDelegate: AnyObject {
 final class ChattingWriteView: UIView {
 
     class ViewModel {
-        var chatInputPlaceholderText: String = "채팅을 입력하세요"
-        var chatInputSendText: String = "보내기"
+        var chatInputPlaceholderText: String = NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요")
+        var chatInputSendText: String = NSLocalizedString("chat.send.title", comment: "보내기")
         var chatInputMaxLength: Int = 50
 
         init(placeholder: String, sendText: String, maxLength: Int) {
@@ -112,7 +112,7 @@ final class ChattingWriteView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
         chatView.textView.typingAttributes = [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)]
-        chatView.placeholderAttributedText = NSMutableAttributedString(string: "채팅을 입력하세요", attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
+        chatView.placeholderAttributedText = NSMutableAttributedString(string: NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
         return chatView
     }()
 
@@ -138,8 +138,8 @@ final class ChattingWriteView: UIView {
         var paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 0.9
         send.titleLabel?.textAlignment = .center
-        send.setAttributedTitle(NSMutableAttributedString(string: "보내기", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
-        send.setAttributedTitle(NSMutableAttributedString(string: "보내기", attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
+        send.setAttributedTitle(NSMutableAttributedString(string: NSLocalizedString("chat.send.title", comment: "보내기"), attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.937, green: 0.204, blue: 0.204, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
+        send.setAttributedTitle(NSMutableAttributedString(string: NSLocalizedString("chat.send.title", comment: "보내기"), attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
 
         send.addTarget(self, action: #selector(didTouchSendButton), for: .touchUpInside)
         return send
