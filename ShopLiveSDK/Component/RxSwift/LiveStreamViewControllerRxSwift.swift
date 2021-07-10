@@ -201,6 +201,14 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
                 }
             }).disposed(by: cancellableDisposeBag)
 
+        viewModel.playerItemDuration
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .subscribe(onNext: { [weak self] duration in
+                guard let self = self, self.isReplayMode else { return }
+                self.overlayView?.sendEventToWeb(event: .onVideoDurationChanged, duration)
+            }).disposed(by: cancellableDisposeBag)
+
         overlayView?.isPipMode
             .skip(1)
             .observe(on: MainScheduler.instance)
@@ -405,6 +413,10 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
 
     func reloadVideo() {
         viewModel.reloadVideo()
+    }
+
+    func setVideoCurrentTime(to: CMTime) {
+        viewModel.seek(to: to)
     }
 
     func didUpdatePoster(with url: URL) {

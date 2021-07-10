@@ -33,6 +33,8 @@ final class LiveStreamViewControllerCombine: UIViewController {
     private lazy var cancellableSet = Set<AnyCancellable>()
     private var waitingPlayCancellable: AnyCancellable? = nil
 
+    private var playTimeObserver: Any?
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -60,6 +62,24 @@ final class LiveStreamViewControllerCombine: UIViewController {
         overlayView = nil
         imageView = nil
         foregroundImageView = nil
+    }
+
+    private func addPlayTimeObserver() {
+        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            playTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { [weak self] (time) in
+                guard let self = self else { return }
+                let time = CMTimeGetSeconds(time)
+                let duration = CMTimeGetSeconds(self.viewModel.videoPlayer.currentItem?.asset.duration ?? CMTime())
+                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
+                self.overlayView?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+            })
+    }
+
+    private func removePlaytimeObserver() {
+//        if let playTimeObserver = self.playTimeObserver {
+//            player?.removeTimeObserver(playTimeObserver)
+//            self.playTimeObserver = nil
+//        }
     }
 
     private func setupKeyboardEvent() {
@@ -128,6 +148,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
         setupView()
         setupKeyboardEvent()
         loadOveray()
+        addPlayTimeObserver()
 
         $isHiddenOverlay
             .receive(on: RunLoop.main)
@@ -187,6 +208,16 @@ final class LiveStreamViewControllerCombine: UIViewController {
             //
             }
             .store(in: &cancellableSet)
+
+        viewModel.$playerItemDuration
+            .dropFirst()
+            .removeDuplicates()
+            .receive(on: RunLoop.main).sink { [weak self] (duration) in
+                guard let self = self, self.isReplayMode else { return }
+                self.overlayView?.sendEventToWeb(event: .onVideoDurationChanged, duration)
+            }
+            .store(in: &cancellableSet)
+
 
         viewModel.$playerItemStatus
             .receive(on: RunLoop.main)
@@ -408,6 +439,10 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
 
     func reloadVideo() {
         viewModel.reloadVideo()
+    }
+
+    func setVideoCurrentTime(to: CMTime) {
+        viewModel.seek(to: to)
     }
 
     func didUpdatePoster(with url: URL) {

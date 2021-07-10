@@ -39,6 +39,9 @@ enum WebInterface {
     case write
     case written
     case setChatListMarginBottom
+    case setVideoCurrentTime(to: Double)
+    case onVideoDurationChanged
+    case onVideoTimeUpdated
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -95,6 +98,12 @@ enum WebInterface {
             return WebFunction.written.rawValue
         case .setChatListMarginBottom:
             return WebFunction.setChatListMarginBottom.rawValue
+        case .setVideoCurrentTime:
+            return WebFunction.setVideoCurrentTime.rawValue
+        case .onVideoDurationChanged:
+            return WebFunction.onVideoDurationChanged.rawValue
+        case .onVideoTimeUpdated:
+            return WebFunction.onVideoTimeUpdated.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -130,6 +139,9 @@ enum WebInterface {
         case write = "WRITE"
         case written = "WRITTEN"
         case setChatListMarginBottom = "SET_CHAT_LIST_MARGIN_BOTTOM"
+        case setVideoCurrentTime = "SET_VIDEO_CURRENT_TIME"
+        case onVideoDurationChanged = "ON_VIDEO_DURATION_CHANGED"
+        case onVideoTimeUpdated = "ON_VIDEO_TIME_UPDATED"
     }
 }
 
@@ -140,7 +152,7 @@ extension WebInterface {
         guard let command = body["action"] as? String else { return nil }
         let function = WebFunction(rawValue: command)
         let parameters = body["payload"] as? [String: Any]
-        debugPrint("whkim  \(function)")
+        ShopLiveLogger.debugLog("WebInterface  \(String(describing: function))")
         switch function {
         case .systemInit:
             self = .systemInit
@@ -209,6 +221,13 @@ extension WebInterface {
             self = .command(command: WebFunction.setConf.rawValue, payload: parameters)
         case .setChatListMarginBottom:
             self = .setChatListMarginBottom
+        case .setVideoCurrentTime:
+            guard let time = parameters?["value"] as? Double else { return nil }
+            self = .setVideoCurrentTime(to: time)
+        case .onVideoDurationChanged:
+            self = .onVideoDurationChanged
+        case .onVideoTimeUpdated:
+            self = .onVideoTimeUpdated
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]

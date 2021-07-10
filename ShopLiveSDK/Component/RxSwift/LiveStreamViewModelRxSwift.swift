@@ -44,6 +44,12 @@ extension Reactive where Base: AVPlayerItem {
             .observe(Bool.self, #keyPath(AVPlayerItem.isPlaybackLikelyToKeepUp))
             .map { $0 ?? false }
     }
+
+    public var itemDuration: Observable<CMTime> {
+        return self
+            .observe(CMTime.self, #keyPath(AVPlayerItem.asset.duration))
+            .map { $0 ?? CMTime() }
+    }
 }
 
 final class LiveStreamViewModelRxSwift {
@@ -53,6 +59,7 @@ final class LiveStreamViewModelRxSwift {
     var isMuted: BehaviorRelay<Bool> = .init(value: false)
     var timeControlStatus: BehaviorRelay<AVPlayer.TimeControlStatus> = .init(value: .paused)
     var isPlaybackLikelyToKeepUp: BehaviorRelay<Bool> = .init(value: false)
+    var playerItemDuration: BehaviorRelay<CMTime> = .init(value: .init())
 
     var overayUrl: URL?
     var accessKey: String?
@@ -72,6 +79,7 @@ final class LiveStreamViewModelRxSwift {
     private var playerItemPlaybackStalledCancellable: Disposable?
     private var urlAssetIsPlayableCancellable: Disposable?
     private var playItemIsPlaybackLikelyToKeepUpCancellable: Disposable?
+    private var playerItemDurationCancellable: Disposable?
 
     deinit {
         cancellableDisposeBag = DisposeBag()
@@ -132,6 +140,9 @@ final class LiveStreamViewModelRxSwift {
         playerItemPlaybackStalledCancellable?.dispose()
         playerItemPlaybackStalledCancellable = nil
 
+        playerItemDurationCancellable?.dispose()
+        playerItemDurationCancellable = nil
+
         urlAssetIsPlayableCancellable?.dispose()
         urlAssetIsPlayableCancellable = nil
 
@@ -180,6 +191,9 @@ final class LiveStreamViewModelRxSwift {
                 self.playItemIsPlaybackLikelyToKeepUpCancellable = playerItem.rx.playbackLikelyToKeepUp
                     .asDriver(onErrorRecover: { _ in .never() })
                     .drive(self.isPlaybackLikelyToKeepUp)
+                self.playerItemDurationCancellable = playerItem.rx.itemDuration
+                    .asDriver(onErrorRecover: { _ in .never() })
+                    .drive(self.playerItemDuration)
 
                 self.playerItemTimebaseCancellable = NotificationCenter.default.rx.notification(.TimebaseEffectiveRateChangedNotification, object: playerItem.timebase)
                         .map { $0.object as! CMTimebase }
@@ -214,6 +228,10 @@ final class LiveStreamViewModelRxSwift {
         }
 
         updatePlayerItem(with: url)
+    }
+
+    func seek(to: CMTime) {
+        videoPlayer.seek(to: to)
     }
 
 }

@@ -270,6 +270,8 @@ extension OverlayWebViewCombine: WKScriptMessageHandler {
         case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
             self.delegate?.replay(with: CGSize(width: width, height: height))
+        case .setVideoCurrentTime(let time):
+            self.delegate?.setVideoCurrentTime(to: .init(seconds: time, preferredTimescale: 1))
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)
