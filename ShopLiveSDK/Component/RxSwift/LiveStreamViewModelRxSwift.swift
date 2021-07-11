@@ -60,6 +60,7 @@ final class LiveStreamViewModelRxSwift {
     var timeControlStatus: BehaviorRelay<AVPlayer.TimeControlStatus> = .init(value: .paused)
     var isPlaybackLikelyToKeepUp: BehaviorRelay<Bool> = .init(value: false)
     var playerItemDuration: BehaviorRelay<CMTime> = .init(value: .init())
+    var playControl: BehaviorRelay<ShopLiveConfiguration.SLPlayControl> = .init(value: .none)
 
     var overayUrl: URL?
     var accessKey: String?

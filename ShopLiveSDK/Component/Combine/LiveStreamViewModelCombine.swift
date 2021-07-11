@@ -17,7 +17,8 @@ final class LiveStreamViewModelCombine {
     @Published var timeControlStatus: AVPlayer.TimeControlStatus = .paused
     @Published var isPlaybackLikelyToKeepUp: Bool = false
     @Published var playerItemDuration: CMTime = .init()
-    
+    @Published var playControl: ShopLiveConfiguration.SLPlayControl = .none
+
     var overayUrl: URL?
     var accessKey: String?
     var campaignKey: String?

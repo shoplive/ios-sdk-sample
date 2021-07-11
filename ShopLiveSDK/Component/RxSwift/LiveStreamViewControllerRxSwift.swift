@@ -10,6 +10,8 @@ import WebKit
 import AVKit
 import RxSwift
 import RxCocoa
+import CallKit
+import MediaPlayer
 
 final class LiveStreamViewControllerRxSwift: UIViewController {
 
@@ -33,6 +35,8 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
     private lazy var cancellableDisposeBag = DisposeBag()
     private var waitingPlayCancellableDispable: Disposable? = nil
 
+    private var playTimeObserver: Any?
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -43,6 +47,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         cancellableDisposeBag = DisposeBag()
         waitingPlayCancellableDispable?.dispose()
         waitingPlayCancellableDispable = nil
+        removePlaytimeObserver()
     }
 
     override func removeFromParent() {
@@ -59,6 +64,69 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         overlayView = nil
         imageView = nil
         foregroundImageView = nil
+    }
+
+    private func addPlayTimeObserver() {
+        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            playTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { [weak self] (time) in
+                guard let self = self else { return }
+                let time = CMTimeGetSeconds(time)
+                let duration = CMTimeGetSeconds(self.viewModel.videoPlayer.currentItem?.asset.duration ?? CMTime())
+                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
+                self.overlayView?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+            })
+    }
+
+    private func removePlaytimeObserver() {
+        if let playTimeObserver = self.playTimeObserver {
+            viewModel.videoPlayer.removeTimeObserver(playTimeObserver)
+            self.playTimeObserver = nil
+        }
+    }
+
+    @objc func audioRouteChangeListener(notification: NSNotification) {
+        let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
+
+        switch audioRouteChangeReason {
+        case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
+            updateHeadPhoneStatus(plugged: true)
+        case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
+            updateHeadPhoneStatus(plugged: false)
+        default:
+            break
+        }
+    }
+
+    private func updateHeadPhoneStatus(plugged: Bool) {
+        if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
+            plugged ? viewModel.playControl.accept(.resume) : (isReplayMode ? viewModel.playControl.accept(.pause) : viewModel.playControl.accept(.stop))
+        }
+    }
+
+    var callObserver = CXCallObserver()
+    func setupCallState() {
+        callObserver.setDelegate(self, queue: DispatchQueue.main)
+    }
+
+    private func setupAudioConfig() {
+        let audioSession = AVAudioSession.sharedInstance()
+        let currentRoute = audioSession.currentRoute
+            if currentRoute.outputs.count != 0 {
+                for description in currentRoute.outputs {
+                    if description.portType == AVAudioSession.Port.headphones {
+                        updateHeadPhoneStatus(plugged: true)
+                    } else {
+                        updateHeadPhoneStatus(plugged: false)
+                    }
+                }
+            } else {
+                //print("requires connection to device")
+            }
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(audioRouteChangeListener(notification:)),
+                name: AVAudioSession.routeChangeNotification,
+                object: nil)
     }
 
     private func setupRx() {
@@ -125,6 +193,9 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
         setupView()
         setupRx()
         loadOveray()
+        setupCallState()
+        setupAudioConfig()
+        addPlayTimeObserver()
 
         isHiddenOverlay
             .observe(on: MainScheduler.instance)
@@ -188,7 +259,10 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             .subscribe(onNext: { [weak self] (itemStatus) in
                 switch itemStatus {
                 case .readyToPlay:
-                    self?.play()
+                    if let replayMode = self?.isReplayMode, let playControl = self?.viewModel.playControl, playControl.value != .pause, playControl.value != .play {
+                        if replayMode && playControl.value == .resume { return }
+                        self?.play()
+                    }
                 case .failed:
                     self?.waitingPlayCancellableDispable?.dispose()
                     self?.waitingPlayCancellableDispable = Observable.just(false)
@@ -202,6 +276,7 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             }).disposed(by: cancellableDisposeBag)
 
         viewModel.playerItemDuration
+            .skip(1)
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] duration in
@@ -214,6 +289,23 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             .observe(on: MainScheduler.instance)
             .bind { [weak self] isPipMode in
                 self?.updateTopAnchor(isPip: isPipMode)
+            }.disposed(by: cancellableDisposeBag)
+
+        viewModel.playControl
+            .observe(on: MainScheduler.instance)
+            .bind { [weak self] (playControl) in
+                switch playControl {
+                case .play:
+                    self?.play()
+                case .pause:
+                    self?.pause()
+                case .resume:
+                    self?.resume()
+                case .stop:
+                    self?.stop()
+                default:
+                    break
+                }
             }.disposed(by: cancellableDisposeBag)
     }
 
@@ -233,10 +325,23 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
 
     func pause() {
         viewModel.videoPlayer.pause()
+        overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
     }
 
     func stop() {
+        overlayView?.sendEventToWeb(event: .reloadBtn, true)
         viewModel.stop()
+    }
+
+    func resume() {
+        if self.isReplayMode {
+            self.overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+            self.play()
+        } else {
+            self.overlayView?.sendEventToWeb(event: .reloadBtn, false)
+            self.reload()
+            self.play()
+        }
     }
 
     func reload() {
@@ -566,5 +671,30 @@ extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
             debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
             self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(self.lastKeyboardHeight + self.chatInputView.frame.height))px", true)
         })
+    }
+}
+
+extension LiveStreamViewControllerRxSwift: CXCallObserverDelegate {
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        // 통화 종료
+        if call.hasEnded == true {
+            if ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded {
+                viewModel.playControl.accept(.resume)
+            }
+        }
+
+        // 전화 발신
+        if call.isOutgoing == true && call.hasConnected == false {
+            isReplayMode ? viewModel.playControl.accept(.pause) : viewModel.playControl.accept(.stop)
+        }
+
+        // 통화벨 울림
+        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+            isReplayMode ? viewModel.playControl.accept(.pause) : viewModel.playControl.accept(.stop)
+        }
+
+        // 통화 시작
+        if call.hasConnected == true && call.hasEnded == false {
+        }
     }
 }

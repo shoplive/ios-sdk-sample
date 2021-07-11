@@ -25,6 +25,10 @@ import WebKit
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
+    @objc func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
+    @objc func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
+    @objc func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
+    @objc func isAutoResumeVideoOnCallEnded() -> Bool
 
     @objc func reloadLive()
 }

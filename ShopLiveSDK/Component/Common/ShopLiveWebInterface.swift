@@ -42,6 +42,7 @@ enum WebInterface {
     case setVideoCurrentTime(to: Double)
     case onVideoDurationChanged
     case onVideoTimeUpdated
+    case reloadBtn
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -104,6 +105,8 @@ enum WebInterface {
             return WebFunction.onVideoDurationChanged.rawValue
         case .onVideoTimeUpdated:
             return WebFunction.onVideoTimeUpdated.rawValue
+        case .reloadBtn:
+            return WebFunction.reloadBtn.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -142,6 +145,7 @@ enum WebInterface {
         case setVideoCurrentTime = "SET_VIDEO_CURRENT_TIME"
         case onVideoDurationChanged = "ON_VIDEO_DURATION_CHANGED"
         case onVideoTimeUpdated = "ON_VIDEO_TIME_UPDATED"
+        case reloadBtn = "RELOAD_BTN"
     }
 }
 
@@ -228,6 +232,8 @@ extension WebInterface {
             self = .onVideoDurationChanged
         case .onVideoTimeUpdated:
             self = .onVideoTimeUpdated
+        case .reloadBtn:
+            self = .reloadBtn
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]

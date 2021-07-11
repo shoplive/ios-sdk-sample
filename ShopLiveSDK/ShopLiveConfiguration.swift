@@ -2,45 +2,58 @@
 //  ShopLiveConfiguration.swift
 //  ShopLiveSDK
 //
-//  Created by ShopLive on 2021/06/09.
+//  Created by ShopLive on 2021/07/11.
 //
 
 import Foundation
 
-final class ShopLiveKeySet: NSObject, NSCoding {
-    var alias: String
-    var campaignKey: String
-    var accessKey: String
+protocol SLNotificationName {
+    var name: Notification.Name { get }
+}
 
-    init(alias:String, campaignKey: String, accessKey: String) {
-        self.alias = alias
-        self.campaignKey = campaignKey
-        self.accessKey = accessKey
-        super.init()
+extension RawRepresentable where RawValue == String, Self: SLNotificationName {
+    var name: Notification.Name {
+        get {
+            return Notification.Name(self.rawValue)
+        }
+    }
+}
+
+internal final class ShopLiveConfiguration {
+
+    enum SLNotifications: String, SLNotificationName {
+        case soundPolicyUpdate
     }
 
-    func encode(with coder: NSCoder) {
-        coder.encode(self.alias, forKey: "alias")
-        coder.encode(self.campaignKey, forKey: "campaignKey")
-        coder.encode(self.accessKey, forKey: "accessKey")
+    enum SLPlayControl {
+        case none
+        case stop
+        case pause
+        case play
+        case resume
     }
 
-    required init?(coder: NSCoder) {
-        self.alias = ""
-        self.campaignKey = ""
-        self.accessKey = ""
-        if let alias = coder.decodeObject(forKey: "alias") as? String {
-            self.alias = alias
+    class SoundPolicy {
+        var keepPlayVideoOnHeadphoneUnplugged: Bool = false {
+            willSet {
+                guard keepPlayVideoOnHeadphoneUnplugged != newValue else { return }
+                updateNotification()
+            }
         }
 
-        if let campaignKey = coder.decodeObject(forKey: "campaignKey") as? String {
-            self.campaignKey = campaignKey
+        var autoResumeVideoOnCallEnded: Bool = true {
+            willSet {
+                guard autoResumeVideoOnCallEnded != newValue else { return }
+                updateNotification()
+            }
         }
 
-        if let accessKey = coder.decodeObject(forKey: "accessKey") as? String {
-            self.accessKey = accessKey
+        private func updateNotification() {
+            NotificationCenter.default.post(name: SLNotifications.soundPolicyUpdate.name, object: nil)
         }
-
-        super.init()
     }
+
+    static var soundPolicy: SoundPolicy = .init()
+
+    fileprivate init() {}
 }
