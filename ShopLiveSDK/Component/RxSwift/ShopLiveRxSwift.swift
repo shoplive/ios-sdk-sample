@@ -593,6 +593,22 @@ import RxCocoa
 
 
 extension ShopLiveRxSwift: ShopLiveComponent {
+    func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
+        ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
+    }
+
+    func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {
+        return ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged
+    }
+
+    func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
+        ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded = autoResume
+    }
+
+    func isAutoResumeVideoOnCallEnded() -> Bool {
+        return ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded
+    }
+
     @objc func startPictureInPicture() {
         startPictureInPicture(with: .default, scale: 2/5)
     }
@@ -637,11 +653,6 @@ extension ShopLiveRxSwift: ShopLiveComponent {
         guard self.accessKey != nil else { return }
         liveStreamViewController?.reload()
     }
-
-//    @objc public class func dismissShopLive() {
-//        guard shared.apiKey != nil else { return }
-//        shared.hideShopLiveView()
-//    }
 
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
         lastPipScale = scale

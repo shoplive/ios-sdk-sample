@@ -9,6 +9,8 @@ import UIKit
 import WebKit
 import Combine
 import AVKit
+import CallKit
+import MediaPlayer
 import ExternalAccessory
 
 @available(iOS 13.0, *)
@@ -34,6 +36,8 @@ final class LiveStreamViewControllerCombine: UIViewController {
     private lazy var cancellableSet = Set<AnyCancellable>()
     private var waitingPlayCancellable: AnyCancellable? = nil
 
+    private var playTimeObserver: Any?
+
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
@@ -45,6 +49,7 @@ final class LiveStreamViewControllerCombine: UIViewController {
         cancellableSet.removeAll()
         waitingPlayCancellable?.cancel()
         waitingPlayCancellable = nil
+        removePlaytimeObserver()
     }
 
     override func removeFromParent() {
@@ -61,6 +66,69 @@ final class LiveStreamViewControllerCombine: UIViewController {
         overlayView = nil
         imageView = nil
         foregroundImageView = nil
+    }
+
+    private func addPlayTimeObserver() {
+        let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
+            playTimeObserver = viewModel.videoPlayer.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { [weak self] (time) in
+                guard let self = self else { return }
+                let time = CMTimeGetSeconds(time)
+                let duration = CMTimeGetSeconds(self.viewModel.videoPlayer.currentItem?.asset.duration ?? CMTime())
+                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
+                self.overlayView?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+            })
+    }
+
+    private func removePlaytimeObserver() {
+        if let playTimeObserver = self.playTimeObserver {
+            viewModel.videoPlayer.removeTimeObserver(playTimeObserver)
+            self.playTimeObserver = nil
+        }
+    }
+
+    @objc func audioRouteChangeListener(notification: NSNotification) {
+        let audioRouteChangeReason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] as! UInt
+
+        switch audioRouteChangeReason {
+        case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue:
+            updateHeadPhoneStatus(plugged: true)
+        case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
+            updateHeadPhoneStatus(plugged: false)
+        default:
+            break
+        }
+    }
+
+    private func updateHeadPhoneStatus(plugged: Bool) {
+        if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
+            viewModel.playControl = plugged ? .resume : isReplayMode ? .pause : .stop
+        }
+    }
+
+    var callObserver = CXCallObserver()
+    func setupCallState() {
+        callObserver.setDelegate(self, queue: DispatchQueue.main)
+    }
+
+    private func setupAudioConfig() {
+        let audioSession = AVAudioSession.sharedInstance()
+        let currentRoute = audioSession.currentRoute
+            if currentRoute.outputs.count != 0 {
+                for description in currentRoute.outputs {
+                    if description.portType == AVAudioSession.Port.headphones {
+                        updateHeadPhoneStatus(plugged: true)
+                    } else {
+                        updateHeadPhoneStatus(plugged: false)
+                    }
+                }
+            } else {
+                //print("requires connection to device")
+            }
+        NotificationCenter.default.addObserver(
+                self,
+                selector: #selector(audioRouteChangeListener(notification:)),
+                name: AVAudioSession.routeChangeNotification,
+                object: nil)
     }
 
     private func setupKeyboardEvent() {
@@ -138,6 +206,9 @@ final class LiveStreamViewControllerCombine: UIViewController {
         setupView()
         setupKeyboardEvent()
         loadOveray()
+        setupCallState()
+        setupAudioConfig()
+        addPlayTimeObserver()
 
         $isHiddenOverlay
             .receive(on: RunLoop.main)
@@ -198,17 +269,48 @@ final class LiveStreamViewControllerCombine: UIViewController {
             }
             .store(in: &cancellableSet)
 
+        viewModel.$playerItemDuration
+            .dropFirst()
+            .removeDuplicates()
+            .receive(on: RunLoop.main).sink { [weak self] (duration) in
+                guard let self = self, self.isReplayMode else { return }
+                self.overlayView?.sendEventToWeb(event: .onVideoDurationChanged, duration)
+            }
+            .store(in: &cancellableSet)
+
+
         viewModel.$playerItemStatus
             .receive(on: RunLoop.main)
             .sink { [weak self] (itemStatus) in
                 switch itemStatus {
                 case .readyToPlay:
-                    self?.play()
+                    if let replayMode = self?.isReplayMode, let playControl = self?.viewModel.playControl, playControl != .pause, playControl != .play {
+                        if replayMode && playControl == .resume { return }
+                        self?.play()
+                    }
                 case .failed:
                     self?.waitingPlayCancellable?.cancel()
                     self?.waitingPlayCancellable = Just(false).delay(for: 10, scheduler: RunLoop.main).sink { (isPlaying) in
                         self?.overlayView?.isPlaying = isPlaying
                     }
+                default:
+                    break
+                }
+            }
+            .store(in: &cancellableSet)
+
+        viewModel.$playControl
+            .receive(on: RunLoop.main)
+            .sink { [weak self] (playControl) in
+                switch playControl {
+                case .play:
+                    self?.play()
+                case .pause:
+                    self?.pause()
+                case .resume:
+                    self?.resume()
+                case .stop:
+                    self?.stop()
                 default:
                     break
                 }
@@ -239,10 +341,23 @@ final class LiveStreamViewControllerCombine: UIViewController {
 
     func pause() {
         viewModel.videoPlayer.pause()
+        overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
     }
 
     func stop() {
+        overlayView?.sendEventToWeb(event: .reloadBtn, true)
         viewModel.stop()
+    }
+
+    func resume() {
+        if self.isReplayMode {
+            self.overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+            self.play()
+        } else {
+            self.overlayView?.sendEventToWeb(event: .reloadBtn, false)
+            self.reload()
+            self.play()
+        }
     }
 
     func reload() {
@@ -420,6 +535,10 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
         viewModel.reloadVideo()
     }
 
+    func setVideoCurrentTime(to: CMTime) {
+        viewModel.seek(to: to)
+    }
+
     func didUpdatePoster(with url: URL) {
         DispatchQueue.global().async {
             guard let imageData = try? Data(contentsOf: url) else { return }
@@ -571,3 +690,31 @@ extension LiveStreamViewControllerCombine: ChattingWriteDelegate {
         })
     }
 }
+
+@available(iOS 13.0, *)
+extension LiveStreamViewControllerCombine: CXCallObserverDelegate {
+    func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
+        // 통화 종료
+        if call.hasEnded == true {
+            if ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded {
+                viewModel.playControl = .resume
+            }
+        }
+
+        // 전화 발신
+        if call.isOutgoing == true && call.hasConnected == false {
+            viewModel.playControl = isReplayMode ? .pause : .stop
+        }
+
+        // 통화벨 울림
+        if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
+            viewModel.playControl = isReplayMode ? .pause : .stop
+        }
+
+        // 통화 시작
+        if call.hasConnected == true && call.hasEnded == false {
+        }
+    }
+}
+
+

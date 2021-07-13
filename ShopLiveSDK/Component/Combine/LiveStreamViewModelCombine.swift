@@ -16,8 +16,9 @@ final class LiveStreamViewModelCombine {
     @Published var isMuted: Bool = false
     @Published var timeControlStatus: AVPlayer.TimeControlStatus = .paused
     @Published var isPlaybackLikelyToKeepUp: Bool = false
-    
-    
+    @Published var playerItemDuration: CMTime = .init()
+    @Published var playControl: ShopLiveConfiguration.SLPlayControl = .none
+
     var overayUrl: URL?
     var accessKey: String?
     var campaignKey: String?
@@ -36,6 +37,7 @@ final class LiveStreamViewModelCombine {
     private var playerItemPlaybackStalledCancellable: AnyCancellable?
     private var urlAssetIsPlayableCancellable: AnyCancellable?
     private var playItemIsPlaybackLikelyToKeepUpCancellable: AnyCancellable?
+    private var playerItemDurationCancellable: AnyCancellable?
     
     deinit {
         resetPlayer()
@@ -92,6 +94,7 @@ final class LiveStreamViewModelCombine {
                 self.perfMeasurements = PerfMeasurements(playerItem: playerItem)
                 self.playerItemStatusCancellable = playerItem.publisher(for: \.status).assign(to: \.playerItemStatus, on: self)
                 self.playItemIsPlaybackLikelyToKeepUpCancellable = playerItem.publisher(for: \.isPlaybackLikelyToKeepUp).assign(to: \.isPlaybackLikelyToKeepUp, on: self)
+                self.playerItemDurationCancellable = playerItem.asset.publisher(for: \.duration).assign(to: \.playerItemDuration, on: self)
                 self.playerItemTimebaseCancellable = NotificationCenter.default.publisher(for: .TimebaseEffectiveRateChangedNotification, object: playerItem.timebase)
                     .compactMap({ $0.object })
                     .map({ $0 as! CMTimebase })
@@ -155,5 +158,9 @@ final class LiveStreamViewModelCombine {
         }
         
         updatePlayerItem(with: url)
+    }
+
+    func seek(to: CMTime) {
+        videoPlayer.seek(to: to)
     }
 }
