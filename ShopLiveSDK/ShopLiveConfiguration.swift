@@ -41,7 +41,7 @@ internal final class ShopLiveConfiguration {
             }
         }
 
-        var autoResumeVideoOnCallEnded: Bool = true {
+        var autoResumeVideoOnCallEnded: Bool = false {
             willSet {
                 guard autoResumeVideoOnCallEnded != newValue else { return }
                 updateNotification()
