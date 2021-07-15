@@ -5,6 +5,7 @@
 //  Created by ShopLive on 2021/05/18.
 //
 
+#if canImport(RxCocoa)
 import UIKit
 import AVKit
 import WebKit
@@ -775,3 +776,4 @@ extension URLRequest {
         return true
     }
 }
+#endif

@@ -5,6 +5,7 @@
 //  Created by ShopLive on 2021/05/19.
 //
 
+#if canImport(RxCocoa)
 import Foundation
 import AVKit
 import RxSwift
@@ -236,3 +237,4 @@ final class LiveStreamViewModelRxSwift {
     }
 
 }
+#endif

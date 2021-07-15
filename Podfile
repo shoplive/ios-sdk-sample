@@ -15,6 +15,6 @@ target 'ShopLiveSDK' do
   use_frameworks!
 
   # Pods for ShopLiveSDK
-  pod 'RxCocoa'
+ pod 'RxCocoa'
 
 end
