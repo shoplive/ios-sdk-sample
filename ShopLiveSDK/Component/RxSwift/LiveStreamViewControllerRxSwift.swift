@@ -148,28 +148,42 @@ final class LiveStreamViewControllerRxSwift: UIViewController {
             }).disposed(by: cancellableDisposeBag)
     }
 
+    var hasKeyboard: Bool = false
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
               let duration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double,
               let curve = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt,
               let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom else { return }
 
+        let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+        let keyboard = self.view.convert(keyboardScreenEndFrame, from: self.view.window)
+        let height = self.view.frame.size.height
         var isHiddenView = true
         switch notification.name.rawValue {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
 //            self.overlayView?.setBlockView(show: false)
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "0px", true)
+            if chatInputView.isFocused() {
+                isHiddenView = false
+                self.hasKeyboard = true
+                self.chatInputView.isHidden = false
+                self.chatInputBG.isHidden = false
+            }
+
+            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px"), ("keyboard", hasKeyboard))
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
             self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
-            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+            hasKeyboard = (keyboard.origin.y + keyboard.size.height) > height
             lastKeyboardHeight = keyboardScreenEndFrame.height
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
 //            self.overlayView?.setBlockView(show: true)
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(lastKeyboardHeight + self.chatInputView.frame.height))px", true)
-            isHiddenView = false        default:
+            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((hasKeyboard ? 0 : lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", hasKeyboard))
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
+            isHiddenView = false
+        default:
             break
         }
 
@@ -669,7 +683,8 @@ extension LiveStreamViewControllerRxSwift: ChattingWriteDelegate {
     func updateHeight() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
             debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, "\(Int(self.lastKeyboardHeight + self.chatInputView.frame.height))px", true)
+            let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((self.hasKeyboard ? 0 : self.lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", self.hasKeyboard))
+            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
         })
     }
 }

@@ -74,6 +74,10 @@ final class ChattingWriteView: UIView {
         isFocus = false
     }
 
+    func isFocused() -> Bool {
+        return chatTextView.textView.isFirstResponder
+    }
+
     func clear() {
         chatTextView.textView.text.removeAll()
     }
