@@ -47,7 +47,7 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.clearKey()
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "e7e712b8728d", accessKey: "7xxPlb8yOhZnchquMQHO"))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Replay Only")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
 //        ShopLiveDemoKeyTools.shared.phase = ShopLive.Phase.DEV.name
         #endif
 
