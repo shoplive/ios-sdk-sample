@@ -40,15 +40,15 @@ import WebKit
 
     private var instance: ShopLiveComponent?
     override init() {
+        super.init()
         if #available(iOS 13.0, *) {
             instance = ShopLiveCombine()
         } else {
-            #if canImport(RxCocoa)
-                instance = ShopLiveRxSwift()
-            #else
+            #if canImport(RxSwift)
+                    instance = ShopLiveRxSwift()
             #endif
-        }
 
+        }
     }
 }
 
