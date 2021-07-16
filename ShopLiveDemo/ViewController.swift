@@ -7,6 +7,9 @@
 
 import UIKit
 import SafariServices
+#if canImport(ShopLiveSDK)
+import ShopLiveSDK
+#endif
 
 class ViewController: UIViewController {
 

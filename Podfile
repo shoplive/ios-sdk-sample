@@ -1,20 +1,20 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'ShopLiveDemo' do
+target 'ShopLiveSDKRx' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for ShopLiveDemo
+  # Pods for ShopLiveSDKRx
   pod 'RxCocoa'
 
 end
 
-target 'ShopLiveSDK' do
+target 'ShopLiveWithModuleDemo' do
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
-  # Pods for ShopLiveSDK
- pod 'RxCocoa'
+  # Pods for ShopLiveWithModuleDemo
+  pod 'RxCocoa'
 
 end

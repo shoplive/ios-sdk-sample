@@ -13,7 +13,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
@@ -47,29 +46,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Called as the scene transitions from the foreground to the background.
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
-    }
-
-
-}
-
-@available(iOS 13.0, *)
-extension SceneDelegate: ShopLiveSDKDelegate {
-    func handleCommand(_ command: String, with payload: Any?) {
-
-    }
-
-    func handleNavigation(with url: URL) {
-        ShopLive.startPictureInPicture()
-        let safari = SFSafariViewController(url: url)
-        window?.rootViewController?.present(safari, animated: true, completion: nil)
-    }
-
-    func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
-        NSLog("handle download coupon: %@", couponId)
-        DispatchQueue.main.async {
-            NSLog("complete download coupon: %@", couponId)
-            completion()
-        }
     }
 
 

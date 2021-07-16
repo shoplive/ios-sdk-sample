@@ -94,7 +94,8 @@ final class ShopLiveDemoKeyTools {
             }
             return keysetArray
         } catch {
-            fatalError("unArchiveData - Can't encode data: \(error)")
+            return nil
+//            fatalError("unArchiveData - Can't encode data: \(error)")
         }
     }
 
