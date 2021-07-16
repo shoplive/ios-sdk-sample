@@ -72,7 +72,7 @@ extension ShopLive {
         case STAGE
         case REAL
 
-        var name: String {
+        public var name: String {
             switch self {
             case .DEV:
                 return "DEV"
@@ -83,7 +83,7 @@ extension ShopLive {
             }
         }
 
-        init?(name: String) {
+        public init?(name: String) {
             switch name {
             case Phase.DEV.name:
                 self = .DEV
@@ -101,19 +101,19 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
+    public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
         shared.instance?.setKeepPlayVideoOnHeadphoneUnplugged(keepPlay)
     }
 
-    static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {
+    public static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool {
         return shared.instance?.isKeepPlayVideoOnHeadPhoneUnplugged() ?? false
     }
 
-    static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
+    public static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
         shared.instance?.setAutoResumeVideoOnCallEnded(autoResume)
     }
 
-    static func isAutoResumeVideoOnCallEnded() -> Bool {
+    public static func isAutoResumeVideoOnCallEnded() -> Bool {
         return shared.instance?.isAutoResumeVideoOnCallEnded() ?? false
     }
 

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,7 +15,6 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
-		255CBAC4EC8341D22C3C6432 /* Pods_ShopLiveDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B89F7452256C2B2D1C0DE04F /* Pods_ShopLiveDemo.framework */; };
 		BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D7253267AE75B00ED2750 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */; };
@@ -63,6 +62,19 @@
 		BFBBACA52699EC5300574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
 		BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
 		BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
+		BFBBAE3026A03EEA00574958 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
+		BFBBAE4426A040B200574958 /* build in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAE4326A040B200574958 /* build */; };
+		BFBBAE4B26A0414800574958 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */; };
+		BFBBAE4C26A0414800574958 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BFBBAE5726A041C600574958 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE4F26A041C600574958 /* ShopLiveDemoKeyTools.swift */; };
+		BFBBAE5826A041C600574958 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE5026A041C600574958 /* ViewController.swift */; };
+		BFBBAE5A26A041C600574958 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE5226A041C600574958 /* SceneDelegate.swift */; };
+		BFBBAE5B26A041C600574958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAE5326A041C600574958 /* Assets.xcassets */; };
+		BFBBAE5C26A041C700574958 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE5426A041C600574958 /* AppDelegate.swift */; };
+		BFBBAE5D26A041C700574958 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE5526A041C600574958 /* ShopLiveKeySet.swift */; };
+		BFBBAE5E26A041C700574958 /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBAE5626A041C600574958 /* KeySetRegisterController.swift */; };
+		BFBBAE6326A10B3100574958 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAE5F26A10B3000574958 /* Main.storyboard */; };
+		BFBBAE6426A10B3100574958 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAE6126A10B3000574958 /* LaunchScreen.storyboard */; };
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
@@ -71,7 +83,6 @@
 		BFC00CC42695EC9E00BD8733 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
 		BFC00CC52695EC9E00BD8733 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
-		F853676FA2D3343617557966 /* Pods_ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9209E517DF4E261FFD273117 /* Pods_ShopLiveSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,6 +109,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		BFBBAE4D26A0414800574958 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BFBBAE4C26A0414800574958 /* ShopLiveSDK.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		1B3CD68F2600647E00B94997 /* ShopLiveUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveUser.swift; sourceTree = "<group>"; };
 		1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKInterface.swift; sourceTree = "<group>"; };
@@ -110,10 +135,6 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
-		5796E75FB63871B823F04CFB /* Pods-ShopLiveSDK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSDK.debug.xcconfig"; path = "Target Support Files/Pods-ShopLiveSDK/Pods-ShopLiveSDK.debug.xcconfig"; sourceTree = "<group>"; };
-		6A250D0450A3A1D3AA1E7B53 /* Pods-ShopLiveDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveDemo.debug.xcconfig"; path = "Target Support Files/Pods-ShopLiveDemo/Pods-ShopLiveDemo.debug.xcconfig"; sourceTree = "<group>"; };
-		9209E517DF4E261FFD273117 /* Pods_ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B89F7452256C2B2D1C0DE04F /* Pods_ShopLiveDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopLiveDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingWriteView.swift; sourceTree = "<group>"; };
 		BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
 		BF8D7252267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingInternalTextView.swift; sourceTree = "<group>"; };
@@ -146,6 +167,20 @@
 		BFBBACA02699EAEC00574958 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		BFBBACA32699EC4500574958 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
+		BFBBAE3B26A03EEA00574958 /* ShopLiveWithModuleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveWithModuleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFBBAE3F26A0406300574958 /* ShopLiveDemowithModule-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ShopLiveDemowithModule-Info.plist"; sourceTree = "<group>"; };
+		BFBBAE4326A040B200574958 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = SOURCE_ROOT; };
+		BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK.xcframework; path = build/ShopLiveSDK.xcframework; sourceTree = "<group>"; };
+		BFBBAE4E26A041C600574958 /* ShopLiveWithModuleDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ShopLiveWithModuleDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		BFBBAE4F26A041C600574958 /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
+		BFBBAE5026A041C600574958 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		BFBBAE5226A041C600574958 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		BFBBAE5326A041C600574958 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFBBAE5426A041C600574958 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		BFBBAE5526A041C600574958 /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
+		BFBBAE5626A041C600574958 /* KeySetRegisterController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
+		BFBBAE6026A10B3000574958 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BFBBAE6226A10B3000574958 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
@@ -153,8 +188,6 @@
 		BFC00CC62695EC9E00BD8733 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BFC00CC82695ECE000BD8733 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
-		C4699501A20DA1CF7E4C4ABE /* Pods-ShopLiveSDK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSDK.release.xcconfig"; path = "Target Support Files/Pods-ShopLiveSDK/Pods-ShopLiveSDK.release.xcconfig"; sourceTree = "<group>"; };
-		C6351FD365FE80BA56CDA567 /* Pods-ShopLiveDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveDemo.release.xcconfig"; path = "Target Support Files/Pods-ShopLiveDemo/Pods-ShopLiveDemo.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,7 +196,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFBBACA52699EC5300574958 /* CallKit.framework in Frameworks */,
-				F853676FA2D3343617557966 /* Pods_ShopLiveSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -181,7 +213,6 @@
 			files = (
 				BFBBACA42699EC4500574958 /* CallKit.framework in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
-				255CBAC4EC8341D22C3C6432 /* Pods_ShopLiveDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +227,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BFBBAE2E26A03EEA00574958 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBBAE4B26A0414800574958 /* ShopLiveSDK.xcframework in Frameworks */,
+				BFBBAE3026A03EEA00574958 /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,12 +255,12 @@
 			children = (
 				1BA5154F25CBDCD100070181 /* ShopLiveSDK */,
 				1BA5155A25CBDCD100070181 /* ShopLiveSDKTests */,
-				BFAD8EAB265A23FD00202160 /* SwiftDemo */,
+				BFAD8EAB265A23FD00202160 /* ShopLiveDemo */,
+				BFBBAE3E26A0406300574958 /* ShopLiveWithModuleDemo */,
 				BFAD8EC2265A23FE00202160 /* SwiftDemoTests */,
 				BFAD8ECD265A23FE00202160 /* SwiftDemoUITests */,
 				1BA5154E25CBDCD100070181 /* Products */,
 				BFAD8EEB265A24FC00202160 /* Frameworks */,
-				890A1EE357301CECE245A2CF /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -232,6 +272,7 @@
 				BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */,
 				BFAD8EBF265A23FE00202160 /* SwiftDemoTests.xctest */,
 				BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */,
+				BFBBAE3B26A03EEA00574958 /* ShopLiveWithModuleDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -259,17 +300,6 @@
 				1BA5155D25CBDCD200070181 /* Info.plist */,
 			);
 			path = ShopLiveSDKTests;
-			sourceTree = "<group>";
-		};
-		890A1EE357301CECE245A2CF /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				6A250D0450A3A1D3AA1E7B53 /* Pods-ShopLiveDemo.debug.xcconfig */,
-				C6351FD365FE80BA56CDA567 /* Pods-ShopLiveDemo.release.xcconfig */,
-				5796E75FB63871B823F04CFB /* Pods-ShopLiveSDK.debug.xcconfig */,
-				C4699501A20DA1CF7E4C4ABE /* Pods-ShopLiveSDK.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		BF8D7250267AE72200ED2750 /* 3rdParty */ = {
@@ -328,7 +358,7 @@
 			path = Common;
 			sourceTree = "<group>";
 		};
-		BFAD8EAB265A23FD00202160 /* SwiftDemo */ = {
+		BFAD8EAB265A23FD00202160 /* ShopLiveDemo */ = {
 			isa = PBXGroup;
 			children = (
 				BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */,
@@ -342,7 +372,7 @@
 				BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */,
 				BFAD8EBA265A23FE00202160 /* Info.plist */,
 			);
-			path = SwiftDemo;
+			path = ShopLiveDemo;
 			sourceTree = "<group>";
 		};
 		BFAD8EC2265A23FE00202160 /* SwiftDemoTests */ = {
@@ -367,12 +397,30 @@
 			isa = PBXGroup;
 			children = (
 				BFBBACA32699EC4500574958 /* CallKit.framework */,
+				BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */,
 				BFBBACA02699EAEC00574958 /* CoreTelephony.framework */,
 				BFF91D86266D2FE800B659C1 /* SafariServices.framework */,
-				B89F7452256C2B2D1C0DE04F /* Pods_ShopLiveDemo.framework */,
-				9209E517DF4E261FFD273117 /* Pods_ShopLiveSDK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BFBBAE3E26A0406300574958 /* ShopLiveWithModuleDemo */ = {
+			isa = PBXGroup;
+			children = (
+				BFBBAE5426A041C600574958 /* AppDelegate.swift */,
+				BFBBAE5326A041C600574958 /* Assets.xcassets */,
+				BFBBAE6126A10B3000574958 /* LaunchScreen.storyboard */,
+				BFBBAE5F26A10B3000574958 /* Main.storyboard */,
+				BFBBAE5626A041C600574958 /* KeySetRegisterController.swift */,
+				BFBBAE5226A041C600574958 /* SceneDelegate.swift */,
+				BFBBAE4F26A041C600574958 /* ShopLiveDemoKeyTools.swift */,
+				BFBBAE5526A041C600574958 /* ShopLiveKeySet.swift */,
+				BFBBAE5026A041C600574958 /* ViewController.swift */,
+				BFBBAE4326A040B200574958 /* build */,
+				BFBBAE3F26A0406300574958 /* ShopLiveDemowithModule-Info.plist */,
+				BFBBAE4E26A041C600574958 /* ShopLiveWithModuleDemo-Bridging-Header.h */,
+			);
+			path = ShopLiveWithModuleDemo;
 			sourceTree = "<group>";
 		};
 		BFC00CC02695EC5900BD8733 /* Resource */ = {
@@ -401,7 +449,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BA5156125CBDCD200070181 /* Build configuration list for PBXNativeTarget "ShopLiveSDK" */;
 			buildPhases = (
-				A5B879D17EC6B192E038FB0B /* [CP] Check Pods Manifest.lock */,
 				1BA5154825CBDCD100070181 /* Headers */,
 				1BA5154925CBDCD100070181 /* Sources */,
 				1BA5154A25CBDCD100070181 /* Frameworks */,
@@ -410,7 +457,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				BFF91D81266D214800B659C1 /* PBXTargetDependency */,
 			);
 			name = ShopLiveSDK;
 			productName = ShopLiveSDK;
@@ -439,11 +485,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BFAD8ED1265A23FE00202160 /* Build configuration list for PBXNativeTarget "ShopLiveDemo" */;
 			buildPhases = (
-				F702DAC5F0FAB00B949CE2CD /* [CP] Check Pods Manifest.lock */,
 				BFAD8EA6265A23FD00202160 /* Sources */,
 				BFAD8EA7265A23FD00202160 /* Frameworks */,
 				BFAD8EA8265A23FD00202160 /* Resources */,
-				A74A009B9067AA9FE9E94ABD /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -490,6 +534,24 @@
 			productReference = BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		BFBBAE0F26A03EEA00574958 /* ShopLiveWithModuleDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BFBBAE3826A03EEA00574958 /* Build configuration list for PBXNativeTarget "ShopLiveWithModuleDemo" */;
+			buildPhases = (
+				BFBBAE1126A03EEA00574958 /* Sources */,
+				BFBBAE2E26A03EEA00574958 /* Frameworks */,
+				BFBBAE3226A03EEA00574958 /* Resources */,
+				BFBBAE4D26A0414800574958 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ShopLiveWithModuleDemo;
+			productName = SwiftDemo;
+			productReference = BFBBAE3B26A03EEA00574958 /* ShopLiveWithModuleDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -517,6 +579,9 @@
 						CreatedOnToolsVersion = 12.5;
 						TestTargetID = BFAD8EA9265A23FD00202160;
 					};
+					BFBBAE0F26A03EEA00574958 = {
+						LastSwiftMigration = 1250;
+					};
 				};
 			};
 			buildConfigurationList = 1BA5154725CBDCD100070181 /* Build configuration list for PBXProject "ShopLiveSDK" */;
@@ -536,6 +601,7 @@
 				1BA5154C25CBDCD100070181 /* ShopLiveSDK */,
 				1BA5155525CBDCD100070181 /* ShopLiveSDKTests */,
 				BFAD8EA9265A23FD00202160 /* ShopLiveDemo */,
+				BFBBAE0F26A03EEA00574958 /* ShopLiveWithModuleDemo */,
 				BFAD8EBE265A23FE00202160 /* SwiftDemoTests */,
 				BFAD8EC9265A23FE00202160 /* SwiftDemoUITests */,
 			);
@@ -583,71 +649,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFBBAE3226A03EEA00574958 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBBAE6326A10B3100574958 /* Main.storyboard in Resources */,
+				BFBBAE6426A10B3100574958 /* LaunchScreen.storyboard in Resources */,
+				BFBBAE5B26A041C600574958 /* Assets.xcassets in Resources */,
+				BFBBAE4426A040B200574958 /* build in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		A5B879D17EC6B192E038FB0B /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ShopLiveSDK-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A74A009B9067AA9FE9E94ABD /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ShopLiveDemo/Pods-ShopLiveDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-ShopLiveDemo/Pods-ShopLiveDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ShopLiveDemo/Pods-ShopLiveDemo-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F702DAC5F0FAB00B949CE2CD /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ShopLiveDemo-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BA5154925CBDCD100070181 /* Sources */ = {
@@ -738,6 +751,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BFBBAE1126A03EEA00574958 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BFBBAE5D26A041C700574958 /* ShopLiveKeySet.swift in Sources */,
+				BFBBAE5C26A041C700574958 /* AppDelegate.swift in Sources */,
+				BFBBAE5826A041C600574958 /* ViewController.swift in Sources */,
+				BFBBAE5726A041C600574958 /* ShopLiveDemoKeyTools.swift in Sources */,
+				BFBBAE5A26A041C600574958 /* SceneDelegate.swift in Sources */,
+				BFBBAE5E26A041C700574958 /* KeySetRegisterController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -756,9 +782,6 @@
 			target = BFAD8EA9265A23FD00202160 /* ShopLiveDemo */;
 			targetProxy = BFAD8ECB265A23FE00202160 /* PBXContainerItemProxy */;
 		};
-		BFF91D81266D214800B659C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -774,6 +797,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				BFAD8EB8265A23FE00202160 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		BFBBAE5F26A10B3000574958 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFBBAE6026A10B3000574958 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		BFBBAE6126A10B3000574958 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BFBBAE6226A10B3000574958 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -916,7 +955,6 @@
 		};
 		1BA5156225CBDCD200070181 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5796E75FB63871B823F04CFB /* Pods-ShopLiveSDK.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -947,7 +985,6 @@
 		};
 		1BA5156325CBDCD200070181 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C4699501A20DA1CF7E4C4ABE /* Pods-ShopLiveSDK.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
@@ -1015,7 +1052,6 @@
 		};
 		BFAD8ED2265A23FE00202160 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6A250D0450A3A1D3AA1E7B53 /* Pods-ShopLiveDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1041,7 +1077,6 @@
 		};
 		BFAD8ED3265A23FE00202160 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6351FD365FE80BA56CDA567 /* Pods-ShopLiveDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -1151,6 +1186,61 @@
 			};
 			name = Release;
 		};
+		BFBBAE3926A03EEA00574958 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				INFOPLIST_FILE = "ShopLiveWithModuleDemo/ShopLiveDemowithModule-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.9;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Dev";
+				SWIFT_OBJC_BRIDGING_HEADER = "ShopLiveWithModuleDemo/ShopLiveWithModuleDemo-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		BFBBAE3A26A03EEA00574958 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = D237UGRPX6;
+				INFOPLIST_FILE = "ShopLiveWithModuleDemo/ShopLiveDemowithModule-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.9;
+				OTHER_SWIFT_FLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Adhoc";
+				SWIFT_OBJC_BRIDGING_HEADER = "ShopLiveWithModuleDemo/ShopLiveWithModuleDemo-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1204,6 +1294,15 @@
 			buildConfigurations = (
 				BFAD8ED8265A23FE00202160 /* Debug */,
 				BFAD8ED9265A23FE00202160 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BFBBAE3826A03EEA00574958 /* Build configuration list for PBXNativeTarget "ShopLiveWithModuleDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BFBBAE3926A03EEA00574958 /* Debug */,
+				BFBBAE3A26A03EEA00574958 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
