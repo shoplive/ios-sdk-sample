@@ -11,7 +11,7 @@ import AVKit
 import WebKit
 
 @available(iOS 13.0, *)
-@objc public final class ShopLiveCombine: NSObject {
+@objc internal final class ShopLiveCombine: NSObject {
 
     private lazy var cancellableSet = Set<AnyCancellable>()
     private lazy var pipControllerPublisherCancellableSet = Set<AnyCancellable>()

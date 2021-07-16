@@ -23,7 +23,7 @@
 import Foundation
 import UIKit
 
-open class SLNextGrowingTextView: UIScrollView {
+internal class SLNextGrowingTextView: UIScrollView {
   
   // MARK: - Nested types
   

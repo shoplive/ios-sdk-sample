@@ -13,7 +13,7 @@ protocol ChattingWriteDelegate: AnyObject {
     func updateHeight()
 }
 
-final class ChattingWriteView: UIView {
+internal final class ChattingWriteView: UIView {
 
     class ViewModel {
         var chatInputPlaceholderText: String = NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요")

@@ -10,7 +10,7 @@ import Combine
 import AVKit
 
 @available(iOS 13.0, *)
-final class LiveStreamViewModelCombine {
+internal final class LiveStreamViewModelCombine {
     @Published var videoUrl: URL?
     @Published var playerItemStatus: AVPlayerItem.Status = .unknown
     @Published var isMuted: Bool = false

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		1B3CD6902600647E00B94997 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3CD68F2600647E00B94997 /* ShopLiveUser.swift */; };
 		1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */; };
-		1BA5155725CBDCD100070181 /* ShopLiveSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */; };
+		1BA5155725CBDCD100070181 /* ShopLiveSDK_MinVer13.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BA5154D25CBDCD100070181 /* ShopLiveSDK_MinVer13.framework */; };
 		1BA5155C25CBDCD100070181 /* ShopLiveSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5155B25CBDCD100070181 /* ShopLiveSDKTests.swift */; };
 		1BA5155E25CBDCD200070181 /* ShopLiveSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BA5155025CBDCD100070181 /* ShopLiveSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
@@ -101,8 +101,6 @@
 		BFBBAF0C26A192EA00574958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
 		BFBBAF0D26A192EA00574958 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
 		BFBBAF1326A1943400574958 /* build in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAF1226A1943400574958 /* build */; };
-		BFBBAF1426A1944A00574958 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAED526A1921200574958 /* ShopLiveSDK.xcframework */; };
-		BFBBAF1526A1944A00574958 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAED526A1921200574958 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFBBAF1B26A195E400574958 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EB0265A23FD00202160 /* ViewController.swift */; };
 		BFBBAF1C26A195E400574958 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBAF2526A195E400574958 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
@@ -116,8 +114,10 @@
 		BFBBAF3B26A195E400574958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
 		BFBBAF3C26A195E400574958 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
 		BFBBAF4126A19B2600574958 /* build in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAF1226A1943400574958 /* build */; };
-		BFBBAF4326A19B4F00574958 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4226A19B4F00574958 /* ShopLiveSDK.xcframework */; };
-		BFBBAF4426A19B4F00574958 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4226A19B4F00574958 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BFBBAF4726A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4626A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework */; };
+		BFBBAF4826A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4626A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BFBBAF4B26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4A26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework */; };
+		BFBBAF4C26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBAF4A26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
@@ -154,24 +154,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		BFBBAF1626A1944A00574958 /* Embed Frameworks */ = {
+		BFBBAF4926A1D1A900574958 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BFBBAF1526A1944A00574958 /* ShopLiveSDK.xcframework in Embed Frameworks */,
+				BFBBAF4826A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BFBBAF4526A19B4F00574958 /* Embed Frameworks */ = {
+		BFBBAF4D26A1D1B200574958 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BFBBAF4426A19B4F00574958 /* ShopLiveSDK.xcframework in Embed Frameworks */,
+				BFBBAF4C26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -181,7 +181,7 @@
 /* Begin PBXFileReference section */
 		1B3CD68F2600647E00B94997 /* ShopLiveUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveUser.swift; sourceTree = "<group>"; };
 		1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKInterface.swift; sourceTree = "<group>"; };
-		1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BA5154D25CBDCD100070181 /* ShopLiveSDK_MinVer13.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK_MinVer13.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BA5155025CBDCD100070181 /* ShopLiveSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopLiveSDK.h; sourceTree = "<group>"; };
 		1BA5155125CBDCD100070181 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1BA5155625CBDCD100070181 /* ShopLiveSDKTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveSDKTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -227,13 +227,15 @@
 		BFBBACA32699EC4500574958 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
 		BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK.xcframework; path = build/ShopLiveSDK.xcframework; sourceTree = "<group>"; };
-		BFBBAED326A17F7A00574958 /* ShopLiveSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFBBAED326A17F7A00574958 /* ShopLiveSDK_MinVer11.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ShopLiveSDK_MinVer11.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBBAED426A17F7B00574958 /* ShopLiveSDK RxSwift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ShopLiveSDK RxSwift-Info.plist"; path = "/Users/vincent/repo/matrix-sdk-ios/ShopLiveSDK RxSwift-Info.plist"; sourceTree = "<absolute>"; };
 		BFBBAED526A1921200574958 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK.xcframework; path = build/rxswift/ShopLiveSDK.xcframework; sourceTree = "<group>"; };
 		BFBBAF1126A192EA00574958 /* ShopLiveWithModuleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveWithModuleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBBAF1226A1943400574958 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = SOURCE_ROOT; };
 		BFBBAF4026A195E400574958 /* ShopLiveDemoCombine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveDemoCombine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBBAF4226A19B4F00574958 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK.xcframework; path = build/combine/ShopLiveSDK.xcframework; sourceTree = "<group>"; };
+		BFBBAF4626A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK_MinVer11.xcframework; path = build/min11/ShopLiveSDK_MinVer11.xcframework; sourceTree = "<group>"; };
+		BFBBAF4A26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = ShopLiveSDK_MinVer13.xcframework; path = build/min13/ShopLiveSDK_MinVer13.xcframework; sourceTree = "<group>"; };
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
@@ -258,7 +260,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BA5155725CBDCD100070181 /* ShopLiveSDK.framework in Frameworks */,
+				1BA5155725CBDCD100070181 /* ShopLiveSDK_MinVer13.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -300,7 +302,7 @@
 			files = (
 				BFBBAF0726A192EA00574958 /* CallKit.framework in Frameworks */,
 				BFBBAF0826A192EA00574958 /* SafariServices.framework in Frameworks */,
-				BFBBAF1426A1944A00574958 /* ShopLiveSDK.xcframework in Frameworks */,
+				BFBBAF4726A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework in Frameworks */,
 				40FC1DA54C7DA6594AF0C054 /* Pods_ShopLiveWithModuleDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -309,8 +311,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFBBAF4B26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework in Frameworks */,
 				BFBBAF3626A195E400574958 /* CallKit.framework in Frameworks */,
-				BFBBAF4326A19B4F00574958 /* ShopLiveSDK.xcframework in Frameworks */,
 				BFBBAF3726A195E400574958 /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -343,12 +345,12 @@
 		1BA5154E25CBDCD100070181 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */,
+				1BA5154D25CBDCD100070181 /* ShopLiveSDK_MinVer13.framework */,
 				1BA5155625CBDCD100070181 /* ShopLiveSDKTests.xctest */,
 				BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */,
 				BFAD8EBF265A23FE00202160 /* SwiftDemoTests.xctest */,
 				BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */,
-				BFBBAED326A17F7A00574958 /* ShopLiveSDK.framework */,
+				BFBBAED326A17F7A00574958 /* ShopLiveSDK_MinVer11.framework */,
 				BFBBAF1126A192EA00574958 /* ShopLiveWithModuleDemo.app */,
 				BFBBAF4026A195E400574958 /* ShopLiveDemoCombine.app */,
 			);
@@ -487,7 +489,9 @@
 		BFAD8EEB265A24FC00202160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFBBAF4626A1D1A900574958 /* ShopLiveSDK_MinVer11.xcframework */,
 				BFBBACA32699EC4500574958 /* CallKit.framework */,
+				BFBBAF4A26A1D1B200574958 /* ShopLiveSDK_MinVer13.xcframework */,
 				BFBBAE4A26A0414800574958 /* ShopLiveSDK.xcframework */,
 				BFBBAF4226A19B4F00574958 /* ShopLiveSDK.xcframework */,
 				BFBBAED526A1921200574958 /* ShopLiveSDK.xcframework */,
@@ -544,7 +548,7 @@
 			);
 			name = ShopLiveSDK;
 			productName = ShopLiveSDK;
-			productReference = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */;
+			productReference = 1BA5154D25CBDCD100070181 /* ShopLiveSDK_MinVer13.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		1BA5155525CBDCD100070181 /* ShopLiveSDKTests */ = {
@@ -634,7 +638,7 @@
 			);
 			name = ShopLiveSDKRx;
 			productName = ShopLiveSDK;
-			productReference = BFBBAED326A17F7A00574958 /* ShopLiveSDK.framework */;
+			productReference = BFBBAED326A17F7A00574958 /* ShopLiveSDK_MinVer11.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BFBBAEE826A192EA00574958 /* ShopLiveWithModuleDemo */ = {
@@ -646,7 +650,7 @@
 				BFBBAF0626A192EA00574958 /* Frameworks */,
 				BFBBAF0926A192EA00574958 /* Resources */,
 				79DC4262E2D7962D53F91D63 /* [CP] Embed Pods Frameworks */,
-				BFBBAF1626A1944A00574958 /* Embed Frameworks */,
+				BFBBAF4926A1D1A900574958 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -664,7 +668,7 @@
 				BFBBAF1826A195E400574958 /* Sources */,
 				BFBBAF3526A195E400574958 /* Frameworks */,
 				BFBBAF3826A195E400574958 /* Resources */,
-				BFBBAF4526A19B4F00574958 /* Embed Frameworks */,
+				BFBBAF4D26A1D1B200574958 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1207,7 +1211,7 @@
 				);
 				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = ShopLiveSDK_MinVer13;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1237,7 +1241,7 @@
 				);
 				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PRODUCT_NAME = ShopLiveSDK_MinVer13;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;
@@ -1441,7 +1445,7 @@
 				);
 				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
-				PRODUCT_NAME = ShopLiveSDK;
+				PRODUCT_NAME = ShopLiveSDK_MinVer11;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1472,7 +1476,7 @@
 				);
 				MARKETING_VERSION = 0.8.1;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
-				PRODUCT_NAME = ShopLiveSDK;
+				PRODUCT_NAME = ShopLiveSDK_MinVer11;
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 5.0;

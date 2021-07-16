@@ -7,9 +7,13 @@
 
 import UIKit
 import SafariServices
-#if canImport(ShopLiveSDK)
-import ShopLiveSDK
+
+#if canImport(ShopLiveSDK_MinVer11)
+import ShopLiveSDK_MinVer11
+#elseif canImport(ShopLiveSDK_MinVer13)
+import ShopLiveSDK_MinVer13
 #endif
+
 
 class ViewController: UIViewController {
 

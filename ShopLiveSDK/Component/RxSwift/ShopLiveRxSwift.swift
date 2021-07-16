@@ -12,7 +12,7 @@ import WebKit
 import RxSwift
 import RxCocoa
 
-@objc public final class ShopLiveRxSwift: NSObject {
+@objc internal final class ShopLiveRxSwift: NSObject {
     private var cancelDisposeBag = DisposeBag()
     private var pipControllerCancelDisposeBag = DisposeBag()
 
@@ -211,7 +211,7 @@ import RxCocoa
         guard let playerLayer = liveStreamViewController?.playerLayer else { return }
         playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
         // Ensure PiP is supported by current device.
-        print("support : \(AVPictureInPictureController.isPictureInPictureSupported())")
+//        print("support : \(AVPictureInPictureController.isPictureInPictureSupported())")
 
         if AVPictureInPictureController.isPictureInPictureSupported() {
             // Create a new controller, passing the reference to the AVPlayerLayer.

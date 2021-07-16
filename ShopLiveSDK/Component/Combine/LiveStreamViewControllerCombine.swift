@@ -14,7 +14,7 @@ import MediaPlayer
 import ExternalAccessory
 
 @available(iOS 13.0, *)
-final class LiveStreamViewControllerCombine: UIViewController {
+internal final class LiveStreamViewControllerCombine: UIViewController {
 
     lazy var viewModel: LiveStreamViewModelCombine = LiveStreamViewModelCombine()
     weak var delegate: LiveStreamViewControllerDelegate?

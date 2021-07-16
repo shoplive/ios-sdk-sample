@@ -14,7 +14,7 @@ import RxCocoa
 import CallKit
 import MediaPlayer
 
-final class LiveStreamViewControllerRxSwift: UIViewController {
+internal final class LiveStreamViewControllerRxSwift: UIViewController {
 
     lazy var viewModel: LiveStreamViewModelRxSwift = LiveStreamViewModelRxSwift()
     weak var delegate: LiveStreamViewControllerDelegate?

@@ -53,7 +53,7 @@ extension Reactive where Base: AVPlayerItem {
     }
 }
 
-final class LiveStreamViewModelRxSwift {
+internal final class LiveStreamViewModelRxSwift {
 
     var videoUrl: BehaviorRelay<URL?> = .init(value: nil)
     var playerItemStatus: BehaviorRelay<AVPlayerItem.Status> = .init(value: .unknown)

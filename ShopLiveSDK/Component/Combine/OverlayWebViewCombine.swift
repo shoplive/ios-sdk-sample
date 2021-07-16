@@ -10,7 +10,7 @@ import WebKit
 import Combine
 
 @available(iOS 13.0, *)
-class OverlayWebViewCombine: UIView {
+internal class OverlayWebViewCombine: UIView {
     @Published var overlayUrl: URL?
     @Published var isMuted: Bool = false
     @Published var isPlaying: Bool = false

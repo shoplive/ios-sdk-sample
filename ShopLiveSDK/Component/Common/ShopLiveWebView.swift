@@ -8,7 +8,7 @@
 import Foundation
 import WebKit
 
-class ShopLiveWebView: WKWebView {
+internal final class ShopLiveWebView: WKWebView {
     override var inputAccessoryView: UIView? {
         return nil
     }

@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -265,7 +264,7 @@
                                                                     <constraint firstAttribute="height" constant="44" id="hok-re-lEa"/>
                                                                 </constraints>
                                                                 <state key="normal" title="KeySet 설정">
-                                                                    <color key="titleColor" name="TextColor"/>
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="didTouchKeySetEditorButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y82-S3-jGP"/>
@@ -278,7 +277,7 @@
                                                                     <constraint firstAttribute="height" constant="44" id="kqL-Hx-kAE"/>
                                                                 </constraints>
                                                                 <state key="normal" title="PLAY">
-                                                                    <color key="titleColor" name="TextColor"/>
+                                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 </state>
                                                                 <connections>
                                                                     <action selector="didTouchPlayButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JyM-bJ-rog"/>
@@ -461,9 +460,6 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="TextColor">
-            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

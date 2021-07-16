@@ -11,7 +11,7 @@ import WebKit
 import RxSwift
 import RxCocoa
 
-class OverlayWebViewRxSwift: UIView {
+internal final class OverlayWebViewRxSwift: UIView {
 
     /*
     // Only override draw() if you perform custom drawing.

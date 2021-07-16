@@ -8,7 +8,7 @@
 import UIKit
 import AVKit
 
-final class VideoView: UIView {
+internal final class VideoView: UIView {
     var playerLayer: AVPlayerLayer {
         return self.layer as! AVPlayerLayer
     }
