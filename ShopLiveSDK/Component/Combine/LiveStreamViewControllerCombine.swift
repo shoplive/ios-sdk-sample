@@ -380,6 +380,18 @@ internal final class LiveStreamViewControllerCombine: UIViewController {
         imageView?.isHidden = false
     }
 
+    func onTerminated() {
+        overlayView?.closeWebSocket()
+    }
+
+    func onBackground() {
+        overlayView?.sendEventToWeb(event: .onBackground)
+    }
+
+    func onForeground() {
+        overlayView?.sendEventToWeb(event: .onForeground)
+    }
+
     private func setupForegroungImageView() {
         let foregroundImageView = UIImageView()
         foregroundImageView.isHidden = true
@@ -597,6 +609,7 @@ extension LiveStreamViewControllerCombine: OverlayWebViewDelegate {
     }
 
     @objc func didTouchCloseButton() {
+        overlayView?.closeWebSocket()
         delegate?.didTouchCloseButton()
     }
 

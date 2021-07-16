@@ -29,6 +29,7 @@ internal class OverlayWebViewCombine: UIView {
     }
     
     deinit {
+        webView = nil
         cancellableSet.forEach { (cancellable) in
             cancellable.cancel()
         }
@@ -185,7 +186,11 @@ internal class OverlayWebViewCombine: UIView {
     func didCompleteDownloadCoupon(with couponId: String) {
         self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
     }
-    
+
+    func closeWebSocket() {
+        self.sendEventToWeb(event: .onTerminated)
+    }
+
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
         isPipMode = style == .pip
     }

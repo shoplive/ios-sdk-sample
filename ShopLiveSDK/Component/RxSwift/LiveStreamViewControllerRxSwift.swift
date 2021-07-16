@@ -131,6 +131,19 @@ internal final class LiveStreamViewControllerRxSwift: UIViewController {
     }
 
     private func setupRx() {
+        NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification)
+            .subscribe(onNext: { [weak self] notification in
+                self?.onBackground()
+            })
+            .disposed(by: cancellableDisposeBag)
+//
+        NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
+            .subscribe(onNext: { [weak self] notification in
+                self?.onForeground()
+            })
+            .disposed(by: cancellableDisposeBag)
+
+
         NotificationCenter.default.rx.notification(UIResponder.keyboardWillShowNotification)
                 .observe(on: MainScheduler.instance)
             .subscribe(onNext: { [weak self] notification in
@@ -376,6 +389,18 @@ internal final class LiveStreamViewControllerRxSwift: UIViewController {
         imageView?.isHidden = false
     }
 
+    func onTerminated() {
+        overlayView?.closeWebSocket()
+    }
+
+    func onBackground() {
+        overlayView?.sendEventToWeb(event: .onBackground)
+    }
+
+    func onForeground() {
+        overlayView?.sendEventToWeb(event: .onForeground)
+    }
+
     private func setupForegroungImageView() {
         let foregroundImageView = UIImageView()
         foregroundImageView.isHidden = true
@@ -594,6 +619,7 @@ extension LiveStreamViewControllerRxSwift: OverlayWebViewDelegate {
     }
 
     @objc func didTouchCloseButton() {
+        overlayView?.closeWebSocket()
         delegate?.didTouchCloseButton()
     }
 

@@ -593,6 +593,10 @@ import RxCocoa
 
 
 extension ShopLiveRxSwift: ShopLiveComponent {
+    func onTerminated() {
+        liveStreamViewController?.onTerminated()
+    }
+
     func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
         ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
     }

@@ -31,6 +31,7 @@ import WebKit
     @objc func isAutoResumeVideoOnCallEnded() -> Bool
 
     @objc func reloadLive()
+    @objc func onTerminated()
 }
 
 @objc public final class ShopLive: NSObject {
@@ -101,6 +102,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func onTerminated() {
+        shared.instance?.onTerminated()
+    }
+
     public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
         shared.instance?.setKeepPlayVideoOnHeadphoneUnplugged(keepPlay)
     }

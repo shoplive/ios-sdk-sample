@@ -55,6 +55,14 @@ import WebKit
                 self?.pictureInPictureController?.stopPictureInPicture()
             }
         }.store(in: &cancellableSet)
+
+        NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification).receive(on: RunLoop.main).sink { [weak self] (notification) in
+            self?.liveStreamViewController?.onBackground()
+        }.store(in: &cancellableSet)
+
+        NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification).receive(on: RunLoop.main).sink { [weak self] (notification) in
+            self?.liveStreamViewController?.onForeground()
+        }.store(in: &cancellableSet)
         
         $_authToken.removeDuplicates().sink { [weak self] (authToken) in
             self?.liveStreamViewController?.viewModel.authToken = authToken
@@ -566,6 +574,18 @@ import WebKit
 
 @available(iOS 13.0, *)
 extension ShopLiveCombine: ShopLiveComponent {
+    func onBackground() {
+
+    }
+
+    func onForeground() {
+
+    }
+
+    func onTerminated() {
+        liveStreamViewController?.onTerminated()
+    }
+    
     func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool) {
         ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged = keepPlay
     }

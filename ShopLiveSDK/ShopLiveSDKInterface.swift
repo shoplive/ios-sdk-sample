@@ -37,5 +37,6 @@ import WebKit
     @objc static func isAutoResumeVideoOnCallEnded() -> Bool
     
     @objc static func reloadLive()
+    @objc static func onTerminated()
     //    @objc static func dismissShopLive()
 }

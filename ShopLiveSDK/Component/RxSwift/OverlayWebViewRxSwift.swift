@@ -38,6 +38,7 @@ internal final class OverlayWebViewRxSwift: UIView {
     }
 
     deinit {
+        webView = nil
         cancellableDisposeBag = DisposeBag()
         delegate = nil
     }
@@ -157,6 +158,10 @@ internal final class OverlayWebViewRxSwift: UIView {
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
         isPipMode.accept(style == .pip)
+    }
+
+    func closeWebSocket() {
+        self.sendEventToWeb(event: .onTerminated)
     }
 
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
