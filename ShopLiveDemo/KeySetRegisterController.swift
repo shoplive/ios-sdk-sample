@@ -6,6 +6,11 @@
 //
 
 import UIKit
+#if canImport(ShopLiveSDK_MinVer13)
+import ShopLiveSDK_MinVer13
+#elseif canImport(ShopLiveSDK_MinVer11)
+import ShopLiveSDK_MinVer11
+#endif
 
 protocol KeySetRegisterDelegate: AnyObject {
     func upateKeyInfo(key: ShopLiveKeySet)
@@ -36,8 +41,10 @@ final class KeySetRegisterController: UIViewController {
     }
 
     private func setupViews() {
-        let tableTapGesture = UIGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
-        tableView.addGestureRecognizer(tableTapGesture)
+        let tableTapGesture = UITapGestureRecognizer.init(target: self, action: #selector(dismissKeyboard))
+        tableView.backgroundView = UIView()
+        tableView.backgroundView?.isUserInteractionEnabled = true
+        tableView.backgroundView?.addGestureRecognizer(tableTapGesture)
     }
 
     
@@ -121,6 +128,7 @@ extension KeySetRegisterController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
 
+        self.dismissKeyboard()
         guard let key = ShopLiveDemoKeyTools.shared.load(alias: keysets[indexPath.row]) else { return }
 
         openSelectSheet(key: key)

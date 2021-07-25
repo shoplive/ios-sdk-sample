@@ -117,6 +117,7 @@
 		BFBBAF7326A20A6700574958 /* ShopLiveRxSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E8E265A211E00202160 /* ShopLiveRxSwift.swift */; };
 		BFBBAF8C26A2159D00574958 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFBBAF8B26A2159D00574958 /* RxCocoa */; };
 		BFBBAF8E26A2159D00574958 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BFBBAF8D26A2159D00574958 /* RxSwift */; };
+		BFBBAF9226AD0D1A00574958 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = BFBBAF9126AD0D1A00574958 /* RxCocoa */; };
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
@@ -250,6 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFBBAF9226AD0D1A00574958 /* RxCocoa in Frameworks */,
 				BFBBACA42699EC4500574958 /* CallKit.framework in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 			);
@@ -550,6 +552,9 @@
 			dependencies = (
 			);
 			name = ShopLiveDemo;
+			packageProductDependencies = (
+				BFBBAF9126AD0D1A00574958 /* RxCocoa */,
+			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -1201,7 +1206,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1209,7 +1214,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;
@@ -1226,7 +1231,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1234,7 +1239,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.9;
+				MARKETING_VERSION = 1.0.10;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;
@@ -1598,6 +1603,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFBBAF8A26A2159C00574958 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		BFBBAF9126AD0D1A00574958 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFBBAF8A26A2159C00574958 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

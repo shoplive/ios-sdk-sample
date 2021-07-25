@@ -7,13 +7,11 @@
 
 import UIKit
 import SafariServices
-
-#if canImport(ShopLiveSDK_MinVer11)
-import ShopLiveSDK_MinVer11
-#elseif canImport(ShopLiveSDK_MinVer13)
+#if canImport(ShopLiveSDK_MinVer13)
 import ShopLiveSDK_MinVer13
+#elseif canImport(ShopLiveSDK_MinVer11)
+import ShopLiveSDK_MinVer11
 #endif
-
 
 class ViewController: UIViewController {
 
@@ -40,14 +38,12 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var swSignIn: UISwitch!
     @IBOutlet weak var swPipSetting: UISwitch!
-
-    @IBOutlet weak var swPipCustomSize: UISwitch!
-    @IBOutlet weak var swPipCustomPosition: UISwitch!
+    @IBOutlet weak var swKeepPlayUnplugged: UISwitch!
+    @IBOutlet weak var swAutoResume: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
         ShopLive.delegate = self
 
         #if DEBUG
@@ -55,7 +51,6 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "e7e712b8728d", accessKey: "7xxPlb8yOhZnchquMQHO"))
         ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
-//        ShopLiveDemoKeyTools.shared.phase = ShopLive.Phase.DEV.name
         #endif
 
         hideKeyboard()
@@ -113,32 +108,29 @@ class ViewController: UIViewController {
 
             // pip
             if self.swPipSetting.isOn {
-                if self.swPipCustomSize.isOn {
-                    if let slPipCS = self.pipCUstomSize.text,
-                       slPipCS.isEmpty == false {
-                        ShopLive.pipScale = CGFloat(NSString(string: slPipCS).floatValue)
-                    } else {
-                        ShopLive.pipScale = 2/5
-                    }
+                if let slPipCS = self.pipCUstomSize.text,
+                   slPipCS.isEmpty == false {
+                    ShopLive.pipScale = CGFloat(NSString(string: slPipCS).floatValue)
+                } else {
+                    ShopLive.pipScale = 2/5
                 }
 
-                if self.swPipCustomPosition.isOn {
-                    ShopLive.pipPosition = self.pipPosition
-                } else {
-                    ShopLive.pipPosition = .default
-                }
+                ShopLive.pipPosition = self.pipPosition
             }
+
+            ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
+            ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
 
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)
         }
     }
 
-    @IBAction func didTouchKeySetEditorButton(_ sender: Any) {
+    func didTouchKeySetEditorButton() {
         dismissKeyboard()
         guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "KeySetRegisterController") as? KeySetRegisterController else { return }
         vc.delegate = self
-        self.present(vc, animated: true, completion: nil)
+        self.present(vc, animated: true)
     }
 
     private func selectGender() {
@@ -233,6 +225,8 @@ extension ViewController: UITextFieldDelegate {
             dismissKeyboard()
             selectPhase()
             break
+        case keyAlias, keyAccess, keyCampaign:
+            didTouchKeySetEditorButton()
         default:
             editing = true
             break
@@ -272,10 +266,8 @@ extension ViewController: ShopLiveSDKDelegate {
             let safari = SFSafariViewController(url: url)
             self.present(safari, animated: true)
         } else {
-//            ShopLive.startPictureInPicture()
-            let safari = SFSafariViewController(url: url)
-            safari.delegate = self
-            self.present(safari, animated: true)
+            // TODO: Single UIWindow 에서 PIP 처리 적용 필요
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
 
     }

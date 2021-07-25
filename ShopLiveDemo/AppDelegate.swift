@@ -6,14 +6,10 @@
 //
 
 import UIKit
-#if canImport(ShopLiveSDK_MinVer11)
-import ShopLiveSDK_MinVer11
-#elseif canImport(ShopLiveSDK_MinVer13)
-import ShopLiveSDK_MinVer13
-#endif
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
+
     var window: UIWindow?
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
