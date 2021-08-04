@@ -43,12 +43,8 @@ import WebKit
     override init() {
         super.init()
         if #available(iOS 13.0, *) {
-            instance = ShopLiveCombine()
+            instance = ShopLiveBase()
         } else {
-            #if canImport(RxSwift)
-                    instance = ShopLiveRxSwift()
-            #endif
-
         }
     }
 }

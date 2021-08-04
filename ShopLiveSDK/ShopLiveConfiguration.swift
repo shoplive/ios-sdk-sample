@@ -19,14 +19,14 @@ extension RawRepresentable where RawValue == String, Self: SLNotificationName {
     }
 }
 
-internal final class ShopLiveConfiguration {
+internal final class ShopLiveConfiguration: NSObject {
 
     enum SLNotifications: String, SLNotificationName {
         case soundPolicyUpdate
     }
 
-    enum SLPlayControl {
-        case none
+    @objc enum SLPlayControl: Int {
+        case none = 0
         case stop
         case pause
         case play
@@ -55,5 +55,5 @@ internal final class ShopLiveConfiguration {
 
     static var soundPolicy: SoundPolicy = .init()
 
-    fileprivate init() {}
+    fileprivate override init() {}
 }

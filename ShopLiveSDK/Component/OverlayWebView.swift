@@ -1,35 +1,23 @@
 //
-//  OverlayWebViewRxSwift.swift
+//  OverlayWebView.swift
 //  ShopLiveSDK
 //
-//  Created by ShopLive on 2021/05/19.
+//  Created by ShopLive on 2021/02/08.
 //
-#if canImport(RxCocoa)
+
 import UIKit
 import WebKit
-import RxSwift
-import RxCocoa
 
-internal final class OverlayWebViewRxSwift: UIView {
-
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-
-    var overlayUrl: BehaviorRelay<URL?> = .init(value: nil)
-    var isMuted: BehaviorRelay<Bool> = .init(value: false)
-    var isPlaying: BehaviorRelay<Bool> = .init(value: false)
-    var isPipMode: BehaviorRelay<Bool> = .init(value: false)
-
+@available(iOS 13.0, *)
+internal class OverlayWebView: UIView {
+    @objc dynamic var overlayUrl: URL?
+    @objc dynamic var isMuted: Bool = false
+    @objc dynamic var isPlaying: Bool = false
+    @objc dynamic var isPipMode: Bool = false
+    
     private var isSystemInitialized: Bool = false
     private weak var webView: ShopLiveWebView?
-
-    private lazy var cancellableDisposeBag = DisposeBag()
-
+    
     weak var delegate: OverlayWebViewDelegate?
     weak var webviewUIDelegate: WKUIDelegate? {
         didSet {
@@ -38,46 +26,61 @@ internal final class OverlayWebViewRxSwift: UIView {
     }
 
     deinit {
+        removeObserver()
         webView = nil
-        cancellableDisposeBag = DisposeBag()
         delegate = nil
     }
-
+    
     override func removeFromSuperview() {
         super.removeFromSuperview()
         webView?.configuration.userContentController.removeScriptMessageHandler(forName: ShopLiveDefines.webInterface)
         webView?.removeFromSuperview()
         webView = nil
     }
-
+    
     init(with webViewConfiguration: WKWebViewConfiguration? =  nil) {
         super.init(frame: .zero)
         initWebView(with: webViewConfiguration)
-        initObserver()
+        addObserver()
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         initWebView()
-        initObserver()
+        addObserver()
     }
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         initWebView()
+        addObserver()
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
     }
+
+    
+    private lazy var blockTouchView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.backgroundColor = .red
+//        view.alpha = 0.3
+        view.isHidden = true
+        return view
+    }()
 
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
         let configuration = webViewConfiguration ?? WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
-        let source: String = "var meta = document.createElement('meta');" + "meta.name = 'viewport';" + "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';" + "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);";
+        //viewport-fit=cover //content="viewport-fit=cover"
+//        let source: String = "var meta = document.createElement('meta');" + "meta.name = 'viewport';" + "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';" + "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);";
+
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
+//        webView.scrollView.contentInsetAdjustmentBehavior = .never
+
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -85,16 +88,16 @@ internal final class OverlayWebViewRxSwift: UIView {
                                      webView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
                                      webView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
-
+                
         webView.navigationDelegate = self
         webView.isOpaque = false
         webView.backgroundColor = UIColor.clear
         webView.scrollView.backgroundColor = UIColor.clear
         webView.scrollView.isScrollEnabled = false
-        webView.scrollView.contentInsetAdjustmentBehavior = .always
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.allowsLinkPreview = false
         webView.scrollView.layer.masksToBounds = false
-        webView.configuration.userContentController.addUserScript(WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: false))
+//        webView.configuration.userContentController.addUserScript(WKUserScript(source: source, injectionTime: WKUserScriptInjectionTime.atDocumentEnd, forMainFrameOnly: false))
         self.clipsToBounds = true
 
         webView.evaluateJavaScript("navigator.userAgent") { [weak webView] (result, error) in
@@ -105,82 +108,108 @@ internal final class OverlayWebViewRxSwift: UIView {
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
         webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
         self.webView = webView
+        // setupBlockTouchView()
     }
 
-    private func initObserver() {
+    private func setupBlockTouchView() {
+        self.addSubview(blockTouchView)
+        self.bringSubviewToFront(blockTouchView)
+        NSLayoutConstraint.activate([blockTouchView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+                                     blockTouchView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+                                     blockTouchView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+                                     blockTouchView.widthAnchor.constraint(equalTo: self.widthAnchor)
+        ])
 
-        overlayUrl
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] url in
-                guard let url = url else { return }
-                self?.loadOverlay(with: url)
-            }).disposed(by: cancellableDisposeBag)
-
-        isPlaying
-            .skip(1)
-            .observe(on: MainScheduler.instance)
-            .bind(onNext: { [weak self] isPlayingVideo in
-                guard let self = self else { return }
-                guard self.isSystemInitialized else { return }
-                self.webView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: isPlayingVideo), isPlayingVideo)
-            }).disposed(by: cancellableDisposeBag)
-
-        isMuted
-            .distinctUntilChanged()
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] isMuted in
-                guard let self = self else { return }
-                guard self.isSystemInitialized else { return }
-                self.webView?.sendEventToWeb(event: .setIsMute, isMuted)
-            }.disposed(by: cancellableDisposeBag)
-
-        isPipMode
-            .skip(1)
-            .observe(on: MainScheduler.instance)
-            .bind { [weak self] isPipMode in
-                guard let self = self else { return }
-                guard self.isSystemInitialized else { return }
-                self.webView?.sendEventToWeb(event: .onPipModeChanged, isPipMode)
-            }.disposed(by: cancellableDisposeBag)
+        self.blockTouchView.addGestureRecognizer(UITapGestureRecognizer.init(target: self, action: #selector(tapBLockTouchView)))
     }
 
+    func setBlockView(show: Bool) {
+        self.blockTouchView.isHidden = !show
+    }
+
+    @objc private func tapBLockTouchView() {
+        delegate?.didTouchBlockView()
+    }
+    
     private func loadOverlay(with url: URL) {
         webView?.load(URLRequest(url: url))
     }
-
+    
     func reload() {
         webView?.reload()
     }
-
+    
     func didCompleteDownloadCoupon(with couponId: String) {
-        webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
-    }
-
-    func updatePipStyle(with style: ShopLive.PresentationStyle) {
-        isPipMode.accept(style == .pip)
+        self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
     }
 
     func closeWebSocket() {
         self.sendEventToWeb(event: .onTerminated)
     }
 
+    func updatePipStyle(with style: ShopLive.PresentationStyle) {
+        isPipMode = style == .pip
+    }
+
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
         self.webView?.sendEventToWeb(event: event, param, wrapping)
     }
 
+     func addObserver() {
+        self.addObserver(self, forKeyPath: "overlayUrl", options: [.initial, .new], context: nil)
+        self.addObserver(self, forKeyPath: "isPlaying", options: [.initial, .new], context: nil)
+        self.addObserver(self, forKeyPath: "isMuted", options: [.initial, .old, .new], context: nil)
+        self.addObserver(self, forKeyPath: "isPipMode", options: [.initial, .old, .new], context: nil)
+     }
+
+     func removeObserver() {
+         self.removeObserver(self, forKeyPath: "overlayUrl")
+         self.removeObserver(self, forKeyPath: "isPlaying")
+         self.removeObserver(self, forKeyPath: "isMuted")
+        self.removeObserver(self, forKeyPath: "isPipMode")
+     }
+
+     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+         switch keyPath {
+         case "overlayUrl":
+             guard let newValue: URL = change?[.newKey] as? URL else { return }
+             self.loadOverlay(with: newValue)
+             break
+         case "isPipMode":
+             guard let newValue: Bool = change?[.newKey] as? Bool else { return }
+             guard self.isSystemInitialized else { return }
+             self.webView?.sendEventToWeb(event: .onPipModeChanged, newValue)
+             break
+         case "isPlaying":
+             guard let newValue: Bool = change?[.newKey] as? Bool else { return }
+             guard self.isSystemInitialized else { return }
+             self.webView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: newValue), newValue)
+             break
+         case "isMuted":
+             guard let oldValue: Bool = change?[.oldKey] as? Bool,
+                   let newValue: Bool = change?[.newKey] as? Bool, oldValue != newValue else { return }
+             guard self.isSystemInitialized else { return }
+             self.webView?.sendEventToWeb(event: .setIsMute, newValue)
+             break
+         default:
+             break
+         }
+     }
 }
 
-extension OverlayWebViewRxSwift: WKNavigationDelegate {
+@available(iOS 13.0, *)
+extension OverlayWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
     }
-
+    
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-
+        
     }
 }
 
-extension OverlayWebViewRxSwift: WKScriptMessageHandler {
+@available(iOS 13.0, *)
+extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
@@ -189,10 +218,10 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
             self.isSystemInitialized = true
             self.webView?.sendEventToWeb(event: .videoInitialized)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: self.isMuted.value), self.isMuted.value)
+                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: self.isMuted), self.isMuted)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
-                self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode.value)
+                self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
             }
         case .setVideoMute(let isMuted):
             ShopLiveLogger.debugLog("setVideoMute(\(isMuted))")
@@ -214,7 +243,7 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
                 self.delegate?.didTouchPauseButton()
             }
             ShopLiveLogger.debugLog("setIsPlayingVideo(\(isPlaying))")
-            self.isPlaying.accept(isPlaying)
+            self.isPlaying = isPlaying
         case .reloadVideo:
             ShopLiveLogger.debugLog("reloadVideo")
             self.delegate?.reloadVideo()
@@ -233,11 +262,11 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
         case .playVideo:
             ShopLiveLogger.debugLog("navigation")
             self.delegate?.didTouchPlayButton()
-            self.isPlaying.accept(true)
+            self.isPlaying = true
         case .pauseVideo:
             ShopLiveLogger.debugLog("navigation")
             self.delegate?.didTouchPauseButton()
-            self.isPlaying.accept(false)
+            self.isPlaying = false
         case .clickShareButton(let url):
             ShopLiveLogger.debugLog("clickShareButton(\(url))")
         case .replay(let width, let height):
@@ -253,4 +282,3 @@ extension OverlayWebViewRxSwift: WKScriptMessageHandler {
         }
     }
 }
-#endif

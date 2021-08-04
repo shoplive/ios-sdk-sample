@@ -6,11 +6,6 @@
 //
 
 import UIKit
-#if canImport(ShopLiveSDK_MinVer13)
-import ShopLiveSDK_MinVer13
-#elseif canImport(ShopLiveSDK_MinVer11)
-import ShopLiveSDK_MinVer11
-#endif
 
 protocol KeySetRegisterDelegate: AnyObject {
     func upateKeyInfo(key: ShopLiveKeySet)

@@ -6,16 +6,12 @@
 //
 
 import UIKit
-import Combine
 import AVKit
 import WebKit
 
 @available(iOS 13.0, *)
-@objc internal final class ShopLiveCombine: NSObject {
+@objc internal final class ShopLiveBase: NSObject {
 
-    private lazy var cancellableSet = Set<AnyCancellable>()
-    private lazy var pipControllerPublisherCancellableSet = Set<AnyCancellable>()
-    
     private var shopLiveWindow: UIWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
@@ -34,11 +30,11 @@ import WebKit
     private var replaySize: CGSize = CGSize(width: 9, height: 16)
     weak private var mainWindow: UIWindow? = nil
     
-    @Published var _style: ShopLive.PresentationStyle = .unknown
-    @Published var _authToken: String?
-    @Published var _user: ShopLiveUser?
+    @objc dynamic var _style: ShopLive.PresentationStyle = .unknown
+    @objc dynamic var _authToken: String?
+    @objc dynamic var _user: ShopLiveUser?
     
-    var liveStreamViewController: LiveStreamViewControllerCombine?
+    var liveStreamViewController: LiveStreamViewController?
     var pictureInPictureController: AVPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
@@ -48,33 +44,11 @@ import WebKit
     
     override init() {
         super.init()
-        
-        NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification).receive(on: RunLoop.main).sink { [weak self] (notification) in
-            guard self?._style != .unknown else { return }
-            DispatchQueue.main.async {
-                self?.pictureInPictureController?.stopPictureInPicture()
-            }
-        }.store(in: &cancellableSet)
+        addObserver()
+    }
 
-        NotificationCenter.default.publisher(for: UIApplication.didEnterBackgroundNotification).receive(on: RunLoop.main).sink { [weak self] (notification) in
-            self?.liveStreamViewController?.onBackground()
-        }.store(in: &cancellableSet)
-
-        NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification).receive(on: RunLoop.main).sink { [weak self] (notification) in
-            self?.liveStreamViewController?.onForeground()
-        }.store(in: &cancellableSet)
-        
-        $_authToken.removeDuplicates().sink { [weak self] (authToken) in
-            self?.liveStreamViewController?.viewModel.authToken = authToken
-        }.store(in: &cancellableSet)
-        
-        $_user.removeDuplicates().sink { [weak self] (user) in
-            self?.liveStreamViewController?.viewModel.user = user
-        }.store(in: &cancellableSet)
-        
-        $_style.dropFirst().removeDuplicates().sink { (style) in
-            self.liveStreamViewController?.updatePipStyle(with: style)
-        }.store(in: &cancellableSet)
+    deinit {
+        removeObserver()
     }
     
     func showShopLiveView(with overlayUrl: URL) {
@@ -93,7 +67,7 @@ import WebKit
             print("Audio session failed")
         }
         
-        liveStreamViewController = LiveStreamViewControllerCombine()
+        liveStreamViewController = LiveStreamViewController()
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
         liveStreamViewController?.viewModel.overayUrl = overlayUrl
@@ -192,33 +166,36 @@ import WebKit
         catch let error {
             debugPrint(error)
         }
-        guard let playerLayer = liveStreamViewController?.playerLayer else { return }
+
+        guard let playerLayer = liveStreamViewController?.playerView.player.playerLayer else { return }
         playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
         // Ensure PiP is supported by current device.
         if AVPictureInPictureController.isPictureInPictureSupported() {
             // Create a new controller, passing the reference to the AVPlayerLayer.
             pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
             pictureInPictureController?.delegate = self
-//            pictureInPictureController?.publisher(for: \.isPictureInPicturePossible)
-//                .receive(on: RunLoop.main)
-//                .sink(receiveValue: { [weak self] (isPictureInPicturePossible) in
-////                    self?.liveStreamViewController?.pipButton?.isEnabled = isPictureInPicturePossible
-//                })
-//                .store(in: &pipControllerPublisherCancellableSet)
+            /*
+                pictureInPictureController?.publisher(for: \.isPictureInPicturePossible)
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: { [weak self] (isPictureInPicturePossible) in
+    //                    self?.liveStreamViewController?.pipButton?.isEnabled = isPictureInPicturePossible
+                    })
+                    .store(in: &pipControllerPublisherCancellableSet)
 
-//            pictureInPictureController?.publisher(for: \.isPictureInPictureActive)
-//                .receive(on: RunLoop.main)
-//                .sink(receiveValue: { [weak self] (isPictureInPictureActive) in
-////                    self?.style = isPictureInPictureActive ? .pip : .fullScreen
-//                })
-//                .store(in: &pipControllerPublisherCancellableSet)
+                pictureInPictureController?.publisher(for: \.isPictureInPictureActive)
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: { [weak self] (isPictureInPictureActive) in
+    //                    self?.style = isPictureInPictureActive ? .pip : .fullScreen
+                    })
+                    .store(in: &pipControllerPublisherCancellableSet)
 
-//            pictureInPictureController?.publisher(for: \.isPictureInPictureSuspended)
-//                .receive(on: RunLoop.main)
-//                .sink(receiveValue: { (isPictureInPictureSuspended) in
-//
-//                })
-//                .store(in: &pipControllerPublisherCancellableSet)
+                pictureInPictureController?.publisher(for: \.isPictureInPictureSuspended)
+                    .receive(on: RunLoop.main)
+                    .sink(receiveValue: { (isPictureInPictureSuspended) in
+
+                    })
+                    .store(in: &pipControllerPublisherCancellableSet)
+             */
         } else {
             // PiP isn't supported by the current device. Disable the PiP button.
 //            liveStreamViewController?.pipButton?.isEnabled = false
@@ -235,7 +212,7 @@ import WebKit
     
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard let mainWindow = self.mainWindow else { return .zero }
-        var videoSize = liveStreamViewController?.viewModel.videoPlayer.currentItem?.presentationSize ?? .zero
+        var videoSize = liveStreamViewController?.viewModel.videoPlayer?.currentItem?.presentationSize ?? .zero
         videoSize = videoSize == .zero ? replaySize : videoSize
         
         let width = mainWindow.bounds.width * scale
@@ -281,7 +258,7 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
-        
+
         if liveStreamViewController?.isReplayMode ?? false {
             //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
             //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
@@ -290,7 +267,7 @@ import WebKit
             let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
             let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
             let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
-            
+
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
                 self.liveStreamViewController?.isHiddenOverlay = true
                 shopLiveWindow.transform = transform
@@ -312,7 +289,6 @@ import WebKit
                 shopLiveWindow.layer.shadowOpacity = 0.5
                 shopLiveWindow.layer.shadowOffset = .zero
                 shopLiveWindow.layer.shadowRadius = 10
-                
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100)) {
                     self.liveStreamViewController?.view.isHidden = false
                     snapshop.removeFromSuperview()
@@ -566,22 +542,71 @@ import WebKit
         if let ck = campaignKey {
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
-        
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)
+    }
+
+    func addObserver() {
+        self.addObserver(self, forKeyPath: "_style", options: [.initial, .old, .new], context: nil)
+        self.addObserver(self, forKeyPath: "_authToken", options: [.initial, .old, .new], context: nil)
+        self.addObserver(self, forKeyPath: "_user", options: [.initial, .old, .new], context: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+
+    func removeObserver() {
+        self.removeObserver(self, forKeyPath: "_style")
+        self.removeObserver(self, forKeyPath: "_authToken")
+        self.removeObserver(self, forKeyPath: "_user")
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+    }
+
+    @objc func handleNotification(_ notification: Notification) {
+        switch notification.name {
+        case UIApplication.didBecomeActiveNotification:
+            self.pictureInPictureController?.stopPictureInPicture()
+            break
+        case UIApplication.didEnterBackgroundNotification:
+            self.liveStreamViewController?.onBackground()
+            break
+        case UIApplication.willEnterForegroundNotification:
+            self.liveStreamViewController?.onForeground()
+            break
+        default:
+            break
+        }
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        switch keyPath {
+        case "_style":
+            guard let oldValue: ShopLive.PresentationStyle = change?[.oldKey] as? ShopLive.PresentationStyle,
+                  let newValue: ShopLive.PresentationStyle = change?[.newKey] as? ShopLive.PresentationStyle, oldValue != newValue else { return }
+            self.liveStreamViewController?.updatePipStyle(with: newValue)
+            break
+        case "_authToken":
+            guard let oldValue: String = change?[.oldKey] as? String,
+                  let newValue: String = change?[.newKey] as? String, oldValue != newValue else { return }
+            self.liveStreamViewController?.viewModel.authToken = newValue
+            break
+        case "_user":
+            guard let oldValue: ShopLiveUser = change?[.oldKey] as? ShopLiveUser,
+                  let newValue: ShopLiveUser = change?[.newKey] as? ShopLiveUser, oldValue != newValue else { return }
+            self.liveStreamViewController?.viewModel.user = newValue
+            break
+        default:
+            break
+        }
     }
 }
 
 @available(iOS 13.0, *)
-extension ShopLiveCombine: ShopLiveComponent {
-    func onBackground() {
-
-    }
-
-    func onForeground() {
-
-    }
-
+extension ShopLiveBase: ShopLiveComponent {
     func onTerminated() {
         liveStreamViewController?.onTerminated()
     }
@@ -700,7 +725,7 @@ extension ShopLiveCombine: ShopLiveComponent {
 }
 
 @available(iOS 13.0, *)
-extension ShopLiveCombine: AVPictureInPictureControllerDelegate {
+extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
         //PIP 에서 stop pip 버튼으로 돌아올 때
@@ -739,7 +764,7 @@ extension ShopLiveCombine: AVPictureInPictureControllerDelegate {
 }
 
 @available(iOS 13.0, *)
-extension ShopLiveCombine: LiveStreamViewControllerDelegate {
+extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func replay(with size: CGSize) {
         replaySize = size
     }
@@ -765,3 +790,6 @@ extension ShopLiveCombine: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
+
+
+
