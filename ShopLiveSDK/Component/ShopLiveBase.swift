@@ -170,7 +170,7 @@ import WebKit
             debugPrint(error)
         }
 
-        guard let playerLayer = liveStreamViewController?.playerView.player.playerLayer else { return }
+        guard let playerLayer = liveStreamViewController?.playerLayer else { return }
         playerLayer.frame = CGRect(x: 100, y: 100, width: 320, height: 180)
         // Ensure PiP is supported by current device.
         if AVPictureInPictureController.isPictureInPictureSupported() {

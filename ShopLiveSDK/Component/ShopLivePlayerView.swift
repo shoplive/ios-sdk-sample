@@ -9,33 +9,13 @@ import AVKit
 
 final class ShopLivePlayerView: UIView {
 
-    lazy var player: ShopLivePlayer = {
-        let player = ShopLivePlayer(superview: self)
-        return player
-    }()
+    var player: ShopLivePlayer = .init()
 
-    init() {
-        super.init(frame: .zero)
-        setupPlayer()
+    var playerLayer: AVPlayerLayer {
+        return self.layer as! AVPlayerLayer
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupPlayer()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupPlayer()
-    }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        player.fit()
-    }
-
-    func setupPlayer() {
-        self.layer.addSublayer(player.playerLayer)
-        player.fit()
+    override class var layerClass: AnyClass {
+        return AVPlayerLayer.self
     }
 }

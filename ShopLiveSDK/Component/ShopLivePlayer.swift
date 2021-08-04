@@ -11,16 +11,6 @@ final class ShopLivePlayer: AVPlayer {
 
     var superview: UIView?
 
-    lazy var playerLayer: AVPlayerLayer = {
-        let playerLayer = AVPlayerLayer()
-        playerLayer.player = self
-        playerLayer.videoGravity = .resizeAspectFill
-        playerLayer.needsDisplayOnBoundsChange = true
-        ShopLiveController.shared.playerItem.player = self
-        ShopLiveController.shared.playerItem.playerLayer = playerLayer
-        return playerLayer
-    }()
-
     deinit {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
     }
@@ -40,11 +30,11 @@ final class ShopLivePlayer: AVPlayer {
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
     }
 
-    func fit() {
-        guard let superview = self.superview else { return }
-
-        playerLayer.fitToSuperView(superview: superview)
-    }
+//    func fit() {
+//        guard let superview = self.superview else { return }
+//
+//        playerLayer.fitToSuperView(superview: superview)
+//    }
 }
 
 extension ShopLivePlayer {

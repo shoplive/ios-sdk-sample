@@ -24,7 +24,7 @@ internal final class LiveStreamViewController: UIViewController {
     private var foregroundImageView: UIImageView?
 
     var playerView: ShopLivePlayerView = .init()
-    private lazy var videoView: UIView = .init()//VideoView = VideoView()
+//    private lazy var videoView: UIView = .init()//VideoView = VideoView()
 
     private var playTimeObserver: Any?
 
@@ -34,6 +34,9 @@ internal final class LiveStreamViewController: UIViewController {
 
     private var bufferingTask: DispatchWorkItem?
 
+    var playerLayer: AVPlayerLayer? {
+        return playerView.playerLayer
+    }
     // optional: cancel task
 
     deinit {
@@ -49,7 +52,7 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.removeFromSuperview()
         imageView?.removeFromSuperview()
         foregroundImageView?.removeFromSuperview()
-        videoView.removeFromSuperview()
+        playerView.removeFromSuperview()
 
         overlayView = nil
         imageView = nil
@@ -170,10 +173,10 @@ internal final class LiveStreamViewController: UIViewController {
         }
     }
 
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        playerView.player.fit()
-    }
+//    override func viewWillLayoutSubviews() {
+//        super.viewWillLayoutSubviews()
+//        playerView.player.fit()
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -295,20 +298,26 @@ internal final class LiveStreamViewController: UIViewController {
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
 
-        view.addSubview(videoView)
-        videoView.addSubview(playerView)
-        playerView.fitToSuperView()
+        playerView.playerLayer.player = playerView.player
+        playerView.playerLayer.videoGravity = .resizeAspectFill
+        playerView.playerLayer.needsDisplayOnBoundsChange = true
+        ShopLiveController.shared.playerItem.player = playerView.player
+        ShopLiveController.shared.playerItem.playerLayer = playerLayer
 
-        topAnchor = videoView.topAnchor.constraint(equalTo: view.topAnchor)
-        topSafeAnchor = videoView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
-        videoView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(playerView)
+//        videoView.addSubview(playerView)
+//        playerView.fitToSuperView()
+
+        topAnchor = playerView.topAnchor.constraint(equalTo: view.topAnchor)
+        topSafeAnchor = playerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+        playerView.translatesAutoresizingMaskIntoConstraints = false
 
         topAnchor.isActive = true
         topSafeAnchor.isActive = false
 //        updateTopAnchor(isPip: false)
-        NSLayoutConstraint.activate([videoView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                                     videoView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                                     videoView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        NSLayoutConstraint.activate([playerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                                     playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                                     playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
