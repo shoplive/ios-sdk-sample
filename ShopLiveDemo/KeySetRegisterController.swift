@@ -98,7 +98,19 @@ final class KeySetRegisterController: UIViewController {
 
         keySheet.addAction(.init(title: "취소", style: .cancel, handler: nil))
 
-        self.present(keySheet, animated: true, completion: nil)
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            //디바이스 타입이 iPad일때
+//            if let popoverController = keySheet.popoverPresentationController {
+//                // ActionSheet가 표현되는 위치를 저장해줍니다.
+//                popoverController.sourceView = self.view
+//                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+//                popoverController.permittedArrowDirections = []
+//                self.present(keySheet, animated: true, completion: nil)
+//            }
+//        }
+//        else {
+            self.present(keySheet, animated: true, completion: nil)
+//        }
     }
 
     @IBAction func closeAction(_ sender: Any) {

@@ -523,7 +523,20 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             handler?()
         }))
         let veiwController = presentedViewController ?? self
-        veiwController.present(alertController, animated: true, completion: nil)
+
+//        if UIDevice.current.userInterfaceIdiom == .pad {
+//            //디바이스 타입이 iPad일때
+//            if let popoverController = alertController.popoverPresentationController {
+//                // ActionSheet가 표현되는 위치를 저장해줍니다.
+//                popoverController.sourceView = veiwController.view
+//                popoverController.sourceRect = CGRect(x: veiwController.view.bounds.midX, y: veiwController.view.bounds.midY, width: 0, height: 0)
+//                popoverController.permittedArrowDirections = []
+//                veiwController.present(alertController, animated: true, completion: nil)
+//            }
+//        }
+//        else {
+            veiwController.present(alertController, animated: true, completion: nil)
+//        }
     }
 }
 
@@ -533,7 +546,20 @@ extension LiveStreamViewController: WKUIDelegate {
         alertController.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
             completionHandler()
         }))
-        present(alertController, animated: true, completion: nil)
+
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            //디바이스 타입이 iPad일때
+            if let popoverController = alertController.popoverPresentationController {
+                // ActionSheet가 표현되는 위치를 저장해줍니다.
+                popoverController.sourceView = view
+                popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+                present(alertController, animated: true, completion: nil)
+            }
+        }
+        else {
+            present(alertController, animated: true, completion: nil)
+        }
     }
 
     func webView(_ webView: WKWebView, runJavaScriptConfirmPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (Bool) -> Void) {
@@ -547,6 +573,19 @@ extension LiveStreamViewController: WKUIDelegate {
             completionHandler(false)
         }))
 
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            //디바이스 타입이 iPad일때
+            if let popoverController = alertController.popoverPresentationController {
+                // ActionSheet가 표현되는 위치를 저장해줍니다.
+                popoverController.sourceView = view
+                popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+                present(alertController, animated: true, completion: nil)
+            }
+        }
+        else {
+            present(alertController, animated: true, completion: nil)
+        }
         present(alertController, animated: true, completion: nil)
     }
 
@@ -568,7 +607,19 @@ extension LiveStreamViewController: WKUIDelegate {
         alertController.addAction(UIAlertAction(title: "취소", style: .default, handler: { (action) in
             completionHandler(nil)
         }))
-        present(alertController, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            //디바이스 타입이 iPad일때
+            if let popoverController = alertController.popoverPresentationController {
+                // ActionSheet가 표현되는 위치를 저장해줍니다.
+                popoverController.sourceView = view
+                popoverController.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+                present(alertController, animated: true, completion: nil)
+            }
+        }
+        else {
+            present(alertController, animated: true, completion: nil)
+        }
     }
 }
 

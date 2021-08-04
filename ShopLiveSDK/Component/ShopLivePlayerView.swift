@@ -29,6 +29,11 @@ final class ShopLivePlayerView: UIView {
         setupPlayer()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        player.fit()
+    }
+
     func setupPlayer() {
         self.layer.addSublayer(player.playerLayer)
         player.fit()
