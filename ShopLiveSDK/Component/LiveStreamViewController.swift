@@ -286,7 +286,7 @@ internal final class LiveStreamViewController: UIViewController {
         view.addSubview(overlayView)
         overlayView.translatesAutoresizingMaskIntoConstraints = false
 
-        NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        NSLayoutConstraint.activate([overlayView.topAnchor.constraint(equalTo: view.topAnchor),
                                      overlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                                      overlayView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
                                      overlayView.widthAnchor.constraint(equalTo: view.widthAnchor)
