@@ -11,6 +11,7 @@ import WebKit
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
     @objc func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
+    @objc func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
     @objc func handleCommand(_ command: String, with payload: Any?)
 }
 
@@ -38,5 +39,8 @@ import WebKit
     
     @objc static func reloadLive()
     @objc static func onTerminated()
+
+    @objc static func setShareScheme(_ scheme: String, custom: (() -> Void)?)
+    @objc static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
     //    @objc static func dismissShopLive()
 }

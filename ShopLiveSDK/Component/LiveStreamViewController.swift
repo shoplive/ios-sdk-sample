@@ -38,7 +38,6 @@ internal final class LiveStreamViewController: UIViewController {
         return playerView.playerLayer
     }
     // optional: cancel task
-
     deinit {
         ShopLiveController.retryPlay = false
         removeObserver()
@@ -235,6 +234,10 @@ internal final class LiveStreamViewController: UIViewController {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
 
+    func didCompleteCustomAction(with id: String) {
+        overlayView?.didCompleteCustomAction(with: id)
+    }
+
     func hideBackgroundPoster() {
         imageView?.isHidden = true
         dismissKeyboard()
@@ -425,6 +428,29 @@ internal final class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func didTouchCustomAction(id: String, type: String, payload: Any?) {
+        ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(payload)")
+        delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
+    }
+
+    func shareAction(url: URL) {
+//        let text = "Hello, How are you doing?...."
+        let shareAll:[Any] = [url]//, text]
+
+        let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+
+    func didTouchShareButton(with url: URL) {
+        guard let custom = ShopLiveController.shared.customShareAction else {
+            // common 공유하기
+            shareAction(url: url)
+            return
+        }
+        custom()
+    }
+
     func didTouchBlockView() {
         dismissKeyboard()
     }

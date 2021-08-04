@@ -147,6 +147,10 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
     }
 
+    func didCompleteCustomAction(with id: String) {
+        self.webView?.sendEventToWeb(event: .completeCustomAction, id)
+    }
+
     func closeWebSocket() {
         self.sendEventToWeb(event: .onTerminated)
     }
@@ -250,11 +254,15 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveController.isPlaying = false
         case .clickShareButton(let url):
             ShopLiveLogger.debugLog("clickShareButton(\(url))")
+            self.delegate?.didTouchShareButton(with: url)
         case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
             self.delegate?.replay(with: CGSize(width: width, height: height))
         case .setVideoCurrentTime(let time):
             self.delegate?.setVideoCurrentTime(to: .init(seconds: time, preferredTimescale: 1))
+        case .customAction(let id, let type, let payload):
+            self.delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
+            break
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)

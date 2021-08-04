@@ -58,7 +58,8 @@ internal final class ChattingWriteView: UIView {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
 
-        chatTextView.placeholderAttributedText = NSMutableAttributedString(string: viewModel.chatInputPlaceholderText, attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
+        let isCustomFont = ShopLiveController.shared.inputBoxFont != nil
+        chatTextView.placeholderAttributedText = NSMutableAttributedString(string: viewModel.chatInputPlaceholderText, attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: isCustomFont ? ShopLiveController.shared.inputBoxFont ?? UIFont.systemFont(ofSize: 14, weight: .regular) : UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
 
 
         setSendButtonTitle(title: viewModel.chatInputSendText)
@@ -112,19 +113,22 @@ internal final class ChattingWriteView: UIView {
         chatView.delegate = self
         chatView.textView.delegate = self
 
+        let isCustomFont = ShopLiveController.shared.inputBoxFont != nil
         chatView.textView.returnKeyType = .send
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
-        chatView.textView.typingAttributes = [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)]
-        chatView.placeholderAttributedText = NSMutableAttributedString(string: NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
+        chatView.textView.typingAttributes = [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: isCustomFont ? ShopLiveController.shared.inputBoxFont ?? UIFont.systemFont(ofSize: 14, weight: .regular) : UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1)]
+        chatView.placeholderAttributedText = NSMutableAttributedString(string: NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), attributes: [NSAttributedString.Key.kern: -0.14, NSAttributedString.Key.paragraphStyle: paragraphStyle, .font: isCustomFont ? ShopLiveController.shared.inputBoxFont ?? UIFont.systemFont(ofSize: 14, weight: .regular) : UIFont.systemFont(ofSize: 14, weight: .regular), .foregroundColor: UIColor(red: 0.686, green: 0.686, blue: 0.686, alpha: 1)])
         return chatView
     }()
 
     private func setSendButtonTitle(title: String) {
+
+        let isCustomFont = ShopLiveController.shared.sendButtonFont != nil
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = 1.19
-        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
-        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor:  UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
+        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor: UIColor(red: 0, green: 0.471, blue: 1, alpha: 1), .font: isCustomFont ? ShopLiveController.shared.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium) : UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .normal)
+        sendButton.setAttributedTitle(NSMutableAttributedString(string: title, attributes: [NSAttributedString.Key.kern: -0.13, NSAttributedString.Key.paragraphStyle: paragraphStyle, .foregroundColor:  UIColor(red: 0.796, green: 0.796, blue: 0.796, alpha: 1), .font: isCustomFont ? ShopLiveController.shared.sendButtonFont ?? UIFont.systemFont(ofSize: 14, weight: .medium) : UIFont.systemFont(ofSize: 14, weight: .medium)]), for: .disabled)
     }
 
     private func isChatEnable() -> Bool {

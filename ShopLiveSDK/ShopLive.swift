@@ -32,6 +32,9 @@ import WebKit
 
     @objc func reloadLive()
     @objc func onTerminated()
+
+    @objc func setShareScheme(_ scheme: String, custom: (() -> Void)?)
+    @objc func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
 }
 
 @objc public final class ShopLive: NSObject {
@@ -98,6 +101,14 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
+        shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
+    }
+
+    static func setShareScheme(_ scheme: String, custom: (() -> Void)?) {
+        shared.instance?.setShareScheme(scheme, custom: custom)
+    }
+
     public static func onTerminated() {
         shared.instance?.onTerminated()
     }

@@ -116,6 +116,10 @@ class ViewController: UIViewController {
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
             ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
 
+            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: {
+                ShopLiveLogger.debugLog("share custom action")
+            })
+
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)
         }
@@ -287,6 +291,10 @@ extension UIViewController
 }
 
 extension ViewController: ShopLiveSDKDelegate {
+    func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void) {
+        print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
+    }
+
     func handleCommand(_ command: String, with payload: Any?) {
 
     }

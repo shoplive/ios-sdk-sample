@@ -18,6 +18,7 @@ import WebKit
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
+    private var shareScheme: String? = nil
     private var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
@@ -546,6 +547,10 @@ import WebKit
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        if let scm: String = shareScheme {
+            let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
+        }
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)
     }
@@ -609,6 +614,16 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
+        ShopLiveController.shared.inputBoxFont = inputBoxFont
+        ShopLiveController.shared.sendButtonFont = sendButtonFont
+    }
+
+    func setShareScheme(_ scheme: String, custom: (() -> Void)?) {
+        self.shareScheme = scheme
+        ShopLiveController.shared.customShareAction = custom
+    }
+
     func onTerminated() {
         liveStreamViewController?.onTerminated()
     }
@@ -765,6 +780,12 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    func didTouchCustomAction(id: String, type: String, payload: Any?) {
+        let completion: () -> Void = { 
+            self.liveStreamViewController?.didCompleteCustomAction(with: id) }
+        delegate?.handleCustomAction(with: id, type: type, payload: payload, completion: completion)
+    }
+
     func replay(with size: CGSize) {
         replaySize = size
     }

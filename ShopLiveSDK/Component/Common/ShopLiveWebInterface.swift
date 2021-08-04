@@ -32,6 +32,7 @@ enum WebInterface {
     case onPipModeChanged
     case setIsMute
     case completeDownloadCoupon
+    case completeCustomAction
     case videoInitialized
     case showChatInput
     case hiddenChatInput
@@ -46,6 +47,7 @@ enum WebInterface {
     case onTerminated
     case onBackground
     case onForeground
+    case customAction(id: String, type: String, payload: Any?)
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -88,6 +90,8 @@ enum WebInterface {
             return WebFunction.setIsMute.rawValue
         case .completeDownloadCoupon:
             return WebFunction.completeDownloadCoupon.rawValue
+        case .completeCustomAction:
+            return WebFunction.completeCustomAction.rawValue
         case .videoInitialized:
             return WebFunction.videoInitialized.rawValue
         case .showChatInput:
@@ -116,6 +120,8 @@ enum WebInterface {
             return WebFunction.onBackground.rawValue
         case .onForeground:
             return WebFunction.onForeground.rawValue
+        case .customAction:
+            return WebFunction.customAction.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -143,6 +149,7 @@ enum WebInterface {
         case onPipModeChanged = "ON_PIP_MODE_CHANGED"
         case setIsMute = "SET_IS_MUTE"
         case completeDownloadCoupon = "COMPLETE_DOWNLOAD_COUPON"
+        case completeCustomAction = "COMPLETE_CUSTOM_ACTION"
         case videoInitialized = "VIDEO_INITIALIZED"
         case command = "COMMAND"
         case showChatInput = "SHOW_CHAT_INPUT"
@@ -158,6 +165,7 @@ enum WebInterface {
         case onTerminated = "ON_TERMINATED"
         case onBackground = "ON_BACKGROUND"
         case onForeground = "ON_FOREGROUND"
+        case customAction = "CUSTOM_ACTION"
     }
 }
 
@@ -257,12 +265,19 @@ extension WebInterface {
             self = .onBackground
         case .onForeground:
             self = .onForeground
+        case .customAction:
+            guard let id = parameters?["id"] as? String else { return nil }
+            guard let type = parameters?["type"] as? String else { return nil }
+            guard let payload = parameters?["payload"] as? Any? else { return nil }
+            self = .customAction(id: id, type: type, payload: payload)
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]
             self = .command(command: customCommand, payload: customPayload)
         case .none:
             self = .command(command: command, payload: body["payload"])
+        case .completeCustomAction:
+            self = .completeCustomAction
         }
     }
 }

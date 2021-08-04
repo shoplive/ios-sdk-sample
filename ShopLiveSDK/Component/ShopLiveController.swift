@@ -61,8 +61,10 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPlaying: Bool = false
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
-
+    var customShareAction: (() -> Void)?
     var webInstance: ShopLiveWebView?
+    var inputBoxFont: UIFont?
+    var sendButtonFont: UIFont?
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }

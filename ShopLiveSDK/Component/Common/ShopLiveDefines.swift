@@ -28,6 +28,7 @@ import CoreMedia
 
 protocol LiveStreamViewControllerDelegate: AnyObject {
     func didTouchPipButton()
+    func didTouchCustomAction(id: String, type: String, payload: Any?)
     func didTouchCloseButton()
     func didTouchNavigation(with url: URL)
     func didTouchCoupon(with couponId: String)
@@ -44,6 +45,8 @@ protocol OverlayWebViewDelegate: AnyObject {
     func setVideoCurrentTime(to: CMTime)
     func didTouchBlockView()
 
+    func didTouchShareButton(with url: URL)
+    func didTouchCustomAction(id: String, type: String, payload: Any?)
     func didTouchPlayButton()
     func didTouchPauseButton()
     func didTouchMuteButton(with isMuted: Bool)
