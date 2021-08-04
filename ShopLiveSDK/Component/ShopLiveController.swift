@@ -20,6 +20,8 @@ enum ShopLivePlayerObserveValue: String {
     case overlayUrl = "overlayUrl"
     case isMuted = "player.isMuted"
     case isPlaying = "isPlaying"
+    case retryPlay = "retryPlay"
+    case releasePlayer = "releasePlayer"
 }
 
 protocol ShopLivePlayerDelegate {
@@ -57,18 +59,23 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isHiddenOverlay: Bool = false
     @objc dynamic var overlayUrl: URL? = nil
     @objc dynamic var isPlaying: Bool = false
+    @objc dynamic var retryPlay: Bool = false
+    @objc dynamic var releasePlayer: Bool = false
 
     var webInstance: ShopLiveWebView?
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
-        case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying:
+        case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
             postPlayerObservers(key: key)
             break
-        case .isMuted:
-            if let old: Bool = change?[.newKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
+        case .isMuted, .retryPlay:
+            if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
                 if old != new {
+                    guard let videoUrl = ShopLiveController.videoUrl, videoUrl.absoluteString.isEmpty || videoUrl.absoluteString == "null" else {
+                        return
+                    }
                     postPlayerObservers(key: key)
                 }
             } else {
@@ -104,6 +111,8 @@ extension ShopLiveController {
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue, options: .new, context: nil)
+        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
+        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
     }
 
     func removePlayerObserver() {
@@ -116,6 +125,8 @@ extension ShopLiveController {
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
+        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
+        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
@@ -253,6 +264,15 @@ extension ShopLiveController {
         }
         get {
             return shared.isPlaying
+        }
+    }
+
+    static var retryPlay: Bool {
+        set {
+            shared.retryPlay = newValue
+        }
+        get {
+            return shared.retryPlay
         }
     }
 }

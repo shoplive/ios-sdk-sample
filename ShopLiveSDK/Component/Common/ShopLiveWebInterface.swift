@@ -181,7 +181,12 @@ extension WebInterface {
             guard let url = URL(string: urlString) else { return nil }
             self = .setForegroundPosterUrl(url: url)
         case .setLiveStreamUrl:
-            guard let urlString = parameters?["liveStreamUrl"] as? String else { return nil }
+            guard let urlString = parameters?["liveStreamUrl"] as? String else {
+                if let videoUrl = ShopLiveController.videoUrl, !videoUrl.absoluteString.isEmpty {
+                    ShopLiveController.shared.releasePlayer = true
+                }
+                return nil
+            }
             guard let url = URL(string: urlString) else { return nil }
             self = .setLiveStreamUrl(url: url)
         case .setVideoMute:

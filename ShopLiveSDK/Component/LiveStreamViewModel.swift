@@ -34,8 +34,8 @@ internal final class LiveStreamViewModel: NSObject {
         guard let player = ShopLiveController.player else { return }
         let playerItemStatus = ShopLiveController.playerItemStatus
         let isSameUrl = ShopLiveController.urlAsset?.url == url
-        guard !isSameUrl || player.timeControlStatus != .playing else { return }
-        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
+//        guard !isSameUrl || player.timeControlStatus != .playing else { return }
+//        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
 
         resetPlayer()
 
@@ -167,6 +167,9 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
             break
         case .playerItemStatus:
             handlePlayerItemStatus()
+            break
+        case .releasePlayer:
+            resetPlayer()
             break
         default:
             break

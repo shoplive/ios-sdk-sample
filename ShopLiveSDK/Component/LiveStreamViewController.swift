@@ -37,6 +37,7 @@ internal final class LiveStreamViewController: UIViewController {
     // optional: cancel task
 
     deinit {
+        ShopLiveController.retryPlay = false
         removeObserver()
         removePlaytimeObserver()
     }
@@ -204,7 +205,12 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func stop() {
-        ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true)
+        guard let videoUrl = ShopLiveController.videoUrl, !videoUrl.absoluteString.isEmpty || videoUrl.absoluteString != "null" else {
+                        ShopLiveController.retryPlay = false
+                        return
+                    }
+            ShopLiveController.retryPlay = true
+//        ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true)
         viewModel.stop()
     }
 
@@ -213,7 +219,7 @@ internal final class LiveStreamViewController: UIViewController {
             ShopLiveController.isPlaying = true
             self.play()
         } else {
-            ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false)
+//            ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false)
             self.play()
         }
     }

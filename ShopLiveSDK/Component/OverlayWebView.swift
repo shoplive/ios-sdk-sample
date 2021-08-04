@@ -22,6 +22,8 @@ internal class OverlayWebView: UIView {
     }
 
     private var bufferingTask: DispatchWorkItem?
+    private var retryTimer: Timer?
+    private var retryCount: Int = 0
 
     deinit {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
@@ -132,7 +134,9 @@ internal class OverlayWebView: UIView {
     }
     
     private func loadOverlay(with url: URL) {
-        webView?.load(URLRequest(url: url))
+        DispatchQueue.main.async {
+            self.webView?.load(URLRequest(url: url))
+        }
     }
     
     func reload() {
@@ -210,7 +214,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveLogger.debugLog("setForegroundPosterUrl(\(posterUrl))")
             self.delegate?.didUpdateForegroundPoster(with: posterUrl)
         case .setLiveStreamUrl(let streamUrl):
-            ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl))")
+            ShopLiveLogger.debugLog("setLiveStreamUrl(\(streamUrl.absoluteString))")
             self.delegate?.didUpdateVideo(with: streamUrl)
         case .setIsPlayingVideo(let isPlaying):
             if isPlaying {
@@ -265,6 +269,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     func handlePlayerItemStatus() {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
+            ShopLiveController.retryPlay = false
             break
         case .failed:
             self.bufferingTask?.cancel()
@@ -316,6 +321,26 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         }
     }
 
+    func handleRetryPlay() {
+        ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
+        if ShopLiveController.retryPlay {
+            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                self.retryCount += 1
+
+                ShopLiveLogger.debugLog("handleRetryPlay loop \(self.retryCount)")
+                if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                    if let videoUrl = ShopLiveController.videoUrl {
+                        ShopLiveController.videoUrl = videoUrl
+                    }
+                }
+            }
+        } else {
+            self.retryTimer?.invalidate()
+            self.retryTimer = nil
+            self.retryCount = 0
+        }
+    }
+
     var identifier: String {
         return "OverlayWebView"
     }
@@ -334,11 +359,17 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .overlayUrl:
             if let overlayUrl = ShopLiveController.overlayUrl {
                 self.loadOverlay(with: overlayUrl)
+                ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
+            } else {
+                ShopLiveLogger.debugLog(".overlayUrl")
             }
             break
         case .isPlaying:
             guard self.isSystemInitialized else { return }
             ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: ShopLiveController.isPlaying), ShopLiveController.isPlaying)
+            break
+        case .retryPlay:
+            handleRetryPlay()
             break
         default:
             break
