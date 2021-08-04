@@ -42,11 +42,9 @@ final class ShopLivePlayer: AVPlayer {
 
     func fit() {
         guard let superview = self.superview else { return }
-        print("whkim fit player layer view \(superview.frame)\nwhkim layer\(playerLayer.frame)")
 
         playerLayer.fitToSuperView(superview: superview)
     }
-
 }
 
 extension ShopLivePlayer {

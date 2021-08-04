@@ -9,7 +9,6 @@ import UIKit
 import AVKit
 import WebKit
 
-@available(iOS 13.0, *)
 @objc internal final class ShopLiveBase: NSObject {
 
     private var shopLiveWindow: UIWindow? = nil
@@ -77,7 +76,11 @@ import WebKit
         mainWindow = (UIApplication.shared.windows.first(where: { $0.isKeyWindow }))
         
         shopLiveWindow = UIWindow()
-        shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        if #available(iOS 13.0, *) {
+            shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        } else {
+            // Fallback on earlier versions
+        }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .init(rawValue: 1)
         shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
@@ -212,7 +215,7 @@ import WebKit
     
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard let mainWindow = self.mainWindow else { return .zero }
-        var videoSize = liveStreamViewController?.viewModel.videoPlayer?.currentItem?.presentationSize ?? .zero
+        var videoSize = ShopLiveController.player?.currentItem?.presentationSize ?? .zero
         videoSize = videoSize == .zero ? replaySize : videoSize
         
         let width = mainWindow.bounds.width * scale
@@ -259,7 +262,7 @@ import WebKit
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
 
-        if liveStreamViewController?.isReplayMode ?? false {
+        if ShopLiveController.isReplayMode {
             //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
             //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
             //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
@@ -269,7 +272,7 @@ import WebKit
             let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
 
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                self.liveStreamViewController?.isHiddenOverlay = true
+                ShopLiveController.isHiddenOverlay = true
                 shopLiveWindow.transform = transform
                 shopLiveWindow.center = midCenter
             } completion: { (isCompleted) in
@@ -310,7 +313,7 @@ import WebKit
             let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
             
             UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                self.liveStreamViewController?.isHiddenOverlay = true
+                ShopLiveController.isHiddenOverlay = true
                 shopLiveWindow.transform = transform
                 shopLiveWindow.center = midCenter
             } completion: { (isCompleted) in
@@ -348,7 +351,7 @@ import WebKit
         
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
         
-        if liveStreamViewController?.isReplayMode ?? false {
+        if ShopLiveController.isReplayMode {
             //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
             //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
             //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
@@ -376,7 +379,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 self.liveStreamViewController?.showBackgroundPoster()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-                    self.liveStreamViewController?.isHiddenOverlay = false
+                    ShopLiveController.isHiddenOverlay = false
                     self.liveStreamViewController?.view.isHidden = false
                     snapshop.removeFromSuperview()
                 })
@@ -400,7 +403,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 self.liveStreamViewController?.showBackgroundPoster()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-                    self.liveStreamViewController?.isHiddenOverlay = false
+                    ShopLiveController.isHiddenOverlay = false
                 })
             }
         }
@@ -605,7 +608,6 @@ import WebKit
     }
 }
 
-@available(iOS 13.0, *)
 extension ShopLiveBase: ShopLiveComponent {
     func onTerminated() {
         liveStreamViewController?.onTerminated()
@@ -724,7 +726,6 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 }
 
-@available(iOS 13.0, *)
 extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
@@ -763,7 +764,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
 }
 
-@available(iOS 13.0, *)
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func replay(with size: CGSize) {
         replaySize = size

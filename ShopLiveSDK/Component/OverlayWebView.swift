@@ -8,11 +8,7 @@
 import UIKit
 import WebKit
 
-@available(iOS 13.0, *)
 internal class OverlayWebView: UIView {
-    @objc dynamic var overlayUrl: URL?
-    @objc dynamic var isMuted: Bool = false
-    @objc dynamic var isPlaying: Bool = false
     @objc dynamic var isPipMode: Bool = false
     
     private var isSystemInitialized: Bool = false
@@ -25,7 +21,10 @@ internal class OverlayWebView: UIView {
         }
     }
 
+    private var bufferingTask: DispatchWorkItem?
+
     deinit {
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         webView = nil
         delegate = nil
@@ -71,6 +70,7 @@ internal class OverlayWebView: UIView {
     }()
 
     private func initWebView(with webViewConfiguration: WKWebViewConfiguration? = nil) {
+        ShopLiveController.shared.addPlayerDelegate(delegate: self)
         let configuration = webViewConfiguration ?? WKWebViewConfiguration()
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
@@ -80,7 +80,7 @@ internal class OverlayWebView: UIView {
 
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
 //        webView.scrollView.contentInsetAdjustmentBehavior = .never
-
+        ShopLiveController.webInstance = webView
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([webView.topAnchor.constraint(equalTo: self.topAnchor),
@@ -156,40 +156,19 @@ internal class OverlayWebView: UIView {
     }
 
      func addObserver() {
-        self.addObserver(self, forKeyPath: "overlayUrl", options: [.initial, .new], context: nil)
-        self.addObserver(self, forKeyPath: "isPlaying", options: [.initial, .new], context: nil)
-        self.addObserver(self, forKeyPath: "isMuted", options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: "isPipMode", options: [.initial, .old, .new], context: nil)
      }
 
      func removeObserver() {
-         self.removeObserver(self, forKeyPath: "overlayUrl")
-         self.removeObserver(self, forKeyPath: "isPlaying")
-         self.removeObserver(self, forKeyPath: "isMuted")
         self.removeObserver(self, forKeyPath: "isPipMode")
      }
 
      override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
          switch keyPath {
-         case "overlayUrl":
-             guard let newValue: URL = change?[.newKey] as? URL else { return }
-             self.loadOverlay(with: newValue)
-             break
          case "isPipMode":
              guard let newValue: Bool = change?[.newKey] as? Bool else { return }
              guard self.isSystemInitialized else { return }
              self.webView?.sendEventToWeb(event: .onPipModeChanged, newValue)
-             break
-         case "isPlaying":
-             guard let newValue: Bool = change?[.newKey] as? Bool else { return }
-             guard self.isSystemInitialized else { return }
-             self.webView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: newValue), newValue)
-             break
-         case "isMuted":
-             guard let oldValue: Bool = change?[.oldKey] as? Bool,
-                   let newValue: Bool = change?[.newKey] as? Bool, oldValue != newValue else { return }
-             guard self.isSystemInitialized else { return }
-             self.webView?.sendEventToWeb(event: .setIsMute, newValue)
              break
          default:
              break
@@ -197,7 +176,6 @@ internal class OverlayWebView: UIView {
      }
 }
 
-@available(iOS 13.0, *)
 extension OverlayWebView: WKNavigationDelegate {
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
         decisionHandler(.allow)
@@ -208,7 +186,6 @@ extension OverlayWebView: WKNavigationDelegate {
     }
 }
 
-@available(iOS 13.0, *)
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         guard let interface = WebInterface(message: message) else { return }
@@ -218,7 +195,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.isSystemInitialized = true
             self.webView?.sendEventToWeb(event: .videoInitialized)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: self.isMuted), self.isMuted)
+                self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveController.isMuted), ShopLiveController.isMuted)
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(2)) {
                 self.webView?.sendEventToWeb(event: .onPipModeChanged, self.isPipMode)
@@ -243,7 +220,7 @@ extension OverlayWebView: WKScriptMessageHandler {
                 self.delegate?.didTouchPauseButton()
             }
             ShopLiveLogger.debugLog("setIsPlayingVideo(\(isPlaying))")
-            self.isPlaying = isPlaying
+            ShopLiveController.isPlaying = isPlaying
         case .reloadVideo:
             ShopLiveLogger.debugLog("reloadVideo")
             self.delegate?.reloadVideo()
@@ -262,11 +239,11 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .playVideo:
             ShopLiveLogger.debugLog("navigation")
             self.delegate?.didTouchPlayButton()
-            self.isPlaying = true
+            ShopLiveController.isPlaying = true
         case .pauseVideo:
             ShopLiveLogger.debugLog("navigation")
             self.delegate?.didTouchPauseButton()
-            self.isPlaying = false
+            ShopLiveController.isPlaying = false
         case .clickShareButton(let url):
             ShopLiveLogger.debugLog("clickShareButton(\(url))")
         case .replay(let width, let height):
@@ -281,4 +258,92 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         }
     }
+}
+
+extension OverlayWebView: ShopLivePlayerDelegate {
+
+    func handlePlayerItemStatus() {
+        switch ShopLiveController.playerItemStatus {
+        case .readyToPlay:
+            break
+        case .failed:
+            self.bufferingTask?.cancel()
+            let cancelTask = DispatchWorkItem(block: {
+                ShopLiveController.isPlaying = false
+            })
+            self.bufferingTask = cancelTask
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
+            break
+        default:
+            break
+        }
+    }
+
+    func handleTimeControlStatus() {
+        self.bufferingTask?.cancel()
+        switch ShopLiveController.timeControlStatus {
+        case .paused:
+            ShopLiveController.isPlaying = false
+        case .waitingToPlayAtSpecifiedRate: //버퍼링
+            self.bufferingTask?.cancel()
+            let cancelTask = DispatchWorkItem(block: {
+                ShopLiveController.isPlaying = false
+            })
+            self.bufferingTask = cancelTask
+            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
+        case .playing:
+            ShopLiveController.isPlaying = true
+        @unknown default:
+             break
+        }
+    }
+
+    func handleIsHiddenOverlay() {
+        guard !ShopLiveController.isReplayMode else {
+            self.isUserInteractionEnabled = !ShopLiveController.isHiddenOverlay
+            return
+        }
+        guard !ShopLiveController.isHiddenOverlay else {
+            self.isHidden = ShopLiveController.isHiddenOverlay
+            return
+        }
+        self.alpha = 0
+        self.isHidden = false
+        UIView.animate(withDuration: 0.3) {
+            self.alpha = 1.0
+        } completion: { (completion) in
+            self.isHidden = ShopLiveController.isHiddenOverlay
+        }
+    }
+
+    var identifier: String {
+        return "OverlayWebView"
+    }
+
+    func updatedValue(key: ShopLivePlayerObserveValue) {
+        switch key {
+        case .playerItemStatus:
+            handlePlayerItemStatus()
+            break
+        case .timeControlStatus:
+            handleTimeControlStatus()
+            break
+        case .isHiddenOverlay:
+            handleIsHiddenOverlay()
+            break
+        case .overlayUrl:
+            if let overlayUrl = ShopLiveController.overlayUrl {
+                self.loadOverlay(with: overlayUrl)
+            }
+            break
+        case .isPlaying:
+            guard self.isSystemInitialized else { return }
+            ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: ShopLiveController.isPlaying), ShopLiveController.isPlaying)
+            break
+        default:
+            break
+        }
+    }
+
+
 }

@@ -11,9 +11,7 @@ import AVKit
 import CallKit
 import MediaPlayer
 import ExternalAccessory
-import Combine
 
-@available(iOS 13.0, *)
 internal final class LiveStreamViewController: UIViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
@@ -24,12 +22,9 @@ internal final class LiveStreamViewController: UIViewController {
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
     private var foregroundImageView: UIImageView?
-    var isReplayMode: Bool = false
+
     var playerView: ShopLivePlayerView = .init()
     private lazy var videoView: UIView = .init()//VideoView = VideoView()
-
-    private var waitingPlayCancellable: AnyCancellable? = nil
-    @objc dynamic var isHiddenOverlay: Bool = false
 
     private var playTimeObserver: Any?
 
@@ -42,9 +37,6 @@ internal final class LiveStreamViewController: UIViewController {
     // optional: cancel task
 
     deinit {
-        ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        waitingPlayCancellable?.cancel()
-        waitingPlayCancellable = nil
         removeObserver()
         removePlaytimeObserver()
     }
@@ -65,18 +57,17 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func addPlayTimeObserver() {
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-            playTimeObserver = viewModel.videoPlayer?.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { [weak self] (time) in
-                guard let self = self else { return }
+        playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { (time) in
                 let time = CMTimeGetSeconds(time)
-                let duration = CMTimeGetSeconds(self.viewModel.videoPlayer?.currentItem?.asset.duration ?? CMTime())
-                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
-                self.overlayView?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+//                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
+//                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
+                ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, time)
             })
     }
 
     private func removePlaytimeObserver() {
         if let playTimeObserver = self.playTimeObserver {
-            viewModel.videoPlayer?.removeTimeObserver(playTimeObserver)
+            ShopLiveController.player?.removeTimeObserver(playTimeObserver)
             self.playTimeObserver = nil
         }
     }
@@ -96,7 +87,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func updateHeadPhoneStatus(plugged: Bool) {
         if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
-            viewModel.playControl = plugged ? .resume : isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = plugged ? .resume : ShopLiveController.isReplayMode ? .pause : .stop
         }
     }
 
@@ -149,8 +140,8 @@ internal final class LiveStreamViewController: UIViewController {
             }
 
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", hasKeyboard ? "\(self.chatInputView.frame.height)px" : "0px"), ("keyboard", hasKeyboard))
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
-            self.overlayView?.sendEventToWeb(event: .hiddenChatInput)
+            ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
+            ShopLiveController.webInstance?.sendEventToWeb(event: .hiddenChatInput)
             chatConstraint.constant = 0
             break
         case "UIKeyboardWillShowNotification":
@@ -159,7 +150,7 @@ internal final class LiveStreamViewController: UIViewController {
             chatConstraint.constant = -(keyboardScreenEndFrame.height - bottomPadding)
 //            self.overlayView?.setBlockView(show: true)
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((hasKeyboard ? 0 : lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", hasKeyboard))
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
+            ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
             isHiddenView = false
         default:
             break
@@ -191,7 +182,6 @@ internal final class LiveStreamViewController: UIViewController {
         setupAudioConfig()
         addPlayTimeObserver()
         addObserver()
-        ShopLiveController.shared.addPlayerDelegate(delegate: self)
     }
 
     private func setupView() {
@@ -205,34 +195,31 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func play() {
-        viewModel.play()
+//        viewModel.play()
     }
 
     func pause() {
-        print("whkim pause in vc")
-        viewModel.videoPlayer?.pause()
-        overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
+        ShopLiveController.player?.pause()
+        ShopLiveController.isPlaying = false
     }
 
     func stop() {
-        print("whkim stop in vc")
-        overlayView?.sendEventToWeb(event: .reloadBtn, true)
+        ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true)
         viewModel.stop()
     }
 
     func resume() {
-        if self.isReplayMode {
-            self.overlayView?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+        if ShopLiveController.isReplayMode {
+            ShopLiveController.isPlaying = true
             self.play()
         } else {
-            self.overlayView?.sendEventToWeb(event: .reloadBtn, false)
-            self.reload()
+            ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false)
             self.play()
         }
     }
 
     func reload() {
-        overlayView?.overlayUrl = playUrl
+        ShopLiveController.overlayUrl = playUrl
     }
 
     func didCompleteDownLoadCoupon(with couponId: String) {
@@ -368,7 +355,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     private func loadOveray() {
-        overlayView?.overlayUrl = playUrl
+        ShopLiveController.overlayUrl = playUrl
     }
 
     private var playUrl: URL? {
@@ -399,19 +386,11 @@ internal final class LiveStreamViewController: UIViewController {
     func addObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        self.addObserver(self, forKeyPath: "isHiddenOverlay", options: [.initial, .new], context: nil)
-        viewModel.addObserver(self, forKeyPath: "isMuted", options: [.initial, .old, .new], context: nil)
-        viewModel.addObserver(self, forKeyPath: "playerItemDuration", options: [.initial, .old, .new], context: nil)
-        viewModel.addObserver(self, forKeyPath: "playControl", options: [.initial, .new], context: nil)
     }
 
     func removeObserver() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-        self.removeObserver(self, forKeyPath: "isHiddenOverlay")
-        viewModel.removeObserver(self, forKeyPath: "isMuted")
-        viewModel.removeObserver(self, forKeyPath: "playerItemDuration")
-        viewModel.removeObserver(self, forKeyPath: "playControl")
     }
 
     @objc func handleNotification(_ notification: Notification) {
@@ -428,105 +407,15 @@ internal final class LiveStreamViewController: UIViewController {
             break
         }
     }
-
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        switch keyPath {
-        case "playControl":
-            guard let newValue: ShopLiveConfiguration.SLPlayControl = change?[.newKey] as? ShopLiveConfiguration.SLPlayControl else { return }
-            switch newValue {
-            case .play:
-                self.play()
-            case .pause:
-                self.pause()
-            case .resume:
-                self.resume()
-            case .stop:
-                self.stop()
-            default:
-                break
-            }
-            break
-        case "playerItemStatus":
-            guard let newValue: AVPlayerItem.Status = change?[.newKey] as? AVPlayerItem.Status else { return }
-            switch newValue {
-            case .readyToPlay:
-                if self.viewModel.playControl != .pause, self.viewModel.playControl != .play {
-                    if self.isReplayMode && self.viewModel.playControl == .resume { return }
-                    self.play()
-                }
-            case .failed:
-                self.bufferingTask?.cancel()
-                let cancelTask = DispatchWorkItem(block: {
-                    self.overlayView?.isPlaying = false
-                })
-                self.bufferingTask = cancelTask
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
-            default:
-                break
-            }
-            break
-        case "isHiddenOverlay":
-            guard let newValue: Bool = change?[.newKey] as? Bool else { return }
-            guard !self.isReplayMode else {
-                self.overlayView?.isUserInteractionEnabled = !newValue
-                return
-            }
-            guard !isHiddenOverlay else {
-                self.overlayView?.isHidden = newValue
-                return
-            }
-            self.overlayView?.alpha = 0
-            self.overlayView?.isHidden = false
-            UIView.animate(withDuration: 0.3) {
-                self.overlayView?.alpha = 1.0
-            } completion: { (completion) in
-                self.overlayView?.isHidden = newValue
-            }
-            break
-        case "isMuted":
-            guard let oldValue: Bool = change?[.oldKey] as? Bool,
-                  let newValue: Bool = change?[.newKey] as? Bool, oldValue != newValue else { return }
-            self.overlayView?.isMuted = newValue
-            break
-        case "timeControlStatus":
-            guard let newValue: AVPlayer.TimeControlStatus = change?[.newKey] as? AVPlayer.TimeControlStatus else { return }
-            self.bufferingTask?.cancel()
-            switch newValue {
-            case .paused:
-                self.overlayView?.isPlaying = false
-            case .waitingToPlayAtSpecifiedRate: //버퍼링
-                self.bufferingTask?.cancel()
-                let cancelTask = DispatchWorkItem(block: {
-                    self.overlayView?.isPlaying = false
-                })
-                self.bufferingTask = cancelTask
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
-            case .playing:
-                self.overlayView?.isPlaying = true
-            @unknown default:
-                 break
-            }
-            break
-        case "playerItemDuration":
-            guard let newValue: CMTime = change?[.newKey] as? CMTime else { return }
-            guard self.isReplayMode else { return }
-            self.overlayView?.sendEventToWeb(event: .onVideoDurationChanged, newValue.value)
-            break
-        default:
-            break
-        }
-
-    }
 }
 
-@available(iOS 13.0, *)
 extension LiveStreamViewController: OverlayWebViewDelegate {
     func didTouchBlockView() {
         dismissKeyboard()
     }
 
     func replay(with size: CGSize) {
-        isReplayMode = true
+        ShopLiveController.isReplayMode = true
         delegate?.replay(with: size)
     }
 
@@ -535,11 +424,11 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didTouchMuteButton(with isMuted: Bool) {
-        viewModel.videoPlayer?.isMuted = isMuted
+        ShopLiveController.player?.isMuted = isMuted
     }
 
     func reloadVideo() {
-        viewModel.reloadVideo()
+//        viewModel.reloadVideo()
     }
 
     func setVideoCurrentTime(to: CMTime) {
@@ -568,7 +457,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didUpdateVideo(with url: URL) {
-        viewModel.videoUrl = url
+        ShopLiveController.videoUrl = url
     }
 
     func didTouchPlayButton() {
@@ -638,7 +527,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 }
 
-@available(iOS 13.0, *)
 extension LiveStreamViewController: WKUIDelegate {
     func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping () -> Void) {
         let alertController = UIAlertController(title: nil, message: message, preferredStyle: .actionSheet)
@@ -684,103 +572,42 @@ extension LiveStreamViewController: WKUIDelegate {
     }
 }
 
-@available(iOS 13.0, *)
 extension LiveStreamViewController: ChattingWriteDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
-        overlayView?.sendEventToWeb(event: .write, message.toJson())
+        ShopLiveController.webInstance?.sendEventToWeb(event: .write, message.toJson())
     }
 
     func updateHeight() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05, execute: {
             debugPrint("heightLog lastKeyboardHeight: \(self.lastKeyboardHeight)   self.chatInputView.frame.height: \(self.chatInputView.frame.height)")
             let param: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("value", "\(Int((self.hasKeyboard ? 0 : self.lastKeyboardHeight) + self.chatInputView.frame.height))px"), ("keyboard", self.hasKeyboard))
-            self.overlayView?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
+            ShopLiveController.webInstance?.sendEventToWeb(event: .setChatListMarginBottom, param.toJson())
         })
     }
 }
 
-@available(iOS 13.0, *)
 extension LiveStreamViewController: CXCallObserverDelegate {
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         // 통화 종료
         if call.hasEnded == true {
             if ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded {
-                viewModel.playControl = .resume
+                ShopLiveController.playControl = .resume
             }
         }
 
         // 전화 발신
         if call.isOutgoing == true && call.hasConnected == false {
-            viewModel.playControl = isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = ShopLiveController.isReplayMode ? .pause : .stop
         }
 
         // 통화벨 울림
         if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            viewModel.playControl = isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = ShopLiveController.isReplayMode ? .pause : .stop
         }
 
         // 통화 시작
         if call.hasConnected == true && call.hasEnded == false {
         }
     }
-}
-
-
-
-@available(iOS 13.0, *)
-extension LiveStreamViewController: ShopLivePlayerDelegate {
-    var identifier: String {
-        return "LiveStreamViewController"
-    }
-
-    func updatedValue(key: ShopLivePlayerObserveValue) {
-        switch key {
-        case .playerItemStatus:
-            guard let itemStatus = ShopLiveController.shared.playItem.playerItem?.status else { return }
-            switch itemStatus {
-            case .readyToPlay:
-                if self.viewModel.playControl != .pause, self.viewModel.playControl != .play {
-                    if self.isReplayMode && self.viewModel.playControl == .resume { return }
-                    if self.isReplayMode, let duration = ShopLiveController.shared.playerItem.player?.currentItem?.asset.duration {
-                        self.overlayView?.sendEventToWeb(event: .onVideoDurationChanged, duration)
-                    }
-                    self.play()
-                }
-            case .failed:
-                self.bufferingTask?.cancel()
-                let cancelTask = DispatchWorkItem(block: {
-                    self.overlayView?.isPlaying = false
-                })
-                self.bufferingTask = cancelTask
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
-            default:
-                break
-            }
-         break
-        case .timeControlStatus:
-            guard let newValue: AVPlayer.TimeControlStatus = ShopLiveController.shared.playerItem.player?.timeControlStatus else { return }
-            self.bufferingTask?.cancel()
-            switch newValue {
-            case .paused:
-                self.overlayView?.isPlaying = false
-            case .waitingToPlayAtSpecifiedRate: //버퍼링
-                self.bufferingTask?.cancel()
-                let cancelTask = DispatchWorkItem(block: {
-                    self.overlayView?.isPlaying = false
-                })
-                self.bufferingTask = cancelTask
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
-            case .playing:
-                self.overlayView?.isPlaying = true
-            @unknown default:
-                 break
-            }
-            break
-        default:
-            break
-        }
-    }
-
-
 }
