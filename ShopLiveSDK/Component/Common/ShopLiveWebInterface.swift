@@ -214,7 +214,7 @@ extension WebInterface {
             guard let url = URL(string: urlString) else { return nil }
             self = .navigation(url: url)
         case .coupon:
-            guard let couponId = parameters?["id"] as? String else { return nil }
+            guard let couponId = parameters?["coupon"] as? String else { return nil }
             self = .coupon(id: couponId)
         case .playVideo:
             self = .playVideo
