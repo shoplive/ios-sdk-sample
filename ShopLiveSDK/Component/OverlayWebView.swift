@@ -144,7 +144,7 @@ internal class OverlayWebView: UIView {
     }
     
     func didCompleteDownloadCoupon(with couponId: String) {
-        self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId)
+        self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
     }
 
     func didCompleteCustomAction(with id: String) {
