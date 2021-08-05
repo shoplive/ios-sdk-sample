@@ -101,11 +101,11 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
+    public static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
 
-    static func setShareScheme(_ scheme: String, custom: (() -> Void)?) {
+    public static func setShareScheme(_ scheme: String, custom: (() -> Void)?) {
         shared.instance?.setShareScheme(scheme, custom: custom)
     }
 

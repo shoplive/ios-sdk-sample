@@ -7,6 +7,7 @@
 
 import Foundation
 import WebKit
+import UIKit
 
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
