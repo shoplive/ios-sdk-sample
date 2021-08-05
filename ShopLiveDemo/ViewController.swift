@@ -116,9 +116,12 @@ class ViewController: UIViewController {
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
             ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
 
+            /*
             ShopLive.setShareScheme("https://www.shoplive.cloud", custom: {
                 ShopLiveLogger.debugLog("share custom action")
             })
+             */
+            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: nil)
 
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)
