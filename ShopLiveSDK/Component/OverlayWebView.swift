@@ -26,10 +26,7 @@ internal class OverlayWebView: UIView {
     private var retryCount: Int = 0
 
     deinit {
-        ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        removeObserver()
-        webView = nil
-        delegate = nil
+
     }
     
     override func removeFromSuperview() {
@@ -273,6 +270,12 @@ extension OverlayWebView: WKScriptMessageHandler {
 }
 
 extension OverlayWebView: ShopLivePlayerDelegate {
+    func clear() {
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        removeObserver()
+        webView = nil
+        delegate = nil
+    }
 
     func handlePlayerItemStatus() {
         switch ShopLiveController.playerItemStatus {

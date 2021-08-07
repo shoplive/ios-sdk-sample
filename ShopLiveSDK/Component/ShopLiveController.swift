@@ -29,6 +29,7 @@ protocol ShopLivePlayerDelegate {
     func isEqualTo(_ other: ShopLivePlayerDelegate) -> Bool
 
     func updatedValue(key: ShopLivePlayerObserveValue)
+    func clear()
 }
 
 extension ShopLivePlayerDelegate where Self: Equatable {
@@ -43,16 +44,14 @@ final class ShopLiveController: NSObject {
 
     private override init() {
         super.init()
-        self.addPlayerObserver()
     }
 
     deinit {
-        self.removePlayerObserver()
     }
 
-    private var playerDelegates: [ShopLivePlayerDelegate] = []
-    @objc dynamic var playItem: ShopLivePlayItem = .init()
-    @objc dynamic var playerItem: ShopLivePlayerItem = .init()
+    private var playerDelegates: [ShopLivePlayerDelegate?] = []
+    @objc dynamic var playItem: ShopLivePlayItem? = .init()
+    @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
     @objc dynamic var playControl: ShopLiveConfiguration.SLPlayControl = .none
     var isReplayMode: Bool = false
     var isMuted: Bool = false
@@ -90,13 +89,46 @@ final class ShopLiveController: NSObject {
     }
 
     func addPlayerDelegate(delegate: ShopLivePlayerDelegate) {
-        guard self.playerDelegates.filter({ $0.identifier == delegate.identifier }).isEmpty else { return }
-            playerDelegates.append(delegate)
+        guard self.playerDelegates.filter({ $0?.identifier == delegate.identifier }).isEmpty else { return }
+
+        if playerDelegates.isEmpty {
+            addPlayerObserver()
         }
 
+        playerDelegates.append(delegate)
+    }
+
+
     func removePlayerDelegate(delegate: ShopLivePlayerDelegate) {
-        guard let index = self.playerDelegates.firstIndex(where: { $0.identifier == delegate.identifier }) else { return }
+        guard let index = self.playerDelegates.firstIndex(where: { $0?.identifier == delegate.identifier }) else { return }
         self.playerDelegates.remove(at: index)
+    }
+
+    func clear() {
+        playerDelegates.forEach { delegate in
+            delegate?.clear()
+        }
+        playerDelegates.removeAll()
+        removePlayerObserver()
+        reset()
+    }
+
+    private func reset() {
+        playItem = nil
+        playItem = .init()
+
+        playerItem = nil
+        playerItem = .init()
+
+        playControl = .none
+        isReplayMode = false
+        isMuted = false
+        isHiddenOverlay = false
+        overlayUrl = nil
+        isPlaying = false
+        retryPlay = false
+        releasePlayer = false
+        webInstance = nil
     }
 
 }
@@ -104,12 +136,12 @@ final class ShopLiveController: NSObject {
 // MARK: ShopLive Player Section
 extension ShopLiveController {
     func addPlayerObserver() { 
-        playItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
-        playItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
-        playItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
-        playItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
-        playerItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
-        playerItem.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue, options: .new, context: nil)
+        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
+        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
+        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
+        playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
+        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
+        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue, options: .new, context: nil)
@@ -118,12 +150,12 @@ extension ShopLiveController {
     }
 
     func removePlayerObserver() {
-        playItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
-        playItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
-        playItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
-        playItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
-        playerItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
-        playerItem.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
+        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
+        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
+        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
+        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
+        playerItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
+        playerItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
         self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
@@ -135,8 +167,8 @@ extension ShopLiveController {
         ShopLiveLogger.debugLog("key: \(key.rawValue)")
 
         playerDelegates.forEach { delegate in
-            ShopLiveLogger.debugLog("playerDelegate.identifier: \(delegate.identifier) - key: \(key)")
-            delegate.updatedValue(key: key)
+            ShopLiveLogger.debugLog("playerDelegate.identifier: \(delegate?.identifier) - key: \(key)")
+            delegate?.updatedValue(key: key)
         }
     }
 }
@@ -145,52 +177,52 @@ extension ShopLiveController {
 
     static var player: AVPlayer? {
         set {
-            shared.playerItem.player = newValue
+            shared.playerItem?.player = newValue
         }
         get {
-            return shared.playerItem.player
+            return shared.playerItem?.player
         }
     }
 
     static var videoUrl: URL? {
         set {
-            shared.playItem.videoUrl = newValue
+            shared.playItem?.videoUrl = newValue
         }
         get {
-            return shared.playItem.videoUrl
+            return shared.playItem?.videoUrl
         }
     }
 
     static var playerItem: AVPlayerItem? {
         set {
-            shared.playItem.playerItem = newValue
+            shared.playItem?.playerItem = newValue
         }
         get {
-            return shared.playItem.playerItem
+            return shared.playItem?.playerItem
         }
     }
 
     static var urlAsset: AVURLAsset? {
         set {
-            shared.playItem.urlAsset = newValue
+            shared.playItem?.urlAsset = newValue
         }
         get {
-            return shared.playItem.urlAsset
+            return shared.playItem?.urlAsset
         }
     }
 
     static var playerItemStatus: AVPlayerItem.Status {
         get {
-            return shared.playItem.playerItem?.status ?? .unknown
+            return shared.playItem?.playerItem?.status ?? .unknown
         }
     }
 
     static var perfMeasurements: PerfMeasurements? {
         set {
-            shared.playItem.perfMeasurements = newValue
+            shared.playItem?.perfMeasurements = newValue
         }
         get {
-            return shared.playItem.perfMeasurements
+            return shared.playItem?.perfMeasurements
         }
     }
 
@@ -231,15 +263,15 @@ extension ShopLiveController {
     }
 
     static var duration: CMTime? {
-        return shared.playerItem.player?.currentItem?.asset.duration
+        return shared.playerItem?.player?.currentItem?.asset.duration
     }
 
     static var timeControlStatus: AVPlayer.TimeControlStatus {
-        return shared.playerItem.player?.timeControlStatus ?? .paused
+        return shared.playerItem?.player?.timeControlStatus ?? .paused
     }
 
     static var timebase: CMTimebase? {
-        return shared.playItem.playerItem?.timebase
+        return shared.playItem?.playerItem?.timebase
     }
 
     static var overlayUrl: URL? {

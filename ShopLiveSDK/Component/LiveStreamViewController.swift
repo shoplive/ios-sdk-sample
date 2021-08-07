@@ -304,8 +304,8 @@ internal final class LiveStreamViewController: UIViewController {
         playerView.playerLayer.player = playerView.player
         playerView.playerLayer.videoGravity = .resizeAspectFill
         playerView.playerLayer.needsDisplayOnBoundsChange = true
-        ShopLiveController.shared.playerItem.player = playerView.player
-        ShopLiveController.shared.playerItem.playerLayer = playerLayer
+        ShopLiveController.shared.playerItem?.player = playerView.player
+        ShopLiveController.shared.playerItem?.playerLayer = playerLayer
 
         view.addSubview(playerView)
 //        videoView.addSubview(playerView)

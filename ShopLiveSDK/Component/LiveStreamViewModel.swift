@@ -21,8 +21,7 @@ internal final class LiveStreamViewModel: NSObject {
     private var perfMeasurements: PerfMeasurements?
     
     deinit {
-        ShopLiveController.shared.addPlayerDelegate(delegate: self)
-        resetPlayer()
+
     }
     
     override init() {
@@ -31,9 +30,9 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     private func updatePlayerItem(with url: URL) {
-        guard let player = ShopLiveController.player else { return }
-        let playerItemStatus = ShopLiveController.playerItemStatus
-        let isSameUrl = ShopLiveController.urlAsset?.url == url
+        guard ShopLiveController.player != nil else { return }
+        _ = ShopLiveController.playerItemStatus
+        _ = ShopLiveController.urlAsset?.url == url
 //        guard !isSameUrl || player.timeControlStatus != .playing else { return }
 //        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
 
@@ -48,7 +47,7 @@ internal final class LiveStreamViewModel: NSObject {
         ShopLiveController.player?.pause()
         ShopLiveController.playerItem = nil
         ShopLiveController.urlAsset = nil
-        ShopLiveController.shared.playItem.perfMeasurements = nil
+        ShopLiveController.shared.playItem?.perfMeasurements = nil
 
         ShopLiveController.perfMeasurements?.playbackEnded()
         ShopLiveController.perfMeasurements = nil
@@ -62,13 +61,13 @@ internal final class LiveStreamViewModel: NSObject {
     private func handleIsPlayble() {
         guard let asset = ShopLiveController.urlAsset else { return }
         let playerItem = AVPlayerItem(asset: asset)
-        ShopLiveController.shared.playItem.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+        ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
         ShopLiveController.playerItem = playerItem
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
 
-        ShopLiveController.shared.playerItem.player?.replaceCurrentItem(with: playerItem)
+        ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
 /*
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
@@ -152,6 +151,11 @@ internal final class LiveStreamViewModel: NSObject {
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {
+    func clear() {
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        resetPlayer()
+    }
+
     var identifier: String {
         return "LiveStreamViewModel"
     }

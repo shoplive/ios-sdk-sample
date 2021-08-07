@@ -66,7 +66,7 @@ import WebKit
         } catch  {
             print("Audio session failed")
         }
-        
+
         liveStreamViewController = LiveStreamViewController()
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
@@ -128,7 +128,9 @@ import WebKit
         if let videoWindowSwipeDownGestureRecognizer = self.videoWindowSwipeDownGestureRecognizer {
             shopLiveWindow?.removeGestureRecognizer(videoWindowSwipeDownGestureRecognizer)
         }
-    
+
+        ShopLiveController.shared.clear()
+
         let transform = self.shopLiveWindow?.transform.concatenating(CGAffineTransform(scaleX: 0.1, y: 0.1)) ?? .identity
         let animateDuration = animated ? 0.2 : 0.0
         UIView.animate(withDuration: animateDuration, delay: 0, options: [.curveEaseIn]) {

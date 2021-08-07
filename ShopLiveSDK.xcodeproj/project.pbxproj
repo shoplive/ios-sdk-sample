@@ -300,8 +300,9 @@
 		1BA5154F25CBDCD100070181 /* ShopLiveSDK */ = {
 			isa = PBXGroup;
 			children = (
-				BFAD8E84265A211E00202160 /* Component */,
+				BFAD8E90265A211E00202160 /* Common */,
 				1B1AC60B2601E3320016B209 /* Model */,
+				BFAD8E84265A211E00202160 /* Component */,
 				1BA5155025CBDCD100070181 /* ShopLiveSDK.h */,
 				1BA5156925CBDD3F00070181 /* ShopLive.swift */,
 				1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */,
@@ -344,7 +345,6 @@
 				BFAD8E88265A211E00202160 /* OverlayWebView.swift */,
 				BFAD8E89265A211E00202160 /* LiveStreamViewController.swift */,
 				BFAD8E8A265A211E00202160 /* LiveStreamViewModel.swift */,
-				BFAD8E90265A211E00202160 /* Common */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -363,7 +363,8 @@
 				BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */,
 				BFC00CBD26947B2700BD8733 /* Extensions.swift */,
 			);
-			path = Common;
+			name = Common;
+			path = Component/Common;
 			sourceTree = "<group>";
 		};
 		BFAD8EAB265A23FD00202160 /* ShopLiveDemo */ = {
