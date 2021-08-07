@@ -150,17 +150,17 @@ extension ShopLiveController {
     }
 
     func removePlayerObserver() {
-        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
-        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
-        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
-        playItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
-        playerItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
-        playerItem?.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
-        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
-        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
-        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
-        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
-        self.removeObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
+        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
+        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue)
+        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue)
+        playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
+        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
+        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {

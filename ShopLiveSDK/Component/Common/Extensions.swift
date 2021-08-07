@@ -15,3 +15,14 @@ extension UIViewController
         view.endEditing(true)
     }
 }
+
+extension NSObject {
+  func safeRemoveObserver(_ observer: NSObject, forKeyPath keyPath: String) {
+    switch self.observationInfo {
+    case .some:
+      self.removeObserver(observer, forKeyPath: keyPath)
+    default:
+      debugPrint("observer does no not exist")
+    }
+  }
+}

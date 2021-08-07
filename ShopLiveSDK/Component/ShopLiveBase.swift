@@ -67,6 +67,8 @@ import WebKit
             print("Audio session failed")
         }
 
+        ShopLiveController.shared.clear()
+
         liveStreamViewController = LiveStreamViewController()
         liveStreamViewController?.delegate = self
         liveStreamViewController?.webViewConfiguration = _webViewConfiguration
