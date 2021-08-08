@@ -58,6 +58,10 @@ import WebKit
             stopShopLivePictureInPicture()
             return
         }
+
+        guard liveStreamViewController == nil else {
+            return
+        }
         
         let audioSession = AVAudioSession.sharedInstance()
         originAudioSessionCategory = audioSession.category

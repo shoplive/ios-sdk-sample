@@ -302,6 +302,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .waitingToPlayAtSpecifiedRate: //버퍼링
             ShopLiveController.retryPlay = true
         case .playing:
+            ShopLiveController.retryPlay = false
             ShopLiveController.isPlaying = true
         @unknown default:
             ShopLiveLogger.debugLog("TimeControlStatus - unknown")
@@ -327,9 +328,16 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         }
     }
 
+    private func resetRetry() {
+        retryTimer?.invalidate()
+        retryTimer = nil
+        retryCount = 0
+    }
+
     func handleRetryPlay() {
         ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
         if ShopLiveController.retryPlay {
+
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
 
@@ -344,9 +352,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                 }
             }
         } else {
-            self.retryTimer?.invalidate()
-            self.retryTimer = nil
-            self.retryCount = 0
+            resetRetry()
         }
     }
 
