@@ -143,6 +143,7 @@ internal final class LiveStreamViewModel: NSObject {
                 self.play()
             }
         case .failed:
+            ShopLiveLogger.debugLog("[ViewModel] PlayerItemStatus failed")
             break
         default:
             break

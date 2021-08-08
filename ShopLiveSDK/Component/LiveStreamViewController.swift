@@ -32,9 +32,7 @@ internal final class LiveStreamViewController: UIViewController {
         return .lightContent
     }
 
-    private var bufferingTask: DispatchWorkItem?
-
-    var playerLayer: AVPlayerLayer? {
+    var playerLayer: AVPlayerLayer {
         return playerView.playerLayer
     }
     // optional: cancel task
@@ -296,11 +294,10 @@ internal final class LiveStreamViewController: UIViewController {
         ])
         self.overlayView = overlayView
     }
-    
+
     var topAnchor: NSLayoutConstraint!
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
-
         playerView.playerLayer.player = playerView.player
         playerView.playerLayer.videoGravity = .resizeAspectFill
         playerView.playerLayer.needsDisplayOnBoundsChange = true
@@ -498,7 +495,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func didUpdateVideo(with url: URL) {
-        ShopLiveController.videoUrl = url
+        ShopLiveController.streamUrl = url
     }
 
     func didTouchPlayButton() {

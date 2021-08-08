@@ -21,7 +21,6 @@ internal class OverlayWebView: UIView {
         }
     }
 
-    private var bufferingTask: DispatchWorkItem?
     private var retryTimer: Timer?
     private var retryCount: Int = 0
 
@@ -58,6 +57,9 @@ internal class OverlayWebView: UIView {
         super.layoutSubviews()
     }
 
+    func setHidden(toHidden: Bool) {
+        self.webView?.isHidden = toHidden
+    }
     
     private lazy var blockTouchView: UIView = {
         let view = UIView()
@@ -283,12 +285,8 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             ShopLiveController.retryPlay = false
             break
         case .failed:
-            self.bufferingTask?.cancel()
-            let cancelTask = DispatchWorkItem(block: {
-                ShopLiveController.isPlaying = false
-            })
-            self.bufferingTask = cancelTask
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
+            ShopLiveController.shared.retryPlay = true
+            ShopLiveLogger.debugLog("[OverlayWebview] PlayerItemStatus failed")
             break
         default:
             break
@@ -296,20 +294,17 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
     func handleTimeControlStatus() {
-        self.bufferingTask?.cancel()
         switch ShopLiveController.timeControlStatus {
         case .paused:
+            ShopLiveLogger.debugLog("TimeControlStatus - pause")
+            ShopLiveController.retryPlay = true
             ShopLiveController.isPlaying = false
         case .waitingToPlayAtSpecifiedRate: //버퍼링
-            self.bufferingTask?.cancel()
-            let cancelTask = DispatchWorkItem(block: {
-                ShopLiveController.isPlaying = false
-            })
-            self.bufferingTask = cancelTask
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(10), execute: cancelTask)
+            ShopLiveController.retryPlay = true
         case .playing:
             ShopLiveController.isPlaying = true
         @unknown default:
+            ShopLiveLogger.debugLog("TimeControlStatus - unknown")
              break
         }
     }
@@ -340,8 +335,11 @@ extension OverlayWebView: ShopLivePlayerDelegate {
 
                 ShopLiveLogger.debugLog("handleRetryPlay loop \(self.retryCount)")
                 if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                    if let videoUrl = ShopLiveController.videoUrl {
+                    if let videoUrl = ShopLiveController.streamUrl {
                         ShopLiveController.videoUrl = videoUrl
+                        ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
+                    } else {
+                        ShopLiveLogger.debugLog("videoUrl: ---nil")
                     }
                 }
             }

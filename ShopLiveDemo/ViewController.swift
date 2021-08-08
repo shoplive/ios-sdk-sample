@@ -43,9 +43,10 @@ class ViewController: UIViewController {
 
         #if DEBUG
         ShopLiveDemoKeyTools.shared.clearKey()
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Connect Test", campaignKey: "5545ee5f3d59", accessKey: "rYoegblp6Wbm65PBbZ5q"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "e7e712b8728d", accessKey: "7xxPlb8yOhZnchquMQHO"))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Connect Test")
         #endif
 
         hideKeyboard()

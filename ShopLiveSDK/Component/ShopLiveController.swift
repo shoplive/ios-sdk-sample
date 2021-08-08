@@ -60,6 +60,11 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPlaying: Bool = false
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
+    var streamUrl: URL? {
+        didSet {
+            ShopLiveController.videoUrl = streamUrl
+        }
+    }
     var customShareAction: (() -> Void)?
     var webInstance: ShopLiveWebView?
     var inputBoxFont: UIFont?
@@ -71,10 +76,20 @@ final class ShopLiveController: NSObject {
         case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
             postPlayerObservers(key: key)
             break
-        case .isMuted, .retryPlay:
+        case .isMuted:
             if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
                 if old != new {
-                    guard let videoUrl = ShopLiveController.videoUrl, videoUrl.absoluteString.isEmpty || videoUrl.absoluteString == "null" else {
+                    postPlayerObservers(key: key)
+                }
+            } else {
+                postPlayerObservers(key: key)
+            }
+            break
+        case .retryPlay:
+            if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
+                if old != new {
+                    guard let videoUrl = ShopLiveController.streamUrl, !videoUrl.absoluteString.isEmpty && videoUrl.absoluteString != "null" else {
+                        ShopLiveLogger.debugLog("\(keyPath): guard return - videoUrl: \(String(describing: ShopLiveController.streamUrl))")
                         return
                     }
                     postPlayerObservers(key: key)
@@ -127,6 +142,7 @@ final class ShopLiveController: NSObject {
         overlayUrl = nil
         isPlaying = false
         retryPlay = false
+        streamUrl = nil
         releasePlayer = false
         webInstance = nil
     }
@@ -307,6 +323,15 @@ extension ShopLiveController {
         }
         get {
             return shared.retryPlay
+        }
+    }
+
+    static var streamUrl: URL? {
+        set {
+            shared.streamUrl = newValue
+        }
+        get {
+            return shared.streamUrl
         }
     }
 }
