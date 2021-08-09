@@ -274,6 +274,7 @@ extension OverlayWebView: WKScriptMessageHandler {
 extension OverlayWebView: ShopLivePlayerDelegate {
     func clear() {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        resetRetry()
         removeObserver()
         webView = nil
         delegate = nil
@@ -285,7 +286,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             ShopLiveController.retryPlay = false
             break
         case .failed:
-            ShopLiveController.shared.retryPlay = true
+            ShopLiveController.retryPlay = true
             ShopLiveLogger.debugLog("[OverlayWebview] PlayerItemStatus failed")
             break
         default:
@@ -296,14 +297,14 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     func handleTimeControlStatus() {
         switch ShopLiveController.timeControlStatus {
         case .paused:
-            ShopLiveLogger.debugLog("TimeControlStatus - pause")
             ShopLiveController.retryPlay = true
-            ShopLiveController.isPlaying = false
+//            ShopLiveController.isPlaying = false
         case .waitingToPlayAtSpecifiedRate: //버퍼링
             ShopLiveController.retryPlay = true
+            break
         case .playing:
             ShopLiveController.retryPlay = false
-            ShopLiveController.isPlaying = true
+//            ShopLiveController.isPlaying = true
         @unknown default:
             ShopLiveLogger.debugLog("TimeControlStatus - unknown")
              break
