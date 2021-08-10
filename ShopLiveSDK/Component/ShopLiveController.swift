@@ -24,6 +24,12 @@ enum ShopLivePlayerObserveValue: String {
     case releasePlayer = "releasePlayer"
 }
 
+enum ShopLiveWindowStyle {
+    case inAppPip
+    case osPip
+    case normal
+}
+
 protocol ShopLivePlayerDelegate {
     var identifier: String { get }
     func isEqualTo(_ other: ShopLivePlayerDelegate) -> Bool
@@ -65,7 +71,7 @@ final class ShopLiveController: NSObject {
             ShopLiveController.videoUrl = streamUrl
         }
     }
-    var isPipMode: Bool = false
+    var windowStyle: ShopLiveWindowStyle = .normal
     var customShareAction: (() -> Void)?
     var webInstance: ShopLiveWebView?
     var inputBoxFont: UIFont?
@@ -336,12 +342,12 @@ extension ShopLiveController {
         }
     }
 
-    static var isPipMode: Bool {
+    static var windowStyle: ShopLiveWindowStyle {
         set {
-            shared.isPipMode = newValue
+            shared.windowStyle = newValue
         }
         get {
-            return shared.isPipMode
+            return shared.windowStyle
         }
     }
 }

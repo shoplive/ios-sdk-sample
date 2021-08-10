@@ -262,7 +262,7 @@ import WebKit
         let pipCenter = self.pipCenter(with: position)
         let safeAreaInset = mainWindow.safeAreaInsets
 
-        ShopLiveController.isPipMode = true
+        ShopLiveController.windowStyle = .inAppPip
         shopLiveWindow.clipsToBounds = false
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -352,7 +352,7 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-        ShopLiveController.isPipMode = false
+        ShopLiveController.windowStyle = .normal
 
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
@@ -765,14 +765,15 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 //            self.shopLiveWindow?.isHidden = true
 //            self.shopLiveWindow?.alpha = 1.0
 //        }
+        ShopLiveController.windowStyle = .osPip
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        
+
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        
+        ShopLiveController.windowStyle = .normal
     }
     
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {

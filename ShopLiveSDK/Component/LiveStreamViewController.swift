@@ -132,7 +132,7 @@ internal final class LiveStreamViewController: UIViewController {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
 //            self.overlayView?.setBlockView(show: false)
-            if chatInputView.isFocused() && !ShopLiveController.isPipMode {
+            if chatInputView.isFocused() && (ShopLiveController.windowStyle == ShopLiveWindowStyle.normal) {
                 self.hasKeyboard = true
                 isHiddenView = false
                 self.chatInputView.isHidden = false
@@ -214,6 +214,7 @@ internal final class LiveStreamViewController: UIViewController {
             self.play()
         } else {
 //            ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false)
+            self.reload()
             self.play()
         }
     }
@@ -244,10 +245,17 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func onBackground() {
+        ShopLiveLogger.debugLog("lifecycle onBackground()")
+        guard ShopLiveController.windowStyle != .osPip else { return }
         overlayView?.sendEventToWeb(event: .onBackground)
     }
 
     func onForeground() {
+        ShopLiveLogger.debugLog("lifecycle onForeground()")
+        guard ShopLiveController.windowStyle != .osPip else {
+            return
+        }
+        reload()
         overlayView?.sendEventToWeb(event: .onForeground)
     }
 
@@ -658,7 +666,9 @@ extension LiveStreamViewController: WKUIDelegate {
 extension LiveStreamViewController: ChattingWriteDelegate {
     func didTouchSendButton() {
         let message: Dictionary = Dictionary<String, Any>.init(dictionaryLiteral: ("message", chatInputView.chatText))
-        ShopLiveController.webInstance?.sendEventToWeb(event: .write, message.toJson())
+        overlayView?.sendEventToWeb(event: .write, message.toJson())
+        ShopLiveLogger.debugLog("didTouchSendButton webInstance: \(ShopLiveController.webInstance) url: \(ShopLiveController.webInstance?.url?.absoluteString)")
+//        ShopLiveController.webInstance?.sendEventToWeb(event: .write, message.toJson())
     }
 
     func updateHeight() {
