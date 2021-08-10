@@ -132,7 +132,7 @@ internal final class LiveStreamViewController: UIViewController {
         case "UIKeyboardWillHideNotification":
             lastKeyboardHeight = 0
 //            self.overlayView?.setBlockView(show: false)
-            if chatInputView.isFocused() {
+            if chatInputView.isFocused() && !ShopLiveController.isPipMode {
                 self.hasKeyboard = true
                 isHiddenView = false
                 self.chatInputView.isHidden = false

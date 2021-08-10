@@ -261,7 +261,8 @@ import WebKit
         let pipSize = self.pipSize(with: scale)
         let pipCenter = self.pipCenter(with: position)
         let safeAreaInset = mainWindow.safeAreaInsets
-        
+
+        ShopLiveController.isPipMode = true
         shopLiveWindow.clipsToBounds = false
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
@@ -351,12 +352,12 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-        
+        ShopLiveController.isPipMode = false
+
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
-        
         
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
         

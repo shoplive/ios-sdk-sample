@@ -65,6 +65,7 @@ final class ShopLiveController: NSObject {
             ShopLiveController.videoUrl = streamUrl
         }
     }
+    var isPipMode: Bool = false
     var customShareAction: (() -> Void)?
     var webInstance: ShopLiveWebView?
     var inputBoxFont: UIFont?
@@ -332,6 +333,15 @@ extension ShopLiveController {
         }
         get {
             return shared.streamUrl
+        }
+    }
+
+    static var isPipMode: Bool {
+        set {
+            shared.isPipMode = newValue
+        }
+        get {
+            return shared.isPipMode
         }
     }
 }
