@@ -37,8 +37,6 @@ internal final class LiveStreamViewController: UIViewController {
     }
     // optional: cancel task
     deinit {
-        removeObserver()
-        removePlaytimeObserver()
     }
 
     override func removeFromParent() {
@@ -87,7 +85,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     private func updateHeadPhoneStatus(plugged: Bool) {
         if !ShopLiveConfiguration.soundPolicy.keepPlayVideoOnHeadphoneUnplugged {
-            ShopLiveController.playControl = plugged ? .resume : ShopLiveController.isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = plugged ? .resume : .pause
         }
     }
 
@@ -195,28 +193,19 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func play() {
-//        viewModel.play()
+        viewModel.play()
     }
 
     func pause() {
         ShopLiveController.player?.pause()
-        ShopLiveController.isPlaying = false
     }
 
     func stop() {
-//        ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true)
         viewModel.stop()
     }
 
     func resume() {
-        if ShopLiveController.isReplayMode {
-            ShopLiveController.isPlaying = true
-            self.play()
-        } else {
-//            ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false)
-            self.reload()
-            self.play()
-        }
+        self.play()
     }
 
     func reload() {
@@ -401,6 +390,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func addObserver() {
+        ShopLiveController.shared.addPlayerDelegate(delegate: self)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -691,16 +681,53 @@ extension LiveStreamViewController: CXCallObserverDelegate {
 
         // 전화 발신
         if call.isOutgoing == true && call.hasConnected == false {
-            ShopLiveController.playControl = ShopLiveController.isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = .pause//ShopLiveController.isReplayMode ? .pause : .pause
         }
 
         // 통화벨 울림
         if call.isOutgoing == false && call.hasConnected == false && call.hasEnded == false {
-            ShopLiveController.playControl = ShopLiveController.isReplayMode ? .pause : .stop
+            ShopLiveController.playControl = .pause//ShopLiveController.isReplayMode ? .pause : .stop
         }
 
         // 통화 시작
         if call.hasConnected == true && call.hasEnded == false {
         }
     }
+}
+
+extension LiveStreamViewController: ShopLivePlayerDelegate {
+    var identifier: String {
+        return "LiveStreamViewController"
+    }
+
+    func handlePlayControl() {
+        switch ShopLiveController.playControl {
+        case .play:
+            self.play()
+        case .pause:
+            self.pause()
+        case .resume:
+            self.resume()
+        case .stop:
+            self.stop()
+        default:
+            break
+        }
+    }
+
+    func updatedValue(key: ShopLivePlayerObserveValue) {
+        switch key {
+        case .playControl:
+            handlePlayControl()
+        default:
+            break
+        }
+    }
+
+    func clear() {
+        ShopLiveController.shared.removePlayerDelegate(delegate: self)
+        removeObserver()
+        removePlaytimeObserver()
+    }
+
 }

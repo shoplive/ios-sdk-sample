@@ -297,8 +297,9 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     func handleTimeControlStatus() {
         switch ShopLiveController.timeControlStatus {
         case .paused:
-            ShopLiveController.retryPlay = true
-//            ShopLiveController.isPlaying = false
+            if ShopLiveController.playControl == .play {
+                ShopLiveController.retryPlay = true
+            }
         case .waitingToPlayAtSpecifiedRate: //버퍼링
             ShopLiveController.retryPlay = true
             break
