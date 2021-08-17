@@ -623,6 +623,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func close() {
+        self.hideShopLiveView()
+    }
+
     func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
         ShopLiveController.shared.inputBoxFont = inputBoxFont
         ShopLiveController.shared.sendButtonFont = sendButtonFont

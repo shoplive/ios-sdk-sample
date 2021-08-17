@@ -35,6 +35,7 @@ import WebKit
 
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
+    @objc func close()
 }
 
 @objc public final class ShopLive: NSObject {
@@ -101,6 +102,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func close() {
+        shared.instance?.close()
+    }
+
     public static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont) {
         shared.instance?.setChatViewFont(inputBoxFont: inputBoxFont, sendButtonFont: sendButtonFont)
     }
