@@ -422,16 +422,17 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
     }
 
-    func shareAction(url: URL) {
+    func shareAction(url: URL?) {
+        guard let shareUrl = url else { return }
 //        let text = "Hello, How are you doing?...."
-        let shareAll:[Any] = [url]//, text]
+        let shareAll:[Any] = [shareUrl]//, text]
 
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
     }
 
-    func didTouchShareButton(with url: URL) {
+    func didTouchShareButton(with url: URL?) {
         guard let custom = ShopLiveController.shared.customShareAction else {
             // common 공유하기
             shareAction(url: url)

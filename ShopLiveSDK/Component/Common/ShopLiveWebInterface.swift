@@ -26,7 +26,7 @@ enum WebInterface {
     case coupon(id: String)
     case playVideo
     case pauseVideo
-    case clickShareButton(url: URL)
+    case clickShareButton(url: URL?)
     case replay(width: CGFloat, height: CGFloat)
     case downKeyboard
     case onPipModeChanged
@@ -221,9 +221,11 @@ extension WebInterface {
         case .pauseVideo:
             self = .pauseVideo
         case .clickShareButton:
-            guard let urlString = parameters?["url"] as? String else { return nil }
-            guard let url = URL(string: urlString) else { return nil }
-            self = .clickShareButton(url:  url)
+            var shareUrl:URL? = nil
+            if let urlString = parameters?["url"] as? String, let url = URL(string: urlString) {
+                shareUrl = url
+            }
+            self = .clickShareButton(url:  shareUrl)
         case .replay:
             guard let width = parameters?["width"] as? CGFloat else { return nil }
             guard let height = parameters?["height"] as? CGFloat else { return nil }

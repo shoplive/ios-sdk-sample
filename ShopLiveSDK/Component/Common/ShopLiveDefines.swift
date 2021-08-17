@@ -45,7 +45,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func setVideoCurrentTime(to: CMTime)
     func didTouchBlockView()
 
-    func didTouchShareButton(with url: URL)
+    func didTouchShareButton(with url: URL?)
     func didTouchCustomAction(id: String, type: String, payload: Any?)
     func didTouchPlayButton()
     func didTouchPauseButton()
