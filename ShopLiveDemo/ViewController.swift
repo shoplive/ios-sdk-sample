@@ -122,7 +122,13 @@ class ViewController: UIViewController {
                 ShopLiveLogger.debugLog("share custom action")
             })
              */
-            ShopLive.setShareScheme(custom: nil)
+            ShopLive.setShareScheme(nil) {
+                ShopLive.startPictureInPicture()
+                let alert = UIAlertController.init(title: "공유하기 호출완료", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
 
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)
