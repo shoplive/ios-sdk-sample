@@ -122,7 +122,7 @@ class ViewController: UIViewController {
                 ShopLiveLogger.debugLog("share custom action")
             })
              */
-            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: nil)
+            ShopLive.setShareScheme(custom: nil)
 
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.play(with: key.campaignKey)

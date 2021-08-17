@@ -628,7 +628,15 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveController.shared.sendButtonFont = sendButtonFont
     }
 
-    func setShareScheme(_ scheme: String, custom: (() -> Void)?) {
+    func setShareScheme(_ scheme: String? = nil, custom: (() -> Void)?) {
+
+        if scheme == nil {
+            guard custom != nil else {
+                print("When `scheme` not used, `custom` must be used, `custom` can not be null")
+                return
+            }
+        }
+
         self.shareScheme = scheme
         ShopLiveController.shared.customShareAction = custom
     }
@@ -821,6 +829,3 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
-
-
-

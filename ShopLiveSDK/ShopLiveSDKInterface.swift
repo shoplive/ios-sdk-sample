@@ -41,7 +41,7 @@ import UIKit
     @objc static func reloadLive()
     @objc static func onTerminated()
 
-    @objc static func setShareScheme(_ scheme: String, custom: (() -> Void)?)
+    @objc static func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
     //    @objc static func dismissShopLive()
 }

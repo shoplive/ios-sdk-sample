@@ -22,7 +22,7 @@ extension NSObject {
     case .some:
       self.removeObserver(observer, forKeyPath: keyPath)
     default:
-      debugPrint("observer does no not exist")
+        ShopLiveLogger.debugLog("observer does not exist")
     }
   }
 }
