@@ -262,6 +262,12 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .customAction(let id, let type, let payload):
             self.delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
             break
+        case .onCampaignStatusChanged(let status):
+            delegate?.didChangeCampaignStatus(status: status)
+            break
+        case .error(let code, let message):
+            delegate?.onError(code: code, message: message)
+            break
         case .command(let command, let payload):
             ShopLiveLogger.debugLog("rawCommand: \(command)\(payload == nil ? "" : "(\(payload as? String ?? "")")")
             self.delegate?.handleCommand(command, with: payload)

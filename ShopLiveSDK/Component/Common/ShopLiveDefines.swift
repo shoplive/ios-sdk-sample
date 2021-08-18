@@ -34,6 +34,9 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func didTouchCoupon(with couponId: String)
     func handleCommand(_ command: String, with payload: Any?)
     func replay(with size: CGSize)
+    func campaignInfo(campaignInfo: [String : Any])
+    func didChangeCampaignStatus(status: String)
+    func onError(code: String, message: String)
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -54,6 +57,8 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didTouchCloseButton()
     func didTouchNavigation(with url: URL)
     func didTouchCoupon(with couponId: String)
+    func didChangeCampaignStatus(status: String)
+    func onError(code: String, message: String)
     func handleCommand(_ command: String, with payload: Any?)
 }
 

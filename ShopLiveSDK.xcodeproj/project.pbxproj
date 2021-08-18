@@ -15,6 +15,7 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
+		BF6D31E026CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */; };
 		BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D7253267AE75B00ED2750 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */; };
@@ -54,32 +55,6 @@
 		BFBBACA52699EC5300574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
 		BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
 		BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
-		BFBBAEEC26A192EA00574958 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EB0265A23FD00202160 /* ViewController.swift */; };
-		BFBBAEED26A192EA00574958 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
-		BFBBAEF626A192EA00574958 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
-		BFBBAEF926A192EA00574958 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
-		BFBBAEFD26A192EA00574958 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
-		BFBBAF0226A192EA00574958 /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
-		BFBBAF0726A192EA00574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
-		BFBBAF0826A192EA00574958 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
-		BFBBAF0A26A192EA00574958 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */; };
-		BFBBAF0B26A192EA00574958 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
-		BFBBAF0C26A192EA00574958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
-		BFBBAF0D26A192EA00574958 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
-		BFBBAF1326A1943400574958 /* build in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAF1226A1943400574958 /* build */; };
-		BFBBAF1B26A195E400574958 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EB0265A23FD00202160 /* ViewController.swift */; };
-		BFBBAF1C26A195E400574958 /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
-		BFBBAF2526A195E400574958 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAC265A23FD00202160 /* AppDelegate.swift */; };
-		BFBBAF2826A195E400574958 /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
-		BFBBAF2C26A195E400574958 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */; };
-		BFBBAF3126A195E400574958 /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
-		BFBBAF3626A195E400574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
-		BFBBAF3726A195E400574958 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
-		BFBBAF3926A195E400574958 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */; };
-		BFBBAF3A26A195E400574958 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
-		BFBBAF3B26A195E400574958 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB5265A23FE00202160 /* Assets.xcassets */; };
-		BFBBAF3C26A195E400574958 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BFAD8EB2265A23FD00202160 /* Main.storyboard */; };
-		BFBBAF4126A19B2600574958 /* build in Resources */ = {isa = PBXBuildFile; fileRef = BFBBAF1226A1943400574958 /* build */; };
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
@@ -128,19 +103,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		BFBBAF4D26A1D1B200574958 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		1B3CD68F2600647E00B94997 /* ShopLiveUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveUser.swift; sourceTree = "<group>"; };
 		1B9D659025F1CE4400E9CD4F /* ShopLiveSDKInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSDKInterface.swift; sourceTree = "<group>"; };
@@ -153,6 +115,7 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
+		BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoLogViewController.swift; sourceTree = "<group>"; };
 		BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingWriteView.swift; sourceTree = "<group>"; };
 		BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
 		BF8D7252267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingInternalTextView.swift; sourceTree = "<group>"; };
@@ -181,10 +144,6 @@
 		BFBBACA02699EAEC00574958 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		BFBBACA32699EC4500574958 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveConfiguration.swift; sourceTree = "<group>"; };
-		BFBBAED426A17F7B00574958 /* ShopLiveSDK RxSwift-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "ShopLiveSDK RxSwift-Info.plist"; path = "/Users/vincent/repo/matrix-sdk-ios/ShopLiveSDK RxSwift-Info.plist"; sourceTree = "<absolute>"; };
-		BFBBAF1126A192EA00574958 /* ShopLiveWithModuleDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveWithModuleDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		BFBBAF1226A1943400574958 /* build */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = build; sourceTree = SOURCE_ROOT; };
-		BFBBAF4026A195E400574958 /* ShopLiveDemoCombine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveDemoCombine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveKeySet.swift; sourceTree = "<group>"; };
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
@@ -241,24 +200,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BFBBAF0626A192EA00574958 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAF0726A192EA00574958 /* CallKit.framework in Frameworks */,
-				BFBBAF0826A192EA00574958 /* SafariServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFBBAF3526A195E400574958 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAF3626A195E400574958 /* CallKit.framework in Frameworks */,
-				BFBBAF3726A195E400574958 /* SafariServices.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -291,8 +232,6 @@
 				BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */,
 				BFAD8EBF265A23FE00202160 /* SwiftDemoTests.xctest */,
 				BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */,
-				BFBBAF1126A192EA00574958 /* ShopLiveWithModuleDemo.app */,
-				BFBBAF4026A195E400574958 /* ShopLiveDemoCombine.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -310,7 +249,6 @@
 				1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */,
 				1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */,
 				1BA5155125CBDCD100070181 /* Info.plist */,
-				BFBBAED426A17F7B00574958 /* ShopLiveSDK RxSwift-Info.plist */,
 			);
 			path = ShopLiveSDK;
 			sourceTree = "<group>";
@@ -370,7 +308,7 @@
 		BFAD8EAB265A23FD00202160 /* ShopLiveDemo */ = {
 			isa = PBXGroup;
 			children = (
-				BFBBAF1226A1943400574958 /* build */,
+				BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */,
 				BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */,
 				BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */,
 				BFAD8EAC265A23FD00202160 /* AppDelegate.swift */,
@@ -526,41 +464,6 @@
 			productReference = BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		BFBBAEE826A192EA00574958 /* ShopLiveWithModuleDemo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BFBBAF0E26A192EA00574958 /* Build configuration list for PBXNativeTarget "ShopLiveWithModuleDemo" */;
-			buildPhases = (
-				BFBBAEE926A192EA00574958 /* Sources */,
-				BFBBAF0626A192EA00574958 /* Frameworks */,
-				BFBBAF0926A192EA00574958 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ShopLiveWithModuleDemo;
-			productName = SwiftDemo;
-			productReference = BFBBAF1126A192EA00574958 /* ShopLiveWithModuleDemo.app */;
-			productType = "com.apple.product-type.application";
-		};
-		BFBBAF1726A195E400574958 /* ShopLiveDemoCombine */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BFBBAF3D26A195E400574958 /* Build configuration list for PBXNativeTarget "ShopLiveDemoCombine" */;
-			buildPhases = (
-				BFBBAF1826A195E400574958 /* Sources */,
-				BFBBAF3526A195E400574958 /* Frameworks */,
-				BFBBAF3826A195E400574958 /* Resources */,
-				BFBBAF4D26A1D1B200574958 /* Embed Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = ShopLiveDemoCombine;
-			productName = SwiftDemo;
-			productReference = BFBBAF4026A195E400574958 /* ShopLiveDemoCombine.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -609,8 +512,6 @@
 				1BA5154C25CBDCD100070181 /* ShopLiveSDK */,
 				1BA5155525CBDCD100070181 /* ShopLiveSDKTests */,
 				BFAD8EA9265A23FD00202160 /* ShopLiveDemo */,
-				BFBBAF1726A195E400574958 /* ShopLiveDemoCombine */,
-				BFBBAEE826A192EA00574958 /* ShopLiveWithModuleDemo */,
 				BFAD8EBE265A23FE00202160 /* SwiftDemoTests */,
 				BFAD8EC9265A23FE00202160 /* SwiftDemoUITests */,
 			);
@@ -655,30 +556,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFBBAF0926A192EA00574958 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAF1326A1943400574958 /* build in Resources */,
-				BFBBAF0A26A192EA00574958 /* LaunchScreen.storyboard in Resources */,
-				BFBBAF0B26A192EA00574958 /* Localizable.strings in Resources */,
-				BFBBAF0C26A192EA00574958 /* Assets.xcassets in Resources */,
-				BFBBAF0D26A192EA00574958 /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFBBAF3826A195E400574958 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAF4126A19B2600574958 /* build in Resources */,
-				BFBBAF3926A195E400574958 /* LaunchScreen.storyboard in Resources */,
-				BFBBAF3A26A195E400574958 /* Localizable.strings in Resources */,
-				BFBBAF3B26A195E400574958 /* Assets.xcassets in Resources */,
-				BFBBAF3C26A195E400574958 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -759,6 +636,7 @@
 				BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */,
 				BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */,
 				BFAD8EE3265A24DA00202160 /* ShopLiveLogger.swift in Sources */,
+				BF6D31E026CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift in Sources */,
 				BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -776,32 +654,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAD8ECF265A23FE00202160 /* SwiftDemoUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFBBAEE926A192EA00574958 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAEEC26A192EA00574958 /* ViewController.swift in Sources */,
-				BFBBAEED26A192EA00574958 /* ShopLiveDemoKeyTools.swift in Sources */,
-				BFBBAEF626A192EA00574958 /* AppDelegate.swift in Sources */,
-				BFBBAEF926A192EA00574958 /* ShopLiveKeySet.swift in Sources */,
-				BFBBAEFD26A192EA00574958 /* SceneDelegate.swift in Sources */,
-				BFBBAF0226A192EA00574958 /* KeySetRegisterController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BFBBAF1826A195E400574958 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BFBBAF1B26A195E400574958 /* ViewController.swift in Sources */,
-				BFBBAF1C26A195E400574958 /* ShopLiveDemoKeyTools.swift in Sources */,
-				BFBBAF2526A195E400574958 /* AppDelegate.swift in Sources */,
-				BFBBAF2826A195E400574958 /* ShopLiveKeySet.swift in Sources */,
-				BFBBAF2C26A195E400574958 /* SceneDelegate.swift in Sources */,
-				BFBBAF3126A195E400574958 /* KeySetRegisterController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1082,7 +934,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1107,7 +959,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1211,106 +1063,6 @@
 			};
 			name = Release;
 		};
-		BFBBAF0F26A192EA00574958 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = D237UGRPX6;
-				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.9;
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Dev";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		BFBBAF1026A192EA00574958 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = D237UGRPX6;
-				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.9;
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Adhoc";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		BFBBAF3E26A195E400574958 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = D237UGRPX6;
-				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.9;
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Dev";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		BFBBAF3F26A195E400574958 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = D237UGRPX6;
-				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.9;
-				OTHER_SWIFT_FLAGS = "";
-				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Adhoc";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1364,24 +1116,6 @@
 			buildConfigurations = (
 				BFAD8ED8265A23FE00202160 /* Debug */,
 				BFAD8ED9265A23FE00202160 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BFBBAF0E26A192EA00574958 /* Build configuration list for PBXNativeTarget "ShopLiveWithModuleDemo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BFBBAF0F26A192EA00574958 /* Debug */,
-				BFBBAF1026A192EA00574958 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BFBBAF3D26A195E400574958 /* Build configuration list for PBXNativeTarget "ShopLiveDemoCombine" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BFBBAF3E26A195E400574958 /* Debug */,
-				BFBBAF3F26A195E400574958 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

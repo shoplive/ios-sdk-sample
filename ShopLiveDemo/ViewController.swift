@@ -35,6 +35,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var swPipSetting: UISwitch!
     @IBOutlet weak var swKeepPlayUnplugged: UISwitch!
     @IBOutlet weak var swAutoResume: UISwitch!
+    @IBOutlet weak var swLog: UISwitch!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +47,7 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Connect Test", campaignKey: "5545ee5f3d59", accessKey: "rYoegblp6Wbm65PBbZ5q"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Replay Only", campaignKey: "e7e712b8728d", accessKey: "7xxPlb8yOhZnchquMQHO"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "DHT", campaignKey: "0dc055e4997e", accessKey: "DSUjM1uk7uw4bRiuRcQ1"))
         ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
         #endif
 
@@ -60,6 +62,9 @@ class ViewController: UIViewController {
             break
         case swPipSetting:
             pipViews.isHidden = !swItem.isOn
+            break
+        case swLog:
+            ShopLiveDemoLogger.shared.setVisible(show: swItem.isOn)
             break
         default:
             break
@@ -301,6 +306,21 @@ extension UIViewController
 }
 
 extension ViewController: ShopLiveSDKDelegate {
+    func handleChangeCampaignStatus(status: String) {
+        print("handleChangeCampaignStatus \(status)")
+        ShopLiveDemoLogger.shared.addLog(log: "handleChangeCampaignStatus \(status)")
+    }
+
+    func handleError(code: String, message: String) {
+        ShopLiveDemoLogger.shared.addLog(log: "handleError \(code)  \(message)")
+        print("handleError")
+    }
+
+    func handleCampaignInfo(campaignInfo: [String : Any]) {
+        ShopLiveDemoLogger.shared.addLog(log: "handleCampaignInfo \(campaignInfo)")
+        print("handleCampaignInfo")
+    }
+
     func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void) {
         print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
     }

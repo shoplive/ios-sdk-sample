@@ -48,6 +48,8 @@ enum WebInterface {
     case onBackground
     case onForeground
     case customAction(id: String, type: String, payload: Any?)
+    case onCampaignStatusChanged(status: String)
+    case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
     var functionString: String {
@@ -122,6 +124,10 @@ enum WebInterface {
             return WebFunction.onForeground.rawValue
         case .customAction:
             return WebFunction.customAction.rawValue
+        case .onCampaignStatusChanged:
+            return WebFunction.onCampaignStatusChanged.rawValue
+        case .error:
+            return WebFunction.error.rawValue
         case .command:
             return WebFunction.command.rawValue
         }
@@ -166,6 +172,8 @@ enum WebInterface {
         case onBackground = "ON_BACKGROUND"
         case onForeground = "ON_FOREGROUND"
         case customAction = "CUSTOM_ACTION"
+        case onCampaignStatusChanged = "ON_CAMPAIGN_STATUS_CHANGED"
+        case error = "ERROR"
     }
 }
 
@@ -272,6 +280,13 @@ extension WebInterface {
             guard let type = parameters?["type"] as? String else { return nil }
             guard let payload = parameters?["payload"] as? Any? else { return nil }
             self = .customAction(id: id, type: type, payload: payload)
+        case .onCampaignStatusChanged:
+            guard let status = parameters?["status"] as? String else { return nil }
+            self = .onCampaignStatusChanged(status: status)
+        case .error:
+            guard let code = parameters?["code"] as? String else { return nil }
+            guard let message = parameters?["msg"] as? String else { return nil }
+            self = .error(code: code, message: message)
         case .command:
             guard let customCommand = parameters?["action"] as? String else { return nil }
             let customPayload = parameters?["payload"]

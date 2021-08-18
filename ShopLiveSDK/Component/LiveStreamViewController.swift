@@ -417,6 +417,14 @@ internal final class LiveStreamViewController: UIViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func didChangeCampaignStatus(status: String) {
+        delegate?.didChangeCampaignStatus(status: status)
+    }
+
+    func onError(code: String, message: String) {
+        delegate?.onError(code: code, message: message)
+    }
+
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
         ShopLiveLogger.debugLog("id \(id) type \(type) payload: \(payload)")
         delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
@@ -529,11 +537,14 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         let interface = WebInterface.WebFunction.init(rawValue: command)
         switch interface  {
         case .setConf:
-            let chatInitData = payload as? [String : Any]
-            let placeHolder = chatInitData?["chatInputPlaceholderText"] as? String
-            let sendText = chatInitData?["chatInputSendText"] as? String
-            let chatInputMaxLength = chatInitData?["chatInputMaxLength"] as? Int
+            let payload = payload as? [String : Any]
+            let placeHolder = payload?["chatInputPlaceholderText"] as? String
+            let sendText = payload?["chatInputSendText"] as? String
+            let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
+            let campaignInfo = payload?["campaignInfo"] as? [String : Any]
             chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
+
+            delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
             break
         case .showChatInput:
             chatInputView.focus()

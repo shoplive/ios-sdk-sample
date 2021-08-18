@@ -802,6 +802,18 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    func campaignInfo(campaignInfo: [String : Any]) {
+        delegate?.handleCampaignInfo(campaignInfo: campaignInfo)
+    }
+
+    func didChangeCampaignStatus(status: String) {
+        delegate?.handleChangeCampaignStatus(status: status)
+    }
+
+    func onError(code: String, message: String) {
+        delegate?.handleError(code: code, message: message)
+    }
+
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
         let completion: () -> Void = { 
             self.liveStreamViewController?.didCompleteCustomAction(with: id) }

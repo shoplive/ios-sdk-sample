@@ -102,6 +102,18 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    static func changeCampaignStatus(status: String) {
+
+    }
+
+    static func error(code: String, message: String) {
+
+    }
+
+    static func campaignInfo(campaignInfo: [String : Any]) {
+
+    }
+
     public static func close() {
         shared.instance?.close()
     }
