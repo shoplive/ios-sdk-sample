@@ -197,7 +197,6 @@ extension WebInterface {
             guard let url = URL(string: urlString) else { return nil }
             self = .setForegroundPosterUrl(url: url)
         case .setLiveStreamUrl:
-            print("whkim \(parameters?["liveStreamUrl"])")
             if let urlString = parameters?["liveStreamUrl"] as? String {
                 guard !urlString.isEmpty, let url = URL(string: urlString) else {
                     ShopLiveLogger.debugLog("setLiveStreamUrl stop")
@@ -225,7 +224,15 @@ extension WebInterface {
             self = .close
         case .navigation:
             guard let urlString = parameters?["url"] as? String else { return nil }
-            guard let url = URL(string: urlString) else { return nil }
+            var navUrl: URL? = nil
+            if let url = URL(string: urlString) {
+                navUrl = url
+            } else if let encodedStr = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed), let encodedUrl = URL(string: encodedStr) {
+                navUrl = encodedUrl
+            }
+
+            guard let url = navUrl else { return nil }
+
             self = .navigation(url: url)
         case .coupon:
             guard let couponId = parameters?["coupon"] as? String else { return nil }
