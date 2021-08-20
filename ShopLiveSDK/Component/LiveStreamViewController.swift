@@ -256,7 +256,11 @@ internal final class LiveStreamViewController: UIViewController {
         snapImageView.contentMode = .scaleAspectFill
         view.addSubview(snapImageView)
         snapImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
+        let centerXConstraint = NSLayoutConstraint.init(item: snapImageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let widthConstraint = NSLayoutConstraint.init(item: snapImageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
+        view.addConstraints([
+            centerXConstraint, widthConstraint
+        ])
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
         self.snapShotView = snapImageView
     }
@@ -267,7 +271,11 @@ internal final class LiveStreamViewController: UIViewController {
         foregroundImageView.contentMode = .scaleAspectFill
         view.addSubview(foregroundImageView)
         foregroundImageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[foregroundImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["foregroundImageView": foregroundImageView]))
+        let centerXConstraint = NSLayoutConstraint.init(item: foregroundImageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let widthConstraint = NSLayoutConstraint.init(item: foregroundImageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
+        view.addConstraints([
+            centerXConstraint, widthConstraint
+        ])
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[foregroundImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["foregroundImageView": foregroundImageView]))
         self.foregroundImageView = foregroundImageView
     }
@@ -277,7 +285,11 @@ internal final class LiveStreamViewController: UIViewController {
         view.addSubview(imageView)
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["imageView": imageView]))
+        let centerXConstraint = NSLayoutConstraint.init(item: imageView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let widthConstraint = NSLayoutConstraint.init(item: imageView, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .height, multiplier: 0.5625, constant: 0)
+        view.addConstraints([
+            centerXConstraint, widthConstraint
+        ])
         view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["imageView": imageView]))
         self.imageView = imageView
     }
