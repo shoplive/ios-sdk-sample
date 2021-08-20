@@ -328,7 +328,9 @@ extension ShopLiveController {
 
     static var retryPlay: Bool {
         set {
-            shared.retryPlay = newValue
+            if ShopLiveController.streamUrl != nil {
+                shared.retryPlay = newValue
+            }
         }
         get {
             return shared.retryPlay

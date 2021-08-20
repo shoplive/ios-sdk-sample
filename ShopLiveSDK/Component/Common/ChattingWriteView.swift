@@ -155,6 +155,7 @@ internal final class ChattingWriteView: UIView {
 
     @objc
     func didTouchSendButton() {
+        sendButton.isEnabled = false
         delegate?.didTouchSendButton()
     }
 

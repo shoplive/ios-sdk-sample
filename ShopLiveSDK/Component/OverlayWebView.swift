@@ -355,6 +355,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                         ShopLiveController.videoUrl = videoUrl
                         ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
                     } else {
+                        ShopLiveController.retryPlay = false
                         ShopLiveLogger.debugLog("videoUrl: ---nil")
                     }
                 }

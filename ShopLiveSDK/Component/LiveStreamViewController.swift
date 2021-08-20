@@ -403,6 +403,7 @@ internal final class LiveStreamViewController: UIViewController {
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {
         case UIResponder.keyboardWillShowNotification:
+            guard chatInputView.isFocused() else { return }
             self.chatInputView.isHidden = false
             self.chatInputBG.isHidden = false
             self.setKeyboard(notification: notification)

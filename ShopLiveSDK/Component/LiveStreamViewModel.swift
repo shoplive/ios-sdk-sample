@@ -80,7 +80,7 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     func play() {
-        if let url = ShopLiveController.videoUrl, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+        if let url = ShopLiveController.videoUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
             updatePlayerItem(with: url)
         }
         else {
