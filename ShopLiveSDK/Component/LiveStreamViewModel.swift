@@ -43,6 +43,9 @@ internal final class LiveStreamViewModel: NSObject {
 
     private func resetPlayer() {
         ShopLiveController.videoUrl = nil
+        ShopLiveController.player?.pause()
+        ShopLiveController.player?.currentItem?.asset.cancelLoading()
+        ShopLiveController.player?.cancelPendingPrerolls()
         ShopLiveController.player?.replaceCurrentItem(with: nil)
         ShopLiveController.playerItem = nil
         ShopLiveController.urlAsset = nil

@@ -21,6 +21,7 @@ internal final class LiveStreamViewController: UIViewController {
 
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
+    private var snapShotView: UIImageView?
     private var foregroundImageView: UIImageView?
 
     var playerView: ShopLivePlayerView = .init()
@@ -187,6 +188,7 @@ internal final class LiveStreamViewController: UIViewController {
 
         setupBackgroundImageView()
         setupPlayerView()
+        setupSnapshotView()
         setupForegroungImageView()
         setupOverayWebview()
         setupChatInputView()
@@ -246,6 +248,17 @@ internal final class LiveStreamViewController: UIViewController {
         }
         reload()
         overlayView?.sendEventToWeb(event: .onForeground)
+    }
+
+    private func setupSnapshotView() {
+        let snapImageView = UIImageView()
+        snapImageView.isHidden = true
+        snapImageView.contentMode = .scaleAspectFill
+        view.addSubview(snapImageView)
+        snapImageView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
+        view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[snapImageView]|", options: NSLayoutConstraint.FormatOptions(rawValue: 0), metrics: nil, views: ["snapImageView": snapImageView]))
+        self.snapShotView = snapImageView
     }
 
     private func setupForegroungImageView() {
@@ -739,10 +752,24 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
 
+    func handleSnapshot() {
+        if ShopLiveController.shared.takeSnapShot {
+            ShopLiveController.shared.getSnapShot { image in
+                self.snapShotView?.image = image
+                self.snapShotView?.isHidden = false
+            }
+        } else {
+            self.snapShotView?.isHidden = true
+        }
+
+    }
+
     func updatedValue(key: ShopLivePlayerObserveValue) {
         switch key {
         case .playControl:
             handlePlayControl()
+        case .takeSnapShot:
+            handleSnapshot()
         default:
             break
         }

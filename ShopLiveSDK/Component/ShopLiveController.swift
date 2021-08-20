@@ -8,6 +8,7 @@
 import Foundation
 import AVKit
 import WebKit
+import UIKit
 
 enum ShopLivePlayerObserveValue: String {
     case videoUrl = "videoUrl"
@@ -22,6 +23,7 @@ enum ShopLivePlayerObserveValue: String {
     case isPlaying = "isPlaying"
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
+    case takeSnapShot = "takeSnapShot"
 }
 
 enum ShopLiveWindowStyle {
@@ -66,6 +68,8 @@ final class ShopLiveController: NSObject {
     @objc dynamic var isPlaying: Bool = false
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
+    @objc dynamic var takeSnapShot: Bool = true
+    var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
             ShopLiveController.videoUrl = streamUrl
@@ -80,7 +84,7 @@ final class ShopLiveController: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
-        case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer:
+        case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot:
             postPlayerObservers(key: key)
             break
         case .isMuted:
@@ -154,6 +158,23 @@ final class ShopLiveController: NSObject {
         webInstance = nil
     }
 
+    func getSnapShot(completion: @escaping (UIImage?) -> Void) {
+        guard let videoOutput = playItem?.videoOutput,
+              let currentItem = playerItem?.player?.currentItem else { return }
+
+        let currentTime = currentItem.currentTime()
+        if let buffer = videoOutput.copyPixelBuffer(forItemTime: currentTime, itemTimeForDisplay: nil) {
+            let ciImage = CIImage(cvPixelBuffer: buffer)
+            let imgRect = CGRect(x: 0, y: 0, width: CVPixelBufferGetWidth(buffer), height: CVPixelBufferGetHeight(buffer))
+            if let videoImage = CIContext().createCGImage(ciImage, from: imgRect) {
+                let image = UIImage.init(cgImage: videoImage)
+                completion(image)
+            } else {
+                completion(nil)
+            }
+        }
+    }
+
 }
 
 // MARK: ShopLive Player Section
@@ -171,6 +192,7 @@ extension ShopLiveController {
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
+        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue, options: .new, context: nil)
     }
 
     func removePlayerObserver() {
@@ -186,6 +208,7 @@ extension ShopLiveController {
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.playControl.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue)
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
@@ -221,6 +244,15 @@ extension ShopLiveController {
     static var playerItem: AVPlayerItem? {
         set {
             shared.playItem?.playerItem = newValue
+            if let videoOutput = shared.playItem?.videoOutput {
+                player?.currentItem?.remove(videoOutput)
+                shared.playItem?.videoOutput = nil
+            }
+            let settings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
+            shared.playItem?.videoOutput = AVPlayerItemVideoOutput.init(pixelBufferAttributes: settings)
+            if let videoOutput = shared.playItem?.videoOutput {
+                shared.playItem?.playerItem?.add(videoOutput)
+            }
         }
         get {
             return shared.playItem?.playerItem

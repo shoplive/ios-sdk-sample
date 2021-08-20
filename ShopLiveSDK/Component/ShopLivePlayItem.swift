@@ -13,4 +13,5 @@ final class ShopLivePlayItem: NSObject {
     @objc dynamic var urlAsset: AVURLAsset? = nil
     @objc dynamic var playerItem: AVPlayerItem? = nil
     @objc dynamic var perfMeasurements: PerfMeasurements? = nil
+    @objc dynamic var videoOutput: AVPlayerItemVideoOutput? = nil
 }

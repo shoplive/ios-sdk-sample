@@ -290,6 +290,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
             ShopLiveController.retryPlay = false
+            ShopLiveController.shared.takeSnapShot = false
             break
         case .failed:
             ShopLiveController.retryPlay = true
@@ -307,10 +308,12 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                 ShopLiveController.retryPlay = true
             }
         case .waitingToPlayAtSpecifiedRate: //버퍼링
+            ShopLiveController.shared.takeSnapShot = true
             ShopLiveController.retryPlay = true
             break
         case .playing:
             ShopLiveController.retryPlay = false
+            ShopLiveController.shared.takeSnapShot = false
 //            ShopLiveController.isPlaying = true
         @unknown default:
             ShopLiveLogger.debugLog("TimeControlStatus - unknown")
@@ -356,6 +359,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                         ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
                     } else {
                         ShopLiveController.retryPlay = false
+                        ShopLiveController.shared.takeSnapShot = false
                         ShopLiveLogger.debugLog("videoUrl: ---nil")
                     }
                 }
