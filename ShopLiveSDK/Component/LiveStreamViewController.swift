@@ -315,7 +315,6 @@ internal final class LiveStreamViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
-        ShopLiveLogger.debugLog("whkim rotate start")
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
             UIView.animate(withDuration: 0.4) {
