@@ -290,7 +290,7 @@ internal final class LiveStreamViewController: UIViewController {
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.videoGravity = .resizeAspectFill
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
         playerView.playerLayer.needsDisplayOnBoundsChange = true
         ShopLiveController.shared.playerItem?.player = playerView.player
         ShopLiveController.shared.playerItem?.playerLayer = playerLayer
@@ -310,6 +310,18 @@ internal final class LiveStreamViewController: UIViewController {
                                      playerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
                                      playerView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
+        ShopLiveLogger.debugLog("whkim rotate start")
+        overlayView?.alpha = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
+            UIView.animate(withDuration: 0.4) {
+                self.overlayView?.alpha = 1
+            }
+        }
     }
 
     private func updateTopAnchor(isPip: Bool) {

@@ -15,6 +15,8 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
+		BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
+		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF6D31E026CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */; };
 		BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
@@ -115,6 +117,7 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
+		BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtensions.swift; sourceTree = "<group>"; };
 		BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoLogViewController.swift; sourceTree = "<group>"; };
 		BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingWriteView.swift; sourceTree = "<group>"; };
 		BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
@@ -290,10 +293,11 @@
 		BFAD8E90265A211E00202160 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				BFFAD7C726BA05CA00C8C5E1 /* CALayerExtensions.swift */,
-				BFFAD7C626BA05CA00C8C5E1 /* UIViewExtensions.swift */,
 				BFC00CC02695EC5900BD8733 /* Resource */,
 				BF8D7250267AE72200ED2750 /* 3rdParty */,
+				BFFAD7C726BA05CA00C8C5E1 /* CALayerExtensions.swift */,
+				BFFAD7C626BA05CA00C8C5E1 /* UIViewExtensions.swift */,
+				BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */,
 				BFAD8E91265A211E00202160 /* ShopLiveWebView.swift */,
 				BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */,
 				BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */,
@@ -575,6 +579,7 @@
 				BFFAD7CF26BA06EB00C8C5E1 /* ShopLiveController.swift in Sources */,
 				BFFAD7C426BA050200C8C5E1 /* ShopLivePlayerView.swift in Sources */,
 				BFFAD7CA26BA05CA00C8C5E1 /* CALayerExtensions.swift in Sources */,
+				BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */,
 				BFFAD7D126BA06EB00C8C5E1 /* ShopLivePlayerItem.swift in Sources */,
 				BFAD8E95265A211E00202160 /* ShopLiveBase.swift in Sources */,
 				1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */,
@@ -629,6 +634,7 @@
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
 				BFFAD7D026BA06EB00C8C5E1 /* ShopLiveController.swift in Sources */,
 				BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
+				BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */,
 				BFAD8EE1265A24DA00202160 /* ShopLiveSDKInterface.swift in Sources */,
 				BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
 				BFAD8EE4265A24DA00202160 /* ShopLiveWebInterface.swift in Sources */,
