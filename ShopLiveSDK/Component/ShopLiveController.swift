@@ -80,6 +80,7 @@ final class ShopLiveController: NSObject {
     var webInstance: ShopLiveWebView?
     var inputBoxFont: UIFont?
     var sendButtonFont: UIFont?
+    var pipAnimationg: Bool = false
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
@@ -156,6 +157,7 @@ final class ShopLiveController: NSObject {
         streamUrl = nil
         releasePlayer = false
         webInstance = nil
+        pipAnimationg = false
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {

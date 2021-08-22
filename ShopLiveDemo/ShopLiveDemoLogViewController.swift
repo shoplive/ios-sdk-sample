@@ -2,7 +2,7 @@
 //  ShopLiveDemoLogViewController.swift
 //  ShopLiveDemo
 //
-//  Created by whkim on 2021/08/18.
+//  Created by ShopLive on 2021/08/18.
 //
 
 import UIKit

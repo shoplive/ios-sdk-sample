@@ -2,7 +2,7 @@
 //  UIScreenExtensions.swift
 //  ShopLiveSDK
 //
-//  Created by whkim on 2021/08/20.
+//  Created by ShopLive on 2021/08/20.
 //
 
 import UIKit

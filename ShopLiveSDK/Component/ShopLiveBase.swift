@@ -256,6 +256,7 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
+        guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
         let pipSize = self.pipSize(with: scale)
@@ -305,6 +306,7 @@ import WebKit
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100)) {
                     self.liveStreamViewController?.view.isHidden = false
                     snapshop.removeFromSuperview()
+                    ShopLiveController.shared.pipAnimationg = false
                 }
             }
         }
@@ -338,6 +340,7 @@ import WebKit
                 shopLiveWindow.layer.shadowOpacity = 0.5
                 shopLiveWindow.layer.shadowOffset = .zero
                 shopLiveWindow.layer.shadowRadius = 10
+                ShopLiveController.shared.pipAnimationg = false
             }
         }
         
@@ -346,9 +349,11 @@ import WebKit
     }
     
     private func stopCustomPictureInPicture() {
+        guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
-        
+
+        ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
@@ -392,6 +397,7 @@ import WebKit
                     ShopLiveController.isHiddenOverlay = false
                     self.liveStreamViewController?.view.isHidden = false
                     snapshop.removeFromSuperview()
+                    ShopLiveController.shared.pipAnimationg = false
                 })
             }
         }
@@ -412,8 +418,9 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.clipsToBounds = false
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 self.liveStreamViewController?.showBackgroundPoster()
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(650), execute: {
                     ShopLiveController.isHiddenOverlay = false
+                    ShopLiveController.shared.pipAnimationg = false
                 })
             }
         }
