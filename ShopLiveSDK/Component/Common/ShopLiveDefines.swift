@@ -15,11 +15,11 @@ import CoreMedia
     static let url: String = {
                 switch phase {
                 case .DEV:
-                    return "https://dev-static.shoplive.cloud/sdk/player.html"
+                    return "https://dev.shoplive.show/v1/sdk.html"
                 case .STAGE:
-                    return "https://stg-static.shoplive.cloud/sdk/player.html"
+                    return "https://stg.shoplive.show/v1/sdk.html"
                 default:
-                    return "https://static.shoplive.cloud/sdk/player.html"
+                    return "https://www.shoplive.show/v1/sdk.html"
                 }
             }()
 
