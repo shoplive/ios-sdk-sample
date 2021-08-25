@@ -83,7 +83,7 @@ internal final class LiveStreamViewModel: NSObject {
     }
     
     func play() {
-        if let url = ShopLiveController.videoUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+        if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
             updatePlayerItem(with: url)
         }
         else {
@@ -93,6 +93,18 @@ internal final class LiveStreamViewModel: NSObject {
     
     func stop() {
         resetPlayer()
+    }
+
+    func resume() {
+        guard ShopLiveController.player?.timeControlStatus != .playing else { return }
+
+        if ShopLiveController.isReplayMode {
+            ShopLiveController.player?.play()
+        } else {
+            if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
+                updatePlayerItem(with: url)
+            }
+        }
     }
     
     func reloadVideo() {
@@ -107,14 +119,6 @@ internal final class LiveStreamViewModel: NSObject {
     func seek(to: CMTime) {
         ShopLiveController.player?.seek(to: to)
     }
-
-//    private func addIsPlayableObserver() {
-//        urlAsset?.addObserver(self, forKeyPath: "isPlayable", options: [.initial, .new], context: nil)
-//    }
-//
-//    private func removeIsPlayableObserver() {
-//        urlAsset?.removeObserver(self, forKeyPath: "isPlayable")
-//    }
 
     @objc func handleNotification(_ notification: Notification) {
         switch notification.name {

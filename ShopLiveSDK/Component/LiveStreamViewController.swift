@@ -200,6 +200,8 @@ internal final class LiveStreamViewController: UIViewController {
 
     func pause() {
         ShopLiveController.player?.pause()
+        ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
+
     }
 
     func stop() {
@@ -207,7 +209,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func resume() {
-        self.play()
+        viewModel.resume()
     }
 
     func reload() {
@@ -504,7 +506,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func reloadVideo() {
-//        viewModel.reloadVideo()
+        viewModel.resume()
     }
 
     func setVideoCurrentTime(to: CMTime) {
