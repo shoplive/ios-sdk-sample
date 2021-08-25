@@ -609,9 +609,15 @@ import WebKit
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         switch keyPath {
         case "_style":
-            guard let oldValue: ShopLive.PresentationStyle = change?[.oldKey] as? ShopLive.PresentationStyle,
-                  let newValue: ShopLive.PresentationStyle = change?[.newKey] as? ShopLive.PresentationStyle, oldValue != newValue else { return }
-            self.liveStreamViewController?.updatePipStyle(with: newValue)
+            guard let oldValue: Int = change?[.oldKey] as? Int, let newValue: Int = change?[.newKey] as? Int, oldValue != newValue,
+                  let newStyle: ShopLive.PresentationStyle = .init(rawValue: newValue) else {
+                if let newValue: Int = change?[.newKey] as? Int, let newStyle: ShopLive.PresentationStyle = .init(rawValue: newValue) {
+                    self.liveStreamViewController?.updatePipStyle(with: newStyle)
+                }
+                return
+            }
+
+            self.liveStreamViewController?.updatePipStyle(with: newStyle)
             break
         case "_authToken":
             guard let oldValue: String = change?[.oldKey] as? String,
