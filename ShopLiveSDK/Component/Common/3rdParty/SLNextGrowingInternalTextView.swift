@@ -89,6 +89,11 @@ internal class SLNextGrowingInternalTextView: UITextView {
     }
   }
 
+    override var hasText: Bool {
+        let inputString = self.text.filter { !$0.isWhitespace }
+        return inputString.count > 0
+    }
+
   override func layoutSubviews() {
     super.layoutSubviews()
     

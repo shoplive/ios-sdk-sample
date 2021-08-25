@@ -112,7 +112,7 @@ internal final class ChattingWriteView: UIView {
         chatView.backgroundColor = .clear
         chatView.delegate = self
         chatView.textView.delegate = self
-
+        chatView.textView.enablesReturnKeyAutomatically = true
         let isCustomFont = ShopLiveController.shared.inputBoxFont != nil
         chatView.textView.returnKeyType = .send
         let paragraphStyle = NSMutableParagraphStyle()
@@ -243,7 +243,7 @@ extension ChattingWriteView: UIScrollViewDelegate {
 
 extension ChattingWriteView: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        sendButton.isEnabled = textView.text.count > 0
+        sendButton.isEnabled = textView.hasText
     }
 
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -264,3 +264,10 @@ extension ChattingWriteView: UITextViewDelegate {
         }
     }
 }
+/*
+ let range = NSMakeRange(0, to.range.location + to.range.length + 1)
+ guard (group as NSString).length - range.length > 0 else {
+     continue
+ }
+ let text = (group as NSString).replacingCharacters(in: range, with: "")
+ */
