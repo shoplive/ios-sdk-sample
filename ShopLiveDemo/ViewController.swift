@@ -51,12 +51,28 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "NickName", campaignKey: "614d5e3d4fd4", accessKey: "9M2FwM5BmJf9RVeesKeg"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "TestBR", campaignKey: "120b6234673e", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "TestBR AA", campaignKey: "be23b8478d0d", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "HS", campaignKey: "d5c6ccfe6b39", accessKey: "uv9CGthPzlvsInZerCw0"))
 //        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "NickName")
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "TestBR AA")
-        #endif
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "REPLAY TEST", campaignKey: "cd3b7fdc6843", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
 
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ", campaignKey: "40723305fc5a", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ for Preview Test", campaignKey: "f944566a4f20", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "ZZ for Preview Test")
+        #endif
+        
         hideKeyboard()
         loadKeyData()
+    }
+
+    struct BlogPost: Decodable {
+        enum Category: String, Decodable {
+            case swift, combine, debugging, xcode
+        }
+
+        let title: String
+        let url: URL
+        let category: Category
+        let views: Int
     }
 
     @IBAction private func switchAction(swItem: UISwitch) {
@@ -91,6 +107,60 @@ class ViewController: UIViewController {
 
         self.phase = ShopLive.Phase.init(name: ShopLiveDemoKeyTools.shared.phase) ?? .REAL
         keyPhase.text = phase.name
+    }
+
+    @IBAction func didTouchPreviewButton(_ sender: Any) {
+        dismissKeyboard()
+        if let key = ShopLiveDemoKeyTools.shared.currentKey() {
+
+            // sign in
+            if self.swSignIn.isOn,
+               let userId = self.userId.text,
+               let userName = self.userName.text,
+               let tfAge = self.age.text,
+               let userAge = Int(tfAge),
+               userId.isEmpty == false && userName.isEmpty == false && tfAge.isEmpty == false {
+                let user = ShopLiveUser(id: userId, name: userName, gender: self.userGender, age: userAge)
+                ShopLive.user = user
+            } else {
+                self.userGender = .unknown
+                ShopLive.user = nil
+            }
+
+            // pip
+            if self.swPipSetting.isOn {
+                if let slPipCS = self.pipCUstomSize.text,
+                   slPipCS.isEmpty == false {
+                    ShopLive.pipScale = CGFloat(NSString(string: slPipCS).floatValue)
+                } else {
+                    ShopLive.pipScale = 2/5
+                }
+
+                ShopLive.pipPosition = self.pipPosition
+            }
+
+            ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
+            ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
+
+            /*
+            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: {
+                ShopLiveLogger.debugLog("share custom action")
+            })
+             */
+            ShopLive.setShareScheme(nil) {
+                ShopLive.startPictureInPicture()
+                let alert = UIAlertController.init(title: "공유하기 호출완료", message: nil, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                }))
+                self.present(alert, animated: true, completion: nil)
+            }
+
+            ShopLive.configure(with: key.accessKey, phase: phase)
+            ShopLive.preview(with: key.campaignKey) {
+                ShopLive.play(with: key.campaignKey)
+                ShopLiveDemoLogger.shared.addLog(log: "preview finish")
+            }
+        }
     }
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
@@ -334,14 +404,15 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleNavigation(with url: URL) {
-        if #available(iOS 13, *) {
-            ShopLive.startPictureInPicture()
-            let safari = SFSafariViewController(url: url)
-            self.present(safari, animated: true)
-        } else {
-            // TODO: Single UIWindow 에서 PIP 처리 적용 필요
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        ShopLiveDemoLogger.shared.addLog(log: "handleNavigation \(url)")
+//        if #available(iOS 13, *) {
+//            ShopLive.startPictureInPicture()
+//            let safari = SFSafariViewController(url: url)
+//            self.present(safari, animated: true)
+//        } else {
+//            // TODO: Single UIWindow 에서 PIP 처리 적용 필요
+//            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+//        }
 
     }
 
