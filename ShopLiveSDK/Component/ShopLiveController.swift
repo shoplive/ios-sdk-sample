@@ -69,6 +69,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
+    var isPreview: Bool = false
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
@@ -85,7 +86,13 @@ final class ShopLiveController: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
-        case .videoUrl, .timeControlStatus, .isPlayable, .playerItemStatus, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot:
+        case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot:
+            postPlayerObservers(key: key)
+            break
+        case .playerItemStatus:
+            if ShopLiveController.playerItemStatus == .readyToPlay {
+                ShopLiveController.player?.isMuted = isPreview ? true : false
+            }
             postPlayerObservers(key: key)
             break
         case .isMuted:
@@ -158,6 +165,7 @@ final class ShopLiveController: NSObject {
         releasePlayer = false
         webInstance = nil
         pipAnimationg = false
+
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {

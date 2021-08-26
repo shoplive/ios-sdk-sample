@@ -21,6 +21,7 @@ import WebKit
 
     @objc func configure(with accessKey: String)
     @objc func configure(with accessKey: String, phase: ShopLive.Phase)
+    @objc func preview(with campaignKey: String?, completion: @escaping () -> Void)
     @objc func play(with campaignKey: String?, _ parent: UIViewController?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
@@ -102,18 +103,6 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func changeCampaignStatus(status: String) {
-
-    }
-
-    static func error(code: String, message: String) {
-
-    }
-
-    static func campaignInfo(campaignInfo: [String : Any]) {
-
-    }
-
     public static func close() {
         shared.instance?.close()
     }
@@ -212,7 +201,13 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.configure(with: accessKey, phase: phase)
     }
 
+    static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        ShopLiveController.shared.isPreview = true
+        shared.instance?.preview(with: campaignKey, completion: completion)
+    }
+
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
+        ShopLiveController.shared.isPreview = false
         shared.instance?.play(with: campaignKey, parent)
     }
 

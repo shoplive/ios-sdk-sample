@@ -33,13 +33,15 @@ import WebKit
     @objc dynamic var _style: ShopLive.PresentationStyle = .unknown
     @objc dynamic var _authToken: String?
     @objc dynamic var _user: ShopLiveUser?
+
+    private var previewCallback: (() -> Void)?
     
     var liveStreamViewController: LiveStreamViewController?
     var pictureInPictureController: AVPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
     var originAudioSessionCategory: AVAudioSession.Category?
-    
+
     weak var _delegate: ShopLiveSDKDelegate?
     
     override init() {
@@ -50,12 +52,24 @@ import WebKit
     deinit {
         removeObserver()
     }
-    
-    func showShopLiveView(with overlayUrl: URL) {
+
+    func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
+        previewCallback = completion
+        showShopLiveView(with: previewUrl, true) {
+            self.startPictureInPicture()
+        }
+    }
+
+    func showShopLiveView(with overlayUrl: URL, _ initialize: Bool = true, _ completion: (() -> Void)? = nil) {
         guard _style == .unknown else {
-            liveStreamViewController?.viewModel.overayUrl = overlayUrl
-            liveStreamViewController?.reload()
-            stopShopLivePictureInPicture()
+            if initialize {
+                liveStreamViewController?.viewModel.overayUrl = overlayUrl
+                liveStreamViewController?.reload()
+                stopShopLivePictureInPicture()
+            } else {
+                stopShopLivePictureInPicture()
+            }
+
             return
         }
 
@@ -112,7 +126,12 @@ import WebKit
         
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
-        _style = .fullScreen
+
+        if ShopLiveController.shared.isPreview {
+            completion?()
+        } else {
+            _style = .fullScreen
+        }
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
@@ -343,7 +362,6 @@ import WebKit
                 ShopLiveController.shared.pipAnimationg = false
             }
         }
-        
 
         _style = .pip
     }
@@ -418,7 +436,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.clipsToBounds = false
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 self.liveStreamViewController?.showBackgroundPoster()
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(650), execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
                     ShopLiveController.isHiddenOverlay = false
                     ShopLiveController.shared.pipAnimationg = false
                 })
@@ -528,6 +546,7 @@ import WebKit
     }
     
     @objc private func swipeDownGestureHandler(_ recognizer: UISwipeGestureRecognizer) {
+        guard !ShopLiveController.shared.isPreview else { return }
         guard _style == .fullScreen else { return }
         startShopLivePictureInPicture()
     }
@@ -544,12 +563,30 @@ import WebKit
         }
         return animationVelocity
     }
-    
+
     @objc private func pipTapGestureHandler(_ recognizer: UIPanGestureRecognizer) {
+        guard !ShopLiveController.shared.isPreview else {
+            ShopLiveController.shared.isPreview = false
+            previewCallback?()
+            return
+        }
         guard _style == .pip else { return }
         stopShopLivePictureInPicture()
     }
-    
+
+    func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
+        var urlComponents = URLComponents(string: ShopLiveDefines.url)
+        var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+        queryItems.append(URLQueryItem(name: "ak", value: accessKey))
+        if let ck = campaignKey {
+            queryItems.append(URLQueryItem(name: "ck", value: ck))
+        }
+        queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
+        queryItems.append(URLQueryItem(name: "preview", value: "1"))
+        urlComponents?.queryItems = queryItems
+        completionHandler(urlComponents?.url)
+    }
+
     func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
         guard let accessKey = self.accessKey else {
             completionHandler(nil)
@@ -709,12 +746,19 @@ extension ShopLiveBase: ShopLiveComponent {
         self.accessKey = accessKey
         self.phase = phase
     }
+
+    func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        fetchPreviewUrl(with: campaignKey) { url in
+            guard let url = url else { return }
+            self.showPreview(previewUrl: url, completion: completion)
+        }
+    }
     
     @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
         guard self.accessKey != nil else { return }
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
-            showShopLiveView(with: url)
+            showShopLiveView(with: url, true, nil)
         }
     }
     
