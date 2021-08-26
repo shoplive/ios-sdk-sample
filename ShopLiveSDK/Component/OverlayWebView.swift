@@ -259,6 +259,10 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.replay(with: CGSize(width: width, height: height))
         case .setVideoCurrentTime(let time):
             self.delegate?.setVideoCurrentTime(to: .init(seconds: time, preferredTimescale: 1))
+        case .enableSwipeDown:
+            ShopLiveController.shared.swipeEnabled = true
+        case .disableSwipeDown:
+            ShopLiveController.shared.swipeEnabled = false
         case .customAction(let id, let type, let payload):
             self.delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
             break

@@ -436,7 +436,7 @@ import WebKit
                 shopLiveWindow.rootViewController?.view.clipsToBounds = false
                 shopLiveWindow.rootViewController?.view.backgroundColor = .black
                 self.liveStreamViewController?.showBackgroundPoster()
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                     ShopLiveController.isHiddenOverlay = false
                     ShopLiveController.shared.pipAnimationg = false
                 })
@@ -445,7 +445,7 @@ import WebKit
         
         _style = .fullScreen
     }
-    
+
     private func alignPipView() {
         guard let currentCenter = shopLiveWindow?.center else { return }
         guard let mainWindow = self.mainWindow else { return }
@@ -546,6 +546,7 @@ import WebKit
     }
     
     @objc private func swipeDownGestureHandler(_ recognizer: UISwipeGestureRecognizer) {
+        guard ShopLiveController.shared.swipeEnabled else { return }
         guard !ShopLiveController.shared.isPreview else { return }
         guard _style == .fullScreen else { return }
         startShopLivePictureInPicture()
