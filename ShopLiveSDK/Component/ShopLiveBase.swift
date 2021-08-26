@@ -784,12 +784,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-//        UIView.animate(withDuration: 0.2) {
-//            self.shopLiveWindow?.alpha = 0
-//        } completion: { (isCompleted) in
-//            self.shopLiveWindow?.isHidden = true
-//            self.shopLiveWindow?.alpha = 1.0
-//        }
         ShopLiveController.windowStyle = .osPip
     }
     

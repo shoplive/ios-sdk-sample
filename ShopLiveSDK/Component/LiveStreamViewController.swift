@@ -201,7 +201,6 @@ internal final class LiveStreamViewController: UIViewController {
     func pause() {
         ShopLiveController.player?.pause()
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
-
     }
 
     func stop() {
@@ -209,6 +208,7 @@ internal final class LiveStreamViewController: UIViewController {
     }
 
     func resume() {
+        ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         viewModel.resume()
     }
 
@@ -341,6 +341,8 @@ internal final class LiveStreamViewController: UIViewController {
 
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
+
+        guard ShopLiveController.windowStyle != .osPip else { return }
         playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
