@@ -49,6 +49,8 @@ enum WebInterface {
     case onForeground
     case customAction(id: String, type: String, payload: Any?)
     case onCampaignStatusChanged(status: String)
+    case disableSwipeDown
+    case enableSwipeDown
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
@@ -126,6 +128,10 @@ enum WebInterface {
             return WebFunction.customAction.rawValue
         case .onCampaignStatusChanged:
             return WebFunction.onCampaignStatusChanged.rawValue
+        case .disableSwipeDown:
+            return WebFunction.disableSwipeDown.rawValue
+        case .enableSwipeDown:
+            return WebFunction.enableSwipeDown.rawValue
         case .error:
             return WebFunction.error.rawValue
         case .command:
@@ -173,6 +179,8 @@ enum WebInterface {
         case onForeground = "ON_FOREGROUND"
         case customAction = "CUSTOM_ACTION"
         case onCampaignStatusChanged = "ON_CAMPAIGN_STATUS_CHANGED"
+        case disableSwipeDown = "DISABLE_SWIPE_DOWN"
+        case enableSwipeDown = "ENABLE_SWIPE_DOWN"
         case error = "ERROR"
     }
 }
@@ -296,6 +304,10 @@ extension WebInterface {
         case .onCampaignStatusChanged:
             guard let status = parameters?["status"] as? String else { return nil }
             self = .onCampaignStatusChanged(status: status)
+        case .disableSwipeDown:
+            self = .disableSwipeDown
+        case .enableSwipeDown:
+            self = .enableSwipeDown
         case .error:
             guard let code = parameters?["code"] as? String else { return nil }
             guard let message = parameters?["msg"] as? String else { return nil }
