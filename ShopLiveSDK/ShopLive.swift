@@ -10,6 +10,7 @@ import AVKit
 import WebKit
 
 @objc internal protocol ShopLiveComponent: AnyObject {
+    @objc var viewController: ShopLiveViewContgroller? { get }
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
@@ -103,6 +104,10 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static var viewController: ShopLiveViewContgroller? {
+        shared.instance?.viewController
+    }
+
     public static func close() {
         shared.instance?.close()
     }

@@ -278,6 +278,7 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+        delegate?.handleCommand("willShopLiveOff", with: nil)
         let pipSize = self.pipSize(with: scale)
         let pipCenter = self.pipCenter(with: position)
         let safeAreaInset = mainWindow.safeAreaInsets
@@ -371,6 +372,7 @@ import WebKit
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
+        delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
@@ -674,6 +676,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    var viewController: ShopLiveViewContgroller? {
+        return self.liveStreamViewController
+    }
+
     func close() {
         self.hideShopLiveView()
     }
@@ -759,6 +765,7 @@ extension ShopLiveBase: ShopLiveComponent {
         guard self.accessKey != nil else { return }
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
+            delegate?.handleCommand("willShopLiveOn", with: nil)
             showShopLiveView(with: url, true, nil)
         }
     }

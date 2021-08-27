@@ -12,7 +12,7 @@ import CallKit
 import MediaPlayer
 import ExternalAccessory
 
-internal final class LiveStreamViewController: UIViewController {
+internal final class LiveStreamViewController: ShopLiveViewContgroller {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?
@@ -562,6 +562,16 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
+        delegate?.handleCommand("isShopLiveOn", with: style == .fullScreen)
+
+        var styleCommand: String = ""
+        switch style {
+        case .fullScreen:
+            styleCommand = "didShopLiveOn"
+        case .pip, .unknown:
+            styleCommand = "didShopLiveOff"
+        }
+        delegate?.handleCommand(styleCommand, with: nil)
         overlayView?.updatePipStyle(with: style)
     }
 

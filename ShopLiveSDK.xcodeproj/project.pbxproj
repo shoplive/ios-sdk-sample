@@ -53,7 +53,6 @@
 		BFAD8EE4265A24DA00202160 /* ShopLiveWebInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */; };
 		BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E86265A211E00202160 /* ShopLiveBase.swift */; };
 		BFAD8EE6265A24DA00202160 /* ShopLiveUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3CD68F2600647E00B94997 /* ShopLiveUser.swift */; };
-		BFBBACA42699EC4500574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
 		BFBBACA52699EC5300574958 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFBBACA32699EC4500574958 /* CallKit.framework */; };
 		BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
 		BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBACA6269AD04E00574958 /* ShopLiveConfiguration.swift */; };
@@ -184,7 +183,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BFBBACA42699EC4500574958 /* CallKit.framework in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
