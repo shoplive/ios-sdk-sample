@@ -676,7 +676,7 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
-    var viewController: ShopLiveViewContgroller? {
+    var viewController: ShopLiveViewController? {
         return self.liveStreamViewController
     }
 

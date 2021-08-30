@@ -19,12 +19,12 @@ import UIKit
     @objc func handleCommand(_ command: String, with payload: Any?)
 }
 
-@objc public class ShopLiveViewContgroller: UIViewController {
+@objc public class ShopLiveViewController: UIViewController {
 
 }
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
-    @objc static var viewController: ShopLiveViewContgroller? { get }
+    @objc static var viewController: ShopLiveViewController? { get }
     @objc static var style: ShopLive.PresentationStyle { get }
     @objc static var pipPosition: ShopLive.PipPosition { get set }
     @objc static var pipScale: CGFloat { get set }

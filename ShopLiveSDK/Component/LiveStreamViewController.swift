@@ -12,7 +12,7 @@ import CallKit
 import MediaPlayer
 import ExternalAccessory
 
-internal final class LiveStreamViewController: ShopLiveViewContgroller {
+internal final class LiveStreamViewController: ShopLiveViewController {
 
     @objc dynamic lazy var viewModel: LiveStreamViewModel = LiveStreamViewModel()
     weak var delegate: LiveStreamViewControllerDelegate?

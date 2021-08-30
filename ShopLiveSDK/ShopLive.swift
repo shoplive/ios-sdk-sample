@@ -10,7 +10,7 @@ import AVKit
 import WebKit
 
 @objc internal protocol ShopLiveComponent: AnyObject {
-    @objc var viewController: ShopLiveViewContgroller? { get }
+    @objc var viewController: ShopLiveViewController? { get }
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
@@ -104,7 +104,7 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    public static var viewController: ShopLiveViewContgroller? {
+    public static var viewController: ShopLiveViewController? {
         shared.instance?.viewController
     }
 
@@ -206,7 +206,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.configure(with: accessKey, phase: phase)
     }
 
-    static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+    public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         ShopLiveController.shared.isPreview = true
         shared.instance?.preview(with: campaignKey, completion: completion)
     }
