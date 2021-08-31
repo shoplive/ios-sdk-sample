@@ -679,7 +679,6 @@ extension LiveStreamViewController: WKUIDelegate {
         else {
             present(alertController, animated: true, completion: nil)
         }
-        present(alertController, animated: true, completion: nil)
     }
 
     func webView(_ webView: WKWebView, runJavaScriptTextInputPanelWithPrompt prompt: String, defaultText: String?, initiatedByFrame frame: WKFrameInfo, completionHandler: @escaping (String?) -> Void) {
