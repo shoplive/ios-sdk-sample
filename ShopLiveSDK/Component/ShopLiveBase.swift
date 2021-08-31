@@ -55,25 +55,28 @@ import WebKit
 
     func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
         previewCallback = completion
-        showShopLiveView(with: previewUrl, true) {
+        showShopLiveView(with: previewUrl) {
             self.startPictureInPicture()
         }
     }
 
-    func showShopLiveView(with overlayUrl: URL, _ initialize: Bool = true, _ completion: (() -> Void)? = nil) {
-        guard _style == .unknown else {
-            if initialize {
-                liveStreamViewController?.viewModel.overayUrl = overlayUrl
-                liveStreamViewController?.reload()
+    func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
+        if _style == .fullScreen {
+            liveStreamViewController?.viewModel.overayUrl = overlayUrl
+            liveStreamViewController?.reload()
+        } else if _style == .pip {
+            liveStreamViewController?.viewModel.overayUrl = overlayUrl
+            liveStreamViewController?.reload()
+            if !ShopLiveController.shared.isPreview {
                 stopShopLivePictureInPicture()
-            } else {
-                stopShopLivePictureInPicture()
+                return
             }
-
-            return
         }
 
         guard liveStreamViewController == nil else {
+            if ShopLiveController.shared.isPreview, _style == .fullScreen {
+                completion?()
+            }
             return
         }
         
@@ -766,7 +769,7 @@ extension ShopLiveBase: ShopLiveComponent {
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
             delegate?.handleCommand("willShopLiveOn", with: nil)
-            showShopLiveView(with: url, true, nil)
+            showShopLiveView(with: url, nil)
         }
     }
     

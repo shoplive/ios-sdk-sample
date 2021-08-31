@@ -8,7 +8,7 @@
 import UIKit
 import WebKit
 import AVKit
-import CallKit
+//import CallKit
 import MediaPlayer
 import ExternalAccessory
 
@@ -89,7 +89,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             ShopLiveController.playControl = plugged ? .resume : .pause
         }
     }
-
+/*
     var callObserver = CXCallObserver()
     func setupCallState() {
         callObserver.setDelegate(self, queue: DispatchQueue.main)
@@ -115,7 +115,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                 name: AVAudioSession.routeChangeNotification,
                 object: nil)
     }
-
+*/
     var hasKeyboard: Bool = false
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
@@ -177,8 +177,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         super.viewDidLoad()
         setupView()
         loadOveray()
-        setupCallState()
-        setupAudioConfig()
+//        setupCallState()
+//        setupAudioConfig()
         addPlayTimeObserver()
         addObserver()
     }
@@ -732,7 +732,7 @@ extension LiveStreamViewController: ChattingWriteDelegate {
         })
     }
 }
-
+/*
 extension LiveStreamViewController: CXCallObserverDelegate {
     func callObserver(_ callObserver: CXCallObserver, callChanged call: CXCall) {
         // 통화 종료
@@ -757,6 +757,7 @@ extension LiveStreamViewController: CXCallObserverDelegate {
         }
     }
 }
+*/
 
 extension LiveStreamViewController: ShopLivePlayerDelegate {
     var identifier: String {

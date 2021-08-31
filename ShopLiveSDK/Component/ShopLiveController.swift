@@ -27,6 +27,7 @@ enum ShopLivePlayerObserveValue: String {
 }
 
 enum ShopLiveWindowStyle {
+    case none
     case inAppPip
     case osPip
     case normal
@@ -69,7 +70,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var retryPlay: Bool = false
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
-    var isPreview: Bool = false
+    @objc dynamic var isPreview: Bool = false
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
@@ -166,7 +167,7 @@ final class ShopLiveController: NSObject {
         releasePlayer = false
         webInstance = nil
         pipAnimationg = false
-
+        windowStyle = .none
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
