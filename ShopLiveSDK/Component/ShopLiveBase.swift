@@ -55,6 +55,8 @@ import WebKit
 
     func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
         previewCallback = completion
+        liveStreamViewController?.viewModel.authToken = _authToken
+        liveStreamViewController?.viewModel.user = _user
         showShopLiveView(with: previewUrl) {
             self.startPictureInPicture()
         }
@@ -170,9 +172,7 @@ import WebKit
             
             self.shopLiveWindow?.resignKey()
             self.mainWindow?.makeKeyAndVisible()
-            
-            
-            
+
             self.videoWindowPanGestureRecognizer = nil
             self.videoWindowTapGestureRecognizer = nil
             self.pictureInPictureController = nil
@@ -769,6 +769,8 @@ extension ShopLiveBase: ShopLiveComponent {
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
             delegate?.handleCommand("willShopLiveOn", with: nil)
+            liveStreamViewController?.viewModel.authToken = _authToken
+            liveStreamViewController?.viewModel.user = _user
             showShopLiveView(with: url, nil)
         }
     }

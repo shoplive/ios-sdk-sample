@@ -425,7 +425,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             queryItems.append(URLQueryItem(name: "age", value: String(age)))
         }
         urlComponents?.queryItems = queryItems
-        debugPrint("play url: \(urlComponents?.url?.absoluteString ?? "")")
+        ShopLiveLogger.debugLog("play url: \(urlComponents?.url?.absoluteString ?? "")")
         return urlComponents?.url
     }
 

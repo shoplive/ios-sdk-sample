@@ -21,14 +21,23 @@ internal final class LiveStreamViewModel: NSObject {
     private var perfMeasurements: PerfMeasurements?
     
     deinit {
-
+        ShopLiveLogger.debugLog("reset viewModel")
+        reset()
     }
     
     override init() {
         super.init()
         ShopLiveController.shared.addPlayerDelegate(delegate: self)
     }
-    
+
+    func reset() {
+        overayUrl = nil
+        accessKey = nil
+        campaignKey = nil
+        authToken = nil
+        user = nil
+    }
+
     private func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
         _ = ShopLiveController.playerItemStatus
