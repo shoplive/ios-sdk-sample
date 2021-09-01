@@ -893,6 +893,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCloseButton() {
+        delegate?.handleCommand("didShopLiveOff", with: nil)
         hideShopLiveView()
     }
     
