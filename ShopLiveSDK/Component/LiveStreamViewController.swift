@@ -601,7 +601,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         case .pip, .unknown:
             styleCommand = "didShopLiveOff"
         }
-        delegate?.handleCommand(styleCommand, with: nil)
+        delegate?.handleCommand(styleCommand, with: ["style" : style.name])
         overlayView?.updatePipStyle(with: style)
     }
 

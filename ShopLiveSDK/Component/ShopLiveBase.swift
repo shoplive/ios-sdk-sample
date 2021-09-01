@@ -140,6 +140,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
+        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.name])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSession = AVAudioSession.sharedInstance()
             do {
@@ -187,9 +188,9 @@ import WebKit
             self.shopLiveWindow?.rootViewController = nil
             
             self.shopLiveWindow = nil
-            self._style = .unknown
 
-            self.delegate?.handleCommand("didShopLiveOff", with: nil)
+            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.name])
+            self._style = .unknown
         }
 //        overlayUrl = nil
     }
@@ -285,7 +286,6 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
-        delegate?.handleCommand("willShopLiveOff", with: nil)
         let pipSize = self.pipSize(with: scale)
         let pipCenter = self.pipCenter(with: position)
         let safeAreaInset = mainWindow.safeAreaInsets
@@ -516,7 +516,6 @@ import WebKit
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
-                self.delegate?.handleCommand("willShopLiveOff", with: nil)
                 hideShopLiveView()
                 return
             }
@@ -699,6 +698,7 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func setShareScheme(_ scheme: String? = nil, custom: (() -> Void)?) {
 
+        ShopLiveController.shared.customShareAction = nil
         if scheme == nil {
             guard custom != nil else {
                 print("When `scheme` not used, `custom` must be used, `custom` can not be null")
@@ -898,7 +898,6 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCloseButton() {
-        delegate?.handleCommand("willShopLiveOff", with: nil)
         hideShopLiveView()
     }
     

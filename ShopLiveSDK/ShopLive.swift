@@ -68,6 +68,17 @@ extension ShopLive {
         case unknown
         case fullScreen
         case pip
+
+        var name: String {
+            switch self {
+            case .unknown:
+                return "unknown"
+            case .pip:
+                return "pip"
+            case .fullScreen:
+                return "fullScreen"
+            }
+        }
     }
 
     @objc public enum Phase: Int {
@@ -132,9 +143,9 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.isKeepPlayVideoOnHeadPhoneUnplugged() ?? false
     }
 
-    public static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
-        shared.instance?.setAutoResumeVideoOnCallEnded(autoResume)
-    }
+//    public static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
+//        shared.instance?.setAutoResumeVideoOnCallEnded(autoResume)
+//    }
 
     public static func isAutoResumeVideoOnCallEnded() -> Bool {
         return shared.instance?.isAutoResumeVideoOnCallEnded() ?? false
