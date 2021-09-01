@@ -196,8 +196,10 @@ import WebKit
     func setupPictureInPicture() {
         do {
             try AVAudioSession.sharedInstance().setActive(true)
+            ShopLiveLogger.debugLog("interruption setActive")
         }
         catch let error {
+            ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
             debugPrint(error)
         }
 

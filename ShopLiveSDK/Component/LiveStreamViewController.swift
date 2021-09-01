@@ -94,6 +94,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     func setupCallState() {
         callObserver.setDelegate(self, queue: DispatchQueue.main)
     }
+*/
 
     private func setupAudioConfig() {
         let audioSession = AVAudioSession.sharedInstance()
@@ -114,8 +115,42 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                 selector: #selector(audioRouteChangeListener(notification:)),
                 name: AVAudioSession.routeChangeNotification,
                 object: nil)
+        NotificationCenter.default.addObserver(self,
+                           selector: #selector(handleInterruption),
+                           name: AVAudioSession.interruptionNotification,
+                           object: AVAudioSession.sharedInstance)
+
     }
-*/
+
+    @objc func handleInterruption(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+                let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
+                let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
+                    return
+            }
+
+            // Switch over the interruption type.
+            switch type {
+
+            case .began:
+                ShopLiveLogger.debugLog("interruption began")
+                break
+            case .ended:
+                guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
+                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
+                if options.contains(.shouldResume) {
+                    // An interruption ended. Resume playback.
+                    ShopLiveLogger.debugLog("interruption ended resume playback")
+                } else {
+                    ShopLiveLogger.debugLog("interruption ended don't resume playback")
+                    // An interruption ended. Don't resume playback.
+                }
+
+            default: ()
+            }
+
+    }
+
     var hasKeyboard: Bool = false
     private func setKeyboard(notification: Notification) {
         guard let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
@@ -168,17 +203,12 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         }
     }
 
-//    override func viewWillLayoutSubviews() {
-//        super.viewWillLayoutSubviews()
-//        playerView.player.fit()
-//    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         loadOveray()
 //        setupCallState()
-//        setupAudioConfig()
+        setupAudioConfig()
         addPlayTimeObserver()
         addObserver()
     }
@@ -808,3 +838,4 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
 }
+
