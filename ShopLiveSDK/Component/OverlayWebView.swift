@@ -236,7 +236,6 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.didTouchPipButton()
         case .close:
             ShopLiveLogger.debugLog("close")
-            self.delegate?.handleCommand("willShopLiveOff", with: nil)
             self.delegate?.didTouchCloseButton()
         case .navigation(let navigationUrl):
             ShopLiveLogger.debugLog("navigation")

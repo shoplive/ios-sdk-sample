@@ -188,6 +188,8 @@ import WebKit
             
             self.shopLiveWindow = nil
             self._style = .unknown
+
+            self.delegate?.handleCommand("didShopLiveOff", with: nil)
         }
 //        overlayUrl = nil
     }
@@ -514,6 +516,7 @@ import WebKit
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
+                self.delegate?.handleCommand("willShopLiveOff", with: nil)
                 hideShopLiveView()
                 return
             }
@@ -895,7 +898,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCloseButton() {
-        delegate?.handleCommand("didShopLiveOff", with: nil)
+        delegate?.handleCommand("willShopLiveOff", with: nil)
         hideShopLiveView()
     }
     
