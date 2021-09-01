@@ -374,6 +374,8 @@ import WebKit
             }
         }
 
+        delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
+
         _style = .pip
     }
     
