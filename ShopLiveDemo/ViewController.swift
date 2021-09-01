@@ -200,6 +200,21 @@ class ViewController: UIViewController {
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
 
             ShopLive.configure(with: key.accessKey, phase: phase)
+            ShopLive.hookNavigation { url in
+                ShopLiveDemoLogger.shared.addLog(log: "hookNavigation \(url)")
+                if #available(iOS 13, *) {
+                    if let browser = self.safari {
+                        browser.dismiss(animated: false, completion: nil)
+                    }
+                    self.safari = .init(url: url)
+
+                    guard let browser = self.safari else { return }
+                    self.present(browser, animated: true)
+                } else {
+                    // TODO: Single UIWindow 에서 PIP 처리 적용 필요
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+            }
             ShopLive.play(with: key.campaignKey)
         }
     }
@@ -397,7 +412,6 @@ extension ViewController: ShopLiveSDKDelegate {
         ShopLiveDemoLogger.shared.addLog(log: "handleNavigation \(url)")
 
         if #available(iOS 13, *) {
-            ShopLive.startPictureInPicture()
             if let browser = self.safari {
                 browser.dismiss(animated: false, completion: nil)
             }

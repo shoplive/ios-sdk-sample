@@ -79,6 +79,7 @@ final class ShopLiveController: NSObject {
     }
     var windowStyle: ShopLiveWindowStyle = .normal
     var customShareAction: (() -> Void)?
+    var hookNavigation: ((URL) -> Void)?
     var webInstance: ShopLiveWebView?
     var inputBoxFont: UIFont?
     var sendButtonFont: UIFont?

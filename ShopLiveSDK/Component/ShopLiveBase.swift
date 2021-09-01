@@ -191,6 +191,8 @@ import WebKit
 
             self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.name])
             self._style = .unknown
+            ShopLiveController.shared.customShareAction = nil
+            ShopLiveController.shared.hookNavigation = nil
         }
 //        overlayUrl = nil
     }
@@ -696,6 +698,11 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveController.shared.sendButtonFont = sendButtonFont
     }
 
+    func hookNavigation(navigation: @escaping ((URL) -> Void)) {
+        ShopLiveController.shared.hookNavigation = nil
+        ShopLiveController.shared.hookNavigation = navigation
+    }
+
     func setShareScheme(_ scheme: String? = nil, custom: (() -> Void)?) {
 
         ShopLiveController.shared.customShareAction = nil
@@ -902,7 +909,13 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchNavigation(with url: URL) {
-        _delegate?.handleNavigation(with: url)
+        guard let hookNavigation = ShopLiveController.shared.hookNavigation else {
+            startPictureInPicture()
+            _delegate?.handleNavigation(with: url)
+            return
+        }
+
+        hookNavigation(url)
     }
     
     func didTouchCoupon(with couponId: String) {
