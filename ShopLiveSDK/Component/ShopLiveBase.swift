@@ -140,7 +140,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
-        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.name])
+        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSession = AVAudioSession.sharedInstance()
             do {
@@ -189,7 +189,7 @@ import WebKit
             
             self.shopLiveWindow = nil
 
-            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.name])
+            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
             self._style = .unknown
             ShopLiveController.shared.customShareAction = nil
             ShopLiveController.shared.hookNavigation = nil
@@ -285,6 +285,7 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
+        delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }

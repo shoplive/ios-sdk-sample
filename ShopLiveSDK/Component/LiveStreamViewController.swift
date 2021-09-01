@@ -592,8 +592,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     }
 
     func updatePipStyle(with style: ShopLive.PresentationStyle) {
-        delegate?.handleCommand("isShopLiveOn", with: style == .fullScreen)
-
         var styleCommand: String = ""
         switch style {
         case .fullScreen:
@@ -601,7 +599,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         case .pip, .unknown:
             styleCommand = "didShopLiveOff"
         }
-        delegate?.handleCommand(styleCommand, with: ["style" : style.name])
+        delegate?.handleCommand(styleCommand, with: ["style" : style.rawValue])
         overlayView?.updatePipStyle(with: style)
     }
 
