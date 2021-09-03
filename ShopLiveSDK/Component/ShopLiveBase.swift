@@ -140,6 +140,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
+        ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
             let audioSession = AVAudioSession.sharedInstance()

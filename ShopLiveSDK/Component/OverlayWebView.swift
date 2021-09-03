@@ -107,7 +107,7 @@ internal class OverlayWebView: UIView {
             }
         }
         //TODO: 라이브 스트림 없어질 때 webView.configuration.userContentController.removeAllScriptMessageHandlers() 해줘야 한다
-        webView.configuration.userContentController.add(self, name: ShopLiveDefines.webInterface)
+        webView.configuration.userContentController.add(LeakAvoider(delegate: self), name: ShopLiveDefines.webInterface)
         self.webView = webView
         // setupBlockTouchView()
     }
@@ -252,7 +252,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.didTouchPauseButton()
             ShopLiveController.isPlaying = false
         case .clickShareButton(let url):
-            ShopLiveLogger.debugLog("clickShareButton(\(url))")
+            ShopLiveLogger.debugLog("clickShareButton(\(String(describing: url)))")
             self.delegate?.didTouchShareButton(with: url)
         case .replay(let width, let height):
             ShopLiveLogger.debugLog("replay")
@@ -409,4 +409,17 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
 
+}
+
+class LeakAvoider : NSObject, WKScriptMessageHandler {
+    weak var delegate : WKScriptMessageHandler?
+    init(delegate:WKScriptMessageHandler) {
+        self.delegate = delegate
+        super.init()
+    }
+    func userContentController(_ userContentController: WKUserContentController,
+                               didReceive message: WKScriptMessage) {
+        self.delegate?.userContentController(
+            userContentController, didReceive: message)
+    }
 }

@@ -21,6 +21,10 @@ internal final class ShopLiveWebView: WKWebView {
         super.init(frame: frame, configuration: configuration)
     }
 
+    deinit {
+        ShopLiveLogger.debugLog("ShopLiveWebView deinit")
+    }
+
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
 //        ShopLiveLogger.debugLog(command)
