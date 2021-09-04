@@ -24,6 +24,7 @@ enum ShopLivePlayerObserveValue: String {
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
     case takeSnapShot = "takeSnapShot"
+    case loading = "loading"
 }
 
 enum ShopLiveWindowStyle {
@@ -71,6 +72,10 @@ final class ShopLiveController: NSObject {
     @objc dynamic var releasePlayer: Bool = false
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
+    @objc dynamic var loading: Bool = false
+
+    var indicatorColor: UIColor = UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
@@ -90,6 +95,9 @@ final class ShopLiveController: NSObject {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
         case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot:
+            postPlayerObservers(key: key)
+            break
+        case .loading:
             postPlayerObservers(key: key)
             break
         case .playerItemStatus:
@@ -150,6 +158,10 @@ final class ShopLiveController: NSObject {
         reset()
     }
 
+    func resetOnlyFinished() {
+        indicatorColor = UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+    }
+
     private func reset() {
         playItem = nil
         playItem = .init()
@@ -206,6 +218,7 @@ extension ShopLiveController {
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue, options: [.old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue, options: .new, context: nil)
+        self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue, options: .new, context: nil)
     }
 
     func removePlayerObserver() {
@@ -222,6 +235,7 @@ extension ShopLiveController {
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.retryPlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.releasePlayer.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.takeSnapShot.rawValue)
+        self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loading.rawValue)
     }
 
     func postPlayerObservers(key: ShopLivePlayerObserveValue) {
@@ -397,6 +411,15 @@ extension ShopLiveController {
         }
         get {
             return shared.windowStyle
+        }
+    }
+
+    static var loading: Bool {
+        set {
+            shared.loading = newValue
+        }
+        get {
+            return shared.loading
         }
     }
 }

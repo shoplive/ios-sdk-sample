@@ -28,8 +28,10 @@ import UIKit
     @objc static var style: ShopLive.PresentationStyle { get }
     @objc static var pipPosition: ShopLive.PipPosition { get set }
     @objc static var pipScale: CGFloat { get set }
+    @objc static var indicatorColor: UIColor { get set }
     @objc static var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc static var delegate: ShopLiveSDKDelegate? { get set }
+
     
     @objc static var authToken: String? { get set }
     @objc static var user: ShopLiveUser? { get set }

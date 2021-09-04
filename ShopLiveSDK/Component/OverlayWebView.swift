@@ -76,8 +76,6 @@ internal class OverlayWebView: UIView {
         configuration.allowsInlineMediaPlayback = true
         configuration.allowsPictureInPictureMediaPlayback = false
         configuration.mediaTypesRequiringUserActionForPlayback = []
-        //viewport-fit=cover //content="viewport-fit=cover"
-//        let source: String = "var meta = document.createElement('meta');" + "meta.name = 'viewport';" + "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover';" + "var head = document.getElementsByTagName('head')[0];" + "head.appendChild(meta);";
 
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
 //        webView.scrollView.contentInsetAdjustmentBehavior = .never
@@ -295,6 +293,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .readyToPlay:
             ShopLiveController.retryPlay = false
             ShopLiveController.shared.takeSnapShot = false
+            ShopLiveController.loading = false
             break
         case .failed:
             ShopLiveController.retryPlay = true

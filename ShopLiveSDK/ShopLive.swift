@@ -14,6 +14,7 @@ import WebKit
     @objc var style: ShopLive.PresentationStyle { get }
     @objc var pipPosition: ShopLive.PipPosition { get set }
     @objc var pipScale: CGFloat { get set }
+    @objc var indicatorColor: UIColor { get set }
     @objc var webViewConfiguration: WKWebViewConfiguration? { get set }
     @objc var delegate: ShopLiveSDKDelegate? { get set }
 
@@ -186,6 +187,16 @@ extension ShopLive: ShopLiveSDKInterface {
             shared.instance?.pipScale = newValue
         }
     }
+
+    static var indicatorColor: UIColor  {
+        get {
+            shared.instance?.indicatorColor ?? UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+        }
+        set {
+            shared.instance?.indicatorColor = newValue
+        }
+    }
+
 
     public static var webViewConfiguration: WKWebViewConfiguration? {
         get {

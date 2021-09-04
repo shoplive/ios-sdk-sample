@@ -23,6 +23,19 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     private var imageView: UIImageView?
     private var snapShotView: UIImageView?
     private var foregroundImageView: UIImageView?
+    private lazy var indicatorView: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        activityIndicator.frame = CGRect(x: 0, y: 0, width: 60, height: 60)
+        activityIndicator.center = self.view.center
+        activityIndicator.hidesWhenStopped = true
+        if #available(iOS 13.0, *) {
+            activityIndicator.style = UIActivityIndicatorView.Style.large
+        } else {
+            activityIndicator.style = .whiteLarge
+        }
+        return activityIndicator
+    }()
 
     var playerView: ShopLivePlayerView = .init()
 //    private lazy var videoView: UIView = .init()//VideoView = VideoView()
@@ -222,6 +235,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         setupForegroungImageView()
         setupOverayWebview()
         setupChatInputView()
+        setupIndicator()
     }
 
     func play() {
@@ -428,6 +442,19 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         
         self.view.updateConstraints()
         self.view.layoutIfNeeded()
+    }
+
+    private func setupIndicator() {
+        self.view.addSubview(indicatorView)
+        let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+
+        indicatorView.addConstraints([indicatorWidth, indicatorHeight])
+        self.view.addConstraints([centerXConstraint, centerYConstraint])
+        indicatorView.color = ShopLiveController.shared.indicatorColor
+        indicatorView.startAnimating()
     }
 
     private func loadOveray() {
@@ -814,11 +841,23 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             ShopLiveController.shared.getSnapShot { image in
                 self.snapShotView?.image = image
                 self.snapShotView?.isHidden = false
+                ShopLiveController.loading = true
             }
         } else {
             self.snapShotView?.isHidden = true
+            ShopLiveController.loading = false
         }
 
+    }
+
+    func handleLoading() {
+        if ShopLiveController.loading {
+            indicatorView.isHidden = false
+            indicatorView.color = ShopLiveController.shared.indicatorColor
+            indicatorView.startAnimating()
+        } else {
+            indicatorView.stopAnimating()
+        }
     }
 
     func updatedValue(key: ShopLivePlayerObserveValue) {
@@ -827,6 +866,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             handlePlayControl()
         case .takeSnapShot:
             handleSnapshot()
+        case .loading:
+            handleLoading()
         default:
             break
         }

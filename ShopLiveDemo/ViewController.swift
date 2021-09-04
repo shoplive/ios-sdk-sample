@@ -215,6 +215,7 @@ class ViewController: UIViewController {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             }
+            ShopLive.indicatorColor = .green
             ShopLive.play(with: key.campaignKey)
         }
     }

@@ -64,6 +64,7 @@ import WebKit
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
         if _style == .fullScreen {
+            ShopLiveController.loading = true
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
         } else if _style == .pip {
@@ -194,6 +195,7 @@ import WebKit
             self._style = .unknown
             ShopLiveController.shared.customShareAction = nil
             ShopLiveController.shared.hookNavigation = nil
+            ShopLiveController.shared.resetOnlyFinished()
         }
 //        overlayUrl = nil
     }
@@ -431,6 +433,7 @@ import WebKit
                     self.liveStreamViewController?.view.isHidden = false
                     snapshop.removeFromSuperview()
                     ShopLiveController.shared.pipAnimationg = false
+                    ShopLiveController.loading = true
                 })
             }
         }
@@ -454,6 +457,7 @@ import WebKit
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                     ShopLiveController.isHiddenOverlay = false
                     ShopLiveController.shared.pipAnimationg = false
+                    ShopLiveController.loading = true
                 })
             }
         }
@@ -828,6 +832,16 @@ extension ShopLiveBase: ShopLiveComponent {
             lastPipScale = newValue
         }
     }
+
+    @objc var indicatorColor: UIColor {
+        get {
+            return ShopLiveController.shared.indicatorColor
+        }
+        set {
+            ShopLiveController.shared.indicatorColor = newValue
+        }
+    }
+
     
     @objc public var delegate: ShopLiveSDKDelegate? {
         set {
