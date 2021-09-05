@@ -56,13 +56,9 @@ import WebKit
     }
 
     func showPreview(previewUrl: URL, completion: @escaping () -> Void) {
-        previewCallback = completion
         liveStreamViewController?.viewModel.authToken = _authToken
         liveStreamViewController?.viewModel.user = _user
         showShopLiveView(with: previewUrl)
-        {
-            self.startPictureInPicture()
-        }
     }
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
@@ -116,18 +112,18 @@ import WebKit
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
         videoWindowPanGestureRecognizer = panGesture
-        videoWindowPanGestureRecognizer?.isEnabled = false//ShopLiveController.shared.isPreview ? true : false
+        videoWindowPanGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pipTapGestureHandler))
         shopLiveWindow?.addGestureRecognizer(tapGesture)
         videoWindowTapGestureRecognizer = tapGesture
-        videoWindowTapGestureRecognizer?.isEnabled = false//ShopLiveController.shared.isPreview ? true : false
+        videoWindowTapGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
         
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownGestureHandler))
         swipeDownGesture.direction = .down
         shopLiveWindow?.addGestureRecognizer(swipeDownGesture)
         videoWindowSwipeDownGestureRecognizer = swipeDownGesture
-        videoWindowSwipeDownGestureRecognizer?.isEnabled = true//ShopLiveController.shared.isPreview ? false : true
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? false : true
         
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
@@ -139,8 +135,8 @@ import WebKit
         }
 
         if ShopLiveController.shared.isPreview {
-//            _style = .pip
-            completion?()
+            willChangePreview()
+            _style = .pip
         } else {
             _style = .fullScreen
         }
@@ -293,6 +289,7 @@ import WebKit
         case .topLeft:
             origin.x = safeAreaInsets.left + pipEdgeInsets.left
             origin.y = safeAreaInsets.top + pipEdgeInsets.top
+
         }
 
         pipPosition = CGRect(origin: origin, size: pipSize)
@@ -396,6 +393,29 @@ import WebKit
         _style = .fullScreen
     }
 
+    func willChangePreview() {
+        ShopLiveController.windowStyle = .inAppPip
+        self.shopLiveWindow?.clipsToBounds = false
+        self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
+        self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
+        liveStreamViewController?.hideBackgroundPoster()
+
+        videoWindowPanGestureRecognizer?.isEnabled = true
+        videoWindowTapGestureRecognizer?.isEnabled = true
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = false
+
+        ShopLiveController.isHiddenOverlay = true
+
+        self.shopLiveWindow?.rootViewController?.view.clipsToBounds = true
+        self.shopLiveWindow?.layer.shadowColor = UIColor.black.cgColor
+        self.shopLiveWindow?.layer.shadowOpacity = 0.5
+        self.shopLiveWindow?.layer.shadowOffset = .zero
+        self.shopLiveWindow?.layer.shadowRadius = 10
+
+        self.shopLiveWindow?.setNeedsLayout()
+        self.shopLiveWindow?.layoutIfNeeded()
+    }
+
     func didChangeOSPIP() {
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -433,10 +453,9 @@ import WebKit
         guard let currentCenter = shopLiveWindow?.center else { return }
         guard let mainWindow = self.mainWindow else { return }
         let center = mainWindow.center
-        
+        let rate = (mainWindow.frame.height - ShopLiveController.shared.keyboardHeight) / mainWindow.frame.height
         let isPositiveDiffX = center.x - currentCenter.x > 0
-        print(ShopLiveController.shared.keyboardHeight)
-        let isPositiveDiffY = center.y - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0) - currentCenter.y  > 0
+        let isPositiveDiffY = (center.y * rate) - currentCenter.y > 0
         let position: ShopLive.PipPosition = {
             switch (isPositiveDiffX, isPositiveDiffY) {
             case (true, true):
@@ -550,7 +569,7 @@ import WebKit
         return animationVelocity
     }
 
-    @objc private func pipTapGestureHandler(_ recognizer: UIPanGestureRecognizer) {
+    @objc private func pipTapGestureHandler(_ recognizer: UITapGestureRecognizer) {
         guard !ShopLiveController.shared.isPreview else {
             ShopLiveController.shared.isPreview = false
             previewCallback?()
@@ -769,6 +788,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        previewCallback = completion
         fetchPreviewUrl(with: campaignKey) { url in
             guard let url = url else { return }
             self.showPreview(previewUrl: url, completion: completion)

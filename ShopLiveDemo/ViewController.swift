@@ -159,7 +159,7 @@ class ViewController: UIViewController {
             }
 
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-
+            ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
                 ShopLiveDemoLogger.shared.addLog(log: "preview finish")

@@ -185,6 +185,7 @@ final class ShopLiveController: NSObject {
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
+        ShopLiveLogger.debugLog("whkim getSnapShpt")
         guard let videoOutput = playItem?.videoOutput,
               let currentItem = playerItem?.player?.currentItem else { return }
 

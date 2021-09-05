@@ -388,7 +388,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             handleIsHiddenOverlay()
             break
         case .overlayUrl:
-            if let overlayUrl = ShopLiveController.overlayUrl {
+            if let overlayUrl = ShopLiveController.overlayUrl { //}, !ShopLiveController.shared.isPreview {
                 self.loadOverlay(with: overlayUrl)
                 ShopLiveLogger.debugLog("overlayUrl exist \(overlayUrl.absoluteString)")
             } else {
