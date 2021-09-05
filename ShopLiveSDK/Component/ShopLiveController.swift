@@ -148,6 +148,9 @@ final class ShopLiveController: NSObject {
     func removePlayerDelegate(delegate: ShopLivePlayerDelegate) {
         guard let index = self.playerDelegates.firstIndex(where: { $0?.identifier == delegate.identifier }) else { return }
         self.playerDelegates.remove(at: index)
+        if playerDelegates.isEmpty {
+            removePlayerObserver()
+        }
     }
 
     func clear() {
