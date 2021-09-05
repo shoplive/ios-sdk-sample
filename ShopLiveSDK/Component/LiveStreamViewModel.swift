@@ -44,7 +44,7 @@ internal final class LiveStreamViewModel: NSObject {
         _ = ShopLiveController.urlAsset?.url == url
 //        guard !isSameUrl || player.timeControlStatus != .playing else { return }
 //        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
-
+        ShopLiveController.shared.loading = true
         resetPlayer()
 
         ShopLiveController.urlAsset = AVURLAsset(url: url)
