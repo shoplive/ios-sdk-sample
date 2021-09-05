@@ -74,10 +74,10 @@ internal final class LiveStreamViewModel: NSObject {
         let playerItem = AVPlayerItem(asset: asset)
         ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
         ShopLiveController.playerItem = playerItem
+        self.playerItem = playerItem
 
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
-
         ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
 /*
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)

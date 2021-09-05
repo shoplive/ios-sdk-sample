@@ -837,16 +837,16 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleSnapshot() {
-//        if ShopLiveController.shared.takeSnapShot {
-//            ShopLiveController.shared.getSnapShot { image in
-//                self.snapShotView?.image = image
-//                self.snapShotView?.isHidden = false
-//                ShopLiveController.loading = true
-//            }
-//        } else {
-//            self.snapShotView?.isHidden = true
-//            ShopLiveController.loading = false
-//        }
+        if ShopLiveController.shared.takeSnapShot {
+            ShopLiveController.shared.getSnapShot { image in
+                self.snapShotView?.image = image
+                self.snapShotView?.isHidden = false
+                ShopLiveController.loading = true
+            }
+        } else {
+            self.snapShotView?.isHidden = true
+            ShopLiveController.loading = false
+        }
 
     }
 
