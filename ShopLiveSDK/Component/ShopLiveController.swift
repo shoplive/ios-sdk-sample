@@ -73,6 +73,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
+    var keyboardHeight: CGFloat = .zero
 
     var indicatorColor: UIColor = UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
 

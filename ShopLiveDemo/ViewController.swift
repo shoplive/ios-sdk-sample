@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ", campaignKey: "40723305fc5a", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ for Preview Test", campaignKey: "f944566a4f20", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ConfirmTest", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "ConfirmTest")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
         #endif
         
         hideKeyboard()

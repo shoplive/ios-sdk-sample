@@ -24,7 +24,8 @@ import WebKit
             ShopLiveDefines.phase = phase
         }
     }
-    
+
+    private var isKeyboardShow: Bool = false
     private var lastPipPosition: ShopLive.PipPosition = .default
     private var lastPipScale: CGFloat = 2/5
     private var replaySize: CGSize = CGSize(width: 9, height: 16)
@@ -46,6 +47,7 @@ import WebKit
     
     override init() {
         super.init()
+        ShopLiveController.shared.keyboardHeight = KeyboardService.keyboardHeight()
         addObserver()
     }
 
@@ -57,7 +59,8 @@ import WebKit
         previewCallback = completion
         liveStreamViewController?.viewModel.authToken = _authToken
         liveStreamViewController?.viewModel.user = _user
-        showShopLiveView(with: previewUrl) {
+        showShopLiveView(with: previewUrl)
+        {
             self.startPictureInPicture()
         }
     }
@@ -105,35 +108,38 @@ import WebKit
         shopLiveWindow = UIWindow()
         if #available(iOS 13.0, *) {
             shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-        } else {
-            // Fallback on earlier versions
         }
         shopLiveWindow?.backgroundColor = .clear
         shopLiveWindow?.windowLevel = .init(rawValue: 1)
-        shopLiveWindow?.frame = mainWindow?.frame ?? UIScreen.main.bounds
-        shopLiveWindow?.setNeedsLayout()
-        shopLiveWindow?.layoutIfNeeded()
+        shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: lastPipScale, position: lastPipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
         shopLiveWindow?.rootViewController = liveStreamViewController
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
         videoWindowPanGestureRecognizer = panGesture
-        videoWindowPanGestureRecognizer?.isEnabled = false
+        videoWindowPanGestureRecognizer?.isEnabled = false//ShopLiveController.shared.isPreview ? true : false
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(pipTapGestureHandler))
         shopLiveWindow?.addGestureRecognizer(tapGesture)
         videoWindowTapGestureRecognizer = tapGesture
-        videoWindowTapGestureRecognizer?.isEnabled = false
+        videoWindowTapGestureRecognizer?.isEnabled = false//ShopLiveController.shared.isPreview ? true : false
         
         let swipeDownGesture = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownGestureHandler))
         swipeDownGesture.direction = .down
         shopLiveWindow?.addGestureRecognizer(swipeDownGesture)
         videoWindowSwipeDownGestureRecognizer = swipeDownGesture
-        videoWindowSwipeDownGestureRecognizer?.isEnabled = true
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = true//ShopLiveController.shared.isPreview ? false : true
         
         setupPictureInPicture()
         shopLiveWindow?.makeKeyAndVisible()
 
+        liveStreamViewController?.view.alpha = 0
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
+            self.liveStreamViewController?.view.alpha = 1.0
+        }
+
         if ShopLiveController.shared.isPreview {
+//            _style = .pip
             completion?()
         } else {
             _style = .fullScreen
@@ -197,7 +203,6 @@ import WebKit
             ShopLiveController.shared.hookNavigation = nil
             ShopLiveController.shared.resetOnlyFinished()
         }
-//        overlayUrl = nil
     }
     
     //OS 제공 PIP 세팅
@@ -264,17 +269,47 @@ import WebKit
         
         return CGSize(width: width, height: height)
     }
-    
+
+    private func pipPosition(with scale: CGFloat = 2/5, position: ShopLive.PipPosition = .default) -> CGRect {
+        guard let mainWindow = self.mainWindow else { return .zero }
+
+        var pipPosition: CGRect = .zero
+        var origin = CGPoint.zero
+        let safeAreaInsets = mainWindow.safeAreaInsets
+        let pipSize = self.pipSize(with: scale)
+        let pipEdgeInsets: UIEdgeInsets = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        let keyboardHeight: CGFloat = isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0
+
+        switch position {
+        case .bottomRight, .default:
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight
+        case .bottomLeft:
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left
+            origin.y = mainWindow.frame.height - safeAreaInsets.bottom - pipEdgeInsets.bottom - pipSize.height - keyboardHeight
+        case .topRight:
+            origin.x = mainWindow.frame.width - safeAreaInsets.right - pipEdgeInsets.right - pipSize.width
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top
+        case .topLeft:
+            origin.x = safeAreaInsets.left + pipEdgeInsets.left
+            origin.y = safeAreaInsets.top + pipEdgeInsets.top
+        }
+
+        pipPosition = CGRect(origin: origin, size: pipSize)
+
+        return pipPosition
+    }
+
     private func pipCenter(with position: ShopLive.PipPosition) -> CGPoint {
         guard let mainWindow = self.mainWindow else { return .zero }
-        let pipSize = self.pipSize(with: lastPipScale)
+        let pipSize = self.pipPosition(with: lastPipScale, position: lastPipPosition).size
         let padding: CGFloat = 20
         let safeAreaInset = mainWindow.safeAreaInsets
         
         let leftCenterX = (pipSize.width / 2) + padding + safeAreaInset.left
         let rightCenterX = mainWindow.bounds.width - ((pipSize.width / 2) + padding + safeAreaInset.right)
         let topCenterY = (pipSize.height / 2) + padding + safeAreaInset.top
-        let bottomCenterY = mainWindow.bounds.height - ((pipSize.height / 2) + padding + safeAreaInset.bottom)
+        let bottomCenterY = mainWindow.bounds.height - ((pipSize.height / 2) + padding + safeAreaInset.bottom) - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
         switch position {
         case .bottomRight, .default:
             return CGPoint(x: rightCenterX, y: bottomCenterY)
@@ -290,11 +325,8 @@ import WebKit
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimationg else { return }
-        guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
-        let pipSize = self.pipSize(with: scale)
-        let pipCenter = self.pipCenter(with: position)
-        let safeAreaInset = mainWindow.safeAreaInsets
+        let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
         shopLiveWindow.clipsToBounds = false
@@ -306,82 +338,27 @@ import WebKit
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
 
-        if ShopLiveController.isReplayMode {
-            //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
-            //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
-            //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
-            let transformScaleX = pipSize.width / shopLiveWindow.frame.width
-            let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
-            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
-            let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
 
-            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                ShopLiveController.isHiddenOverlay = true
-                shopLiveWindow.transform = transform
-                shopLiveWindow.center = midCenter
-            } completion: { (isCompleted) in
-                guard let snapshop = shopLiveWindow.snapshotView(afterScreenUpdates: false) else { return }
-                let bounds = CGRect(x: 0, y: 0, width: pipSize.width, height: pipSize.height)
-                self.liveStreamViewController?.view.isHidden = true
-                shopLiveWindow.addSubview(snapshop)
-                snapshop.frame = CGRect(x: 0, y: -(safeAreaInset.top * transformScaleY), width: pipSize.width, height: pipSize.height + (safeAreaInset.top * transformScaleY))
-//                snapshop.center = shopLiveWindow.center
-                shopLiveWindow.transform = .identity
-                shopLiveWindow.bounds = bounds
-                shopLiveWindow.center = pipCenter
-                shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-                shopLiveWindow.rootViewController?.view.clipsToBounds = true
-                shopLiveWindow.rootViewController?.view.backgroundColor = .black
-                shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
-                shopLiveWindow.layer.shadowOpacity = 0.5
-                shopLiveWindow.layer.shadowOffset = .zero
-                shopLiveWindow.layer.shadowRadius = 10
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100)) {
-                    self.liveStreamViewController?.view.isHidden = false
-                    snapshop.removeFromSuperview()
-                    ShopLiveController.shared.pipAnimationg = false
-                }
-            }
-        }
-        else {
-            //pip 애니메이션시 완료되었을 때와 중간 transform 되었을 때 영상 사이즈가 달라지기 때문에 맞추기 위해 중간 사이즈와 중간 센터를 설정함
-            let midScale = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
-            let midWidth = pipSize.width / midScale
-            let currentCenter = shopLiveWindow.center
-            shopLiveWindow.bounds = CGRect(x: 0, y: 0, width: midWidth, height: shopLiveWindow.bounds.height)
-            shopLiveWindow.center = currentCenter
-            
-            let transformScaleX = pipSize.width / shopLiveWindow.frame.width
-            let transformScaleY = pipSize.height / (shopLiveWindow.frame.height - safeAreaInset.top)
-            let midCenter = CGPoint(x: pipCenter.x, y: pipCenter.y - (safeAreaInset.top * transformScaleY) / 2.0)
-            
-            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScaleX, y: transformScaleY))
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                ShopLiveController.isHiddenOverlay = true
-                shopLiveWindow.transform = transform
-                shopLiveWindow.center = midCenter
-            } completion: { (isCompleted) in
-                let bounds = CGRect(x: 0, y: 0, width: pipSize.width, height: pipSize.height)
-                shopLiveWindow.transform = .identity
-                shopLiveWindow.bounds = bounds
-                shopLiveWindow.center = pipCenter
-                shopLiveWindow.layer.shadowPath = UIBezierPath(rect: bounds).cgPath
-                shopLiveWindow.rootViewController?.view.clipsToBounds = true
-                shopLiveWindow.rootViewController?.view.backgroundColor = .black
-                shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
-                shopLiveWindow.layer.shadowOpacity = 0.5
-                shopLiveWindow.layer.shadowOffset = .zero
-                shopLiveWindow.layer.shadowRadius = 10
-                ShopLiveController.shared.pipAnimationg = false
-            }
+        UIView.animate(withDuration: 0.4, delay: 0, options: []) {
+            ShopLiveController.isHiddenOverlay = true
+            shopLiveWindow.frame = pipPosition
+            shopLiveWindow.rootViewController?.view.clipsToBounds = true
+            shopLiveWindow.layer.shadowColor = UIColor.black.cgColor
+            shopLiveWindow.layer.shadowOpacity = 0.5
+            shopLiveWindow.layer.shadowOffset = .zero
+            shopLiveWindow.layer.shadowRadius = 10
+            ShopLiveController.shared.pipAnimationg = false
+            shopLiveWindow.setNeedsLayout()
+            shopLiveWindow.layoutIfNeeded()
+        } completion: { (isCompleted) in
+            shopLiveWindow.rootViewController?.view.backgroundColor = .black
         }
 
         delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
 
         _style = .pip
     }
-    
+
     private func stopCustomPictureInPicture() {
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
@@ -400,68 +377,55 @@ import WebKit
         shopLiveWindow.layer.shadowRadius = 0
         
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
-        
-        if ShopLiveController.isReplayMode {
-            //Webview dom이 에니메이션 이후에 바뀌는 이슈가 있음
-            //transform 에니메이션 이후에 에니메이션 이전 크기가 잠시 보였다가 최종 크기로 변하는 이슈가 있음.
-            //에니메이션 종료 후 스냅샷으로 최종 크기가 될 때까지 대체함.
-            let safeAreaInset = mainWindow.safeAreaInsets
-            let transformScale = (mainWindow.bounds.height - safeAreaInset.top) / shopLiveWindow.bounds.height
-            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScale, y: transformScale))
-            let midCenter = CGPoint(x: mainWindow.center.x, y: mainWindow.center.y + safeAreaInset.top / 2)
             
-            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                shopLiveWindow.transform = transform
-                shopLiveWindow.center = midCenter
-                shopLiveWindow.layer.cornerRadius = 0
-                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-            } completion: { (isCompleted) in
-                
-                guard let snapshop = shopLiveWindow.snapshotView(afterScreenUpdates: false) else { return }
-                self.liveStreamViewController?.view.isHidden = true
-                shopLiveWindow.addSubview(snapshop)
-                snapshop.frame = CGRect(x: 0, y: safeAreaInset.top, width: shopLiveWindow.bounds.width * transformScale , height: mainWindow.bounds.height - safeAreaInset.top)
-                snapshop.center.x = mainWindow.center.x
-                
-                shopLiveWindow.transform = .identity
-                shopLiveWindow.frame = mainWindow.bounds
-                shopLiveWindow.rootViewController?.view.clipsToBounds = false
-                shopLiveWindow.rootViewController?.view.backgroundColor = .black
-                self.liveStreamViewController?.showBackgroundPoster()
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
-                    ShopLiveController.isHiddenOverlay = false
-                    self.liveStreamViewController?.view.isHidden = false
-                    snapshop.removeFromSuperview()
-                    ShopLiveController.shared.pipAnimationg = false
-                    ShopLiveController.loading = true
-                })
-            }
-        }
-        else {
-            let safeAreaInset = mainWindow.safeAreaInsets
-            let transformScale = (mainWindow.bounds.height - safeAreaInset.top) / shopLiveWindow.bounds.height
-            let transform = shopLiveWindow.transform.concatenating(CGAffineTransform(scaleX: transformScale, y: transformScale))
-            let midCenter = CGPoint(x: mainWindow.center.x, y: mainWindow.center.y + safeAreaInset.top / 2)
-            
-            UIView.animate(withDuration: 0.3, delay: 0, options: []) {
-                shopLiveWindow.transform = transform
-                shopLiveWindow.center = midCenter
-                shopLiveWindow.layer.cornerRadius = 0
-                shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-            } completion: { (isCompleted) in
-                shopLiveWindow.transform = .identity
-                shopLiveWindow.frame = mainWindow.bounds
-                shopLiveWindow.rootViewController?.view.clipsToBounds = false
-                shopLiveWindow.rootViewController?.view.backgroundColor = .black
-                self.liveStreamViewController?.showBackgroundPoster()
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
-                    ShopLiveController.isHiddenOverlay = false
-                    ShopLiveController.shared.pipAnimationg = false
-                    ShopLiveController.loading = true
-                })
-            }
+        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+            shopLiveWindow.frame = mainWindow.bounds
+            shopLiveWindow.layer.cornerRadius = 0
+            shopLiveWindow.setNeedsLayout()
+            shopLiveWindow.layoutIfNeeded()
+            shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+        } completion: { (isCompleted) in
+            shopLiveWindow.rootViewController?.view.backgroundColor = .black
+            self.liveStreamViewController?.showBackgroundPoster()
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
+                ShopLiveController.isHiddenOverlay = false
+                ShopLiveController.shared.pipAnimationg = false
+            })
         }
         
+        _style = .fullScreen
+    }
+
+    func didChangeOSPIP() {
+        guard let mainWindow = self.mainWindow else { return }
+        guard let shopLiveWindow = self.shopLiveWindow else { return }
+        guard _style != .fullScreen else { return }
+        shopLiveWindow.frame = mainWindow.bounds
+
+//        ShopLiveController.shared.pipAnimationg = true
+        videoWindowPanGestureRecognizer?.isEnabled = false
+        videoWindowTapGestureRecognizer?.isEnabled = false
+        videoWindowSwipeDownGestureRecognizer?.isEnabled = true
+//        ShopLiveController.windowStyle = .normal
+
+        shopLiveWindow.layer.shadowColor = nil
+        shopLiveWindow.layer.shadowOpacity = 0.0
+        shopLiveWindow.layer.shadowOffset = .zero
+        shopLiveWindow.layer.shadowRadius = 0
+
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+
+        shopLiveWindow.layer.cornerRadius = 0
+//        shopLiveWindow.setNeedsLayout()
+//        shopLiveWindow.layoutIfNeeded()
+        shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+        shopLiveWindow.rootViewController?.view.backgroundColor = .black
+        self.liveStreamViewController?.showBackgroundPoster()
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
+            ShopLiveController.isHiddenOverlay = false
+            ShopLiveController.shared.pipAnimationg = false
+//                    ShopLiveController.loading = true
+        })
         _style = .fullScreen
     }
 
@@ -471,7 +435,8 @@ import WebKit
         let center = mainWindow.center
         
         let isPositiveDiffX = center.x - currentCenter.x > 0
-        let isPositiveDiffY = center.y - currentCenter.y > 0
+        print(ShopLiveController.shared.keyboardHeight)
+        let isPositiveDiffY = center.y - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0) - currentCenter.y  > 0
         let position: ShopLive.PipPosition = {
             switch (isPositiveDiffX, isPositiveDiffY) {
             case (true, true):
@@ -513,16 +478,17 @@ import WebKit
             
             let padding: CGFloat = 20
             let safeAreaInset = mainWindow.safeAreaInsets
+            let mainWindowHeight: CGFloat = mainWindow.bounds.height - (isKeyboardShow ? ShopLiveController.shared.keyboardHeight : 0)
             let minX = (liveWindow.bounds.width / 2.0) + padding + safeAreaInset.left
             let maxX = mainWindow.bounds.width - ((liveWindow.bounds.width / 2.0) + padding + safeAreaInset.right)
             let minY = liveWindow.bounds.height / 2.0 + padding + safeAreaInset.top
-            let maxY = mainWindow.bounds.height - ((liveWindow.bounds.height / 2.0) + padding + safeAreaInset.bottom)
+            let maxY = mainWindowHeight - ((liveWindow.bounds.height / 2.0) + padding + safeAreaInset.bottom)
             
             var centerX = panGestureInitialCenter.x + translation.x
             var centerY = panGestureInitialCenter.y + translation.y
             
             let xRange = padding...(mainWindow.bounds.width - padding)
-            let yRange = (padding + safeAreaInset.top)...(mainWindow.bounds.height - (padding + safeAreaInset.bottom))
+            let yRange = (padding + safeAreaInset.top)...(mainWindowHeight - (padding + safeAreaInset.bottom))
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
@@ -636,6 +602,8 @@ import WebKit
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     func removeObserver() {
@@ -645,6 +613,21 @@ import WebKit
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    @objc func handleKeyboard() {
+        guard _style == .pip else { return }
+        guard let shopLiveWindow = self.shopLiveWindow else { return }
+
+        let pipPosition: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
+
+        UIView.animate(withDuration: 0.3, delay: 0, options: []) {
+            shopLiveWindow.frame = pipPosition
+            shopLiveWindow.setNeedsLayout()
+            shopLiveWindow.layoutIfNeeded()
+        }
     }
 
     @objc func handleNotification(_ notification: Notification) {
@@ -657,6 +640,14 @@ import WebKit
             break
         case UIApplication.willEnterForegroundNotification:
             self.liveStreamViewController?.onForeground()
+            break
+        case UIResponder.keyboardWillShowNotification:
+            isKeyboardShow = true
+            self.handleKeyboard()
+            break
+        case UIResponder.keyboardWillHideNotification:
+            isKeyboardShow = false
+            self.handleKeyboard()
             break
         default:
             break
@@ -871,11 +862,12 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+
         ShopLiveController.windowStyle = .osPip
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-
+        didChangeOSPIP()
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -883,11 +875,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-        if isRestoredPip { //touch stop pip button in OS PIP view
-            self.shopLiveWindow?.isHidden = false
-//            stopShopLivePictureInPicture()
-        }
-        else { //touch close pip button in OS PIP view
+        if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView()
         }
         

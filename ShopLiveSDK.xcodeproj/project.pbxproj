@@ -62,6 +62,8 @@
 		BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFC00CC42695EC9E00BD8733 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
 		BFC00CC52695EC9E00BD8733 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BFC00CC72695EC9E00BD8733 /* Localizable.strings */; };
+		BFDBD80826E4F88B006B7DEC /* KeyboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDBD80726E4F88B006B7DEC /* KeyboardService.swift */; };
+		BFDBD80926E4F891006B7DEC /* KeyboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDBD80726E4F88B006B7DEC /* KeyboardService.swift */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 		BFFAD7C226BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
 		BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
@@ -151,6 +153,7 @@
 		BFC00CBD26947B2700BD8733 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFC00CC62695EC9E00BD8733 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BFC00CC82695ECE000BD8733 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		BFDBD80726E4F88B006B7DEC /* KeyboardService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardService.swift; sourceTree = "<group>"; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayer.swift; sourceTree = "<group>"; };
 		BFFAD7C126BA050200C8C5E1 /* ShopLivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerView.swift; sourceTree = "<group>"; };
@@ -266,6 +269,7 @@
 			children = (
 				BF8D7252267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift */,
 				BF8D7251267AE75B00ED2750 /* SLNextGrowingTextView.swift */,
+				BFDBD80726E4F88B006B7DEC /* KeyboardService.swift */,
 			);
 			path = 3rdParty;
 			sourceTree = "<group>";
@@ -584,6 +588,7 @@
 				BF8D7255267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
+				BFDBD80826E4F88B006B7DEC /* KeyboardService.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BFAD8E9D265A211E00202160 /* ShopLiveWebView.swift in Sources */,
 				BFFAD7D326BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
@@ -623,6 +628,7 @@
 				BFAD8EE0265A24DA00202160 /* VideoView.swift in Sources */,
 				BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */,
 				BF8D7256267AE75B00ED2750 /* SLNextGrowingInternalTextView.swift in Sources */,
+				BFDBD80926E4F891006B7DEC /* KeyboardService.swift in Sources */,
 				BF8D7254267AE75B00ED2750 /* SLNextGrowingTextView.swift in Sources */,
 				BFFAD7CB26BA05CA00C8C5E1 /* CALayerExtensions.swift in Sources */,
 				BFFAD7C526BA050200C8C5E1 /* ShopLivePlayerView.swift in Sources */,
