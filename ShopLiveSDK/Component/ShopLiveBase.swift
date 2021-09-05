@@ -76,10 +76,11 @@ import WebKit
         }
 
         guard liveStreamViewController == nil else {
-            if ShopLiveController.shared.isPreview, _style == .fullScreen {
-                completion?()
-            }
             return
+        }
+
+        if !ShopLiveController.shared.isPreview {
+            delegate?.handleCommand("willShopLiveOn", with: nil)
         }
         
         let audioSession = AVAudioSession.sharedInstance()
@@ -468,12 +469,10 @@ import WebKit
                 return .bottomRight
             }
         }()
-        
-        let pipCenter = self.pipCenter(with: position)
-        UIView.animate(withDuration: 0.3, delay: 0, options: .curveLinear) {
-            self.shopLiveWindow?.center = pipCenter
-        }
+
         lastPipPosition = position
+        self.handleKeyboard()
+
     }
     
     var panGestureInitialCenter: CGPoint = .zero
@@ -507,7 +506,7 @@ import WebKit
             var centerY = panGestureInitialCenter.y + translation.y
             
             let xRange = padding...(mainWindow.bounds.width - padding)
-            let yRange = (padding + safeAreaInset.top)...(mainWindowHeight - (padding + safeAreaInset.bottom))
+            let yRange = (padding + safeAreaInset.top)...(mainWindowHeight - (padding + safeAreaInset.bottom)) + (isKeyboardShow ? liveWindow.frame.height * 0.2 : 0)
             
             //범위밖으로 나가면 stop shoplive
             guard xRange.contains(centerX), yRange.contains(centerY) else {
@@ -799,7 +798,6 @@ extension ShopLiveBase: ShopLiveComponent {
         guard self.accessKey != nil else { return }
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
-            delegate?.handleCommand("willShopLiveOn", with: nil)
             liveStreamViewController?.viewModel.authToken = _authToken
             liveStreamViewController?.viewModel.user = _user
             showShopLiveView(with: url, nil)
