@@ -325,18 +325,19 @@ import WebKit
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+
+        liveStreamViewController?.dismissKeyboard()
         let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
         shopLiveWindow.clipsToBounds = false
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
-        liveStreamViewController?.hideBackgroundPoster()
+//        liveStreamViewController?.hideBackgroundPoster()
         
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
-
 
         UIView.animate(withDuration: 0.4, delay: 0, options: []) {
             ShopLiveController.isHiddenOverlay = true
@@ -354,7 +355,6 @@ import WebKit
         }
 
         delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
-
         _style = .pip
     }
 
@@ -385,7 +385,7 @@ import WebKit
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
         } completion: { (isCompleted) in
             shopLiveWindow.rootViewController?.view.backgroundColor = .black
-            self.liveStreamViewController?.showBackgroundPoster()
+//            self.liveStreamViewController?.showBackgroundPoster()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                 ShopLiveController.isHiddenOverlay = false
                 ShopLiveController.shared.pipAnimationg = false
@@ -660,10 +660,12 @@ import WebKit
             self.liveStreamViewController?.onForeground()
             break
         case UIResponder.keyboardWillShowNotification:
+//            ShopLiveLogger.debugLog("pip keyboard show")
             isKeyboardShow = true
             self.handleKeyboard()
             break
         case UIResponder.keyboardWillHideNotification:
+//            ShopLiveLogger.debugLog("pip keyboard hide")kal
             isKeyboardShow = false
             self.handleKeyboard()
             break

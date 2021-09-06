@@ -190,7 +190,7 @@ extension ShopLive: ShopLiveSDKInterface {
 
     static var indicatorColor: UIColor  {
         get {
-            shared.instance?.indicatorColor ?? UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+            shared.instance?.indicatorColor ?? .white
         }
         set {
             shared.instance?.indicatorColor = newValue

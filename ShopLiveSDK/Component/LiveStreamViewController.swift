@@ -277,6 +277,12 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         imageView?.isHidden = false
     }
 
+    override func dismissKeyboard() {
+        super.dismissKeyboard()
+        self.chatInputView.isHidden = true
+        self.chatInputBG.isHidden = true
+    }
+
     func onTerminated() {
         overlayView?.closeWebSocket()
     }
@@ -578,6 +584,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             guard let image = UIImage(data: imageData) else { return }
             DispatchQueue.main.async {
                 self.imageView?.image = image
+                ShopLiveController.shared.loading = false
             }
         }
     }
@@ -845,7 +852,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             }
         } else {
             self.snapShotView?.isHidden = true
-            ShopLiveController.loading = false
+//            ShopLiveController.loading = false
         }
 
     }

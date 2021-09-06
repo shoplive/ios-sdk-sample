@@ -75,7 +75,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var loading: Bool = false
     var keyboardHeight: CGFloat = .zero
 
-    var indicatorColor: UIColor = UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+    var indicatorColor: UIColor = .white
 
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
@@ -163,7 +163,7 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
-        indicatorColor = UIColor(red: 239/255, green: 52/255, blue: 52/255, alpha: 1.0)
+        indicatorColor = .white
     }
 
     private func reset() {

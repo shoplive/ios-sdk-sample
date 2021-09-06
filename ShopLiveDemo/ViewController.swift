@@ -61,7 +61,12 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ", campaignKey: "40723305fc5a", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ZZ for Preview Test", campaignKey: "f944566a4f20", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "ConfirmTest", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Only")
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "314", campaignKey: "a581c87960c2", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "310", campaignKey: "f944566a4f20", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "6044", campaignKey: "d5c6ccfe6b39", accessKey: "uv9CGthPzlvsInZerCw0"))
+
+
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "6044")
         #endif
         
         hideKeyboard()
@@ -200,6 +205,7 @@ class ViewController: UIViewController {
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
 
             ShopLive.configure(with: key.accessKey, phase: phase)
+            /*
             ShopLive.hookNavigation { url in
                 ShopLiveDemoLogger.shared.addLog(log: "hookNavigation \(url)")
                 if #available(iOS 13, *) {
@@ -215,7 +221,7 @@ class ViewController: UIViewController {
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
             }
-            ShopLive.indicatorColor = .green
+             */
             ShopLive.play(with: key.campaignKey)
         }
     }
