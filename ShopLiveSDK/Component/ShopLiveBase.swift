@@ -24,6 +24,7 @@ import WebKit
             ShopLiveDefines.phase = phase
         }
     }
+    private var campaignKey: String?
 
     private var isKeyboardShow: Bool = false
     private var lastPipPosition: ShopLive.PipPosition = .default
@@ -427,7 +428,6 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
-//        ShopLiveController.windowStyle = .normal
 
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
@@ -788,6 +788,7 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         previewCallback = completion
+        self.campaignKey = campaignKey
         fetchPreviewUrl(with: campaignKey) { url in
             guard let url = url else { return }
             self.showPreview(previewUrl: url, completion: completion)
@@ -796,6 +797,7 @@ extension ShopLiveBase: ShopLiveComponent {
     
     @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
         guard self.accessKey != nil else { return }
+        self.campaignKey = campaignKey
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
             liveStreamViewController?.viewModel.authToken = _authToken
@@ -880,7 +882,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
-
         ShopLiveController.windowStyle = .osPip
     }
     
@@ -890,6 +891,12 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         ShopLiveController.windowStyle = .normal
+        if ShopLiveController.shared.isPreview {
+            if let ck = self.campaignKey {
+                ShopLiveController.shared.isPreview = false
+                play(with: ck, nil)
+            }
+        }
     }
     
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
