@@ -193,6 +193,7 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
+        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
         case .systemInit:
@@ -266,6 +267,16 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         case .onCampaignStatusChanged(let status):
             delegate?.didChangeCampaignStatus(status: status)
+            break
+        case .setParam(let guestUid, let resolution):
+            ShopLiveStorage.set(key: .guestUid, value: guestUid)
+            ShopLiveStorage.set(key: .resolution, value: resolution)
+            break
+        case .delParam:
+            ShopLiveStorage.remove(keys: [.guestUid, .resolution])
+            break
+        case .showNativeDebug:
+            ShopLiveDemoLogger.shared.setVisible(show: true)
             break
         case .error(let code, let message):
             delegate?.onError(code: code, message: message)

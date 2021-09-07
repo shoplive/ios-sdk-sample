@@ -51,6 +51,9 @@ enum WebInterface {
     case onCampaignStatusChanged(status: String)
     case disableSwipeDown
     case enableSwipeDown
+    case setParam(guestUid: String, resolution: String)
+    case delParam
+    case showNativeDebug
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
@@ -132,6 +135,12 @@ enum WebInterface {
             return WebFunction.disableSwipeDown.rawValue
         case .enableSwipeDown:
             return WebFunction.enableSwipeDown.rawValue
+        case .setParam:
+            return WebFunction.setParam.rawValue
+        case .delParam:
+            return WebFunction.delParam.rawValue
+        case .showNativeDebug:
+            return WebFunction.showNativeDebug.rawValue
         case .error:
             return WebFunction.error.rawValue
         case .command:
@@ -181,6 +190,9 @@ enum WebInterface {
         case onCampaignStatusChanged = "ON_CAMPAIGN_STATUS_CHANGED"
         case disableSwipeDown = "DISABLE_SWIPE_DOWN"
         case enableSwipeDown = "ENABLE_SWIPE_DOWN"
+        case setParam = "SET_PARAM"
+        case delParam = "DEL_PARAM"
+        case showNativeDebug = "SHOW_NATIVE_DEBUG"
         case error = "ERROR"
     }
 }
@@ -308,6 +320,14 @@ extension WebInterface {
             self = .disableSwipeDown
         case .enableSwipeDown:
             self = .enableSwipeDown
+        case .setParam:
+            guard let guestUid = parameters?["guestUid"] as? String else { return nil }
+            guard let resolution = parameters?["resolution"] as? String else { return nil }
+            self = .setParam(guestUid: guestUid, resolution: resolution)
+        case .delParam:
+            self = .delParam
+        case .showNativeDebug:
+            self = .showNativeDebug
         case .error:
             guard let code = parameters?["code"] as? String else { return nil }
             guard let message = parameters?["msg"] as? String else { return nil }
