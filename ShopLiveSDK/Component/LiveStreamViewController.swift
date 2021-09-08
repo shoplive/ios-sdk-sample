@@ -129,37 +129,49 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         NotificationCenter.default.addObserver(self,
                            selector: #selector(handleInterruption),
                            name: AVAudioSession.interruptionNotification,
-                           object: AVAudioSession.sharedInstance)
+                           object: AVAudioSession.sharedInstance())
 
     }
 
     @objc func handleInterruption(notification: Notification) {
+        ShopLiveLogger.debugLog("handleInterruption")
+
         guard let userInfo = notification.userInfo,
                 let typeValue = userInfo[AVAudioSessionInterruptionTypeKey] as? UInt,
                 let type = AVAudioSession.InterruptionType(rawValue: typeValue) else {
                     return
             }
 
-            // Switch over the interruption type.
-            switch type {
-
-            case .began:
-                ShopLiveLogger.debugLog("interruption began")
-                break
-            case .ended:
-                guard let optionsValue = userInfo[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
-                let options = AVAudioSession.InterruptionOptions(rawValue: optionsValue)
-                if options.contains(.shouldResume) {
-                    // An interruption ended. Resume playback.
-                    ShopLiveLogger.debugLog("interruption ended resume playback")
-                } else {
-                    ShopLiveLogger.debugLog("interruption ended don't resume playback")
-                    // An interruption ended. Don't resume playback.
-                }
-
-            default: ()
+//        let interruptionType = notification.userInfo!    [AVAudioSessionInterruptionTypeKey] as! AVAudioSession.InterruptionType
+          if type == .began {
+           // Interruption이 시작된 경우 처리 코드
+            ShopLiveController.playControl = .pause
+          } else {
+            guard let options = userInfo[AVAudioSessionInterruptionOptionKey] else {
+                return
             }
 
+            do {
+                try AVAudioSession.sharedInstance().setActive(true)
+                ShopLiveLogger.debugLog("interruption setActive")
+            }
+            catch let error {
+                ShopLiveLogger.debugLog("interruption setActive Failed error: \(error.localizedDescription)")
+                debugPrint(error)
+            }
+
+
+            guard ShopLiveConfiguration.soundPolicy.autoResumeVideoOnCallEnded else {
+                return
+            }
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.player?.play()
+            } else {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+                
+                ShopLiveController.playControl = .resume
+            }
+          }
     }
 
     var hasKeyboard: Bool = false

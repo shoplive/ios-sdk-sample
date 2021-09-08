@@ -146,9 +146,9 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.isKeepPlayVideoOnHeadPhoneUnplugged() ?? false
     }
 
-//    public static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
-//        shared.instance?.setAutoResumeVideoOnCallEnded(autoResume)
-//    }
+    public static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool) {
+        shared.instance?.setAutoResumeVideoOnCallEnded(autoResume)
+    }
 
     public static func isAutoResumeVideoOnCallEnded() -> Bool {
         return shared.instance?.isAutoResumeVideoOnCallEnded() ?? false

@@ -46,8 +46,8 @@ import UIKit
 
     @objc static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
     @objc static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
-//    @objc static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
-//    @objc static func isAutoResumeVideoOnCallEnded() -> Bool
+    @objc static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
+    @objc static func isAutoResumeVideoOnCallEnded() -> Bool
     
     @objc static func reloadLive()
     @objc static func onTerminated()

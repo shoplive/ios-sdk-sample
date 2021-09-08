@@ -333,7 +333,12 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .waitingToPlayAtSpecifiedRate: //버퍼링 1
             ShopLiveLogger.debugLog("timeControlStatus: buffering")
             ShopLiveController.shared.takeSnapShot = true
-//            ShopLiveController.retryPlay = true
+            if ShopLiveController.windowStyle == .osPip {
+                ShopLiveController.shared.needReload = true
+            } else {
+                ShopLiveController.retryPlay = true
+            }
+
             break
         case .playing: // 2
 

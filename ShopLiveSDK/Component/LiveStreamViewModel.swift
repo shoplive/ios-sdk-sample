@@ -113,7 +113,7 @@ internal final class LiveStreamViewModel: NSObject {
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
                 if ShopLiveController.windowStyle == .osPip {
-                    ShopLiveController.shared.seekToLatest()
+                    ShopLiveController.player?.play()
                 } else {
                     updatePlayerItem(with: url)
                 }
