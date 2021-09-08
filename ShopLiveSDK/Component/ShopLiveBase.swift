@@ -633,7 +633,7 @@ import WebKit
             if let value = item.value as? String, !value.isEmpty {
                 ShopLiveLogger.debugLog("\(item.key) value: \(item.value)")
                 if item.key == "guestUid", let guestUid = value.split(separator: ",").first {
-                    let escapedString = guestUid.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                    let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                     queryItems.append(URLQueryItem(name: item.key, value: escapedString))
                 } else if item.key == "resolution" {
                     let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -642,7 +642,8 @@ import WebKit
                 }
             }
         }
-*/
+ */
+
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)
     }
