@@ -622,11 +622,12 @@ import WebKit
             let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
         }
-/*
+
         for item in ShopLiveStorage.allItems {
-            if let value = item.value as? String, !value.isEmpty {
+            if !item.value.isEmpty {
+                let value = item.value
                 ShopLiveLogger.debugLog("\(item.key) value: \(item.value)")
-                if item.key == "guestUid", let guestUid = value.split(separator: ",").first {
+                if item.key == "guestUid" { //, let guestUid = value.split(separator: ",").first {
                     let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
                     queryItems.append(URLQueryItem(name: item.key, value: escapedString))
                 } else if item.key == "resolution" {
@@ -636,7 +637,7 @@ import WebKit
                 }
             }
         }
- */
+
 
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)

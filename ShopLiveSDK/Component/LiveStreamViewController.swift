@@ -73,6 +73,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                 let time = CMTimeGetSeconds(time)
 //                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
+                ShopLiveLogger.debugLog("whkim time \(time)")
                 ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, time)
             })
     }
@@ -657,6 +658,9 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             let sendText = payload?["chatInputSendText"] as? String
             let chatInputMaxLength = payload?["chatInputMaxLength"] as? Int
             let campaignInfo = payload?["campaignInfo"] as? [String : Any]
+            if let isReplay = payload?["isReplay"] as? Bool {
+                ShopLiveController.isReplayMode = isReplay
+            }
             chatInputView.configure(viewModel: .init(placeholder: placeHolder ?? NSLocalizedString("chat.placeholder", comment: "메시지를 입력하세요"), sendText: sendText ?? NSLocalizedString("chat.send.title", comment: "보내기"), maxLength: chatInputMaxLength ?? 50))
 
             delegate?.campaignInfo(campaignInfo: campaignInfo ?? [:])
