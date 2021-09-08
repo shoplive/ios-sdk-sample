@@ -7,31 +7,28 @@
 
 import Foundation
 
-enum StorageKey: String {
-    case guestUid
-    case resolution
-}
-
 internal final class ShopLiveStorage {
 
-    private static let def = UserDefaults.standard
-    static func set<T>(key: StorageKey, value: T?) {
+    private static let def = SLKeychainWrapper.standard
+    static func set(key: String, value: String?) {
         guard let value = value else { return }
-        def.setValue(value, forKey: key.rawValue)
+        def.set(value, forKey: key)
     }
 
-    static func get<T>(key: StorageKey) -> T? {
-        return def.value(forKey: key.rawValue) as? T
+    static func get(key: String) -> String? {
+        return def.string(forKey: key)
     }
 
-    static func remove(keys: [StorageKey]) {
-        for key in keys {
-            remove(key: key)
+    static func remove(key: String) {
+        _ = def.removeObject(forKey: key)
+    }
+
+    static var allItems: [String: String] {
+        var data: [String: String] = [:]
+        for key in def.allKeys() {
+            data[key] = def.string(forKey: key)
         }
-    }
-
-    static func remove(key: StorageKey) {
-        def.removeObject(forKey: key.rawValue)
+        return data
     }
 
 }

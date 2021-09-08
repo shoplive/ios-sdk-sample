@@ -44,7 +44,7 @@ internal final class LiveStreamViewModel: NSObject {
         _ = ShopLiveController.urlAsset?.url == url
 //        guard !isSameUrl || player.timeControlStatus != .playing else { return }
 //        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
-        ShopLiveController.shared.loading = true
+//        ShopLiveController.shared.loading = true
         resetPlayer()
 
         ShopLiveController.urlAsset = AVURLAsset(url: url)
@@ -111,7 +111,8 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.player?.play()
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                updatePlayerItem(with: url)
+                ShopLiveController.player?.play()
+//                updatePlayerItem(with: url)
             }
         }
     }

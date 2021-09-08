@@ -268,12 +268,12 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .onCampaignStatusChanged(let status):
             delegate?.didChangeCampaignStatus(status: status)
             break
-        case .setParam(let guestUid, let resolution):
-            ShopLiveStorage.set(key: .guestUid, value: guestUid)
-            ShopLiveStorage.set(key: .resolution, value: resolution)
+        case .setParam(let key, let value):
+            ShopLiveLogger.debugLog("setparam key: \(key) value: \(value)")
+            ShopLiveStorage.set(key: key, value: value)
             break
-        case .delParam:
-            ShopLiveStorage.remove(keys: [.guestUid, .resolution])
+        case .delParam(let key):
+            ShopLiveStorage.remove(key: key)
             break
         case .showNativeDebug:
             ShopLiveDemoLogger.shared.setVisible(show: true)
@@ -361,6 +361,10 @@ extension OverlayWebView: ShopLivePlayerDelegate {
 
     func handleRetryPlay() {
         ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
+        guard ShopLiveController.windowStyle != .osPip else {
+            resetRetry()
+            return
+        }
         if ShopLiveController.retryPlay {
 
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in

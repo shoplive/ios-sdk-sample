@@ -848,7 +848,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             ShopLiveController.shared.getSnapShot { image in
                 self.snapShotView?.image = image
                 self.snapShotView?.isHidden = false
-                ShopLiveController.loading = true
+//                ShopLiveController.loading = true
             }
         } else {
             self.snapShotView?.isHidden = true

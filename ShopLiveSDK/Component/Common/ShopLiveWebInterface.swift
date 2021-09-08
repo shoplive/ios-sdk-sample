@@ -51,8 +51,8 @@ enum WebInterface {
     case onCampaignStatusChanged(status: String)
     case disableSwipeDown
     case enableSwipeDown
-    case setParam(guestUid: String, resolution: String)
-    case delParam
+    case setParam(key: String, value: String)
+    case delParam(key: String)
     case showNativeDebug
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
@@ -321,11 +321,14 @@ extension WebInterface {
         case .enableSwipeDown:
             self = .enableSwipeDown
         case .setParam:
-            guard let guestUid = parameters?["guestUid"] as? String else { return nil }
-            guard let resolution = parameters?["resolution"] as? String else { return nil }
-            self = .setParam(guestUid: guestUid, resolution: resolution)
+            ShopLiveLogger.debugLog("receive setparam \(parameters?["key"])  \(parameters?["value"])")
+            guard let key = parameters?["key"] as? String else { return nil }
+            guard let value = parameters?["value"] as? String else { return nil }
+            self = .setParam(key: key, value: value)
         case .delParam:
-            self = .delParam
+            ShopLiveLogger.debugLog("receive delparam \(parameters?["key"])")
+            guard let key = parameters?["key"] as? String else { return nil }
+            self = .delParam(key: key)
         case .showNativeDebug:
             self = .showNativeDebug
         case .error:

@@ -64,7 +64,7 @@ import WebKit
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
         if _style == .fullScreen {
-            ShopLiveController.loading = true
+//            ShopLiveController.loading = true
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
         } else if _style == .pip {
@@ -140,6 +140,7 @@ import WebKit
             willChangePreview()
             _style = .pip
         } else {
+            mainWindow?.rootViewController?.dismissKeyboard()
             _style = .fullScreen
         }
     }
@@ -221,6 +222,19 @@ import WebKit
             // Create a new controller, passing the reference to the AVPlayerLayer.
             pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
             pictureInPictureController?.delegate = self
+
+            if #available(iOS 14.0, *) {
+                pictureInPictureController?.requiresLinearPlayback = false
+            } else {
+                // Fallback on earlier versions
+            }
+            if #available(iOS 14.2, *) {
+                pictureInPictureController?.canStartPictureInPictureAutomaticallyFromInline = true
+
+            } else {
+                // Fallback on earlier versions
+            }
+
             /*
                 pictureInPictureController?.publisher(for: \.isPictureInPicturePossible)
                     .receive(on: RunLoop.main)
@@ -322,6 +336,7 @@ import WebKit
     }
     
     private func startCustomPictureInPicture(with position: ShopLive.PipPosition = .default, scale: CGFloat = 2/5) {
+
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -362,6 +377,8 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+
+        mainWindow.rootViewController?.dismissKeyboard()
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimationg = true
@@ -423,6 +440,8 @@ import WebKit
         guard let shopLiveWindow = self.shopLiveWindow else { return }
         guard _style != .fullScreen else { return }
         shopLiveWindow.frame = mainWindow.bounds
+
+        mainWindow.rootViewController?.dismissKeyboard()
 
 //        ShopLiveController.shared.pipAnimationg = true
         videoWindowPanGestureRecognizer?.isEnabled = false
@@ -608,6 +627,21 @@ import WebKit
             let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
         }
+/*
+        for item in ShopLiveStorage.allItems {
+            if let value = item.value as? String, !value.isEmpty {
+                ShopLiveLogger.debugLog("\(item.key) value: \(item.value)")
+                if item.key == "guestUid", let guestUid = value.split(separator: ",").first {
+                    let escapedString = guestUid.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                    queryItems.append(URLQueryItem(name: item.key, value: escapedString))
+                } else if item.key == "resolution" {
+                    let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                    queryItems.append(URLQueryItem(name: item.key, value: escapedString))
+                    ShopLiveLogger.debugLog("\(item.key): \(value)")
+                }
+            }
+        }
+*/
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)
     }
@@ -789,6 +823,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        ShopLiveController.loading = true
         previewCallback = completion
         self.campaignKey = campaignKey
         fetchPreviewUrl(with: campaignKey) { url in
@@ -800,6 +835,7 @@ extension ShopLiveBase: ShopLiveComponent {
     @objc func play(with campaignKey: String?, _ parent: UIViewController?) {
         guard self.accessKey != nil else { return }
         self.campaignKey = campaignKey
+        ShopLiveController.loading = true
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
             liveStreamViewController?.viewModel.authToken = _authToken
@@ -880,6 +916,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
         //PIP 에서 stop pip 버튼으로 돌아올 때
         isRestoredPip = true
+        ShopLiveController.retryPlay = true
         completionHandler(true)
     }
     
