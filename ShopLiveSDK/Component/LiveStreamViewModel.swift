@@ -93,6 +93,7 @@ internal final class LiveStreamViewModel: NSObject {
     
     func play() {
         if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty, (ShopLiveController.playerItemStatus == .failed || ShopLiveController.player?.reasonForWaitingToPlay == AVPlayer.WaitingReason.evaluatingBufferingRate) {
+            ShopLiveLogger.debugLog("LiveStreamViewModel play()")
             updatePlayerItem(with: url)
         }
         else {
@@ -112,18 +113,12 @@ internal final class LiveStreamViewModel: NSObject {
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
                 if ShopLiveController.windowStyle == .osPip {
-                    seekToLatest()
+                    ShopLiveController.shared.seekToLatest()
                 } else {
                     updatePlayerItem(with: url)
                 }
             }
         }
-    }
-
-    func seekToLatest() {
-        ShopLiveLogger.debugLog("seekToLatest")
-        ShopLiveController.player?.seek(to: CMTimeMakeWithSeconds(Float64(MAXFLOAT), preferredTimescale: Int32(NSEC_PER_SEC)))
-
     }
     
     func reloadVideo() {
@@ -160,11 +155,12 @@ internal final class LiveStreamViewModel: NSObject {
     func handlePlayerItemStatus() {
         switch ShopLiveController.playerItemStatus {
         case .readyToPlay:
-            if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play {
+            if ShopLiveController.playControl != .pause, ShopLiveController.playControl != .play, ShopLiveController.windowStyle != .osPip {
                 if ShopLiveController.isReplayMode && ShopLiveController.playControl == .resume { return }
                 if ShopLiveController.isReplayMode, let duration = ShopLiveController.duration {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoDurationChanged, CMTimeGetSeconds(duration))
                 }
+                ShopLiveLogger.debugLog("[ViewModel] handlePlayerItemStatus")
                 self.play()
             }
         case .failed:

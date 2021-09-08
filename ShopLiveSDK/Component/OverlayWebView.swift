@@ -23,6 +23,7 @@ internal class OverlayWebView: UIView {
 
     private var retryTimer: Timer?
     private var retryCount: Int = 0
+    private var needSeek: Bool = false
 
     deinit {
 
@@ -309,6 +310,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .failed:
             ShopLiveController.retryPlay = true
             ShopLiveLogger.debugLog("[OverlayWebview] PlayerItemStatus failed")
+            ShopLiveLogger.debugLog("[OverlayWebview] retryPlay = true")
             break
         default:
             break
@@ -316,16 +318,31 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
     func handleTimeControlStatus() {
+        ShopLiveLogger.debugLog("timeControlStatus: \(ShopLiveController.timeControlStatus.rawValue)")
         switch ShopLiveController.timeControlStatus {
-        case .paused:
+        case .paused: //0
+            if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
+                ShopLiveController.shared.needReload = true
+                ShopLiveLogger.debugLog("timeControlStatus: needSeek true")
+                needSeek = true
+            }
             if ShopLiveController.playControl == .play {
+                ShopLiveLogger.debugLog("timeControlStatus: pause")
                 ShopLiveController.retryPlay = true
             }
-        case .waitingToPlayAtSpecifiedRate: //버퍼링
+        case .waitingToPlayAtSpecifiedRate: //버퍼링 1
+            ShopLiveLogger.debugLog("timeControlStatus: buffering")
             ShopLiveController.shared.takeSnapShot = true
-            ShopLiveController.retryPlay = true
+//            ShopLiveController.retryPlay = true
             break
-        case .playing:
+        case .playing: // 2
+
+            if ShopLiveController.windowStyle == .osPip, needSeek {
+                needSeek = false
+                ShopLiveController.shared.seekToLatest()
+            }
+
+            ShopLiveLogger.debugLog("timeControlStatus: play")
             ShopLiveController.retryPlay = false
             ShopLiveController.shared.takeSnapShot = false
 //            ShopLiveController.isPlaying = true

@@ -239,7 +239,9 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func pause() {
-        ShopLiveController.shared.needReload = true
+        if !ShopLiveController.isReplayMode {
+            ShopLiveController.shared.needReload = true
+        }
         ShopLiveController.player?.pause()
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
     }

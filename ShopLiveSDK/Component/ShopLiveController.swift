@@ -206,6 +206,10 @@ final class ShopLiveController: NSObject {
         }
     }
 
+    func seekToLatest() {
+        ShopLiveController.player?.seek(to: CMTimeMakeWithSeconds(Float64(MAXFLOAT), preferredTimescale: Int32(NSEC_PER_SEC)))
+    }
+
 }
 
 // MARK: ShopLive Player Section
