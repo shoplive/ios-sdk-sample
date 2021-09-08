@@ -114,11 +114,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         let currentRoute = audioSession.currentRoute
             if currentRoute.outputs.count != 0 {
                 for description in currentRoute.outputs {
-                    if description.portType == AVAudioSession.Port.headphones {
-                        updateHeadPhoneStatus(plugged: true)
-                    } else {
-                        updateHeadPhoneStatus(plugged: false)
-                    }
+                    updateHeadPhoneStatus(plugged: description.portType == AVAudioSession.Port.headphones)
                 }
             } else {
                 //print("requires connection to device")
@@ -243,6 +239,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func pause() {
+        ShopLiveController.shared.needReload = true
         ShopLiveController.player?.pause()
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, true, true)
     }

@@ -73,6 +73,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
+    var needReload: Bool = false
     var keyboardHeight: CGFloat = .zero
 
     var indicatorColor: UIColor = .white
@@ -185,6 +186,7 @@ final class ShopLiveController: NSObject {
         webInstance = nil
         pipAnimationg = false
         windowStyle = .none
+        needReload = false
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {

@@ -916,11 +916,11 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureController(_ pictureInPictureController: AVPictureInPictureController, restoreUserInterfaceForPictureInPictureStopWithCompletionHandler completionHandler: @escaping (Bool) -> Void) {
         //PIP 에서 stop pip 버튼으로 돌아올 때
         isRestoredPip = true
-        ShopLiveController.retryPlay = true
         completionHandler(true)
     }
     
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        ShopLiveController.shared.needReload = false
         ShopLiveController.windowStyle = .osPip
     }
     
@@ -937,10 +937,16 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             }
         }
     }
-    
+
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         if !isRestoredPip { //touch stop pip button in OS PIP view
             self.hideShopLiveView()
+        } else {
+            ShopLiveLogger.debugLog("needReload \(ShopLiveController.shared.needReload)")
+            if ShopLiveController.shared.needReload {
+                ShopLiveController.shared.needReload = false
+                liveStreamViewController?.viewModel.reloadVideo()
+            }
         }
         
         isRestoredPip = false

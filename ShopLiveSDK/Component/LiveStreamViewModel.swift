@@ -111,14 +111,23 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.player?.play()
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                ShopLiveController.player?.play()
-//                updatePlayerItem(with: url)
+                if ShopLiveController.windowStyle == .osPip {
+                    seekToLatest()
+                } else {
+                    updatePlayerItem(with: url)
+                }
             }
         }
     }
+
+    func seekToLatest() {
+        ShopLiveLogger.debugLog("seekToLatest")
+        ShopLiveController.player?.seek(to: CMTimeMakeWithSeconds(Float64(MAXFLOAT), preferredTimescale: Int32(NSEC_PER_SEC)))
+
+    }
     
     func reloadVideo() {
-        guard let url = ShopLiveController.videoUrl else {
+        guard let url = ShopLiveController.streamUrl else {
             resetPlayer()
             return
         }
