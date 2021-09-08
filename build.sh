@@ -17,8 +17,9 @@ xcodebuild archive -scheme ShopLiveSDK -archivePath "${WORKING_DIR}/build/cataly
 xcodebuild -create-xcframework \
 -framework "${WORKING_DIR}/build/ios.xcarchive/Products/Library/Frameworks/ShopLiveSDK.framework" \
 -framework "${WORKING_DIR}/build/ios_sim.xcarchive/Products/Library/Frameworks/ShopLiveSDK.framework" \
--output "${WORKING_DIR}/build/ShopLiveSDK.xcframework"
 -framework "${WORKING_DIR}/build/catalyst.xcarchive/Products/Library/Frameworks/ShopLiveSDK.framework" \
+-output "${WORKING_DIR}/build/ShopLiveSDK.xcframework"
+
 
     rm -rf "${DIST_DIR}${DIST_SDK_DIR}"
     mkdir "${DIST_DIR}${DIST_SDK_DIR}"
