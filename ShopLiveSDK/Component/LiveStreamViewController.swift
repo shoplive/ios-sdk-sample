@@ -70,12 +70,13 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     private func addPlayTimeObserver() {
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { (time) in
-                let time = CMTimeGetSeconds(time)
+            let curTime = CMTimeGetSeconds(time)
 //                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
-                ShopLiveLogger.debugLog("whkim time \(time)")
-                ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, time)
-            })
+//            ShopLiveLogger.debugLog("curTime: \(curTime) time: \(time)")
+            ShopLiveController.shared.currnetPlayTime = time
+            ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+        })
     }
 
     private func removePlaytimeObserver() {
@@ -602,6 +603,9 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
+        if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currnetPlayTime {
+            ShopLiveController.player?.seek(to: time)
+        }
     }
 
     func didTouchPlayButton() {

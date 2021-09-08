@@ -73,6 +73,7 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
+    var currnetPlayTime: CMTime? = nil
     var needReload: Bool = false
     var keyboardHeight: CGFloat = .zero
 
@@ -165,6 +166,8 @@ final class ShopLiveController: NSObject {
 
     func resetOnlyFinished() {
         indicatorColor = .white
+        currnetPlayTime = nil
+        isReplayMode = false
     }
 
     private func reset() {
