@@ -39,7 +39,7 @@ import WebKit
     private var previewCallback: (() -> Void)?
     
     var liveStreamViewController: LiveStreamViewController?
-    var pictureInPictureController: SLPictureInPictureController?
+    var pictureInPictureController: AVPictureInPictureController?
     
     var pipPossibleObservation: NSKeyValueObservation?
     var originAudioSessionCategory: AVAudioSession.Category?
@@ -220,18 +220,12 @@ import WebKit
         // Ensure PiP is supported by current device.
         if AVPictureInPictureController.isPictureInPictureSupported() {
             // Create a new controller, passing the reference to the AVPlayerLayer.
-            pictureInPictureController = SLPictureInPictureController(playerLayer: playerLayer)
+            pictureInPictureController = AVPictureInPictureController(playerLayer: playerLayer)
             pictureInPictureController?.delegate = self
 
 
             if #available(iOS 14.0, *) {
                 pictureInPictureController?.requiresLinearPlayback = false
-            } else {
-                // Fallback on earlier versions
-            }
-            if #available(iOS 14.2, *) {
-                pictureInPictureController?.canStartPictureInPictureAutomaticallyFromInline = true
-
             } else {
                 // Fallback on earlier versions
             }
@@ -1008,26 +1002,4 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     func handleCommand(_ command: String, with payload: Any?) {
         _delegate?.handleCommand(command, with: payload)
     }
-}
-
-class SLPictureInPictureController: AVPictureInPictureController {
-    override class var pictureInPictureButtonStopImage: UIImage {
-        return UIImage()
-    }
-
-    override class var pictureInPictureButtonStartImage: UIImage {
-        return UIImage()
-    }
-
-    override class func pictureInPictureButtonStopImage(compatibleWith traitCollection: UITraitCollection?) -> UIImage {
-        return UIImage()
-    }
-
-    override class func pictureInPictureButtonStartImage(compatibleWith traitCollection: UITraitCollection?) -> UIImage {
-        return UIImage()
-    }
-
-
-
-
 }
