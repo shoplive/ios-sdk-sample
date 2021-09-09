@@ -19,7 +19,7 @@
 		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
 		BF64080826E7030B00ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
-		BF64080926E7065300ABF1A3 /* ShopLiveDemoLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */; };
+		BF64080926E7065300ABF1A3 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
 		BF64082C26E8AFE300ABF1A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF64082226E8AFE300ABF1A3 /* Localizable.strings */; };
 		BF64082D26E8AFE300ABF1A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF64082226E8AFE300ABF1A3 /* Localizable.strings */; };
 		BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
@@ -34,7 +34,7 @@
 		BF64083726E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */; };
 		BF64083826E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
 		BF64083926E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */; };
-		BF6D31E026CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */; };
+		BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
 		BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BFAD8E95265A211E00202160 /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E86265A211E00202160 /* ShopLiveBase.swift */; };
@@ -136,7 +136,7 @@
 		BF64082926E8AFE300ABF1A3 /* SLKeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapper.swift; sourceTree = "<group>"; };
 		BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapperSubscript.swift; sourceTree = "<group>"; };
-		BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoLogViewController.swift; sourceTree = "<group>"; };
+		BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
 		BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingWriteView.swift; sourceTree = "<group>"; };
 		BFAD8E86265A211E00202160 /* ShopLiveBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveBase.swift; sourceTree = "<group>"; };
 		BFAD8E88265A211E00202160 /* OverlayWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWebView.swift; sourceTree = "<group>"; };
@@ -331,7 +331,7 @@
 				BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */,
 				BFC00CBD26947B2700BD8733 /* Extensions.swift */,
 				BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */,
-				BF6D31DF26CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift */,
+				BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */,
 			);
 			name = Common;
 			path = Component/Common;
@@ -613,7 +613,7 @@
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BFAD8E9D265A211E00202160 /* ShopLiveWebView.swift in Sources */,
-				BF64080926E7065300ABF1A3 /* ShopLiveDemoLogViewController.swift in Sources */,
+				BF64080926E7065300ABF1A3 /* ShopLiveViewLoggerController.swift in Sources */,
 				BFFAD7D326BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
 				1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */,
 				BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */,
@@ -671,7 +671,7 @@
 				BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */,
 				BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */,
 				BFAD8EE3265A24DA00202160 /* ShopLiveLogger.swift in Sources */,
-				BF6D31E026CCFAD500B233A4 /* ShopLiveDemoLogViewController.swift in Sources */,
+				BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF64083926E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */,
 				BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */,
 			);
@@ -970,7 +970,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -995,7 +995,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;

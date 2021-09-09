@@ -277,7 +277,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             ShopLiveStorage.remove(key: key)
             break
         case .showNativeDebug:
-            ShopLiveDemoLogger.shared.setVisible(show: true)
+            ShopLiveViewLogger.shared.setVisible(show: true)
             break
         case .error(let code, let message):
             delegate?.onError(code: code, message: message)

@@ -95,7 +95,7 @@ class ViewController: UIViewController {
         case swShare:
             setupShare()
         case swLog:
-            ShopLiveDemoLogger.shared.setVisible(show: swItem.isOn)
+            ShopLiveViewLogger.shared.setVisible(show: swItem.isOn)
             break
         default:
             break
@@ -167,7 +167,7 @@ class ViewController: UIViewController {
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
-                ShopLiveDemoLogger.shared.addLog(log: "preview finish")
+                ShopLiveViewLogger.shared.addLog(log: "preview finish")
             }
         }
     }
@@ -394,16 +394,16 @@ extension UIViewController
 extension ViewController: ShopLiveSDKDelegate {
     func handleChangeCampaignStatus(status: String) {
         print("handleChangeCampaignStatus \(status)")
-        ShopLiveDemoLogger.shared.addLog(log: "handleChangeCampaignStatus \(status)")
+        ShopLiveViewLogger.shared.addLog(log: "handleChangeCampaignStatus \(status)")
     }
 
     func handleError(code: String, message: String) {
-        ShopLiveDemoLogger.shared.addLog(log: "handleError \(code)  \(message)")
+        ShopLiveViewLogger.shared.addLog(log: "handleError \(code)  \(message)")
         print("handleError")
     }
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {
-        ShopLiveDemoLogger.shared.addLog(log: "handleCampaignInfo \(campaignInfo)")
+        ShopLiveViewLogger.shared.addLog(log: "handleCampaignInfo \(campaignInfo)")
         print("handleCampaignInfo")
     }
 
@@ -412,11 +412,12 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
+        ShopLiveViewLogger.shared.addLog(log: "handleCommand \(command)")
         print("handleCommand: \(command)  payload: \(payload)")
     }
 
     func handleNavigation(with url: URL) {
-        ShopLiveDemoLogger.shared.addLog(log: "handleNavigation \(url)")
+        ShopLiveViewLogger.shared.addLog(log: "handleNavigation \(url)")
 
         if #available(iOS 13, *) {
             if let browser = self.safari {
