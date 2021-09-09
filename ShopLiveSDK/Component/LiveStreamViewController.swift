@@ -75,7 +75,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
 //            ShopLiveLogger.debugLog("curTime: \(curTime) time: \(time)")
             ShopLiveController.shared.currnetPlayTime = time
-            ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, time)
+            ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         })
     }
 

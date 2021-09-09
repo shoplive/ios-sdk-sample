@@ -344,6 +344,7 @@ import WebKit
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 //        liveStreamViewController?.hideBackgroundPoster()
+        ShopLiveController.webInstance?.isHidden = true
         
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
@@ -377,6 +378,8 @@ import WebKit
 
         delegate?.handleCommand("willShopLiveOn", with: nil)
         ShopLiveController.shared.pipAnimationg = true
+        ShopLiveController.webInstance?.isHidden = false
+
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
