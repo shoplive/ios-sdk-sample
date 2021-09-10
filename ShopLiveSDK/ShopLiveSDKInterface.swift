@@ -44,6 +44,8 @@ import UIKit
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()
 
+    @objc static func setKeepAspectOnTabletPortrait(_ keep: Bool)
+
     @objc static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
     @objc static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
     @objc static func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)

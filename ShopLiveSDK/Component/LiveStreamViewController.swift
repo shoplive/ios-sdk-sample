@@ -380,7 +380,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     var topSafeAnchor: NSLayoutConstraint!
     private func setupPlayerView() {
         playerView.playerLayer.player = playerView.player
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         playerView.playerLayer.needsDisplayOnBoundsChange = true
         ShopLiveController.shared.playerItem?.player = playerView.player
         ShopLiveController.shared.playerItem?.playerLayer = playerLayer
@@ -406,7 +406,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         super.viewWillTransition(to: size, with: coordinator)
 
         guard ShopLiveController.windowStyle != .osPip else { return }
-        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : .resizeAspectFill
+        playerView.playerLayer.videoGravity = UIScreen.isLandscape ? .resizeAspect : (UIDevice.isIpad ? (ShopLiveController.shared.keepAspectOnTabletPortrait ? .resizeAspect : .resizeAspectFill) : .resizeAspectFill)
         overlayView?.alpha = 0
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(700)) {
             UIView.animate(withDuration: 0.4) {

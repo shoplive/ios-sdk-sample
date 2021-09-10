@@ -28,6 +28,9 @@ import WebKit
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
     @objc func startPictureInPicture()
     @objc func stopPictureInPicture()
+
+    @objc func setKeepAspectOnTabletPortrait(_ keep: Bool)
+
     @objc func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
     @objc func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
     @objc func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
@@ -114,6 +117,11 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+
+    public static func setKeepAspectOnTabletPortrait(_ keep: Bool = true) {
+        shared.instance?.setKeepAspectOnTabletPortrait(keep)
+    }
+
     public static var viewController: ShopLiveViewController? {
         shared.instance?.viewController
     }

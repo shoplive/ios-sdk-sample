@@ -336,13 +336,15 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
 
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+
         liveStreamViewController?.dismissKeyboard()
         let pipPosition: CGRect = self.pipPosition(with: scale, position: position)
 
         ShopLiveController.windowStyle = .inAppPip
         shopLiveWindow.clipsToBounds = false
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 10
-        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
+
 //        liveStreamViewController?.hideBackgroundPoster()
         ShopLiveController.webInstance?.isHidden = true
         
@@ -362,7 +364,9 @@ import WebKit
             shopLiveWindow.setNeedsLayout()
             shopLiveWindow.layoutIfNeeded()
         } completion: { (isCompleted) in
-            shopLiveWindow.rootViewController?.view.backgroundColor = .black
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(100), execute: {
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
+            })
         }
 
         delegate?.handleCommand("didShopLiveOff", with: ["style" : style.rawValue])
@@ -373,6 +377,8 @@ import WebKit
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+
+        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
         mainWindow.rootViewController?.dismissKeyboard()
 
@@ -389,9 +395,7 @@ import WebKit
         shopLiveWindow.layer.shadowOpacity = 0.0
         shopLiveWindow.layer.shadowOffset = .zero
         shopLiveWindow.layer.shadowRadius = 0
-        
-        shopLiveWindow.rootViewController?.view.backgroundColor = .clear
-            
+
         UIView.animate(withDuration: 0.3, delay: 0, options: []) {
             shopLiveWindow.frame = mainWindow.bounds
             shopLiveWindow.layer.cornerRadius = 0
@@ -399,14 +403,14 @@ import WebKit
             shopLiveWindow.layoutIfNeeded()
             shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
         } completion: { (isCompleted) in
-            shopLiveWindow.rootViewController?.view.backgroundColor = .black
 //            self.liveStreamViewController?.showBackgroundPoster()
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
                 ShopLiveController.isHiddenOverlay = false
                 ShopLiveController.shared.pipAnimationg = false
+                shopLiveWindow.rootViewController?.view.backgroundColor = .black
             })
         }
-        
+
         _style = .fullScreen
     }
 
@@ -602,6 +606,7 @@ import WebKit
         if let ck = campaignKey {
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
+
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "preview", value: "1"))
         urlComponents?.queryItems = queryItems
@@ -625,6 +630,8 @@ import WebKit
             let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
         }
+
+        queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
 
         for item in ShopLiveStorage.allItems {
             if !item.value.isEmpty {
@@ -738,6 +745,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setKeepAspectOnTabletPortrait(_ keep: Bool) {
+        ShopLiveController.shared.keepAspectOnTabletPortrait = keep
+    }
+
     var viewController: ShopLiveViewController? {
         return self.liveStreamViewController
     }

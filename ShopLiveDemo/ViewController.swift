@@ -222,6 +222,7 @@ class ViewController: UIViewController {
                 }
             }
              */
+            ShopLive.setKeepAspectOnTabletPortrait(true)
             ShopLive.play(with: key.campaignKey)
         }
     }

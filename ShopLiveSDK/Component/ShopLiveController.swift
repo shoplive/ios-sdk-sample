@@ -59,6 +59,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
     @objc dynamic var playerItem: ShopLivePlayerItem? = .init()
@@ -168,6 +169,7 @@ final class ShopLiveController: NSObject {
         indicatorColor = .white
         currnetPlayTime = nil
         isReplayMode = false
+        keepAspectOnTabletPortrait = true
     }
 
     private func reset() {
