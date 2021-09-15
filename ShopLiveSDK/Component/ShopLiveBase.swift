@@ -453,6 +453,7 @@ import WebKit
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
+        ShopLiveController.webInstance?.isHidden = false
 
         shopLiveWindow.layer.shadowColor = nil
         shopLiveWindow.layer.shadowOpacity = 0.0
@@ -465,11 +466,11 @@ import WebKit
 //        shopLiveWindow.setNeedsLayout()
 //        shopLiveWindow.layoutIfNeeded()
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
-        shopLiveWindow.rootViewController?.view.backgroundColor = .black
         self.liveStreamViewController?.showBackgroundPoster()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
             ShopLiveController.isHiddenOverlay = false
             ShopLiveController.shared.pipAnimationg = false
+            shopLiveWindow.rootViewController?.view.backgroundColor = .black
 //                    ShopLiveController.loading = true
         })
         _style = .fullScreen
