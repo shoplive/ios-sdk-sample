@@ -63,6 +63,8 @@ import WebKit
     }
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
+        UIApplication.shared.isIdleTimerDisabled = true
+
         if _style == .fullScreen {
 //            ShopLiveController.loading = true
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
@@ -146,6 +148,8 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
+        UIApplication.shared.isIdleTimerDisabled = false
+
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
         if let originAudioSessionCategory = self.originAudioSessionCategory {
