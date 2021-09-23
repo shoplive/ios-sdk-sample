@@ -635,8 +635,8 @@ import WebKit
             let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
         }
-
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
+        queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
 
         for item in ShopLiveStorage.allItems {
             if !item.value.isEmpty {
