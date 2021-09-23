@@ -28,6 +28,7 @@ internal final class ShopLiveWebView: WKWebView {
     func sendEventToWeb(event: WebInterface, _ param: Any? = nil, _ wrapping: Bool = false) {
         let command: String = param == nil ? "window.__receiveAppEvent('\(event.functionString)');" : "window.__receiveAppEvent('\(event.functionString)', " + (wrapping ? "'\(String(describing: param!))');" : "\(String(describing: param!)));")
 //        ShopLiveLogger.debugLog(command)
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .callback, log: "to Web [Interface: \(String(describing: event.functionString))]: [payload: \(String(describing: param))]"))
         self.evaluateJavaScript(command, completionHandler: nil)
     }
 }

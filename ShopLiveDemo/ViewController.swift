@@ -167,7 +167,7 @@ class ViewController: UIViewController {
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
-                ShopLiveViewLogger.shared.addLog(log: "preview finish")
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview finish"))
             }
         }
     }
@@ -395,31 +395,31 @@ extension UIViewController
 extension ViewController: ShopLiveSDKDelegate {
     func handleChangeCampaignStatus(status: String) {
         print("handleChangeCampaignStatus \(status)")
-        ShopLiveViewLogger.shared.addLog(log: "handleChangeCampaignStatus \(status)")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleChangeCampaignStatus \(status)"))
     }
 
     func handleError(code: String, message: String) {
-        ShopLiveViewLogger.shared.addLog(log: "handleError \(code)  \(message)")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleError \(code)  \(message)"))
         print("handleError")
     }
 
     func handleCampaignInfo(campaignInfo: [String : Any]) {
-        ShopLiveViewLogger.shared.addLog(log: "handleCampaignInfo \(campaignInfo)")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCampaignInfo \(campaignInfo)"))
         print("handleCampaignInfo")
     }
 
     func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void) {
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCustomAction id: \(id) type: \(type) payload: \(payload)"))
         print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
-        ShopLiveViewLogger.shared.addLog(log: "handleCommand \(command)")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         print("handleCommand: \(command)  payload: \(payload)")
     }
 
     func handleNavigation(with url: URL) {
-        ShopLiveViewLogger.shared.addLog(log: "handleNavigation \(url)")
-
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
         if #available(iOS 13, *) {
             if let browser = self.safari {
                 browser.dismiss(animated: false, completion: nil)
