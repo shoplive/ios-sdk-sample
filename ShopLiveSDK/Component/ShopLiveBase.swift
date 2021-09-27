@@ -844,6 +844,7 @@ extension ShopLiveBase: ShopLiveComponent {
         self.campaignKey = campaignKey
         fetchPreviewUrl(with: campaignKey) { url in
             guard let url = url else { return }
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "[preview url]: \(url.absoluteString)"))
             self.showPreview(previewUrl: url, completion: completion)
         }
     }
@@ -854,6 +855,7 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveController.loading = true
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "[overlay url]: \(url.absoluteString)"))
             liveStreamViewController?.viewModel.authToken = _authToken
             liveStreamViewController?.viewModel.user = _user
             showShopLiveView(with: url, nil)
