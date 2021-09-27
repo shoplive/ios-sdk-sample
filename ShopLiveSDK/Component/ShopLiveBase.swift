@@ -420,6 +420,9 @@ import WebKit
 
     func willChangePreview() {
         ShopLiveController.windowStyle = .inAppPip
+
+        let pipSize: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
+        self.shopLiveWindow?.frame = pipSize
         self.shopLiveWindow?.clipsToBounds = false
         self.shopLiveWindow?.rootViewController?.view.layer.cornerRadius = 10
         self.shopLiveWindow?.rootViewController?.view.backgroundColor = .black
