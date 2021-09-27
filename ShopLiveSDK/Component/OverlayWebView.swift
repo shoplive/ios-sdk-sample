@@ -378,6 +378,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
     private func resetRetry() {
+        ShopLiveController.shared.takeSnapShot = false
         retryTimer?.invalidate()
         retryTimer = nil
         retryCount = 0
@@ -393,6 +394,12 @@ extension OverlayWebView: ShopLivePlayerDelegate {
 
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
+
+                if ShopLiveController.shared.releasePlayer {
+                    ShopLiveLogger.debugLog("handleRetryPlay close loop in retry timer")
+                    self.resetRetry()
+                    return
+                }
 
                 ShopLiveLogger.debugLog("handleRetryPlay loop \(self.retryCount)")
                 if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
