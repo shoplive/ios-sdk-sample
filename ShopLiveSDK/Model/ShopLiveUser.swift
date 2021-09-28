@@ -7,18 +7,32 @@
 
 import Foundation
 
-@objc public class ShopLiveUser: NSObject, Codable {
+@objc public class ShopLiveUser: NSObject {// , Codable {
     let name: String?
     let gender: Gender?
     let id: String?
     let age: Int?
-    
+
+    private var parameters: [String: String] = [:]
+
     @objc public init(id: String = "", name: String = "", gender: Gender = .unknown, age: Int = -1) {
         self.id = id.isEmpty ? nil : id
         self.name = name.isEmpty ? nil : name
         self.gender = gender == .unknown ? nil : gender
         self.age = age > 0 ? age : nil
     }
+
+    func add(_ params: [String: Any?]) {
+        params.forEach { (key: String, value: Any?) in
+            parameters[key] = "\(value ?? "null")"
+        }
+    }
+
+    func getParams() -> [String: String] {
+        return parameters
+    }
+
+
 }
 
 extension ShopLiveUser {

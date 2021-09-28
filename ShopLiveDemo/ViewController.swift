@@ -162,7 +162,6 @@ class ViewController: UIViewController {
 
                 ShopLive.pipPosition = self.pipPosition
             }
-
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
@@ -184,6 +183,7 @@ class ViewController: UIViewController {
                let userAge = Int(tfAge),
                userId.isEmpty == false && userName.isEmpty == false && tfAge.isEmpty == false {
                 let user = ShopLiveUser(id: userId, name: userName, gender: self.userGender, age: userAge)
+                user.add(["userScore": nil])
                 ShopLive.user = user
             } else {
                 self.userGender = .unknown
@@ -222,6 +222,8 @@ class ViewController: UIViewController {
                 }
             }
              */
+
+
             ShopLive.setKeepAspectOnTabletPortrait(true)
             ShopLive.play(with: key.campaignKey)
         }
