@@ -659,18 +659,11 @@ import WebKit
         for item in ShopLiveStorage.allItems {
             if !item.value.isEmpty {
                 let value = item.value
-                ShopLiveLogger.debugLog("\(item.key) value: \(item.value)")
-                if item.key == "guestUid" { //, let guestUid = value.split(separator: ",").first {
-                    let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                    queryItems.append(URLQueryItem(name: item.key, value: escapedString))
-                } else if item.key == "resolution" {
-                    let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-                    queryItems.append(URLQueryItem(name: item.key, value: escapedString))
-                    ShopLiveLogger.debugLog("\(item.key): \(value)")
-                }
+                let escapedString = value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+                queryItems.append(URLQueryItem(name: item.key, value: escapedString))
+                ShopLiveLogger.debugLog("\(item.key): \(value)")
             }
         }
-
 
         urlComponents?.queryItems = queryItems
         completionHandler(urlComponents?.url)
