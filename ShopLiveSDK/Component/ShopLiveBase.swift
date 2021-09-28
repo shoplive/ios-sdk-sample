@@ -63,7 +63,7 @@ import WebKit
     }
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
-//        UIApplication.shared.isIdleTimerDisabled = true
+        UIApplication.shared.isIdleTimerDisabled = true
 
         if _style == .fullScreen {
 //            ShopLiveController.loading = true
@@ -150,7 +150,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
-//        UIApplication.shared.isIdleTimerDisabled = false
+        UIApplication.shared.isIdleTimerDisabled = false
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
