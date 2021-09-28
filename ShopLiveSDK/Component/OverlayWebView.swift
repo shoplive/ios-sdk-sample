@@ -335,7 +335,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .waitingToPlayAtSpecifiedRate: //버퍼링 1
             ShopLiveLogger.debugLog("timeControlStatus: buffering")
             ShopLiveController.shared.takeSnapShot = true
-            if ShopLiveController.windowStyle == .osPip {
+            if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
                 ShopLiveController.shared.needReload = true
             } else {
                 ShopLiveController.retryPlay = true
@@ -346,6 +346,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
 
             if ShopLiveController.windowStyle == .osPip, needSeek {
                 needSeek = false
+                ShopLiveLogger.debugLog("seekToLatest")
                 ShopLiveController.shared.seekToLatest()
             }
 

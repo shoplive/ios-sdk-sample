@@ -311,8 +311,25 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         guard ShopLiveController.windowStyle != .osPip else {
             return
         }
-        reload()
-        overlayView?.sendEventToWeb(event: .onForeground)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            if ShopLiveController.playControl == .pause {
+                if ShopLiveController.isReplayMode {
+                    ShopLiveController.player?.play()
+                } else {
+                    ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+                    ShopLiveController.playControl = .resume
+                }
+            } else {
+                if !ShopLiveController.isReplayMode {
+                    self.reload()
+                } else {
+                    ShopLiveController.player?.play()
+                }
+            }
+
+            self.overlayView?.sendEventToWeb(event: .onForeground)
+        }
     }
 
     private func setupSnapshotView() {

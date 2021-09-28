@@ -63,7 +63,7 @@ import WebKit
     }
 
     func showShopLiveView(with overlayUrl: URL, _ completion: (() -> Void)? = nil) {
-        UIApplication.shared.isIdleTimerDisabled = true
+//        UIApplication.shared.isIdleTimerDisabled = true
 
         if _style == .fullScreen {
 //            ShopLiveController.loading = true
@@ -72,6 +72,7 @@ import WebKit
         } else if _style == .pip {
             liveStreamViewController?.viewModel.overayUrl = overlayUrl
             liveStreamViewController?.reload()
+
             if !ShopLiveController.shared.isPreview {
                 stopShopLivePictureInPicture()
                 return
@@ -79,6 +80,7 @@ import WebKit
         }
 
         guard liveStreamViewController == nil else {
+            setupPictureInPicture()
             return
         }
 
@@ -148,7 +150,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
-        UIApplication.shared.isIdleTimerDisabled = false
+//        UIApplication.shared.isIdleTimerDisabled = false
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
         delegate?.handleCommand("willShopLiveOff", with: ["style" : style.rawValue])
@@ -172,7 +174,6 @@ import WebKit
         }
 
         ShopLiveController.shared.clear()
-
         let transform = self.shopLiveWindow?.transform.concatenating(CGAffineTransform(scaleX: 0.1, y: 0.1)) ?? .identity
         let animateDuration = animated ? 0.2 : 0.0
         UIView.animate(withDuration: animateDuration, delay: 0, options: [.curveEaseIn]) {
@@ -210,6 +211,15 @@ import WebKit
     
     //OS 제공 PIP 세팅
     func setupPictureInPicture() {
+        guard !ShopLiveController.shared.isPreview else {
+            do {
+                pictureInPictureController?.delegate = nil
+                try AVAudioSession.sharedInstance().setActive(false)
+                self.pictureInPictureController = nil
+            } catch {}
+            return
+        }
+        guard pictureInPictureController == nil else { return }
         do {
             try AVAudioSession.sharedInstance().setActive(true)
             ShopLiveLogger.debugLog("interruption setActive")
@@ -272,12 +282,11 @@ import WebKit
     
     private func pipSize(with scale: CGFloat) -> CGSize {
         guard let mainWindow = self.mainWindow else { return .zero }
-        var videoSize = ShopLiveController.player?.currentItem?.presentationSize ?? .zero
-        videoSize = videoSize == .zero ? replaySize : videoSize
-        
+
+        let defSize = CGSize(width: 9, height: 16)
         let width = mainWindow.bounds.width * scale
-        let height = (videoSize.height / videoSize.width) * width
-        
+        let height = (defSize.height / defSize.width) * width
+
         return CGSize(width: width, height: height)
     }
 
@@ -378,6 +387,9 @@ import WebKit
     }
 
     private func stopCustomPictureInPicture() {
+
+        setupPictureInPicture()
+
         guard !ShopLiveController.shared.pipAnimationg else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
@@ -440,11 +452,13 @@ import WebKit
         self.shopLiveWindow?.layer.shadowOffset = .zero
         self.shopLiveWindow?.layer.shadowRadius = 10
 
-        self.shopLiveWindow?.setNeedsLayout()
         self.shopLiveWindow?.layoutIfNeeded()
+        self.liveStreamViewController?.view.layoutIfNeeded()
+
     }
 
     func didChangeOSPIP() {
+        guard !ShopLiveController.shared.isPreview else { return }
         guard let mainWindow = self.mainWindow else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
         guard _style != .fullScreen else { return }
@@ -466,9 +480,10 @@ import WebKit
         shopLiveWindow.rootViewController?.view.backgroundColor = .clear
 
         shopLiveWindow.layer.cornerRadius = 0
-//        shopLiveWindow.setNeedsLayout()
-//        shopLiveWindow.layoutIfNeeded()
         shopLiveWindow.rootViewController?.view.layer.cornerRadius = 0
+//        shopLiveWindow.setNeedsLayout()
+        shopLiveWindow.layoutIfNeeded()
+
         self.liveStreamViewController?.showBackgroundPoster()
         DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .milliseconds(300), execute: {
             ShopLiveController.isHiddenOverlay = false
@@ -666,6 +681,8 @@ import WebKit
         self.addObserver(self, forKeyPath: "_authToken", options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: "_user", options: [.initial, .old, .new], context: nil)
 
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -677,6 +694,8 @@ import WebKit
         self.removeObserver(self, forKeyPath: "_style")
         self.removeObserver(self, forKeyPath: "_authToken")
         self.removeObserver(self, forKeyPath: "_user")
+        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataDidBecomeAvailableNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.protectedDataWillBecomeUnavailableNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -704,6 +723,20 @@ import WebKit
             break
         case UIApplication.didEnterBackgroundNotification:
             self.liveStreamViewController?.onBackground()
+            break
+        case UIApplication.protectedDataDidBecomeAvailableNotification:
+            guard ShopLiveController.windowStyle == .osPip else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                if ShopLiveController.isReplayMode {
+                    ShopLiveController.player?.play()
+                } else {
+                    ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
+                    ShopLiveController.playControl = .resume
+                }
+            }
+            break
+        case UIApplication.protectedDataWillBecomeUnavailableNotification:
+            ShopLiveController.playControl = .pause
             break
         case UIApplication.willEnterForegroundNotification:
             self.liveStreamViewController?.onForeground()
@@ -868,7 +901,7 @@ extension ShopLiveBase: ShopLiveComponent {
     @objc func reloadLive() {
         guard self.accessKey != nil else { return }
         liveStreamViewController?.reload()
-        var user = ShopLiveUser.init()
+        _ = ShopLiveUser.init()
     }
     
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
@@ -952,12 +985,12 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         ShopLiveController.windowStyle = .normal
-        if ShopLiveController.shared.isPreview {
-            if let ck = self.campaignKey {
-                ShopLiveController.shared.isPreview = false
-                play(with: ck, nil)
-            }
-        }
+//        if ShopLiveController.shared.isPreview {
+//            if let ck = self.campaignKey {
+//                ShopLiveController.shared.isPreview = false
+//                play(with: ck, nil)
+//            }
+//        }
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -967,6 +1000,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             ShopLiveLogger.debugLog("needReload \(ShopLiveController.shared.needReload)")
             if ShopLiveController.shared.needReload {
                 ShopLiveController.shared.needReload = false
+                guard !ShopLiveController.isReplayMode else { return }
                 liveStreamViewController?.viewModel.reloadVideo()
             } else {
                 if ShopLiveController.timeControlStatus == .paused, ShopLiveController.isReplayMode {
