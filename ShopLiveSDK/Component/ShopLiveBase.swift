@@ -720,12 +720,7 @@ import WebKit
         case UIApplication.protectedDataDidBecomeAvailableNotification:
             guard ShopLiveController.windowStyle == .osPip else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                if ShopLiveController.isReplayMode {
-                    ShopLiveController.player?.play()
-                } else {
-                    ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
-                    ShopLiveController.playControl = .resume
-                }
+                ShopLiveController.playControl = .resume
             }
             break
         case UIApplication.protectedDataWillBecomeUnavailableNotification:

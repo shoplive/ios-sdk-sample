@@ -323,6 +323,9 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         ShopLiveLogger.debugLog("timeControlStatus: \(ShopLiveController.timeControlStatus.rawValue)")
         switch ShopLiveController.timeControlStatus {
         case .paused: //0
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
+            }
             if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
                 ShopLiveController.shared.needReload = true
                 ShopLiveLogger.debugLog("timeControlStatus: needSeek true")
@@ -379,7 +382,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
     }
 
     private func resetRetry() {
-        ShopLiveController.shared.takeSnapShot = false
+//        ShopLiveController.shared.takeSnapShot = false
         retryTimer?.invalidate()
         retryTimer = nil
         retryCount = 0
