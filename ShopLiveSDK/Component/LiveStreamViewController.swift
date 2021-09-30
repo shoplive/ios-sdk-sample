@@ -74,7 +74,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
 //            ShopLiveLogger.debugLog("curTime: \(curTime) time: \(time)")
-            ShopLiveController.shared.currnetPlayTime = time
+            ShopLiveController.shared.currnetPlayTime = Int64(curTime)
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         })
     }
@@ -147,7 +147,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
            // Interruption이 시작된 경우 처리 코드
             ShopLiveController.playControl = .pause
           } else {
-            guard let options = userInfo[AVAudioSessionInterruptionOptionKey] else {
+              guard userInfo[AVAudioSessionInterruptionOptionKey] != nil else {
                 return
             }
 
@@ -313,10 +313,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            if ShopLiveController.playControl == .pause {
-                if ShopLiveController.isReplayMode, ShopLiveController.playControl != .pause {
-                    ShopLiveController.player?.play()
-                } else {
+            if ShopLiveController.timeControlStatus == .paused {
+                if !ShopLiveController.isReplayMode {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
                     ShopLiveController.playControl = .resume
                 }
@@ -640,7 +638,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
         if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currnetPlayTime {
-            ShopLiveController.player?.seek(to: time)
+            ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
     }
 

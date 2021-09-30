@@ -74,7 +74,11 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
-    var currnetPlayTime: CMTime? = nil
+    lazy var currnetPlayTime: Int64? = nil {
+        didSet {
+            ShopLiveLogger.debugLog("seek current play time didSet: \(currnetPlayTime)")
+        }
+    }
     var needReload: Bool = false
     var keyboardHeight: CGFloat = .zero
 
@@ -436,5 +440,14 @@ extension ShopLiveController {
         get {
             return shared.loading
         }
+    }
+
+    static var isReplayFinished: Bool {
+        guard ShopLiveController.isReplayMode, let totalTime = ShopLiveController.duration?.value, let currentTime = shared.currnetPlayTime else {
+            return false
+        }
+
+        ShopLiveLogger.debugLog("seek isReplayFinished total: \(totalTime)  current: \(currentTime)")
+        return (totalTime / 1000) <= currentTime
     }
 }

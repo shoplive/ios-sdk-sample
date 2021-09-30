@@ -97,6 +97,9 @@ internal final class LiveStreamViewModel: NSObject {
             updatePlayerItem(with: url)
         }
         else {
+            if ShopLiveController.isReplayMode, ShopLiveController.isReplayFinished {
+                seek(to: .init(value: 0, timescale: 1))
+            }
             ShopLiveController.player?.play()
         }
     }
@@ -131,6 +134,8 @@ internal final class LiveStreamViewModel: NSObject {
     }
 
     func seek(to: CMTime) {
+        ShopLiveLogger.debugLog("seek to: \(to.value)")
+        ShopLiveController.shared.currnetPlayTime = to.value
         ShopLiveController.player?.seek(to: to)
     }
 
