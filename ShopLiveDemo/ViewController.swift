@@ -183,7 +183,7 @@ class ViewController: UIViewController {
                let userAge = Int(tfAge),
                userId.isEmpty == false && userName.isEmpty == false && tfAge.isEmpty == false {
                 let user = ShopLiveUser(id: userId, name: userName, gender: self.userGender, age: userAge)
-                user.add(["userScore": nil])
+                user.add(["userScore": 40])
                 ShopLive.user = user
             } else {
                 self.userGender = .unknown
