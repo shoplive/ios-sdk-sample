@@ -314,7 +314,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if ShopLiveController.playControl == .pause {
-                if ShopLiveController.isReplayMode {
+                if ShopLiveController.isReplayMode, ShopLiveController.playControl != .pause {
                     ShopLiveController.player?.play()
                 } else {
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)

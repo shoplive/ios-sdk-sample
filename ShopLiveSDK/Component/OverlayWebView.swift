@@ -324,7 +324,8 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         switch ShopLiveController.timeControlStatus {
         case .paused: //0
             if ShopLiveController.isReplayMode {
-                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
+//                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
+                ShopLiveController.isPlaying = false
             }
             if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
                 ShopLiveController.shared.needReload = true
@@ -347,16 +348,20 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             break
         case .playing: // 2
 
-            if ShopLiveController.windowStyle == .osPip, needSeek {
+            if ShopLiveController.windowStyle == .osPip, needSeek, !ShopLiveController.isReplayMode {
                 needSeek = false
                 ShopLiveLogger.debugLog("seekToLatest")
                 ShopLiveController.shared.seekToLatest()
             }
 
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+            }
+
             ShopLiveLogger.debugLog("timeControlStatus: play")
             ShopLiveController.retryPlay = false
             ShopLiveController.shared.takeSnapShot = false
-//            ShopLiveController.isPlaying = true
+            ShopLiveController.isPlaying = true
         @unknown default:
             ShopLiveLogger.debugLog("TimeControlStatus - unknown")
              break

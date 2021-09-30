@@ -718,7 +718,7 @@ import WebKit
             self.liveStreamViewController?.onBackground()
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
-            guard ShopLiveController.windowStyle == .osPip else { return }
+            guard ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 ShopLiveController.playControl = .resume
             }
@@ -991,7 +991,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 guard !ShopLiveController.isReplayMode else { return }
                 liveStreamViewController?.viewModel.reloadVideo()
             } else {
-                if ShopLiveController.timeControlStatus == .paused, ShopLiveController.isReplayMode {
+                if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
                     ShopLiveController.player?.play()
                 }
             }
