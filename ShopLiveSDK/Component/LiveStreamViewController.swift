@@ -522,9 +522,21 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             }
         }
 
+        if let scm: String = ShopLiveController.shared.shareScheme {
+            queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
+        }
+
         urlComponents?.queryItems = queryItems
-        ShopLiveLogger.debugLog("play url: \(urlComponents?.url?.absoluteString ?? "")")
-        return urlComponents?.url
+
+        guard let componentUrl = urlComponents?.url?.absoluteString.split(separator: "?"),
+              let base = componentUrl.first,
+              let params = componentUrl.last,
+              let encodedUrl = String(describing: params).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed),
+              let url = URL(string: String(describing: base) + "?" + encodedUrl) else {
+            return urlComponents?.url }
+        ShopLiveLogger.debugLog("play url: \(url.absoluteString)")
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play url: \(url.absoluteString )"))
+        return url
     }
 
     func addObserver() {

@@ -22,13 +22,13 @@ import Foundation
         self.age = age > 0 ? age : nil
     }
 
-    func add(_ params: [String: Any?]) {
+    public func add(_ params: [String: Any?]) {
         params.forEach { (key: String, value: Any?) in
             parameters[key] = "\(value ?? "null")"
         }
     }
 
-    func getParams() -> [String: String] {
+    public func getParams() -> [String: String] {
         return parameters
     }
 

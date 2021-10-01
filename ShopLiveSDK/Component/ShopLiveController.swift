@@ -79,6 +79,7 @@ final class ShopLiveController: NSObject {
             ShopLiveLogger.debugLog("seek current play time didSet: \(currnetPlayTime)")
         }
     }
+    var shareScheme: String? = nil
     var needReload: Bool = false
     var keyboardHeight: CGFloat = .zero
 
@@ -170,6 +171,7 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
+        shareScheme = nil
         indicatorColor = .white
         currnetPlayTime = nil
         isReplayMode = false

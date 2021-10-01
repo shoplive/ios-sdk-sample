@@ -18,7 +18,6 @@ import WebKit
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
-    private var shareScheme: String? = nil
     private var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
@@ -649,10 +648,6 @@ import WebKit
             queryItems.append(URLQueryItem(name: "ck", value: ck))
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
-        if let scm: String = shareScheme {
-            let escapedString = scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-            queryItems.append(URLQueryItem(name: "shareUrl", value: escapedString))
-        }
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
         queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
 
@@ -806,7 +801,7 @@ extension ShopLiveBase: ShopLiveComponent {
             }
         }
 
-        self.shareScheme = scheme
+        ShopLiveController.shared.shareScheme = scheme
         ShopLiveController.shared.customShareAction = custom
     }
 
@@ -868,7 +863,6 @@ extension ShopLiveBase: ShopLiveComponent {
         self.campaignKey = campaignKey
         fetchPreviewUrl(with: campaignKey) { url in
             guard let url = url else { return }
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "[preview url]: \(url.absoluteString)"))
             self.showPreview(previewUrl: url, completion: completion)
         }
     }
@@ -879,7 +873,6 @@ extension ShopLiveBase: ShopLiveComponent {
         ShopLiveController.loading = true
         fetchOverlayUrl(with: campaignKey) { (overlayUrl) in
             guard let url = overlayUrl else { return }
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "[overlay url]: \(url.absoluteString)"))
             liveStreamViewController?.viewModel.authToken = _authToken
             liveStreamViewController?.viewModel.user = _user
             showShopLiveView(with: url, nil)
