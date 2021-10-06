@@ -9,6 +9,7 @@ import Foundation
 import AVKit
 import WebKit
 import UIKit
+import VideoToolbox
 
 enum ShopLivePlayerObserveValue: String {
     case videoUrl = "videoUrl"
@@ -296,8 +297,19 @@ extension ShopLiveController {
                 player?.currentItem?.remove(videoOutput)
                 shared.playItem?.videoOutput = nil
             }
-            let settings = [kCVPixelBufferPixelFormatTypeKey as String: kCVPixelFormatType_32BGRA]
-            shared.playItem?.videoOutput = AVPlayerItemVideoOutput.init(pixelBufferAttributes: settings)
+
+            let properties:[String: Any] = [
+                (kVTCompressionPropertyKey_RealTime as String): kCFBooleanTrue ?? true,
+                        (kVTCompressionPropertyKey_ProfileLevel as String): kVTProfileLevel_H264_High_AutoLevel,
+                        (kVTCompressionPropertyKey_AllowFrameReordering as String): true,
+                        (kVTCompressionPropertyKey_H264EntropyMode as String): kVTH264EntropyMode_CABAC,
+                        (kVTCompressionPropertyKey_PixelTransferProperties as String): [
+                            (kVTPixelTransferPropertyKey_ScalingMode as String): kVTScalingMode_Trim
+                        ]
+                    ]
+
+
+            shared.playItem?.videoOutput = AVPlayerItemVideoOutput.init(pixelBufferAttributes: properties)
             if let videoOutput = shared.playItem?.videoOutput {
                 shared.playItem?.playerItem?.add(videoOutput)
             }

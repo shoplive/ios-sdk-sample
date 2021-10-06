@@ -73,6 +73,7 @@
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
 		BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
+		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 		BFFAD7C226BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
 		BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
@@ -167,6 +168,7 @@
 		BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveDemoKeyTools.swift; sourceTree = "<group>"; };
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
 		BFC00CBD26947B2700BD8733 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayer.swift; sourceTree = "<group>"; };
 		BFFAD7C126BA050200C8C5E1 /* ShopLivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +378,7 @@
 		BFAD8EEB265A24FC00202160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */,
 				BFBBACA32699EC4500574958 /* CallKit.framework */,
 				BFBBACA02699EAEC00574958 /* CoreTelephony.framework */,
 				BFF91D86266D2FE800B659C1 /* SafariServices.framework */,
@@ -885,7 +889,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
 				PRODUCT_NAME = ShopLiveSDK;
 				SKIP_INSTALL = YES;
@@ -915,7 +919,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk;
 				PRODUCT_NAME = ShopLiveSDK;
 				SKIP_INSTALL = YES;
@@ -970,7 +974,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -978,7 +982,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;
@@ -995,7 +999,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 12;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1003,7 +1007,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.18;
+				MARKETING_VERSION = 1.0.19;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
 				PRODUCT_NAME = ShopLiveDemo;
