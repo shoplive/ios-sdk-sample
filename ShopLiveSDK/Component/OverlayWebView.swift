@@ -404,7 +404,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
 
-                if ShopLiveController.shared.releasePlayer {
+                if ShopLiveController.shared.streamUrl == nil {
                     ShopLiveLogger.debugLog("handleRetryPlay close loop in retry timer")
                     self.resetRetry()
                     return

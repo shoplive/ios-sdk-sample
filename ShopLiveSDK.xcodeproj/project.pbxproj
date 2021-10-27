@@ -15,6 +15,7 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
+		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
 		BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
@@ -127,6 +128,7 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
+		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtensions.swift; sourceTree = "<group>"; };
 		BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveStorage.swift; sourceTree = "<group>"; };
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */,
 				BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,6 +381,7 @@
 		BFAD8EEB265A24FC00202160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */,
 				BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */,
 				BFBBACA32699EC4500574958 /* CallKit.framework */,
 				BFBBACA02699EAEC00574958 /* CoreTelephony.framework */,

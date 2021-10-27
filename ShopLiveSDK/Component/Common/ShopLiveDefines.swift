@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import CoreMedia
+import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
     static let sdkVersion: String = "1.0.19"
@@ -24,6 +25,58 @@ import CoreMedia
             }()
 
     static let webInterface: String = "ShopLiveAppInterface"
+    static let osVersion = UIDevice.current.systemVersion
+
+    static var deviceIdentifier: String {
+        var systemInfo = utsname()
+        uname(&systemInfo)
+        let machineMirror = Mirror(reflecting: systemInfo.machine)
+        let identifier = machineMirror.children.reduce("") { identifier, element in
+            guard let value = element.value as? Int8, value != 0 else { return identifier }
+            return identifier + String(UnicodeScalar(UInt8(value)))
+        }
+
+        return identifier
+    }
+
+//    static func deviceModelName() -> String {
+//        let model = UIDevice.current.model
+//
+//        switch model {
+//        case "iPhone":
+//            return self.iPhoneModel()
+//        case "iPad":
+//            return self.iPadModel()
+//        case "iPad mini" :
+//            return self.iPadMiniModel()
+//        default:
+//            return "Unknown Model : \(model)"
+//        }
+//    }
+
+
+    static func mccMnc() -> String? {
+        if #available(iOS 12.0, *) {
+            let networkInfo =  CTTelephonyNetworkInfo()
+            guard let info = networkInfo.serviceSubscriberCellularProviders,
+                  let dict = networkInfo.serviceCurrentRadioAccessTechnology,
+                  let key = dict.keys.first,
+                  let carrier = info[key],
+                  let mcc = carrier.mobileCountryCode,
+                  let mnc = carrier.mobileNetworkCode
+            else { return nil }
+            return mcc + "-" + mnc
+        } else if #available(macCatalyst 13.0, *) {
+            return nil
+        } else {
+            let networkInfo =  CTTelephonyNetworkInfo()
+            guard let carrier = networkInfo.subscriberCellularProvider,
+                  let mcc = carrier.mobileCountryCode,
+                  let mnc = carrier.mobileNetworkCode
+            else { return nil }
+            return mcc + "_" + mnc
+        }
+    }
 }
 
 protocol LiveStreamViewControllerDelegate: AnyObject {

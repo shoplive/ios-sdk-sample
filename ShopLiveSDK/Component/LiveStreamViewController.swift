@@ -522,6 +522,14 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             }
         }
 
+        queryItems.append(URLQueryItem(name: "osType", value: "iOS"))
+        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
+        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
+
+        if let mccmnc = ShopLiveDefines.mccMnc(), !mccmnc.isEmpty {
+            queryItems.append(URLQueryItem(name: "mccmnc", value: mccmnc))
+        }
+
         if let scm: String = ShopLiveController.shared.shareScheme {
             queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }

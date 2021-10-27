@@ -64,3 +64,80 @@ extension UIView {
         }
     }
 }
+
+extension String {
+    func fotmattedString() -> String {
+        guard let doubleSelf = Double(self) else {
+            return ""
+        }
+
+        return doubleSelf.formattedString(by: "yyyy.MM.dd (E) HH:mm.ss")
+    }
+}
+
+extension Data {
+    struct HexEncodingOptions: OptionSet {
+        let rawValue: Int
+        static let upperCase = HexEncodingOptions(rawValue: 1 << 0)
+    }
+
+    func hexEncodedString(options: HexEncodingOptions = []) -> String {
+        let format = options.contains(.upperCase) ? "%02hhX" : "%02hhx"
+        return self.map { String(format: format, $0) }.joined()
+    }
+}
+
+extension Double {
+    func formattedString(by format: String) -> String {
+        var fromDate: Double = self
+        if self.numberOfDigit > 10 {
+            fromDate = Double(self / pow(10, Double(self.numberOfDigit - 10)))
+        }
+
+        let date = Date(timeIntervalSince1970: fromDate)
+
+        let dmf = DateFormatter()
+        dmf.timeZone = .current
+        dmf.locale = Locale(identifier: Locale.current.identifier)
+        dmf.timeZone = TimeZone(identifier: TimeZone.current.identifier)
+        dmf.dateFormat = format
+        return dmf.string(from: date)
+    }
+
+    func elapsedTimeString() -> String {
+        let now = Date()
+        return elapsedTimeString(with: now)
+    }
+
+    var numberOfDigit: Int {
+        guard let str: String = .init("\(Int(self))") else { return 0 }
+        return str.count
+    }
+
+    func elapsedTimeString(with date: Date) -> String {
+        var fromDate: Double = self
+
+        if self.numberOfDigit > 10 {
+            fromDate = Double(self / pow(10, Double(self.numberOfDigit - 10)))
+        }
+
+        let dateFrom = Date(timeIntervalSince1970: fromDate)
+        let dateTo = date
+
+//        ShopLiveLogger.printLog("from \(dateTo.timeIntervalSince1970))", "")
+//
+//        ShopLiveLogger.printLog("from \(dateFrom.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
+//
+//        ShopLiveLogger.printLog("to \(dateTo.formattedString(by: "yyyy.MM.dd (E) HH:mm"))", "")
+
+        guard dateFrom.timeIntervalSince1970 < dateTo.timeIntervalSince1970 else {
+            return ""
+        }
+
+        let difference = NSCalendar.current.dateComponents([.hour, .minute, .second], from: dateFrom, to: dateTo)
+
+        let elapsedTime: String = ((difference.hour ?? 0 > 0) ? String(format: "%02d:", difference.hour!) : "") + ((difference.minute ?? 0 > 0) ? String(format: "%02d:", difference.minute!) : "00:") + ((difference.second ?? 0 > 0) ? String(format: "%02d", difference.second!) : "00")
+
+        return elapsedTime
+    }
+}

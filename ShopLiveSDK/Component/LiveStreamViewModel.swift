@@ -73,6 +73,9 @@ internal final class LiveStreamViewModel: NSObject {
         guard let asset = ShopLiveController.urlAsset else { return }
         let playerItem = AVPlayerItem(asset: asset)
         ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+        let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
+        metadataOutput.setDelegate(self, queue: DispatchQueue.main)
+        playerItem.add(metadataOutput)
         ShopLiveController.playerItem = playerItem
         self.playerItem = playerItem
 
@@ -206,5 +209,72 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
         default:
             break
         }
+    }
+}
+
+extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
+    func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
+
+        ShopLiveLogger.debugLog("whkim meta count: \(groups.first?.items.count)")
+
+        var payloads: NSMutableDictionary = .init()
+        
+        groups.forEach { group in
+            group.items.forEach { item in
+
+                if let key = item.key as? String, let datav = item.value as? Data {
+                    payloads[key] = datav.base64EncodedString()
+//                    ShopLiveLogger.debugLog("item base64  \(datav.base64EncodedString())    origin: \(item.value)")
+                }
+/*
+                if let dataVa = item.dataValue, let valeng = item.dataValue?.count {
+                    let str = String(decoding: dataVa, as: UTF8.self)
+                    let startIdx: String.Index = str.index(str.startIndex, offsetBy: 1)
+                    var result = String(str[startIdx...])
+
+                    ShopLiveLogger.debugLog("whkimMeta test String str: \(str)")
+                    ShopLiveLogger.debugLog("whkimMeta test String: \(result.fotmattedString())")
+                    ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "\(result.fotmattedString())"))
+                } else if let strVa = item.stringValue {
+                    ShopLiveLogger.debugLog("whkimMeta test String: \(strVa)")
+                }
+ */
+            }
+        }
+
+        if payloads.count > 0 {
+            ShopLiveController.shared.webInstance?.sendEventToWeb(event: .onVideoMetadataUpdated, payloads.toJson())
+        }
+        /*
+        if let item = groups.first?.items.first {
+
+            ShopLiveLogger.debugLog("item: \(item.description)\nitem debug: \(item.debugDescription)\nitem time: \(item.time)\nitem startdate: \(item.startDate)")
+
+            ShopLiveLogger.debugLog("raw Metadata value: \n \(item.value(forKeyPath: #keyPath(AVMetadataItem.value))!)")
+
+            if let dataVa = item.dataValue, let valeng = item.dataValue?.count {
+                let str = String(decoding: dataVa, as: UTF8.self)
+                let startIdx: String.Index = str.index(str.startIndex, offsetBy: 1)
+                var result = String(str[startIdx...])
+
+                ShopLiveLogger.debugLog("whkimMeta test String str: \(str)")
+                ShopLiveLogger.debugLog("whkimMeta test String: \(result.fotmattedString())")
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "\(result.fotmattedString())"))
+            }
+
+
+//            ShopLiveLogger.debugLog("timedMeta value: \(item.value?.debugDescription)")
+
+//            if let timeValue = item.value {
+//                let data: NSData = .init(bytes: timeValue, length: timeValue)
+//                if let str = String(data: data, encoding: NSUTF8StringEncoding) {
+//                    print(str)
+//                } else {
+//                    print("not a valid UTF-8 sequence")
+//                }
+//            }
+
+        }
+        */
     }
 }

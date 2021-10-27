@@ -54,6 +54,7 @@ enum WebInterface {
     case setParam(key: String, value: String)
     case delParam(key: String)
     case showNativeDebug
+    case onVideoMetadataUpdated
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
@@ -141,6 +142,8 @@ enum WebInterface {
             return WebFunction.delParam.rawValue
         case .showNativeDebug:
             return WebFunction.showNativeDebug.rawValue
+        case .onVideoMetadataUpdated:
+            return WebFunction.onVideoMetadataUpdated.rawValue
         case .error:
             return WebFunction.error.rawValue
         case .command:
@@ -193,6 +196,7 @@ enum WebInterface {
         case setParam = "SET_PARAM"
         case delParam = "DEL_PARAM"
         case showNativeDebug = "SHOW_NATIVE_DEBUG"
+        case onVideoMetadataUpdated = "ON_VIDEO_METADATA_UPDATED"
         case error = "ERROR"
     }
 }
@@ -332,6 +336,8 @@ extension WebInterface {
             self = .delParam(key: key)
         case .showNativeDebug:
             self = .showNativeDebug
+        case .onVideoMetadataUpdated:
+            self = .onVideoMetadataUpdated
         case .error:
             guard let code = parameters?["code"] as? String else { return nil }
             guard let message = parameters?["msg"] as? String else { return nil }
