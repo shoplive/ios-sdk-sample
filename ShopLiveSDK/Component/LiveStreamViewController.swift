@@ -522,7 +522,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             }
         }
 
-        queryItems.append(URLQueryItem(name: "osType", value: "iOS"))
+        queryItems.append(URLQueryItem(name: "osType", value: "i"))
         queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
         queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
 
