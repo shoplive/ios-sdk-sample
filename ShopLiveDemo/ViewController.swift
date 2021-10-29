@@ -205,7 +205,7 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-            ShopLive.setCustomIndicatorImages(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
+            ShopLive.setLoadingAnimation(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
             ShopLive.configure(with: key.accessKey, phase: phase)
             /*
             ShopLive.hookNavigation { url in

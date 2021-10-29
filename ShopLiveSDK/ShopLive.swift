@@ -260,8 +260,8 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.stopPictureInPicture()
     }
 
-    static func setCustomIndicatorImages(images: [UIImage]) {
-        ShopLiveController.shared.setCustomIndicatorImages(images: images)
+    static func setLoadingAnimation(images: [UIImage]) {
+        ShopLiveController.shared.setLoadingAnimation(images: images)
     }
 
     public static func reloadLive() {

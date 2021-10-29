@@ -185,7 +185,7 @@ final class ShopLiveController: NSObject {
         customIndicatorImages.removeAll()
     }
 
-    func setCustomIndicatorImages(images: [UIImage]) {
+    func setLoadingAnimation(images: [UIImage]) {
         customIndicatorImages.removeAll()
         customIndicatorImages.append(contentsOf: images)
     }

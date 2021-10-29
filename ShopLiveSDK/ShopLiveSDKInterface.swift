@@ -44,7 +44,7 @@ import UIKit
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()
 
-    @objc static func setCustomIndicatorImages(images: [UIImage])
+    @objc static func setLoadingAnimation(images: [UIImage])
 
     @objc static func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
