@@ -86,6 +86,11 @@ final class ShopLiveController: NSObject {
 
     var indicatorColor: UIColor = .white
 
+    var isCustomIndicator: Bool {
+        return customIndicatorImages.count > 0
+    }
+    var customIndicatorImages: [UIImage] = []
+
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
         didSet {
@@ -177,6 +182,12 @@ final class ShopLiveController: NSObject {
         currnetPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
+        customIndicatorImages.removeAll()
+    }
+
+    func setCustomIndicatorImages(images: [UIImage]) {
+        customIndicatorImages.removeAll()
+        customIndicatorImages.append(contentsOf: images)
     }
 
     private func reset() {

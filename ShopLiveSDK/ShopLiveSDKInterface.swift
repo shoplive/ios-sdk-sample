@@ -44,6 +44,8 @@ import UIKit
     @objc static func startPictureInPicture()
     @objc static func stopPictureInPicture()
 
+    @objc static func setCustomIndicatorImages(images: [UIImage])
+
     @objc static func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
     @objc static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
@@ -58,5 +60,4 @@ import UIKit
     @objc static func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc static func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
     @objc static func close()
-    //    @objc static func dismissShopLive()
 }

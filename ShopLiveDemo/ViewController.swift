@@ -65,13 +65,15 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "310", campaignKey: "f944566a4f20", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "6044", campaignKey: "d5c6ccfe6b39", accessKey: "uv9CGthPzlvsInZerCw0"))
 
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "meta229", campaignKey: "0dc055e4997e", accessKey: "DSUjM1uk7uw4bRiuRcQ1"))
 
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "ZZ")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "meta229")
         #endif
         
         hideKeyboard()
         loadKeyData()
     }
+    let loading = SLLoadingIndicator()
 
     struct BlogPost: Decodable {
         enum Category: String, Decodable {
@@ -203,7 +205,7 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-
+            ShopLive.setCustomIndicatorImages(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
             ShopLive.configure(with: key.accessKey, phase: phase)
             /*
             ShopLive.hookNavigation { url in
@@ -452,6 +454,4 @@ extension ViewController: ShopLiveSDKDelegate {
         }
 
     }
-
-
 }

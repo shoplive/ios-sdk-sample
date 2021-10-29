@@ -37,6 +37,13 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         return activityIndicator
     }()
 
+    private lazy var customIndicator: SLLoadingIndicator = {
+        let view = SLLoadingIndicator()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+
+
     var playerView: ShopLivePlayerView = .init()
 //    private lazy var videoView: UIView = .init()//VideoView = VideoView()
 
@@ -479,16 +486,24 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func setupIndicator() {
-        self.view.addSubview(indicatorView)
+        self.view.addSubviews(indicatorView, customIndicator)
         let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
         let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
         let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
         let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
 
+        let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+        let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+
         indicatorView.addConstraints([indicatorWidth, indicatorHeight])
-        self.view.addConstraints([centerXConstraint, centerYConstraint])
+        customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
+        self.view.addConstraints([centerXConstraint, centerYConstraint, customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
         indicatorView.color = ShopLiveController.shared.indicatorColor
-        indicatorView.startAnimating()
+
+        customIndicator.configure(images: ShopLiveController.shared.customIndicatorImages)
+        ShopLiveController.shared.isCustomIndicator ? customIndicator.startAnimating() : indicatorView.startAnimating()
     }
 
     private func loadOveray() {
@@ -919,12 +934,22 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleLoading() {
+        ShopLiveLogger.debugLog("ShopLiveController.loading: \(ShopLiveController.loading)")
         if ShopLiveController.loading {
-            indicatorView.isHidden = false
-            indicatorView.color = ShopLiveController.shared.indicatorColor
-            indicatorView.startAnimating()
+            if ShopLiveController.shared.isCustomIndicator {
+                customIndicator.configure(images: ShopLiveController.shared.customIndicatorImages)
+                customIndicator.startAnimating()
+            } else {
+                indicatorView.isHidden = false
+                indicatorView.color = ShopLiveController.shared.indicatorColor
+                indicatorView.startAnimating()
+            }
         } else {
-            indicatorView.stopAnimating()
+            if ShopLiveController.shared.isCustomIndicator {
+                customIndicator.stopAnimating()
+            } else {
+                indicatorView.stopAnimating()
+            }
         }
     }
 

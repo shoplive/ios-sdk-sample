@@ -75,6 +75,8 @@
 		BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
+		BFE14B60272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */; };
+		BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */; };
 		BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFF91D86266D2FE800B659C1 /* SafariServices.framework */; };
 		BFFAD7C226BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
 		BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */; };
@@ -171,6 +173,7 @@
 		BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeySetRegisterController.swift; sourceTree = "<group>"; };
 		BFC00CBD26947B2700BD8733 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/VideoToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SLLoadingIndicator.swift; sourceTree = "<group>"; };
 		BFF91D86266D2FE800B659C1 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
 		BFFAD7C026BA050200C8C5E1 /* ShopLivePlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayer.swift; sourceTree = "<group>"; };
 		BFFAD7C126BA050200C8C5E1 /* ShopLivePlayerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLivePlayerView.swift; sourceTree = "<group>"; };
@@ -318,6 +321,7 @@
 				BFAD8E88265A211E00202160 /* OverlayWebView.swift */,
 				BFAD8E89265A211E00202160 /* LiveStreamViewController.swift */,
 				BFAD8E8A265A211E00202160 /* LiveStreamViewModel.swift */,
+				BFE14B5F272BA9E600C6624B /* SLLoadingIndicator.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -620,6 +624,7 @@
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
 				1B9D659125F1CE4400E9CD4F /* ShopLiveSDKInterface.swift in Sources */,
 				BFBBACA7269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
+				BFE14B60272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
 				BFAD8E9D265A211E00202160 /* ShopLiveWebView.swift in Sources */,
 				BF64080926E7065300ABF1A3 /* ShopLiveViewLoggerController.swift in Sources */,
 				BFFAD7D326BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
@@ -652,6 +657,7 @@
 				BFAD8EDB265A24DA00202160 /* OverlayWebView.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
 				BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */,
+				BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
 				BFAD8EDD265A24DA00202160 /* LiveStreamViewController.swift in Sources */,
 				BFAD8EE6265A24DA00202160 /* ShopLiveUser.swift in Sources */,
 				BFFAD7D226BA06EB00C8C5E1 /* ShopLivePlayerItem.swift in Sources */,
