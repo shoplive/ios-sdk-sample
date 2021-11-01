@@ -264,9 +264,9 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.stopPictureInPicture()
     }
 
-    static func setLoadingAnimation(images: [UIImage]) {
-        ShopLiveController.shared.setLoadingAnimation(images: images)
-    }
+//    static func setLoadingAnimation(images: [UIImage]) {
+//        ShopLiveController.shared.setLoadingAnimation(images: images)
+//    }
 
     public static func reloadLive() {
         shared.instance?.reloadLive()
