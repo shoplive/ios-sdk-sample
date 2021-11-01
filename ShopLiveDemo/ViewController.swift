@@ -126,7 +126,7 @@ class ViewController: UIViewController {
         if self.swShare.isOn {
             ShopLive.setShareScheme("https://www.shoplive.cloud", custom: nil)
         } else {
-            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: {
+            ShopLive.setShareScheme("http://www.thehandsome.com/ko/live/liveTVLink?uiel=Moffbile&pUrl=https://www.shoplive.show/v1/player.html?ak=xxqHrKzQu7iwuyoWmDGKgB&ck=d3efd3b06acd&tk=", custom: {
                 let alert = UIAlertController.init(title: "커스텀 공유하기 사용", message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 }))
@@ -206,7 +206,7 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-            ShopLive.setLoadingAnimation(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
+//            ShopLive.setLoadingAnimation(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
             ShopLive.configure(with: key.accessKey, phase: phase)
             /*
             ShopLive.hookNavigation { url in
