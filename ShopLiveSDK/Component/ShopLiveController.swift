@@ -60,6 +60,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var needDelayToStart: Bool = false
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
@@ -168,6 +169,8 @@ final class ShopLiveController: NSObject {
     }
 
     func clear() {
+
+        ShopLiveLogger.debugLog("clear")
         playerDelegates.forEach { delegate in
             delegate?.clear()
         }
@@ -177,12 +180,14 @@ final class ShopLiveController: NSObject {
     }
 
     func resetOnlyFinished() {
+        ShopLiveLogger.debugLog("resetOnlyFinished")
         shareScheme = nil
         indicatorColor = .white
         currnetPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
         customIndicatorImages.removeAll()
+        needDelayToStart = false
     }
 
     func setLoadingAnimation(images: [UIImage]) {

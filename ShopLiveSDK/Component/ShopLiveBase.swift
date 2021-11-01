@@ -149,6 +149,7 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
+        ShopLiveController.shared.needDelayToStart = true
         UIApplication.shared.isIdleTimerDisabled = false
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)

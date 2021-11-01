@@ -239,13 +239,17 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
-        ShopLiveController.shared.isPreview = true
-        shared.instance?.preview(with: campaignKey, completion: completion)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.needDelayToStart ? 500 : 0)) {
+            ShopLiveController.shared.isPreview = true
+            shared.instance?.preview(with: campaignKey, completion: completion)
+        }
     }
 
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
-        ShopLiveController.shared.isPreview = false
-        shared.instance?.play(with: campaignKey, parent)
+        DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.needDelayToStart ? 500 : 0)) {
+            ShopLiveController.shared.isPreview = false
+            shared.instance?.play(with: campaignKey, parent)
+        }
     }
 
     public static func startPictureInPicture(with position: PipPosition, scale: CGFloat) {

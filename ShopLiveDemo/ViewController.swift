@@ -67,7 +67,7 @@ class ViewController: UIViewController {
 
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "meta229", campaignKey: "0dc055e4997e", accessKey: "DSUjM1uk7uw4bRiuRcQ1"))
 
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "meta229")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Replay Only")
         #endif
         
         hideKeyboard()
@@ -175,6 +175,7 @@ class ViewController: UIViewController {
 
     @IBAction func didTouchPlayButton(_ sender: Any) {
         dismissKeyboard()
+        ShopLive.close()
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
 
             // sign in
@@ -227,6 +228,7 @@ class ViewController: UIViewController {
 
 
             ShopLive.setKeepAspectOnTabletPortrait(true)
+            ShopLiveLogger.debugLog("play touched")
             ShopLive.play(with: key.campaignKey)
         }
     }
