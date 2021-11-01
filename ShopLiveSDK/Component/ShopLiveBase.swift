@@ -779,6 +779,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func close() {
+        guard !ShopLiveController.shared.needDelayToStart else { return }
         self.hideShopLiveView()
     }
 
@@ -1006,6 +1007,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
 
     func onError(code: String, message: String) {
         delegate?.handleError(code: code, message: message)
+        hideShopLiveView()
     }
 
     func didTouchCustomAction(id: String, type: String, payload: Any?) {

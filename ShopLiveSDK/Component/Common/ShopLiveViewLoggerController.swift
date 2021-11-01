@@ -360,6 +360,7 @@ final class ShopLiveViewLoggerController: UIViewController, UITableViewDelegate,
 
     func scrollToBottom(){
         guard viewModel.autoScroll else { return }
+        guard self.viewModel.viewLogs.count > 0 else { return }
         let indexPath = IndexPath.init (row: self.viewModel.viewLogs.count - 1, section: 0)
         self.tableView.scrollToRow(at: indexPath, at: .bottom, animated: true)
     }
