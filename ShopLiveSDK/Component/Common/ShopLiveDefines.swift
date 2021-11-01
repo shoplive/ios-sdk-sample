@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 import CoreMedia
-import CoreTelephony
+//import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
     static let sdkVersion: String = "1.0.20"
@@ -56,8 +56,10 @@ import CoreTelephony
 
 
     static func mccMnc() -> String? {
+        /*
+#if os(iOS)
+        let networkInfo =  CTTelephonyNetworkInfo()
         if #available(iOS 12.0, *) {
-            let networkInfo =  CTTelephonyNetworkInfo()
             guard let info = networkInfo.serviceSubscriberCellularProviders,
                   let dict = networkInfo.serviceCurrentRadioAccessTechnology,
                   let key = dict.keys.first,
@@ -66,16 +68,18 @@ import CoreTelephony
                   let mnc = carrier.mobileNetworkCode
             else { return nil }
             return mcc + "-" + mnc
-        } else if #available(macCatalyst 13.0, *) {
-            return nil
         } else {
-            let networkInfo =  CTTelephonyNetworkInfo()
             guard let carrier = networkInfo.subscriberCellularProvider,
                   let mcc = carrier.mobileCountryCode,
                   let mnc = carrier.mobileNetworkCode
             else { return nil }
             return mcc + "_" + mnc
         }
+#else
+        return nil
+#endif
+         */
+        return nil
     }
 }
 
