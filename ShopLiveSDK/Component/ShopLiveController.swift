@@ -60,7 +60,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
-    var needDelayToStart: Bool = false
+    var needDelayToStart: Bool = true
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()

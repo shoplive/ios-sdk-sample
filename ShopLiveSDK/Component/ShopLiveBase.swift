@@ -650,7 +650,7 @@ import WebKit
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
-        queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
+//        queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
 
         for item in ShopLiveStorage.allItems {
             if !item.value.isEmpty {
@@ -780,6 +780,7 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func close() {
         guard !ShopLiveController.shared.needDelayToStart else { return }
+        ShopLiveLogger.debugLog("shoplivebase close()")
         self.hideShopLiveView()
     }
 

@@ -516,47 +516,49 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
         if let authToken = viewModel.authToken, !authToken.isEmpty {
-            queryItems.append(URLQueryItem(name: "tk", value: authToken))
+            queryItems.append(URLQueryItem(name: "tk", value: authToken.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
         if let name = viewModel.user?.name, !name.isEmpty {
-            queryItems.append(URLQueryItem(name: "userName", value: name))
+            queryItems.append(URLQueryItem(name: "userName", value: name.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
         if let userId = viewModel.user?.id, !userId.isEmpty {
-            queryItems.append(URLQueryItem(name: "userId", value: userId))
+            queryItems.append(URLQueryItem(name: "userId", value: userId.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
         if let gender = viewModel.user?.gender, gender != .unknown {
-            queryItems.append(URLQueryItem(name: "gender", value: gender.description))
+            queryItems.append(URLQueryItem(name: "gender", value: gender.description.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
         if let age = viewModel.user?.age, age > 0 {
-            queryItems.append(URLQueryItem(name: "age", value: String(age)))
+            queryItems.append(URLQueryItem(name: "age", value: String(age).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
 
         if let additional = viewModel.user?.getParams(), !additional.isEmpty {
             additional.forEach { (key: String, value: String) in
-                queryItems.append(URLQueryItem(name: key, value: value))
+                queryItems.append(URLQueryItem(name: key, value: value.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
             }
         }
 
-        queryItems.append(URLQueryItem(name: "osType", value: "i"))
-        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
-        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
+        queryItems.append(URLQueryItem(name: "osType", value: "i".addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
 
         if let mccmnc = ShopLiveDefines.mccMnc(), !mccmnc.isEmpty {
             queryItems.append(URLQueryItem(name: "mccmnc", value: mccmnc))
         }
 
         if let scm: String = ShopLiveController.shared.shareScheme {
-            queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
+            queryItems.append(URLQueryItem(name: "shareUrl", value: scm.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
         }
 
         urlComponents?.queryItems = queryItems
 
-        guard let componentUrl = urlComponents?.url?.absoluteString.split(separator: "?"),
-              let base = componentUrl.first,
-              let params = componentUrl.last,
-              let encodedUrl = String(describing: params).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed),
-              let url = URL(string: String(describing: base) + "?" + encodedUrl) else {
-            return urlComponents?.url }
+//        guard let componentUrl = urlComponents?.url?.absoluteString.split(separator: "?"),
+//              let base = componentUrl.first,
+//              let params = componentUrl.last,
+//              let encodedUrl = String(describing: params).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed),
+//              let url = URL(string: String(describing: base) + "?" + encodedUrl) else {
+//            return urlComponents?.url }
+        guard let componentUrl = urlComponents?.url?.absoluteString,
+              let url = URL(string: componentUrl) else { return urlComponents?.url }
         ShopLiveLogger.debugLog("play url: \(url.absoluteString)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play url: \(url.absoluteString )"))
         return url
