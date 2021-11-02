@@ -1063,7 +1063,14 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCoupon(with couponId: String) {
-        let completion: () -> Void = { [weak self] in self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId) }
+        let completion: (Bool, CouponFailure?) -> Void = { [weak self] isSuccess, couponFailure in
+            if isSuccess {
+                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
+            } else {
+                self?.liveStreamViewController?.didFailedDownloadConpon(with: couponId, couponFailure: couponFailure)
+            }
+
+        }
         _delegate?.handleDownloadCoupon(with: couponId, completion: completion)
     }
     

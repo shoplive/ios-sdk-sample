@@ -284,6 +284,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         overlayView?.didCompleteDownloadCoupon(with: couponId)
     }
 
+    func didFailedDownloadConpon(with couponId: String, couponFailure: CouponFailure?) {
+        overlayView?.didFailedDownloadConpon(with: couponId, couponFailure: couponFailure)
+    }
+
     func didCompleteCustomAction(with id: String) {
         overlayView?.didCompleteCustomAction(with: id)
     }

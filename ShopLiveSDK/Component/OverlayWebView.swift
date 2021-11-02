@@ -147,8 +147,27 @@ internal class OverlayWebView: UIView {
         self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
     }
 
+    func didFailedDownloadConpon(with couponId: String, couponFailure: CouponFailure?) {
+        guard let failureCoupon = couponFailure else {
+            let cpFailure = CouponFailure(closeCoupon: true, message: "")
+            cpFailure.couponId = couponId
+            self.webView?.sendEventToWeb(event: .failDownloadCoupon, couponFailureToJson(cpFailure))
+            return
+        }
+        failureCoupon.couponId = couponId
+        self.webView?.sendEventToWeb(event: .failDownloadCoupon, couponFailureToJson(failureCoupon))
+    }
+
     func didCompleteCustomAction(with id: String) {
         self.webView?.sendEventToWeb(event: .completeCustomAction, id)
+    }
+
+    func couponFailureToJson(_ couponFailure: CouponFailure) -> String? {
+        var couponJson = NSMutableDictionary()
+        couponJson.setValue(couponFailure.couponId, forKey: "id")
+        couponJson.setValue(couponFailure.closeCoupon, forKey: "dismiss")
+        couponJson.setValue(couponFailure.message, forKey: "alertMessage")
+        return couponJson.toJson()
     }
 
     func closeWebSocket() {

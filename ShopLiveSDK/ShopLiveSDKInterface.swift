@@ -9,9 +9,21 @@ import Foundation
 import WebKit
 import UIKit
 
+@objc public class CouponFailure: NSObject {
+
+    var couponId: String = ""
+    var closeCoupon: Bool
+    var message: String?
+
+    init(closeCoupon: Bool = false, message: String? = nil) {
+        self.closeCoupon = closeCoupon
+        self.message = message
+    }
+}
+
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
-    @objc func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
+    @objc func handleDownloadCoupon(with couponId: String, completion: @escaping (Bool, CouponFailure?) -> Void)
     @objc func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
     @objc func handleChangeCampaignStatus(status: String)
     @objc func handleError(code: String, message: String)

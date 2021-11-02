@@ -55,6 +55,7 @@ enum WebInterface {
     case delParam(key: String)
     case showNativeDebug
     case onVideoMetadataUpdated
+    case failDownloadCoupon
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
@@ -144,6 +145,8 @@ enum WebInterface {
             return WebFunction.showNativeDebug.rawValue
         case .onVideoMetadataUpdated:
             return WebFunction.onVideoMetadataUpdated.rawValue
+        case .failDownloadCoupon:
+            return WebFunction.failDownloadCoupon.rawValue
         case .error:
             return WebFunction.error.rawValue
         case .command:
@@ -197,6 +200,7 @@ enum WebInterface {
         case delParam = "DEL_PARAM"
         case showNativeDebug = "SHOW_NATIVE_DEBUG"
         case onVideoMetadataUpdated = "ON_VIDEO_METADATA_UPDATED"
+        case failDownloadCoupon = "FAIL_DOWNLOAD_COUPON"
         case error = "ERROR"
     }
 }
@@ -338,6 +342,8 @@ extension WebInterface {
             self = .showNativeDebug
         case .onVideoMetadataUpdated:
             self = .onVideoMetadataUpdated
+        case .failDownloadCoupon:
+            self = .failDownloadCoupon
         case .error:
             guard let code = parameters?["code"] as? String else { return nil }
             guard let message = parameters?["msg"] as? String else { return nil }
