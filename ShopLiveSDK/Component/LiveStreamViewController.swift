@@ -516,37 +516,37 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
         if let authToken = viewModel.authToken, !authToken.isEmpty {
-            queryItems.append(URLQueryItem(name: "tk", value: authToken.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "tk", value: authToken.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
         if let name = viewModel.user?.name, !name.isEmpty {
-            queryItems.append(URLQueryItem(name: "userName", value: name.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "userName", value: name.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
         if let userId = viewModel.user?.id, !userId.isEmpty {
-            queryItems.append(URLQueryItem(name: "userId", value: userId.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "userId", value: userId.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
         if let gender = viewModel.user?.gender, gender != .unknown {
-            queryItems.append(URLQueryItem(name: "gender", value: gender.description.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "gender", value: gender.description.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
         if let age = viewModel.user?.age, age > 0 {
-            queryItems.append(URLQueryItem(name: "age", value: String(age).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "age", value: String(age).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
 
         if let additional = viewModel.user?.getParams(), !additional.isEmpty {
             additional.forEach { (key: String, value: String) in
-                queryItems.append(URLQueryItem(name: key, value: value.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+                queryItems.append(URLQueryItem(name: key, value: value.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
             }
         }
 
-        queryItems.append(URLQueryItem(name: "osType", value: "i".addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
-        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
-        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+        queryItems.append(URLQueryItem(name: "osType", value: "i".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
+        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
+        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
 
         if let mccmnc = ShopLiveDefines.mccMnc(), !mccmnc.isEmpty {
             queryItems.append(URLQueryItem(name: "mccmnc", value: mccmnc))
         }
 
         if let scm: String = ShopLiveController.shared.shareScheme {
-            queryItems.append(URLQueryItem(name: "shareUrl", value: scm.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "shareUrl", value: scm.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)))
         }
 
         urlComponents?.queryItems = queryItems
@@ -609,6 +609,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
     func shareAction(url: URL?) {
         guard let shareUrl = url else { return }
 //        let text = "Hello, How are you doing?...."
+
         let shareAll:[Any] = [shareUrl]//, text]
 
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
