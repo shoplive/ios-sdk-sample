@@ -124,9 +124,9 @@ class ViewController: UIViewController {
 
     private func setupShare() {
         if self.swShare.isOn {
-            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: nil)
+            ShopLive.setShareScheme("http://www.thehandsome.com/ko/live/liveTVLink?uiel=Moffbile&pUrl=https://www.shoplive.show/v1/player.html?ak=xxqHrKzQu7iwuyoWmDGKgB&ck=d3efd3b06acd&tk=", custom: nil)
         } else {
-            ShopLive.setShareScheme("http://www.thehandsome.com/ko/live/liveTVLink?uiel=Moffbile&pUrl=https://www.shoplive.show/v1/player.html?ak=xxqHrKzQu7iwuyoWmDGKgB&ck=d3efd3b06acd&tk=", custom: {
+            ShopLive.setShareScheme("https://www.shoplive.cloud", custom: {
                 let alert = UIAlertController.init(title: "커스텀 공유하기 사용", message: nil, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
                 }))
