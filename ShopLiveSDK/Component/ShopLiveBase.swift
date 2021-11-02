@@ -632,8 +632,19 @@ import WebKit
 
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "preview", value: "1"))
-        urlComponents?.queryItems = queryItems
-        completionHandler(urlComponents?.url)
+
+        let baseUrl = URL(string: ShopLiveDefines.url)
+        guard let params = URLUtil.query(queryItems) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        guard let url = URL(string: ShopLiveDefines.url + "?" + params) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        completionHandler(url)
     }
 
     func fetchOverlayUrl(with campaignKey: String?, completionHandler: ((URL?) -> Void)) {
@@ -661,8 +672,20 @@ import WebKit
             }
         }
 
-        urlComponents?.queryItems = queryItems
-        completionHandler(urlComponents?.url)
+//        urlComponents?.queryItems = queryItems
+
+        let baseUrl = URL(string: ShopLiveDefines.url)
+        guard let params = URLUtil.query(queryItems) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        guard let url = URL(string: ShopLiveDefines.url + "?" + params) else {
+            completionHandler(baseUrl)
+            return
+        }
+
+        completionHandler(url)
     }
 
     func addObserver() {

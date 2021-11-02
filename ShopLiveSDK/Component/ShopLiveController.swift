@@ -181,7 +181,6 @@ final class ShopLiveController: NSObject {
 
     func resetOnlyFinished() {
         ShopLiveLogger.debugLog("resetOnlyFinished")
-        shareScheme = nil
         indicatorColor = .white
         currnetPlayTime = nil
         isReplayMode = false

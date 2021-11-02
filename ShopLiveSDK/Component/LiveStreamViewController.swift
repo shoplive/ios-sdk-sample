@@ -515,40 +515,58 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
+        queryItems.append(URLQueryItem(name: "korea", value: "대한민국=!@#$%^&*()_+한글123"))
         if let authToken = viewModel.authToken, !authToken.isEmpty {
-            queryItems.append(URLQueryItem(name: "tk", value: authToken.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
         if let name = viewModel.user?.name, !name.isEmpty {
-            queryItems.append(URLQueryItem(name: "userName", value: name.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "userName", value: name))
         }
         if let userId = viewModel.user?.id, !userId.isEmpty {
-            queryItems.append(URLQueryItem(name: "userId", value: userId.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "userId", value: userId))
         }
         if let gender = viewModel.user?.gender, gender != .unknown {
-            queryItems.append(URLQueryItem(name: "gender", value: gender.description.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "gender", value: gender.description))
         }
         if let age = viewModel.user?.age, age > 0 {
-            queryItems.append(URLQueryItem(name: "age", value: String(age).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+            queryItems.append(URLQueryItem(name: "age", value: String(age)))
         }
 
         if let additional = viewModel.user?.getParams(), !additional.isEmpty {
             additional.forEach { (key: String, value: String) in
-                queryItems.append(URLQueryItem(name: key, value: value.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+                queryItems.append(URLQueryItem(name: key, value: value))
             }
         }
 
-        queryItems.append(URLQueryItem(name: "osType", value: "i".addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
-        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
-        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+        queryItems.append(URLQueryItem(name: "osType", value: "i"))
+        queryItems.append(URLQueryItem(name: "osVersion", value: ShopLiveDefines.osVersion))
+        queryItems.append(URLQueryItem(name: "device", value: ShopLiveDefines.deviceIdentifier))
 
         if let mccmnc = ShopLiveDefines.mccMnc(), !mccmnc.isEmpty {
             queryItems.append(URLQueryItem(name: "mccmnc", value: mccmnc))
         }
 
         if let scm: String = ShopLiveController.shared.shareScheme {
-            queryItems.append(URLQueryItem(name: "shareUrl", value: scm.addingPercentEncoding(withAllowedCharacters: .urlUserAllowed)))
+//            ShopLiveLogger.debugLog("scm before: \(scm)")
+            queryItems.append(URLQueryItem(name: "shareUrl", value: scm))
         }
 
+        ShopLiveLogger.debugLog("scm shareurl: \(queryItems)")
+
+        var urlString: String = ShopLiveDefines.url
+        ShopLiveLogger.debugLog("shoplive url : \(urlString)")
+        guard let params = URLUtil.query(queryItems) else {
+            return URL(string: urlString)
+        }
+
+        guard let url = URL(string: urlString + "?" + params) else {
+
+            return URL(string: urlString)
+        }
+
+        ShopLiveLogger.debugLog("play url: \(url)")
+        return url
+/*
         urlComponents?.queryItems = queryItems
 
 //        guard let componentUrl = urlComponents?.url?.absoluteString.split(separator: "?"),
@@ -557,11 +575,11 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //              let encodedUrl = String(describing: params).addingPercentEncoding(withAllowedCharacters: .urlUserAllowed),
 //              let url = URL(string: String(describing: base) + "?" + encodedUrl) else {
 //            return urlComponents?.url }
-        guard let componentUrl = urlComponents?.url?.absoluteString,
-              let url = URL(string: componentUrl) else { return urlComponents?.url }
-        ShopLiveLogger.debugLog("play url: \(url.absoluteString)")
+        guard let url = urlComponents?.url else { return urlComponents?.url }
+        ShopLiveLogger.debugLog("play url: \(url)")
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play url: \(url.absoluteString )"))
         return url
+ */
     }
 
     func addObserver() {
@@ -610,9 +628,8 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
         guard let originUrl = url?.absoluteString as? NSString, let decodeUrl = originUrl.removingPercentEncoding, let shareUrl = URL(string: decodeUrl) else { return }
 //        let text = "Hello, How are you doing?...."
 
-
         let shareAll:[Any] = [shareUrl]//, text]
-        ShopLiveLogger.debugLog("\(url?.absoluteString)")
+        ShopLiveLogger.debugLog("play url share \(url?.absoluteString)")
         let activityViewController = UIActivityViewController(activityItems: shareAll , applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true, completion: nil)
@@ -978,3 +995,33 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
 }
 
+final class URLUtil {
+
+    static func query(_ params: [URLQueryItem]?) -> String? {
+        guard let params = params else { return nil }
+        let queryStr = params.compactMap({ (param) -> String in
+            var value: String = ""
+            if let val = param.value {
+                value = val.urlEncodedStringRFC3986 ?? val
+            }
+            return "\(param.name)=\(value)"
+
+        }).joined(separator: "&")
+        return queryStr
+    }
+
+}
+
+extension String {
+    var urlEncodedString: String? {
+        var customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
+        return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
+    }
+
+    var urlEncodedStringRFC3986: String? {
+        let unreserved = "-._~"
+        let allowed = NSMutableCharacterSet.alphanumeric()
+        allowed.addCharacters(in: unreserved)
+        return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
+      }
+}
