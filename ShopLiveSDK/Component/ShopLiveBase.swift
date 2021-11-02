@@ -111,7 +111,7 @@ import WebKit
             shopLiveWindow?.windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
         }
         shopLiveWindow?.backgroundColor = .clear
-        shopLiveWindow?.windowLevel = .init(rawValue: CGFloat.greatestFiniteMagnitude - 1)
+        shopLiveWindow?.windowLevel = .statusBar - 1
         shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: lastPipScale, position: lastPipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
         shopLiveWindow?.rootViewController = liveStreamViewController
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))

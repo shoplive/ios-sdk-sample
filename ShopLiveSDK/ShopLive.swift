@@ -127,6 +127,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func close() {
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "close api called"))
         shared.instance?.close()
     }
 
@@ -235,10 +236,12 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func configure(with accessKey: String, phase: ShopLive.Phase) {
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "configure api called ak: \(accessKey)  phase: \(phase.name)"))
         shared.instance?.configure(with: accessKey, phase: phase)
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview api called ck: \(campaignKey)"))
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.needDelayToStart ? 500 : 0)) {
             ShopLiveController.shared.isPreview = true
             shared.instance?.preview(with: campaignKey, completion: completion)
@@ -246,6 +249,7 @@ extension ShopLive: ShopLiveSDKInterface {
     }
 
     public static func play(with campaignKey: String?, _ parent: UIViewController? = nil) {
+        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "play api called ck: \(campaignKey)"))
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(ShopLiveController.shared.needDelayToStart ? 500 : 0)) {
             ShopLiveController.shared.isPreview = false
             shared.instance?.play(with: campaignKey, parent)
