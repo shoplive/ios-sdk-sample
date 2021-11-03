@@ -196,7 +196,7 @@ extension OverlayWebView: WKNavigationDelegate {
 
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
-        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
+//        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
         case .systemInit:
@@ -280,6 +280,9 @@ extension OverlayWebView: WKScriptMessageHandler {
             break
         case .showNativeDebug:
             ShopLiveViewLogger.shared.setVisible(show: true)
+            break
+        case .debuglog(let log):
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: log))
             break
         case .error(let code, let message):
             delegate?.onError(code: code, message: message)

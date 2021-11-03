@@ -459,6 +459,8 @@ extension ShopLiveViewLoggerController {
         onOffAppLog.isHidden = !isOn
         onOffHidden.isHidden = !isOn
         onOffScroll.isHidden = !isOn
+        exportButton.isHidden = !isOn
+        clearButton.isHidden = !isOn
     }
 
     func handleReload() {

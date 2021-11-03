@@ -54,6 +54,7 @@ enum WebInterface {
     case setParam(key: String, value: String)
     case delParam(key: String)
     case showNativeDebug
+    case debuglog(log: String)
     case onVideoMetadataUpdated
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
@@ -142,6 +143,8 @@ enum WebInterface {
             return WebFunction.delParam.rawValue
         case .showNativeDebug:
             return WebFunction.showNativeDebug.rawValue
+        case .debuglog:
+            return WebFunction.debuglog.rawValue
         case .onVideoMetadataUpdated:
             return WebFunction.onVideoMetadataUpdated.rawValue
         case .error:
@@ -196,6 +199,7 @@ enum WebInterface {
         case setParam = "SET_PARAM"
         case delParam = "DEL_PARAM"
         case showNativeDebug = "SHOW_NATIVE_DEBUG"
+        case debuglog = "DEBUG_LOG"
         case onVideoMetadataUpdated = "ON_VIDEO_METADATA_UPDATED"
         case error = "ERROR"
     }
@@ -336,6 +340,9 @@ extension WebInterface {
             self = .delParam(key: key)
         case .showNativeDebug:
             self = .showNativeDebug
+        case .debuglog:
+            guard let log = parameters?["payload"] as? String else { return nil }
+            self = .debuglog(log: log)
         case .onVideoMetadataUpdated:
             self = .onVideoMetadataUpdated
         case .error:
