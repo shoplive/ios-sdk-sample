@@ -9,7 +9,7 @@ import Foundation
 import WebKit
 import UIKit
 
-@objc public enum CouponStatus: Int {
+@objc public enum ResultStatus: Int {
     case SHOW
     case HIDE
     case KEEP
@@ -26,7 +26,7 @@ import UIKit
     }
 }
 
-@objc public enum CouponAlertType: Int {
+@objc public enum ResultAlertType: Int {
     case ALERT
     case TOAST
 
@@ -44,11 +44,27 @@ import UIKit
     var success: Bool
     var coupon: String = ""
     var message: String?
-    var couponStatus: CouponStatus
-    var alertType: CouponAlertType
+    var couponStatus: ResultStatus
+    var alertType: ResultAlertType
 
-    init(couponId: String, success: Bool, message: String?, status: CouponStatus, alertType: CouponAlertType) {
+    init(couponId: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
         self.coupon = couponId
+        self.success = success
+        self.message = message
+        self.couponStatus = status
+        self.alertType = alertType
+    }
+}
+
+@objc public class CustomActionResult: NSObject {
+    var success: Bool
+    var id: String = ""
+    var message: String?
+    var couponStatus: ResultStatus
+    var alertType: ResultAlertType
+
+    init(id: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
+        self.id = id
         self.success = success
         self.message = message
         self.couponStatus = status
@@ -60,7 +76,8 @@ import UIKit
     @objc func handleNavigation(with url: URL)
     @objc func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
     @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
-    @objc func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
+    @objc func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void)
+    @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
     @objc func handleChangeCampaignStatus(status: String)
     @objc func handleError(code: String, message: String)
     @objc func handleCampaignInfo(campaignInfo: [String : Any])

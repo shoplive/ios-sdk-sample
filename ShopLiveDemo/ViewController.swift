@@ -68,7 +68,9 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "meta229", campaignKey: "0dc055e4997e", accessKey: "DSUjM1uk7uw4bRiuRcQ1"))
 
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "TETEST", campaignKey: "58de3b8bf5b7", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "TETEST")
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "RESULT_TEST", campaignKey: "969ebeae927f", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "RESULT_TEST")
         #endif
         
         hideKeyboard()
@@ -420,6 +422,20 @@ extension ViewController: ShopLiveSDKDelegate {
         print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
     }
 
+    func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
+        let isSuccess = Int.random(in: 0..<2) == 0
+        let status = Int.random(in: 0..<3)
+        let alertType = Int.random(in: 0..<2)
+        let hasMessage = Int.random(in: 0..<2) == 0
+
+        DispatchQueue.main.async {
+            let couponStatus = ResultStatus(rawValue: status)
+            let couponAlertType = ResultAlertType(rawValue: alertType)
+            let result = CustomActionResult(id: id, success: isSuccess, message: hasMessage ? "custom action failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
+            completion(result)
+        }
+    }
+
     func handleCommand(_ command: String, with payload: Any?) {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCommand \(command)"))
         print("handleCommand: \(command)  payload: \(payload)")
@@ -454,8 +470,8 @@ extension ViewController: ShopLiveSDKDelegate {
         let hasMessage = Int.random(in: 0..<2) == 0
 
         DispatchQueue.main.async {
-            let couponStatus = CouponStatus(rawValue: status)
-            let couponAlertType = CouponAlertType(rawValue: alertType)
+            let couponStatus = ResultStatus(rawValue: status)
+            let couponAlertType = ResultAlertType(rawValue: alertType)
             let result = CouponResult(couponId: couponId, success: isSuccess, message: hasMessage ? "coupon download failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
             completion(result)
         }

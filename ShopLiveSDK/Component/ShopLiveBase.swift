@@ -1035,9 +1035,21 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
 
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
-        let completion: () -> Void = { 
-            self.liveStreamViewController?.didCompleteCustomAction(with: id) }
-        delegate?.handleCustomAction(with: id, type: type, payload: payload, completion: completion)
+
+        if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
+            // lower version
+            let completion: () -> Void = {
+                self.liveStreamViewController?.didCompleteCustomAction(with: id) }
+            _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
+        } else {
+            // same or upper version
+            let completion: (CustomActionResult?) -> Void = { [weak self] customActionResult in
+                if let result = customActionResult {
+                    self?.liveStreamViewController?.didCompleteCustomAction(with: result)
+                }
+            }
+            _delegate?.handleCustomActionResult(with: id, type: type, payload: payload, completion: completion)
+        }
     }
 
     func replay(with size: CGSize) {

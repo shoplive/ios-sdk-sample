@@ -292,6 +292,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         overlayView?.didCompleteCustomAction(with: id)
     }
 
+    func didCompleteCustomAction(with customActionResult: CustomActionResult) {
+        overlayView?.didCompleteCustomAction(with: customActionResult)
+    }
+
     func hideBackgroundPoster() {
         imageView?.isHidden = true
         dismissKeyboard()

@@ -57,6 +57,7 @@ enum WebInterface {
     case debuglog(log: String)
     case onVideoMetadataUpdated
     case downloadCouponResult
+    case customActionResult
     case error(code: String, message: String)
     case command(command: String, payload: Any?)
 
@@ -150,6 +151,8 @@ enum WebInterface {
             return WebFunction.onVideoMetadataUpdated.rawValue
         case .downloadCouponResult:
             return WebFunction.downloadCouponResult.rawValue
+        case .customActionResult:
+            return WebFunction.customActionResult.rawValue
         case .error:
             return WebFunction.error.rawValue
         case .command:
@@ -205,6 +208,7 @@ enum WebInterface {
         case debuglog = "DEBUG_LOG"
         case onVideoMetadataUpdated = "ON_VIDEO_METADATA_UPDATED"
         case downloadCouponResult = "DOWNLOAD_COUPON_RESULT"
+        case customActionResult = "CUSTOM_ACTION_RESULT"
         case error = "ERROR"
     }
 }
@@ -351,6 +355,8 @@ extension WebInterface {
             self = .onVideoMetadataUpdated
         case .downloadCouponResult:
             self = .downloadCouponResult
+        case .customActionResult:
+            self = .customActionResult
         case .error:
             guard let code = parameters?["code"] as? String else { return nil }
             guard let message = parameters?["msg"] as? String else { return nil }

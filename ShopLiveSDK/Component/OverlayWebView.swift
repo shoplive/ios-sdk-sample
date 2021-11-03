@@ -149,11 +149,18 @@ internal class OverlayWebView: UIView {
 
     func didCompleteDownloadCoupon(with couponResult: CouponResult) {
         guard let couponResultJson = couponResult.toJson() else {
-            self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponResult.coupon, true)
             return
         }
 
         self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
+    }
+
+    func didCompleteCustomAction(with customActionResult: CustomActionResult) {
+        guard let customActionResultJson = customActionResult.toJson() else {
+            return
+        }
+
+        self.webView?.sendEventToWeb(event: .customActionResult, customActionResultJson)
     }
 
     func didCompleteCustomAction(with id: String) {
@@ -502,6 +509,18 @@ internal extension CouponResult {
         let couponJson = NSMutableDictionary()
         couponJson.setValue(self.success, forKey: "success")
         couponJson.setValue(self.coupon, forKey: "coupon")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
+    }
+}
+
+internal extension CustomActionResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.id, forKey: "id")
         couponJson.setValue(self.message ?? "", forKey: "message")
         couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
         couponJson.setValue(self.alertType.name, forKey: "alertType")
