@@ -1064,7 +1064,7 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     
     func didTouchCoupon(with couponId: String) {
 
-        if ShopLiveDefines.sdkVersion.versionCompare("1.1.0") == .orderedAscending {
+        if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
             // lower version
             let completion: () -> Void = { [weak self] in self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId) }
         } else {
