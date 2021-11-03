@@ -461,20 +461,6 @@ extension ViewController: ShopLiveSDKDelegate {
         }
     }
 
-//    func handleDownloadCoupon(with couponId: String, completion: @escaping (CouponResult) -> Void) {
-//        let isSuccess = Int.random(in: 0..<2) == 0
-//        let status = Int.random(in: 0..<3)
-//        let alertType = Int.random(in: 0..<2)
-//        let hasMessage = Int.random(in: 0..<2) == 0
-//
-//        DispatchQueue.main.async {
-//            let couponStatus = CouponStatus(rawValue: status)
-//            let couponAlertType = CouponAlertType(rawValue: alertType)
-//            let result = CouponResult(couponId: couponId, success: isSuccess, message: hasMessage ? "coupon download failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
-//            completion(result)
-//        }
-//    }
-
 }
 
 /*

@@ -503,7 +503,7 @@ internal extension CouponResult {
         couponJson.setValue(self.success, forKey: "success")
         couponJson.setValue(self.coupon, forKey: "coupon")
         couponJson.setValue(self.message ?? "", forKey: "message")
-        couponJson.setValue(self.couponStatus.name, forKey: "CouponStatus")
+        couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
         couponJson.setValue(self.alertType.name, forKey: "alertType")
         return couponJson.toJson()
     }
