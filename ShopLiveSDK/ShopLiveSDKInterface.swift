@@ -9,9 +9,57 @@ import Foundation
 import WebKit
 import UIKit
 
+@objc public enum CouponStatus: Int {
+    case SHOW
+    case HIDE
+    case KEEP
+
+    var name: String {
+        switch self {
+        case .SHOW:
+            return "SHOW"
+        case .HIDE:
+            return "HIDE"
+        case .KEEP:
+            return "KEEP"
+        }
+    }
+}
+
+@objc public enum CouponAlertType: Int {
+    case ALERT
+    case TOAST
+
+    var name: String {
+        switch self {
+        case .ALERT:
+            return "ALERT"
+        case .TOAST:
+            return "TOAST"
+        }
+    }
+}
+
+@objc public class CouponResult: NSObject {
+    var success: Bool
+    var coupon: String = ""
+    var message: String?
+    var couponStatus: CouponStatus
+    var alertType: CouponAlertType
+
+    init(couponId: String, success: Bool, message: String?, status: CouponStatus, alertType: CouponAlertType) {
+        self.coupon = couponId
+        self.success = success
+        self.message = message
+        self.couponStatus = status
+        self.alertType = alertType
+    }
+}
+
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
-    @objc func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
+    @objc func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
+    @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
     @objc func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
     @objc func handleChangeCampaignStatus(status: String)
     @objc func handleError(code: String, message: String)

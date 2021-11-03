@@ -1063,8 +1063,21 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCoupon(with couponId: String) {
-        let completion: () -> Void = { [weak self] in self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId) }
-        _delegate?.handleDownloadCoupon(with: couponId, completion: completion)
+
+        if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
+            // lower version
+            let completion: () -> Void = { [weak self] in self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId) }
+        } else {
+            // same or upper version
+            let completion: (CouponResult?) -> Void = { [weak self] couponResult in
+                if let result = couponResult {
+                    self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
+                }
+            }
+            _delegate?.handleDownloadCouponResult(with: couponId, completion: completion)
+        }
+
+
     }
     
     func handleCommand(_ command: String, with payload: Any?) {

@@ -66,6 +66,11 @@ extension UIView {
 }
 
 extension String {
+
+    func versionCompare(_ otherVersion: String) -> ComparisonResult {
+        return self.compare(otherVersion, options: .numeric)
+    }
+
     func fotmattedString() -> String {
         guard let doubleSelf = Double(self) else {
             return ""
