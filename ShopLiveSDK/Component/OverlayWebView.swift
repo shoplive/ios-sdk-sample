@@ -142,32 +142,22 @@ internal class OverlayWebView: UIView {
     func reload() {
         webView?.reload()
     }
-    
-    func didCompleteDownloadCoupon(with couponId: String) {
-        self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
-    }
 
-    func didFailedDownloadConpon(with couponId: String, couponFailure: CouponFailure?) {
-        guard let failureCoupon = couponFailure else {
-            let cpFailure = CouponFailure(closeCoupon: true, message: "")
-            cpFailure.couponId = couponId
-            self.webView?.sendEventToWeb(event: .failDownloadCoupon, couponFailureToJson(cpFailure))
+    func didCompleteDownloadCoupon(with couponId: String) {
+            self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponId, true)
+        }
+
+    func didCompleteDownloadCoupon(with couponResult: CouponResult) {
+        guard let couponResultJson = couponResult.toJson() else {
+            self.webView?.sendEventToWeb(event: .completeDownloadCoupon, couponResult.coupon, true)
             return
         }
-        failureCoupon.couponId = couponId
-        self.webView?.sendEventToWeb(event: .failDownloadCoupon, couponFailureToJson(failureCoupon))
+
+        self.webView?.sendEventToWeb(event: .downloadCouponResult, couponResultJson)
     }
 
     func didCompleteCustomAction(with id: String) {
         self.webView?.sendEventToWeb(event: .completeCustomAction, id)
-    }
-
-    func couponFailureToJson(_ couponFailure: CouponFailure) -> String? {
-        var couponJson = NSMutableDictionary()
-        couponJson.setValue(couponFailure.couponId, forKey: "id")
-        couponJson.setValue(couponFailure.closeCoupon, forKey: "dismiss")
-        couponJson.setValue(couponFailure.message, forKey: "alertMessage")
-        return couponJson.toJson()
     }
 
     func closeWebSocket() {
@@ -494,5 +484,24 @@ class LeakAvoider : NSObject, WKScriptMessageHandler {
                                didReceive message: WKScriptMessage) {
         self.delegate?.userContentController(
             userContentController, didReceive: message)
+    }
+}
+
+extension NSObject {
+    func propertyNames() -> [String] {
+        let mirror = Mirror(reflecting: self)
+        return mirror.children.compactMap{ $0.label }
+    }
+}
+
+internal extension CouponResult {
+    func toJson() -> String? {
+        let couponJson = NSMutableDictionary()
+        couponJson.setValue(self.success, forKey: "success")
+        couponJson.setValue(self.coupon, forKey: "coupon")
+        couponJson.setValue(self.message ?? "", forKey: "message")
+        couponJson.setValue(self.couponStatus.name, forKey: "CouponStatus")
+        couponJson.setValue(self.alertType.name, forKey: "alertType")
+        return couponJson.toJson()
     }
 }

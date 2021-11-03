@@ -67,7 +67,8 @@ class ViewController: UIViewController {
 
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "meta229", campaignKey: "0dc055e4997e", accessKey: "DSUjM1uk7uw4bRiuRcQ1"))
 
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "Dev Replay Only")
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "TETEST", campaignKey: "58de3b8bf5b7", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "TETEST")
         #endif
         
         hideKeyboard()
@@ -441,19 +442,57 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
-        if #available(iOS 13, *) {
-            NSLog("handle download coupon: %@", couponId)
-            DispatchQueue.main.async {
-                NSLog("complete download coupon: %@", couponId)
-                completion()
-            }
-        } else {
-            NSLog("handle download coupon: %@", couponId)
-            DispatchQueue.main.async {
-                NSLog("complete download coupon: %@", couponId)
-                completion()
-            }
+        DispatchQueue.main.async {
+            completion()
+        }
+    }
+
+    func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
+        let isSuccess = Int.random(in: 0..<2) == 0
+        let status = Int.random(in: 0..<3)
+        let alertType = Int.random(in: 0..<2)
+        let hasMessage = Int.random(in: 0..<2) == 0
+
+        DispatchQueue.main.async {
+            let couponStatus = CouponStatus(rawValue: status)
+            let couponAlertType = CouponAlertType(rawValue: alertType)
+            let result = CouponResult(couponId: couponId, success: isSuccess, message: hasMessage ? "coupon download failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
+            completion(result)
+        }
+    }
+
+//    func handleDownloadCoupon(with couponId: String, completion: @escaping (CouponResult) -> Void) {
+//        let isSuccess = Int.random(in: 0..<2) == 0
+//        let status = Int.random(in: 0..<3)
+//        let alertType = Int.random(in: 0..<2)
+//        let hasMessage = Int.random(in: 0..<2) == 0
+//
+//        DispatchQueue.main.async {
+//            let couponStatus = CouponStatus(rawValue: status)
+//            let couponAlertType = CouponAlertType(rawValue: alertType)
+//            let result = CouponResult(couponId: couponId, success: isSuccess, message: hasMessage ? "coupon download failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
+//            completion(result)
+//        }
+//    }
+
+}
+
+/*
+    func handleDownloadCoupon(with couponId: String, completion: @escaping (CouponResult?) -> Void) {
+        let isSuccess = Int.random(in: 0..<2) == 0
+        let status = Int.random(in: 0..<3)
+        let hasMessage = Int.random(in: 0..<2) == 0
+//        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "download coupon \(isSuccess ? "성공" : "실패") 닫힘여부: \(needClose ? "닫힘" : "유지") 메시지: \(hasAlert ? "표시" : "없음")"))
+        NSLog("handle download coupon: %@", couponId)
+        DispatchQueue.main.async {
+//            completion(CouponResult(success: isSuccess, message: <#T##String?#>, status: <#T##CouponStatus#>, alertType: <#T##CouponAlertType#>))
+//            if isSuccess {
+//                completion(isSuccess, nil)
+//            } else {
+//                completion(isSuccess, CouponResult(closeCoupon: needClose, message: hasAlert ? "coupon download failed" : nil))
+//            }
+            NSLog("complete download coupon: %@", couponId)
         }
 
     }
-}
+ */
