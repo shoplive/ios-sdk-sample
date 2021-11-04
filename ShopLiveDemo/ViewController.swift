@@ -313,11 +313,13 @@ class ViewController: UIViewController {
 
     private func selectPhase() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        #if DEBUG
         alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
             self.phase = .DEV
             ShopLiveDemoKeyTools.shared.phase = self.phase.name
             self.keyPhase.text = "DEV"
         }))
+        #endif
         alert.addAction(.init(title: "STAGE", style: .default, handler: { _IOFBF in
             self.phase = .STAGE
             ShopLiveDemoKeyTools.shared.phase = self.phase.name

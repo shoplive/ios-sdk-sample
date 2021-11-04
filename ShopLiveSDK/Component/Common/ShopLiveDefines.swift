@@ -15,8 +15,10 @@ import CoreMedia
     static var phase: ShopLive.Phase = .REAL
     static let url: String = {
                 switch phase {
+                #if DEBUG
                 case .DEV:
                     return "https://dev.shoplive.show/v1/sdk.html"
+                #endif
                 case .STAGE:
                     return "https://stg.shoplive.show/v1/sdk.html"
                 default:

@@ -84,14 +84,18 @@ extension ShopLive {
     }
 
     @objc public enum Phase: Int {
+        #if DEBUG
         case DEV
+        #endif
         case STAGE
         case REAL
 
         public var name: String {
             switch self {
+            #if DEBUG
             case .DEV:
                 return "DEV"
+            #endif
             case .STAGE:
                 return "STAGE"
             case .REAL:
@@ -101,8 +105,10 @@ extension ShopLive {
 
         public init?(name: String) {
             switch name {
+            #if DEBUG
             case Phase.DEV.name:
                 self = .DEV
+            #endif
             case Phase.STAGE.name:
                 self = .STAGE
             case Phase.REAL.name:
