@@ -47,7 +47,7 @@ import UIKit
     var couponStatus: ResultStatus
     var alertType: ResultAlertType
 
-    init(couponId: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
+    public init(couponId: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
         self.coupon = couponId
         self.success = success
         self.message = message
@@ -63,7 +63,7 @@ import UIKit
     var couponStatus: ResultStatus
     var alertType: ResultAlertType
 
-    init(id: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
+    public init(id: String, success: Bool, message: String?, status: ResultStatus, alertType: ResultAlertType) {
         self.id = id
         self.success = success
         self.message = message
