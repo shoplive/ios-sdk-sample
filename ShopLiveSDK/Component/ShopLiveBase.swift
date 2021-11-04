@@ -655,6 +655,11 @@ import WebKit
 
         var urlComponents = URLComponents(string: ShopLiveDefines.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "useWebLog") {
+            queryItems.append(URLQueryItem(name: "__debug", value: "true"))
+        }
+        #endif
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {
             queryItems.append(URLQueryItem(name: "ck", value: ck))

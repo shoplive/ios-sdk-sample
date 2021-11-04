@@ -37,6 +37,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var swAutoResume: UISwitch!
     @IBOutlet weak var swShare: UISwitch!
     @IBOutlet weak var swLog: UISwitch!
+    @IBOutlet weak var swWebLog: UISwitch!
 
     var safari: SFSafariViewController? = nil
 
@@ -101,6 +102,10 @@ class ViewController: UIViewController {
             setupShare()
         case swLog:
             ShopLiveViewLogger.shared.setVisible(show: swItem.isOn)
+            break
+        case swWebLog:
+                UserDefaults.standard.set(swItem.isOn, forKey: "useWebLog")
+                UserDefaults.standard.synchronize()
             break
         default:
             break
