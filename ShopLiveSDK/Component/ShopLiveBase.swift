@@ -1026,6 +1026,10 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    func onSetUserName(_ payload: [String : Any]) {
+        delegate?.onSetUserName(payload)
+    }
+
     func campaignInfo(campaignInfo: [String : Any]) {
         delegate?.handleCampaignInfo(campaignInfo: campaignInfo)
     }
@@ -1082,7 +1086,10 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
 
         if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
             // lower version
-            let completion: () -> Void = { [weak self] in self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId) }
+            let completion: () -> Void = { [weak self] in
+                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
+            }
+            _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
         } else {
             // same or upper version
             let completion: (CouponResult?) -> Void = { [weak self] couponResult in

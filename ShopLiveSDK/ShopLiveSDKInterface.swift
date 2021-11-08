@@ -9,12 +9,12 @@ import Foundation
 import WebKit
 import UIKit
 
-@objc public enum ResultStatus: Int {
+@objc public enum ResultStatus: Int, CaseIterable {
     case SHOW
     case HIDE
     case KEEP
 
-    var name: String {
+    public var name: String {
         switch self {
         case .SHOW:
             return "SHOW"
@@ -26,11 +26,11 @@ import UIKit
     }
 }
 
-@objc public enum ResultAlertType: Int {
+@objc public enum ResultAlertType: Int, CaseIterable {
     case ALERT
     case TOAST
 
-    var name: String {
+    public var name: String {
         switch self {
         case .ALERT:
             return "ALERT"
@@ -82,6 +82,7 @@ import UIKit
     @objc func handleError(code: String, message: String)
     @objc func handleCampaignInfo(campaignInfo: [String : Any])
     @objc func handleCommand(_ command: String, with payload: Any?)
+    @objc func onSetUserName(_ payload: [String : Any])
 }
 
 @objc public class ShopLiveViewController: UIViewController {

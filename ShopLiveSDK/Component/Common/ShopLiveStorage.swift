@@ -23,6 +23,13 @@ internal final class ShopLiveStorage {
         _ = def.removeObject(forKey: key)
     }
 
+    static func removeAll() {
+        for key in def.allKeys() {
+            def.removeObject(forKey: key)
+        }
+        def.removeAllKeys()
+    }
+
     static var allItems: [String: String] {
         var data: [String: String] = [:]
         for key in def.allKeys() {

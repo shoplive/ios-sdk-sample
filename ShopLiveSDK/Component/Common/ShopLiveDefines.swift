@@ -96,6 +96,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func campaignInfo(campaignInfo: [String : Any])
     func didChangeCampaignStatus(status: String)
     func onError(code: String, message: String)
+    func onSetUserName(_ payload: [String : Any])
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -119,6 +120,7 @@ protocol OverlayWebViewDelegate: AnyObject {
     func didChangeCampaignStatus(status: String)
     func onError(code: String, message: String)
     func handleCommand(_ command: String, with payload: Any?)
+    func onSetUserName(_ payload: [String : Any])
 }
 
 extension Notification.Name {

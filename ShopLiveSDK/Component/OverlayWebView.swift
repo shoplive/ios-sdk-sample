@@ -300,6 +300,9 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .debuglog(let log):
             ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: log))
             break
+        case .setUserName(let payload):
+            delegate?.onSetUserName(payload)
+            break
         case .error(let code, let message):
             delegate?.onError(code: code, message: message)
             break

@@ -523,10 +523,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
-        queryItems.append(URLQueryItem(name: "korea", value: "대한민국=!@#$%^&*()_+한글123"))
         if let authToken = viewModel.authToken, !authToken.isEmpty {
             queryItems.append(URLQueryItem(name: "tk", value: authToken))
         }
+        
         if let name = viewModel.user?.name, !name.isEmpty {
             queryItems.append(URLQueryItem(name: "userName", value: name))
         }
@@ -619,6 +619,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func onSetUserName(_ payload: [String : Any]) {
+        delegate?.onSetUserName(payload)
+    }
+
     func didChangeCampaignStatus(status: String) {
         delegate?.didChangeCampaignStatus(status: status)
     }
