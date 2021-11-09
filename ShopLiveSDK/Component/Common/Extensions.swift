@@ -146,3 +146,35 @@ extension Double {
         return elapsedTime
     }
 }
+
+extension String {
+    func textWithDownArrow() -> NSAttributedString {
+        let downArrow = UIImage(named: "down_arrow")
+
+        let attrText: NSMutableAttributedString = .init(string: "\(self) ")
+        guard let downArrowImage = downArrow else {
+            return attrText
+        }
+
+        attrText.append(.init(attachment: downArrowImage.toNSTextAttachment(yPos: 3)))
+        return attrText
+    }
+}
+
+
+ extension UIImage {
+     func toNSTextAttachment(_ width: CGFloat? = nil, _ height: CGFloat? = nil, _ yPos: CGFloat = -8) -> NSTextAttachment {
+         let imageAttachment = NSTextAttachment()
+         imageAttachment.bounds = CGRect(x: 0, y: yPos, width: width ?? self.size.width, height: height ?? self.size.height)
+         imageAttachment.image = self
+         return imageAttachment
+     }
+
+     func toNSTextAttachment(yPos: CGFloat = -8) -> NSTextAttachment {
+         let imageAttachment = NSTextAttachment()
+         imageAttachment.bounds = CGRect(x: 0, y: yPos, width:  self.size.width, height: self.size.height)
+         imageAttachment.image = self
+         return imageAttachment
+     }
+ }
+

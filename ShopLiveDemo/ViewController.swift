@@ -145,6 +145,12 @@ class ViewController: UIViewController {
         }
     }
 
+    @IBAction func didTouchCouponCallbackSetting() {
+        dismissKeyboard()
+        let vc = CouponCallbackSettingViewController()
+        self.present(vc, animated: true, completion: nil)
+    }
+
     @IBAction func didTouchPreviewButton(_ sender: Any) {
         dismissKeyboard()
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
@@ -432,15 +438,15 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
+        print("handleCustomActionResult")
         let isSuccess = Int.random(in: 0..<2) == 0
-        let status = Int.random(in: 0..<3)
-        let alertType = Int.random(in: 0..<2)
-        let hasMessage = Int.random(in: 0..<2) == 0
+
+        let message = isSuccess ? SDKSettings.downloadCouponSuccessMessage : SDKSettings.downloadCouponFailedMessage
+        let status = isSuccess ? SDKSettings.downloadCouponSuccessStatus : SDKSettings.downloadCouponFailedStatus
+        let alertType = isSuccess ? SDKSettings.downloadCouponSuccessAlertType : SDKSettings.downloadCouponFailedAlertType
 
         DispatchQueue.main.async {
-            let couponStatus = ResultStatus(rawValue: status)
-            let couponAlertType = ResultAlertType(rawValue: alertType)
-            let result = CustomActionResult(id: id, success: isSuccess, message: hasMessage ? "custom action failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
+            let result = CustomActionResult(id: id, success: isSuccess, message: message, status: status, alertType: alertType)
             completion(result)
         }
     }
@@ -474,14 +480,13 @@ extension ViewController: ShopLiveSDKDelegate {
 
     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
         let isSuccess = Int.random(in: 0..<2) == 0
-        let status = Int.random(in: 0..<3)
-        let alertType = Int.random(in: 0..<2)
-        let hasMessage = Int.random(in: 0..<2) == 0
+
+        let message = isSuccess ? SDKSettings.downloadCouponSuccessMessage : SDKSettings.downloadCouponFailedMessage
+        let status = isSuccess ? SDKSettings.downloadCouponSuccessStatus : SDKSettings.downloadCouponFailedStatus
+        let alertType = isSuccess ? SDKSettings.downloadCouponSuccessAlertType : SDKSettings.downloadCouponFailedAlertType
 
         DispatchQueue.main.async {
-            let couponStatus = ResultStatus(rawValue: status)
-            let couponAlertType = ResultAlertType(rawValue: alertType)
-            let result = CouponResult(couponId: couponId, success: isSuccess, message: hasMessage ? "coupon download failed" : nil, status: couponStatus ?? .HIDE, alertType: couponAlertType ?? .ALERT)
+            let result = CouponResult(couponId: couponId, success: isSuccess, message: message, status: status, alertType: alertType)
             completion(result)
         }
     }

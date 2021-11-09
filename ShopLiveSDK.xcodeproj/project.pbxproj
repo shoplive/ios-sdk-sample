@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -38,6 +38,9 @@
 		BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
 		BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
 		BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */; };
+		BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */; };
+		BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */; };
+		BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF9BB7E5273A1640006BDEF3 /* SnapKit */; };
 		BFAD8E95265A211E00202160 /* ShopLiveBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E86265A211E00202160 /* ShopLiveBase.swift */; };
 		BFAD8E96265A211E00202160 /* OverlayWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E88265A211E00202160 /* OverlayWebView.swift */; };
 		BFAD8E97265A211E00202160 /* LiveStreamViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAD8E89265A211E00202160 /* LiveStreamViewController.swift */; };
@@ -144,6 +147,8 @@
 		BF64082B26E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapperSubscript.swift; sourceTree = "<group>"; };
 		BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveViewLoggerController.swift; sourceTree = "<group>"; };
 		BF8D724D267AE5BC00ED2750 /* ChattingWriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattingWriteView.swift; sourceTree = "<group>"; };
+		BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CouponCallbackSettingViewController.swift; sourceTree = "<group>"; };
+		BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDKSettings.swift; sourceTree = "<group>"; };
 		BFAD8E86265A211E00202160 /* ShopLiveBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveBase.swift; sourceTree = "<group>"; };
 		BFAD8E88265A211E00202160 /* OverlayWebView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayWebView.swift; sourceTree = "<group>"; };
 		BFAD8E89265A211E00202160 /* LiveStreamViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiveStreamViewController.swift; sourceTree = "<group>"; };
@@ -208,6 +213,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 			);
@@ -353,6 +359,8 @@
 		BFAD8EAB265A23FD00202160 /* ShopLiveDemo */ = {
 			isa = PBXGroup;
 			children = (
+				BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */,
+				BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */,
 				BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */,
 				BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */,
 				BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */,
@@ -462,6 +470,7 @@
 			);
 			name = ShopLiveDemo;
 			packageProductDependencies = (
+				BF9BB7E5273A1640006BDEF3 /* SnapKit */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */;
@@ -543,6 +552,7 @@
 			);
 			mainGroup = 1BA5154325CBDCD100070181;
 			packageReferences = (
+				BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -655,6 +665,8 @@
 			files = (
 				BFAD8EDA265A24DA00202160 /* LiveStreamViewModel.swift in Sources */,
 				BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */,
+				BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */,
+				BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */,
 				BFAD8EB1265A23FD00202160 /* ViewController.swift in Sources */,
 				BFFAD7D426BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
@@ -989,7 +1001,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1017,7 +1029,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
@@ -1180,6 +1192,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		BF9BB7E5273A1640006BDEF3 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1BA5154425CBDCD100070181 /* Project object */;
 }
