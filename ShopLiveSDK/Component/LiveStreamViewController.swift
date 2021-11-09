@@ -508,10 +508,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         indicatorView.addConstraints([indicatorWidth, indicatorHeight])
         customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
         self.view.addConstraints([centerXConstraint, centerYConstraint, customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
-        indicatorView.color = ShopLiveController.shared.indicatorColor
+        indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
 
-        customIndicator.configure(images: ShopLiveController.shared.customIndicatorImages)
-        ShopLiveController.shared.isCustomIndicator ? customIndicator.startAnimating() : indicatorView.startAnimating()
+        customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
+        ShopLiveController.shared.shopliveSettings.isCustomIndicator ? self.customIndicator.startAnimating() : indicatorView.startAnimating()
     }
 
     private func loadOveray() {
@@ -969,16 +969,16 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     func handleLoading() {
         ShopLiveLogger.debugLog("ShopLiveController.loading: \(ShopLiveController.loading)")
         if ShopLiveController.loading {
-            if ShopLiveController.shared.isCustomIndicator {
-                customIndicator.configure(images: ShopLiveController.shared.customIndicatorImages)
+            if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
+                customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
                 customIndicator.startAnimating()
             } else {
                 indicatorView.isHidden = false
-                indicatorView.color = ShopLiveController.shared.indicatorColor
+                indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
                 indicatorView.startAnimating()
             }
         } else {
-            if ShopLiveController.shared.isCustomIndicator {
+            if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
                 customIndicator.stopAnimating()
             } else {
                 indicatorView.stopAnimating()

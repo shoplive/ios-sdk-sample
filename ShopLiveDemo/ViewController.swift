@@ -39,6 +39,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var swLog: UISwitch!
     @IBOutlet weak var swWebLog: UISwitch!
 
+    @IBOutlet weak var loadingAnimation: UITextField!
+
     var safari: SFSafariViewController? = nil
 
     override func viewDidLoad() {
@@ -222,7 +224,7 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-//            ShopLive.setLoadingAnimation(images: [.init(named: "001")!, .init(named: "002")!, .init(named: "003")!])
+            ShopLive.setLoadingAnimation(images: SDKSettings.LoadingImageType.type1.images)
             ShopLive.configure(with: key.accessKey, phase: phase)
             /*
             ShopLive.hookNavigation { url in
@@ -358,6 +360,41 @@ class ViewController: UIViewController {
             self.present(alert, animated: true, completion: nil)
         }
     }
+
+    private func selectLoadingAN() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        #if DEBUG
+        alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
+            self.phase = .DEV
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
+            self.keyPhase.text = "DEV"
+        }))
+        #endif
+        alert.addAction(.init(title: "STAGE", style: .default, handler: { _IOFBF in
+            self.phase = .STAGE
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
+            self.keyPhase.text = "STAGE"
+        }))
+        alert.addAction(.init(title: "REAL", style: .default, handler: { _IOFBF in
+            self.phase = .REAL
+            ShopLiveDemoKeyTools.shared.phase = self.phase.name
+            self.keyPhase.text = "REAL"
+        }))
+        alert.addAction(.init(title: "cancel", style: .cancel, handler: nil))
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            //디바이스 타입이 iPad일때
+            if let popoverController = alert.popoverPresentationController {
+                // ActionSheet가 표현되는 위치를 저장해줍니다.
+                popoverController.sourceView = self.view
+                popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+                popoverController.permittedArrowDirections = []
+                self.present(alert, animated: true, completion: nil)
+            }
+        }
+        else {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
 }
 
 extension ViewController: KeySetRegisterDelegate {
@@ -385,6 +422,9 @@ extension ViewController: UITextFieldDelegate {
         case keyPhase:
             dismissKeyboard()
             selectPhase()
+            break
+        case loadingAnimation:
+
             break
         case keyAlias, keyAccess, keyCampaign:
             didTouchKeySetEditorButton()

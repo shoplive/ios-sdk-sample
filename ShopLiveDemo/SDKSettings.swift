@@ -6,10 +6,39 @@
 //
 
 import Foundation
+import UIKit
 
 final class SDKSettings {
 
     private static var ud: UserDefaults = UserDefaults.standard
+
+    enum LoadingImageType: Int {
+        case type1
+        case type2
+
+        var images: [UIImage] {
+            return makeLoadingImageArray()
+        }
+
+        private var imageTitle: String {
+            switch self {
+            case .type1:
+                return "loading"
+            case .type2:
+                return "loading2_"
+            }
+        }
+
+        private func makeLoadingImageArray() -> [UIImage] {
+            var images: [UIImage] = []
+
+            for i in 1...11 {
+                images.append(.init(named: "\(imageTitle)\(i)")!)
+            }
+            return images
+        }
+
+    }
 
     enum SettingKey: String {
         case downloadCouponSuccessMessage

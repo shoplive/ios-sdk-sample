@@ -623,7 +623,7 @@ import WebKit
     }
 
     func fetchPreviewUrl(with campaignKey: String?, completionHandler: @escaping ((URL?) -> Void)) {
-        var urlComponents = URLComponents(string: ShopLiveDefines.url)
+        let urlComponents = URLComponents(string: ShopLiveDefines.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         queryItems.append(URLQueryItem(name: "ak", value: accessKey))
         if let ck = campaignKey {
@@ -653,7 +653,7 @@ import WebKit
             return
         }
 
-        var urlComponents = URLComponents(string: ShopLiveDefines.url)
+        let urlComponents = URLComponents(string: ShopLiveDefines.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
         #if DEBUG
         if UserDefaults.standard.bool(forKey: "useWebLog") {
@@ -798,6 +798,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func setLoadingAnimation(images: [UIImage]) {
+        ShopLiveController.shared.shopliveSettings.setLoadingAnimation(images: images)
+    }
+
     func setKeepAspectOnTabletPortrait(_ keep: Bool) {
         ShopLiveController.shared.keepAspectOnTabletPortrait = keep
     }
@@ -807,6 +811,7 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func close() {
+        ShopLiveController.shared.shopliveSettings.clear()
         guard !ShopLiveController.shared.needDelayToStart else { return }
         ShopLiveLogger.debugLog("shoplivebase close()")
         self.hideShopLiveView()
@@ -951,10 +956,10 @@ extension ShopLiveBase: ShopLiveComponent {
 
     @objc var indicatorColor: UIColor {
         get {
-            return ShopLiveController.shared.indicatorColor
+            return ShopLiveController.shared.shopliveSettings.indicatorColor
         }
         set {
-            ShopLiveController.shared.indicatorColor = newValue
+            ShopLiveController.shared.shopliveSettings.indicatorColor = newValue
         }
     }
 

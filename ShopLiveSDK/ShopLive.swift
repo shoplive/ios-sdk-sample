@@ -31,6 +31,8 @@ import WebKit
 
     @objc func setKeepAspectOnTabletPortrait(_ keep: Bool)
 
+    @objc func setLoadingAnimation(images: [UIImage])
+
     @objc func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Bool)
     @objc func isKeepPlayVideoOnHeadPhoneUnplugged() -> Bool
     @objc func setAutoResumeVideoOnCallEnded(_ autoResume: Bool)
@@ -274,11 +276,29 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.stopPictureInPicture()
     }
 
-//    static func setLoadingAnimation(images: [UIImage]) {
-//        ShopLiveController.shared.setLoadingAnimation(images: images)
-//    }
+    static func setLoadingAnimation(images: [UIImage]) {
+        shared.instance?.setLoadingAnimation(images: images)
+    }
 
     public static func reloadLive() {
         shared.instance?.reloadLive()
+    }
+}
+
+class ShopLiveSettings {
+    var indicatorColor: UIColor = .white
+    var isCustomIndicator: Bool {
+        return customIndicatorImages.count > 0
+    }
+    var customIndicatorImages: [UIImage] = []
+
+    func setLoadingAnimation(images: [UIImage]) {
+        customIndicatorImages.removeAll()
+        customIndicatorImages.append(contentsOf: images)
+    }
+
+    func clear() {
+        indicatorColor = .white
+        customIndicatorImages.removeAll()
     }
 }

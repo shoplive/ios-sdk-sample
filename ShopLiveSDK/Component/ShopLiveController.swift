@@ -85,12 +85,7 @@ final class ShopLiveController: NSObject {
     var needReload: Bool = false
     var keyboardHeight: CGFloat = .zero
 
-    var indicatorColor: UIColor = .white
-
-    var isCustomIndicator: Bool {
-        return customIndicatorImages.count > 0
-    }
-    var customIndicatorImages: [UIImage] = []
+    var shopliveSettings: ShopLiveSettings = .init()
 
     var snapShot: UIImage? = nil
     var streamUrl: URL? {
@@ -181,17 +176,10 @@ final class ShopLiveController: NSObject {
 
     func resetOnlyFinished() {
         ShopLiveLogger.debugLog("resetOnlyFinished")
-        indicatorColor = .white
         currnetPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
-        customIndicatorImages.removeAll()
         needDelayToStart = false
-    }
-
-    func setLoadingAnimation(images: [UIImage]) {
-        customIndicatorImages.removeAll()
-        customIndicatorImages.append(contentsOf: images)
     }
 
     private func reset() {
