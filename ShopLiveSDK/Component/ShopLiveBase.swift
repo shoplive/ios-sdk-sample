@@ -1043,21 +1043,16 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
 
     func didTouchCustomAction(id: String, type: String, payload: Any?) {
+        let completion: () -> Void = {
+            self.liveStreamViewController?.didCompleteCustomAction(with: id) }
+        _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
 
-        if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
-            // lower version
-            let completion: () -> Void = {
-                self.liveStreamViewController?.didCompleteCustomAction(with: id) }
-            _delegate?.handleCustomAction?(with: id, type: type, payload: payload, completion: completion)
-        } else {
-            // same or upper version
-            let completion: (CustomActionResult?) -> Void = { [weak self] customActionResult in
-                if let result = customActionResult {
-                    self?.liveStreamViewController?.didCompleteCustomAction(with: result)
-                }
+        let completionResult: (CustomActionResult?) -> Void = { [weak self] customActionResult in
+            if let result = customActionResult {
+                self?.liveStreamViewController?.didCompleteCustomAction(with: result)
             }
-            _delegate?.handleCustomActionResult(with: id, type: type, payload: payload, completion: completion)
         }
+        _delegate?.handleCustomActionResult?(with: id, type: type, payload: payload, completion: completionResult)
     }
 
     func replay(with size: CGSize) {
@@ -1083,24 +1078,17 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
     }
     
     func didTouchCoupon(with couponId: String) {
-
-        if ShopLiveDefines.sdkVersion.versionCompare("1.1.1") == .orderedAscending {
-            // lower version
-            let completion: () -> Void = { [weak self] in
-                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
-            }
-            _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
-        } else {
-            // same or upper version
-            let completion: (CouponResult?) -> Void = { [weak self] couponResult in
-                if let result = couponResult {
-                    self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
-                }
-            }
-            _delegate?.handleDownloadCouponResult(with: couponId, completion: completion)
+        let completion: () -> Void = { [weak self] in
+            self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: couponId)
         }
+        _delegate?.handleDownloadCoupon?(with: couponId, completion: completion)
 
-
+        let completionResult: (CouponResult?) -> Void = { [weak self] couponResult in
+            if let result = couponResult {
+                self?.liveStreamViewController?.didCompleteDownLoadCoupon(with: result)
+            }
+        }
+        _delegate?.handleDownloadCouponResult?(with: couponId, completion: completionResult)
     }
     
     func handleCommand(_ command: String, with payload: Any?) {
