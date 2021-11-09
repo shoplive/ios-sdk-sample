@@ -241,7 +241,7 @@ final class CouponCallbackSettingView: UIView, TappableTextDelegate {
     }
 
     func getSettingValues() -> (message: String, status: ResultStatus, alertType: ResultAlertType) {
-        return (self.message, self.status, self.alertType)
+        return (self.messageField.text ?? "", self.status, self.alertType)
     }
 
     func didTapText(_ sender: TappableText) {

@@ -439,16 +439,27 @@ extension ViewController: ShopLiveSDKDelegate {
 
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
         print("handleCustomActionResult")
-        let isSuccess = Int.random(in: 0..<2) == 0
 
-        let message = isSuccess ? SDKSettings.downloadCouponSuccessMessage : SDKSettings.downloadCouponFailedMessage
-        let status = isSuccess ? SDKSettings.downloadCouponSuccessStatus : SDKSettings.downloadCouponFailedStatus
-        let alertType = isSuccess ? SDKSettings.downloadCouponSuccessAlertType : SDKSettings.downloadCouponFailedAlertType
-
-        DispatchQueue.main.async {
-            let result = CustomActionResult(id: id, success: isSuccess, message: message, status: status, alertType: alertType)
-            completion(result)
-        }
+        let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(payload)", preferredStyle: .alert)
+        alert.addAction(.init(title: "실패", style: .cancel, handler: { _ in
+            DispatchQueue.main.async {
+                let message = SDKSettings.downloadCouponFailedMessage
+                let status = SDKSettings.downloadCouponFailedStatus
+                let alertType = SDKSettings.downloadCouponFailedAlertType
+                let result = CustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
+                completion(result)
+            }
+        }))
+        alert.addAction(.init(title: "성공", style: .default, handler: { _ in
+            let message = SDKSettings.downloadCouponSuccessMessage
+            let status = SDKSettings.downloadCouponSuccessStatus
+            let alertType = SDKSettings.downloadCouponSuccessAlertType
+            DispatchQueue.main.async {
+                let result = CustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
+                completion(result)
+            }
+        }))
+        ShopLive.viewController?.present(alert, animated: true, completion: nil)
     }
 
     func handleCommand(_ command: String, with payload: Any?) {
@@ -479,16 +490,28 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
-        let isSuccess = Int.random(in: 0..<2) == 0
-
-        let message = isSuccess ? SDKSettings.downloadCouponSuccessMessage : SDKSettings.downloadCouponFailedMessage
-        let status = isSuccess ? SDKSettings.downloadCouponSuccessStatus : SDKSettings.downloadCouponFailedStatus
-        let alertType = isSuccess ? SDKSettings.downloadCouponSuccessAlertType : SDKSettings.downloadCouponFailedAlertType
-
-        DispatchQueue.main.async {
-            let result = CouponResult(couponId: couponId, success: isSuccess, message: message, status: status, alertType: alertType)
-            completion(result)
-        }
+        let alert = UIAlertController(title: "쿠폰 다운로드", message: "쿠폰 ID: \(couponId)", preferredStyle: .alert)
+        alert.addAction(.init(title: "실패", style: .cancel, handler: { _ in
+            DispatchQueue.main.async {
+                let message = SDKSettings.downloadCouponFailedMessage
+                let status = SDKSettings.downloadCouponFailedStatus
+                let alertType = SDKSettings.downloadCouponFailedAlertType
+                DispatchQueue.main.async {
+                    let result = CouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
+                    completion(result)
+                }
+            }
+        }))
+        alert.addAction(.init(title: "성공", style: .default, handler: { _ in
+            let message = SDKSettings.downloadCouponSuccessMessage
+            let status = SDKSettings.downloadCouponSuccessStatus
+            let alertType = SDKSettings.downloadCouponSuccessAlertType
+            DispatchQueue.main.async {
+                let result = CouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
+                completion(result)
+            }
+        }))
+        ShopLive.viewController?.present(alert, animated: true, completion: nil)
     }
 
     func onSetUserName(_ payload: [String : Any]) {
