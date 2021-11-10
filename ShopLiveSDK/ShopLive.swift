@@ -276,7 +276,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.stopPictureInPicture()
     }
 
-    static func setLoadingAnimation(images: [UIImage]) {
+    public static func setLoadingAnimation(images: [UIImage]) {
         shared.instance?.setLoadingAnimation(images: images)
     }
 
