@@ -38,8 +38,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var swShare: UISwitch!
     @IBOutlet weak var swLog: UISwitch!
     @IBOutlet weak var swWebLog: UISwitch!
+    @IBOutlet weak var swCustomAnimation: UISwitch!
 
+    @IBOutlet weak var loadingAnimationViews: UIView!
     @IBOutlet weak var loadingAnimation: UITextField!
+    var loadingImageType: SDKSettings.LoadingImageType = .type1
 
     var safari: SFSafariViewController? = nil
 
@@ -108,8 +111,11 @@ class ViewController: UIViewController {
             ShopLiveViewLogger.shared.setVisible(show: swItem.isOn)
             break
         case swWebLog:
-                UserDefaults.standard.set(swItem.isOn, forKey: "useWebLog")
-                UserDefaults.standard.synchronize()
+            UserDefaults.standard.set(swItem.isOn, forKey: "useWebLog")
+            UserDefaults.standard.synchronize()
+            break
+        case swCustomAnimation:
+            loadingAnimationViews.isHidden = !swCustomAnimation.isOn
             break
         default:
             break
@@ -224,7 +230,9 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
-            ShopLive.setLoadingAnimation(images: SDKSettings.LoadingImageType.type1.images)
+            if self.swCustomAnimation.isOn {
+                ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
+            }
             ShopLive.configure(with: key.accessKey, phase: phase)
             /*
             ShopLive.hookNavigation { url in
@@ -361,24 +369,17 @@ class ViewController: UIViewController {
         }
     }
 
-    private func selectLoadingAN() {
+    private func selectLoadingAnimation() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         #if DEBUG
-        alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
-            self.phase = .DEV
-            ShopLiveDemoKeyTools.shared.phase = self.phase.name
-            self.keyPhase.text = "DEV"
+        alert.addAction(.init(title: "타입 1", style: .default, handler: { _IOFBF in
+            self.loadingImageType = .type1
+            self.loadingAnimation.text = "타입 1"
         }))
         #endif
-        alert.addAction(.init(title: "STAGE", style: .default, handler: { _IOFBF in
-            self.phase = .STAGE
-            ShopLiveDemoKeyTools.shared.phase = self.phase.name
-            self.keyPhase.text = "STAGE"
-        }))
-        alert.addAction(.init(title: "REAL", style: .default, handler: { _IOFBF in
-            self.phase = .REAL
-            ShopLiveDemoKeyTools.shared.phase = self.phase.name
-            self.keyPhase.text = "REAL"
+        alert.addAction(.init(title: "타입 2", style: .default, handler: { _IOFBF in
+            self.loadingImageType = .type2
+            self.loadingAnimation.text = "타입 2"
         }))
         alert.addAction(.init(title: "cancel", style: .cancel, handler: nil))
         if UIDevice.current.userInterfaceIdiom == .pad {
@@ -424,7 +425,8 @@ extension ViewController: UITextFieldDelegate {
             selectPhase()
             break
         case loadingAnimation:
-
+            dismissKeyboard()
+            selectLoadingAnimation()
             break
         case keyAlias, keyAccess, keyCampaign:
             didTouchKeySetEditorButton()
