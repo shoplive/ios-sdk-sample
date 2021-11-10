@@ -373,12 +373,10 @@ class ViewController: UIViewController {
 
     private func selectLoadingAnimation() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        #if DEBUG
         alert.addAction(.init(title: "타입 1", style: .default, handler: { _IOFBF in
             self.loadingImageType = .type1
             self.loadingAnimation.text = "타입 1"
         }))
-        #endif
         alert.addAction(.init(title: "타입 2", style: .default, handler: { _IOFBF in
             self.loadingImageType = .type2
             self.loadingAnimation.text = "타입 2"
