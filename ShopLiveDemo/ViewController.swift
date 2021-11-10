@@ -189,6 +189,7 @@ class ViewController: UIViewController {
                 ShopLive.pipPosition = self.pipPosition
             }
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
+            ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
@@ -230,6 +231,7 @@ class ViewController: UIViewController {
             }
             setupShare()
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
+            ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
             if self.swCustomAnimation.isOn {
                 ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
             }
