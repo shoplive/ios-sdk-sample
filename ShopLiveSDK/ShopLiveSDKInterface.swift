@@ -75,12 +75,9 @@ import UIKit
 @objc public protocol ShopLiveSDKDelegate: AnyObject {
     @objc func handleNavigation(with url: URL)
     @objc optional func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
-
     @available(*, deprecated, message: "use handleDownloadCouponResult instead")
     @objc optional func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
-
     @objc optional func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void)
-
     @available(*, deprecated, message: "use handleCustomActionResult instead")
     @objc optional func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void)
 
