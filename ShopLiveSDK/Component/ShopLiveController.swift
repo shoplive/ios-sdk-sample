@@ -169,6 +169,7 @@ final class ShopLiveController: NSObject {
         }
         playerDelegates.removeAll()
         removePlayerObserver()
+        reset()
     }
 
     func resetOnlyFinished() {
@@ -178,7 +179,7 @@ final class ShopLiveController: NSObject {
         keepAspectOnTabletPortrait = true
     }
 
-    func reset() {
+    private func reset() {
         playItem = nil
         playItem = .init()
 

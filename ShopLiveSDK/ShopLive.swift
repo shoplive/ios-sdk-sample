@@ -296,6 +296,5 @@ class ShopLiveSettings {
     func clear() {
         indicatorColor = .white
         customIndicatorImages.removeAll()
-        ShopLiveController.shared.reset()
     }
 }

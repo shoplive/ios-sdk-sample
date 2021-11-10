@@ -161,6 +161,7 @@ class ViewController: UIViewController {
 
     @IBAction func didTouchPreviewButton(_ sender: Any) {
         dismissKeyboard()
+        ShopLive.close()
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
 
             // sign in

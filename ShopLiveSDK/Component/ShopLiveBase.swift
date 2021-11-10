@@ -175,7 +175,7 @@ import WebKit
 
         ShopLiveLogger.debugLog("HideShopLiveView")
         ShopLiveController.shared.clear()
-
+        ShopLiveController.shared.shopliveSettings.clear()
         self.shopLiveWindow?.transform = .identity
         self.shopLiveWindow?.alpha = 1
 
@@ -804,7 +804,6 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func close() {
-        ShopLiveController.shared.shopliveSettings.clear()
         ShopLiveLogger.debugLog("shoplivebase close()")
         self.hideShopLiveView()
     }
