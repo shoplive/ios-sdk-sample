@@ -81,7 +81,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
 //            ShopLiveLogger.debugLog("curTime: \(curTime) time: \(time)")
-            ShopLiveController.shared.currnetPlayTime = Int64(curTime)
+            ShopLiveController.shared.currentPlayTime = Int64(curTime)
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         })
     }
@@ -705,7 +705,7 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
 
     func didUpdateVideo(with url: URL) {
         ShopLiveController.streamUrl = url
-        if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currnetPlayTime {
+        if ShopLiveController.isReplayMode, let time = ShopLiveController.shared.currentPlayTime {
             ShopLiveController.player?.seek(to: .init(value: time, timescale: 1))
         }
     }

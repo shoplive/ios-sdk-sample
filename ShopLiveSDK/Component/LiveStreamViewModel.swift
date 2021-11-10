@@ -138,7 +138,7 @@ internal final class LiveStreamViewModel: NSObject {
 
     func seek(to: CMTime) {
         ShopLiveLogger.debugLog("seek to: \(to.value)")
-        ShopLiveController.shared.currnetPlayTime = to.value
+        ShopLiveController.shared.currentPlayTime = to.value
         ShopLiveController.player?.seek(to: to)
     }
 

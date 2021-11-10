@@ -135,6 +135,7 @@ import WebKit
 
         liveStreamViewController?.view.alpha = 0
 
+        ShopLiveLogger.debugLog("ShowShopLiveView")
         DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(250)) {
             self.liveStreamViewController?.view.alpha = 1.0
         }
@@ -149,7 +150,6 @@ import WebKit
     }
     
     func hideShopLiveView(_ animated: Bool = true) {
-        ShopLiveController.shared.needDelayToStart = true
         UIApplication.shared.isIdleTimerDisabled = false
 
         ShopLiveController.webInstance?.sendEventToWeb(event: .onTerminated)
@@ -173,40 +173,33 @@ import WebKit
             shopLiveWindow?.removeGestureRecognizer(videoWindowSwipeDownGestureRecognizer)
         }
 
+        ShopLiveLogger.debugLog("HideShopLiveView")
         ShopLiveController.shared.clear()
-        let transform = self.shopLiveWindow?.transform.concatenating(CGAffineTransform(scaleX: 0.1, y: 0.1)) ?? .identity
-        let animateDuration = animated ? 0.2 : 0.0
-        UIView.animate(withDuration: animateDuration, delay: 0, options: [.curveEaseIn]) {
-            self.shopLiveWindow?.transform = transform
-            self.shopLiveWindow?.alpha = 0
-        } completion: { (isCompleted) in
-            self.shopLiveWindow?.transform = .identity
-            self.shopLiveWindow?.alpha = 1
-            
-            self.shopLiveWindow?.resignKey()
-            self.mainWindow?.makeKeyAndVisible()
 
-            self.videoWindowPanGestureRecognizer = nil
-            self.videoWindowTapGestureRecognizer = nil
-            self.pictureInPictureController = nil
-            
-            self.liveStreamViewController?.removeFromParent()
-            self.liveStreamViewController?.stop()
-            self.liveStreamViewController?.delegate = nil
-            self.liveStreamViewController = nil
-            
-            self.mainWindow = nil
-            self.shopLiveWindow?.removeFromSuperview()
-            self.shopLiveWindow?.rootViewController = nil
-            
-            self.shopLiveWindow = nil
+        self.shopLiveWindow?.transform = .identity
+        self.shopLiveWindow?.alpha = 1
 
-            self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
-            self._style = .unknown
-            ShopLiveController.shared.customShareAction = nil
-            ShopLiveController.shared.hookNavigation = nil
-            ShopLiveController.shared.resetOnlyFinished()
-        }
+        self.shopLiveWindow?.resignKey()
+        self.mainWindow?.makeKeyAndVisible()
+
+        self.videoWindowPanGestureRecognizer = nil
+        self.videoWindowTapGestureRecognizer = nil
+        self.pictureInPictureController = nil
+
+        self.liveStreamViewController?.removeFromParent()
+        self.liveStreamViewController?.stop()
+        self.liveStreamViewController?.delegate = nil
+        self.liveStreamViewController = nil
+
+        self.mainWindow = nil
+        self.shopLiveWindow?.removeFromSuperview()
+        self.shopLiveWindow?.rootViewController = nil
+
+        self.shopLiveWindow = nil
+
+        self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
+        self._style = .unknown
+        ShopLiveController.shared.resetOnlyFinished()
     }
     
     //OS 제공 PIP 세팅
@@ -812,7 +805,6 @@ extension ShopLiveBase: ShopLiveComponent {
 
     func close() {
         ShopLiveController.shared.shopliveSettings.clear()
-        guard !ShopLiveController.shared.needDelayToStart else { return }
         ShopLiveLogger.debugLog("shoplivebase close()")
         self.hideShopLiveView()
     }

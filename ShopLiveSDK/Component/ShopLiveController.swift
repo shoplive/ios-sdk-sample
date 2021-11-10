@@ -60,7 +60,6 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
-    var needDelayToStart: Bool = true
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
@@ -76,9 +75,9 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
-    lazy var currnetPlayTime: Int64? = nil {
+    lazy var currentPlayTime: Int64? = nil {
         didSet {
-            ShopLiveLogger.debugLog("seek current play time didSet: \(currnetPlayTime)")
+            ShopLiveLogger.debugLog("seek current play time didSet: \(currentPlayTime)")
         }
     }
     var shareScheme: String? = nil
@@ -164,25 +163,22 @@ final class ShopLiveController: NSObject {
     }
 
     func clear() {
-
         ShopLiveLogger.debugLog("clear")
         playerDelegates.forEach { delegate in
             delegate?.clear()
         }
         playerDelegates.removeAll()
         removePlayerObserver()
-        reset()
     }
 
     func resetOnlyFinished() {
         ShopLiveLogger.debugLog("resetOnlyFinished")
-        currnetPlayTime = nil
+        currentPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
-        needDelayToStart = false
     }
 
-    private func reset() {
+    func reset() {
         playItem = nil
         playItem = .init()
 
@@ -202,6 +198,9 @@ final class ShopLiveController: NSObject {
         pipAnimationg = false
         windowStyle = .none
         needReload = false
+
+        customShareAction = nil
+        hookNavigation = nil
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
@@ -460,7 +459,7 @@ extension ShopLiveController {
     }
 
     static var isReplayFinished: Bool {
-        guard ShopLiveController.isReplayMode, let totalTime = ShopLiveController.duration?.value, let currentTime = shared.currnetPlayTime else {
+        guard ShopLiveController.isReplayMode, let totalTime = ShopLiveController.duration?.value, let currentTime = shared.currentPlayTime else {
             return false
         }
 
