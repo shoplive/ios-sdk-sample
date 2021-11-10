@@ -524,12 +524,14 @@ extension ViewController: ShopLiveSDKDelegate {
     }
 
     func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
+        print("handleDownloadCoupon")
         DispatchQueue.main.async {
             completion()
         }
     }
 
     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
+        print("handleDownloadCouponResult")
         let alert = UIAlertController(title: "쿠폰 다운로드", message: "쿠폰 ID: \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "실패", style: .cancel, handler: { _ in
             DispatchQueue.main.async {
