@@ -191,6 +191,9 @@ class ViewController: UIViewController {
             }
             ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(swKeepPlayUnplugged.isOn)
             ShopLive.setAutoResumeVideoOnCallEnded(swAutoResume.isOn)
+            if self.swCustomAnimation.isOn {
+                ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
+            }
             ShopLive.configure(with: key.accessKey, phase: phase)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
@@ -475,10 +478,13 @@ extension ViewController: ShopLiveSDKDelegate {
         print("handleCampaignInfo")
     }
 
+    /*
+     // deprecated
     func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void) {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleCustomAction id: \(id) type: \(type) payload: \(payload)"))
         print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
     }
+    */
 
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
         print("handleCustomActionResult")
@@ -526,12 +532,15 @@ extension ViewController: ShopLiveSDKDelegate {
         }
     }
 
+    /*
+     // deprecated
     func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void) {
         print("handleDownloadCoupon")
         DispatchQueue.main.async {
             completion()
         }
     }
+     */
 
     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
         print("handleDownloadCouponResult")
