@@ -206,7 +206,7 @@ extension OverlayWebView: WKNavigationDelegate {
     }
     
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        
+        ShopLiveController.shared.loading = false
     }
 }
 
@@ -329,7 +329,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         case .readyToPlay:
             ShopLiveController.retryPlay = false
             ShopLiveController.shared.takeSnapShot = false
-            ShopLiveController.loading = false
             break
         case .failed:
             ShopLiveController.retryPlay = true

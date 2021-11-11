@@ -687,7 +687,6 @@ extension LiveStreamViewController: OverlayWebViewDelegate {
             guard let image = UIImage(data: imageData) else { return }
             DispatchQueue.main.async {
                 self.imageView?.image = image
-                ShopLiveController.shared.loading = false
             }
         }
     }
