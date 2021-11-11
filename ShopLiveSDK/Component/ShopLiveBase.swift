@@ -648,7 +648,7 @@ import WebKit
 
         let urlComponents = URLComponents(string: ShopLiveDefines.url)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
-        #if DEBUG
+        #if DEMO
         if UserDefaults.standard.bool(forKey: "useWebLog") {
             queryItems.append(URLQueryItem(name: "__debug", value: "true"))
         }
@@ -659,8 +659,10 @@ import WebKit
         }
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
-//        queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
-
+        #if DEMO
+            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "applicationName"))
+            queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
+        #endif
         for item in ShopLiveStorage.allItems {
             if !item.value.isEmpty {
                 let value = item.value

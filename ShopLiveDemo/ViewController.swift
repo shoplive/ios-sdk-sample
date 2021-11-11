@@ -76,9 +76,9 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "TETEST", campaignKey: "58de3b8bf5b7", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "RESULT_TEST", campaignKey: "969ebeae927f", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "real_787", campaignKey: "0db67a3d1e40", accessKey: "6mnefY1z9lK0vZlsduRp"))
 
-
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "346")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "real_787")
         #endif
         
         hideKeyboard()
@@ -342,7 +342,7 @@ class ViewController: UIViewController {
 
     private func selectPhase() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        #if DEBUG
+        #if DEMO
         alert.addAction(.init(title: "DEV", style: .default, handler: { _IOFBF in
             self.phase = .DEV
             ShopLiveDemoKeyTools.shared.phase = self.phase.name
