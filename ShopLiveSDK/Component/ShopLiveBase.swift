@@ -1024,6 +1024,10 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 }
 
 extension ShopLiveBase: LiveStreamViewControllerDelegate {
+    func handleReceivedCommand(_ command: String, with payload: Any?) {
+        delegate?.handleReceivedCommand(command, with: payload)
+    }
+
     func onSetUserName(_ payload: [String : Any]) {
         delegate?.onSetUserName(payload)
     }

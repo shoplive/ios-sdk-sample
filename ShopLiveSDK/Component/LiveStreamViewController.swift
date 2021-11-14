@@ -619,6 +619,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 }
 
 extension LiveStreamViewController: OverlayWebViewDelegate {
+    func handleReceivedCommand(_ command: String, with payload: Any?) {
+        delegate?.handleReceivedCommand(command, with: payload)
+    }
+
     func onSetUserName(_ payload: [String : Any]) {
         delegate?.onSetUserName(payload)
     }

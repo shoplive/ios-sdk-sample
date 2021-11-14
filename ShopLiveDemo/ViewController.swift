@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         ShopLive.delegate = self
 
         #if DEBUG
+        /*
         ShopLiveDemoKeyTools.shared.clearKey()
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Connect Test", campaignKey: "5545ee5f3d59", accessKey: "rYoegblp6Wbm65PBbZ5q"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "Dev Only", campaignKey: "c5496db11cd2", accessKey: "7xxPlb8yOhZnchquMQHO"))
@@ -77,8 +78,10 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "RESULT_TEST", campaignKey: "969ebeae927f", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "real_787", campaignKey: "0db67a3d1e40", accessKey: "6mnefY1z9lK0vZlsduRp"))
+         */
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "dev_346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
 
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "real_787")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "dev_346")
         #endif
         
         hideKeyboard()
@@ -518,10 +521,19 @@ extension ViewController: ShopLiveSDKDelegate {
 
     func handleNavigation(with url: URL) {
         ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "handleNavigation \(url)"))
+
+        guard url.absoluteString.hasPrefix("http") else {
+            let alert = UIAlertController(title: nil, message: "잘못된 url 입니다. [\(url.absoluteString)]", preferredStyle: .alert)
+            alert.addAction(.init(title: "확인", style: .default, handler: nil))
+            self.present(alert, animated: true, completion: nil)
+            return
+        }
+
         if #available(iOS 13, *) {
             if let browser = self.safari {
                 browser.dismiss(animated: false, completion: nil)
             }
+
             safari = .init(url: url)
 
             guard let browser = self.safari else { return }
@@ -573,5 +585,9 @@ extension ViewController: ShopLiveSDKDelegate {
         payload.forEach { (key, value) in
             print("onSetUserName key: \(key) value: \(value)")
         }
+    }
+
+    func handleReceivedCommand(_ command: String, with payload: Any?) {
+        print("handleReceivedCommand command: \(command) payload: \(payload)")
     }
 }

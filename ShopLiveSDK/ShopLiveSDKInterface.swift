@@ -86,6 +86,7 @@ import UIKit
     @objc func handleCampaignInfo(campaignInfo: [String : Any])
     @objc func handleCommand(_ command: String, with payload: Any?)
     @objc func onSetUserName(_ payload: [String : Any])
+    @objc func handleReceivedCommand(_ command: String, with payload: Any?)
 }
 
 @objc public class ShopLiveViewController: UIViewController {

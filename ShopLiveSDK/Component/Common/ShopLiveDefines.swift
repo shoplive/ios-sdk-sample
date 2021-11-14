@@ -11,7 +11,7 @@ import CoreMedia
 //import CoreTelephony
 
 @objc internal final class ShopLiveDefines: NSObject {
-    static let sdkVersion: String = "1.1.2"
+    static let sdkVersion: String = "1.1.3"
     static var phase: ShopLive.Phase = .REAL
     static let url: String = {
                 switch phase {
@@ -97,6 +97,7 @@ protocol LiveStreamViewControllerDelegate: AnyObject {
     func didChangeCampaignStatus(status: String)
     func onError(code: String, message: String)
     func onSetUserName(_ payload: [String : Any])
+    func handleReceivedCommand(_ command: String, with payload: Any?)
 }
 
 protocol OverlayWebViewDelegate: AnyObject {
@@ -121,6 +122,8 @@ protocol OverlayWebViewDelegate: AnyObject {
     func onError(code: String, message: String)
     func handleCommand(_ command: String, with payload: Any?)
     func onSetUserName(_ payload: [String : Any])
+    func handleReceivedCommand(_ command: String, with payload: Any?)
+
 }
 
 extension Notification.Name {

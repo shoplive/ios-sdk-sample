@@ -213,6 +213,30 @@ extension OverlayWebView: WKNavigationDelegate {
 extension OverlayWebView: WKScriptMessageHandler {
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
 //        ShopLiveLogger.debugLog("interface: \(WebInterface(message: message)?.functionString)")
+
+        guard message.name == ShopLiveDefines.webInterface else { return }
+        if let body = message.body as? [String: Any],
+           let shopliveEvent = body["shopliveEvent"] as? [String : Any],
+           let metadata = shopliveEvent["metadata"] as? [String : String],
+           let type = metadata["type"],
+           let name = shopliveEvent["name"] as? String {
+
+            let parameters = body["payload"] as? [String: Any]
+            if type == "USER_IMPLEMENTS_CALLBACK" {
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
+                ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                delegate?.handleReceivedCommand(name, with: parameters)
+            } else {
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
+                ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                if name == "SHOW_NATIVE_DEBUG" {
+                    ShopLiveViewLogger.shared.setVisible(show: true)
+                }
+            }
+
+            return
+        }
+
         guard let interface = WebInterface(message: message) else { return }
         switch interface {
         case .systemInit:
