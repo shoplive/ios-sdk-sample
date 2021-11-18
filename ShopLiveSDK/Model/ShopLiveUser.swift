@@ -7,13 +7,17 @@
 
 import Foundation
 
-@objc public class ShopLiveUser: NSObject {// , Codable {
-    let name: String?
-    let gender: Gender?
-    let id: String?
-    let age: Int?
+@objc public class ShopLiveUser: NSObject {
+    var name: String?
+    var gender: Gender?
+    var id: String?
+    var age: Int?
 
     private var parameters: [String: String] = [:]
+
+    @objc public override init() {
+
+    }
 
     @objc public init(id: String = "", name: String = "", gender: Gender = .unknown, age: Int = -1) {
         self.id = id.isEmpty ? nil : id

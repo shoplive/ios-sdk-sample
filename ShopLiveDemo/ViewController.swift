@@ -23,6 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var age: UITextField!
     @IBOutlet weak var gender: UITextField!
     var userGender: ShopLiveUser.Gender = .unknown
+    @IBOutlet weak var userScore: UITextField!
 
     @IBOutlet weak var signInViews: UIStackView!
     @IBOutlet weak var pipViews: UIStackView!
@@ -168,13 +169,22 @@ class ViewController: UIViewController {
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
 
             // sign in
-            if self.swSignIn.isOn,
-               let userId = self.userId.text,
-               let userName = self.userName.text,
-               let tfAge = self.age.text,
-               let userAge = Int(tfAge),
-               userId.isEmpty == false && userName.isEmpty == false && tfAge.isEmpty == false {
-                let user = ShopLiveUser(id: userId, name: userName, gender: self.userGender, age: userAge)
+            if self.swSignIn.isOn {
+                let user = ShopLiveUser()
+                user.id = self.userId.text ?? ""
+                user.name = self.userName.text ?? ""
+                user.gender = self.userGender
+
+                if let tfAge = self.age.text {
+                    user.age = Int(tfAge) ?? -1
+                }
+
+                if let tfUserScore = self.userScore.text, let score = Int(tfUserScore) {
+                    if score >= 0 && score <= 100 {
+                        user.add(["userScore": score])
+                    }
+                }
+
                 ShopLive.user = user
             } else {
                 self.userGender = .unknown
@@ -211,14 +221,22 @@ class ViewController: UIViewController {
         if let key = ShopLiveDemoKeyTools.shared.currentKey() {
 
             // sign in
-            if self.swSignIn.isOn,
-               let userId = self.userId.text,
-               let userName = self.userName.text,
-               let tfAge = self.age.text,
-               let userAge = Int(tfAge),
-               userId.isEmpty == false && userName.isEmpty == false && tfAge.isEmpty == false {
-                let user = ShopLiveUser(id: userId, name: userName, gender: self.userGender, age: userAge)
-                user.add(["userScore": 40])
+            if self.swSignIn.isOn {
+                let user = ShopLiveUser()
+                user.id = self.userId.text ?? ""
+                user.name = self.userName.text ?? ""
+                user.gender = self.userGender
+
+                if let tfAge = self.age.text {
+                    user.age = Int(tfAge) ?? -1
+                }
+
+                if let tfUserScore = self.userScore.text, let score = Int(tfUserScore) {
+                    if score >= 0 && score <= 100 {
+                        user.add(["userScore": score])
+                    }
+                }
+
                 ShopLive.user = user
             } else {
                 self.userGender = .unknown

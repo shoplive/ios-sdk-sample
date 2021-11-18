@@ -126,7 +126,7 @@
                                                                 </constraints>
                                                             </view>
                                                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="MN8-0n-Rhg">
-                                                                <rect key="frame" x="0.0" y="0.0" width="337.5" height="155"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="337.5" height="193"/>
                                                                 <subviews>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="userId" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nfr-wy-Qz2">
                                                                         <rect key="frame" x="0.0" y="0.0" width="337.5" height="34"/>
@@ -134,26 +134,34 @@
                                                                         <textInputTraits key="textInputTraits"/>
                                                                     </textField>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="userName" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XQv-ia-Xxq">
-                                                                        <rect key="frame" x="0.0" y="40.5" width="337.5" height="34"/>
+                                                                        <rect key="frame" x="0.0" y="40" width="337.5" height="34"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits"/>
                                                                     </textField>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="age" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eMS-bu-G8z">
-                                                                        <rect key="frame" x="0.0" y="80.5" width="337.5" height="34"/>
+                                                                        <rect key="frame" x="0.0" y="79.5" width="337.5" height="34"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits"/>
                                                                     </textField>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="gender" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5zL-fm-tit">
-                                                                        <rect key="frame" x="0.0" y="121" width="337.5" height="34"/>
+                                                                        <rect key="frame" x="0.0" y="119.5" width="337.5" height="34"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits"/>
                                                                         <connections>
                                                                             <outlet property="delegate" destination="BYZ-38-t0r" id="fj7-Jp-ICw"/>
                                                                         </connections>
                                                                     </textField>
+                                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="userScore ( 0-100)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bhJ-L2-ATf">
+                                                                        <rect key="frame" x="0.0" y="159" width="337.5" height="34"/>
+                                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                                        <textInputTraits key="textInputTraits"/>
+                                                                        <connections>
+                                                                            <outlet property="delegate" destination="BYZ-38-t0r" id="4Lf-e7-4Y5"/>
+                                                                        </connections>
+                                                                    </textField>
                                                                 </subviews>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="155" id="PMj-rA-b6r"/>
+                                                                    <constraint firstAttribute="height" constant="193" id="PMj-rA-b6r"/>
                                                                 </constraints>
                                                             </stackView>
                                                         </subviews>
@@ -540,6 +548,7 @@
                         <outlet property="swWebLog" destination="UYh-Lw-Ate" id="qeu-1g-ufq"/>
                         <outlet property="userId" destination="Nfr-wy-Qz2" id="oVW-o1-mvd"/>
                         <outlet property="userName" destination="XQv-ia-Xxq" id="fjX-qb-TEF"/>
+                        <outlet property="userScore" destination="bhJ-L2-ATf" id="6BY-pn-dHp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

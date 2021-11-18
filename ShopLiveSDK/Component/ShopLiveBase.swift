@@ -911,7 +911,6 @@ extension ShopLiveBase: ShopLiveComponent {
     @objc func reloadLive() {
         guard self.accessKey != nil else { return }
         liveStreamViewController?.reload()
-        _ = ShopLiveUser.init()
     }
     
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat) {
