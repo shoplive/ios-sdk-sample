@@ -80,6 +80,7 @@ internal class OverlayWebView: UIView {
 
         let webView = ShopLiveWebView(frame: CGRect.zero, configuration: configuration)
 //        webView.scrollView.contentInsetAdjustmentBehavior = .never
+        webView.scrollView.delegate = self
         ShopLiveController.webInstance = webView
         addSubview(webView)
         webView.translatesAutoresizingMaskIntoConstraints = false
@@ -551,5 +552,12 @@ internal extension CustomActionResult {
         couponJson.setValue(self.couponStatus.name, forKey: "couponStatus")
         couponJson.setValue(self.alertType.name, forKey: "alertType")
         return couponJson.toJson()
+    }
+}
+
+extension OverlayWebView: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        ShopLiveLogger.debugLog("rect: \(scrollView.frame) webview inset: \(webView?.scrollView.contentInset)")
+        scrollView.setContentOffset(.init(x: 0, y: 0), animated: false)
     }
 }
