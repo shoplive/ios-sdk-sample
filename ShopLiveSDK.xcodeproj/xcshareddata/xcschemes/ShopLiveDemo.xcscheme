@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BFAD8EA9265A23FD00202160"
-               BuildableName = "ShopLiveDemo.app"
+               BuildableName = "Shoplive Demo.app"
                BlueprintName = "ShopLiveDemo"
                ReferencedContainer = "container:ShopLiveSDK.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BFAD8EA9265A23FD00202160"
-            BuildableName = "ShopLiveDemo.app"
+            BuildableName = "Shoplive Demo.app"
             BlueprintName = "ShopLiveDemo"
             ReferencedContainer = "container:ShopLiveSDK.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BFAD8EA9265A23FD00202160"
-            BuildableName = "ShopLiveDemo.app"
+            BuildableName = "Shoplive Demo.app"
             BlueprintName = "ShopLiveDemo"
             ReferencedContainer = "container:ShopLiveSDK.xcodeproj">
          </BuildableReference>

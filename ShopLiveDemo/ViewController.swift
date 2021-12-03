@@ -80,9 +80,10 @@ class ViewController: UIViewController {
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
         ShopLiveDemoKeyTools.shared.save(key: .init(alias: "real_787", campaignKey: "0db67a3d1e40", accessKey: "6mnefY1z9lK0vZlsduRp"))
          */
-        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "dev_346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+//        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "dev_346", campaignKey: "8a280fd710e8", accessKey: "a1AW6QRCXeoZ9MEWRdDQ"))
+        ShopLiveDemoKeyTools.shared.save(key: .init(alias: "hf", campaignKey: "481af5c0534b", accessKey: "kzWIEEpWX83NGRNHeVbL"))
 
-        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "dev_346")
+        ShopLiveDemoKeyTools.shared.saveCurrentKey(alias: "hf")
         #endif
         
         hideKeyboard()

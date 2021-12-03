@@ -989,6 +989,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, true)
         didChangeOSPIP()
     }
     
@@ -1017,6 +1018,8 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
                 }
             }
         }
+
+        ShopLiveController.webInstance?.sendEventToWeb(event: .onPipModeChanged, false)
         
         isRestoredPip = false
     }

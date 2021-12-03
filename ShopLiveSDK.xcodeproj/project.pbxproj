@@ -157,7 +157,7 @@
 		BFAD8E92265A211E00202160 /* ShopLiveDefines.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveDefines.swift; sourceTree = "<group>"; };
 		BFAD8E93265A211E00202160 /* ShopLiveWebInterface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopLiveWebInterface.swift; sourceTree = "<group>"; };
 		BFAD8E94265A211E00202160 /* VideoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoView.swift; sourceTree = "<group>"; };
-		BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShopLiveDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Shoplive Demo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BFAD8EAC265A23FD00202160 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BFAD8EB0265A23FD00202160 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 			children = (
 				1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */,
 				1BA5155625CBDCD100070181 /* ShopLiveSDKTests.xctest */,
-				BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */,
+				BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */,
 				BFAD8EBF265A23FE00202160 /* SwiftDemoTests.xctest */,
 				BFAD8ECA265A23FE00202160 /* SwiftDemoUITests.xctest */,
 			);
@@ -473,7 +473,7 @@
 				BF9BB7E5273A1640006BDEF3 /* SnapKit */,
 			);
 			productName = SwiftDemo;
-			productReference = BFAD8EAA265A23FD00202160 /* ShopLiveDemo.app */;
+			productReference = BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */;
 			productType = "com.apple.product-type.application";
 		};
 		BFAD8EBE265A23FE00202160 /* SwiftDemoTests */ = {
@@ -1003,7 +1003,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
@@ -1015,7 +1015,7 @@
 				MARKETING_VERSION = 1.1.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = ShopLiveDemo;
+				PRODUCT_NAME = "Shoplive Demo";
 				PROVISIONING_PROFILE_SPECIFIER = "ShopLive Dev";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SUPPORTS_MACCATALYST = NO;
@@ -1033,7 +1033,7 @@
 				CODE_SIGN_ENTITLEMENTS = ShopLiveDemo/ShopLiveDemo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				GCC_PREPROCESSOR_DEFINITIONS = "";
 				INFOPLIST_FILE = "$(SRCROOT)/ShopLiveDemo/Info.plist";
@@ -1045,7 +1045,7 @@
 				MARKETING_VERSION = 1.1.3;
 				OTHER_SWIFT_FLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = cloud.shoplive.sdk.swiftdemo.SwiftDemo;
-				PRODUCT_NAME = ShopLiveDemo;
+				PRODUCT_NAME = "Shoplive Demo";
 				PROVISIONING_PROFILE_SPECIFIER = "ShopLive AppStore";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEMO;
