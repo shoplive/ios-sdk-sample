@@ -208,7 +208,8 @@ class ViewController: UIViewController {
             if self.swCustomAnimation.isOn {
                 ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
             }
-            ShopLive.configure(with: key.accessKey, phase: phase)
+            ShopLiveDefines.phase = self.phase
+            ShopLive.configure(with: key.accessKey)
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview finish"))
@@ -261,7 +262,8 @@ class ViewController: UIViewController {
             if self.swCustomAnimation.isOn {
                 ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
             }
-            ShopLive.configure(with: key.accessKey, phase: phase)
+            ShopLiveDefines.phase = self.phase
+            ShopLive.configure(with: key.accessKey)
             /*
             ShopLive.hookNavigation { url in
                 ShopLiveDemoLogger.shared.addLog(log: "hookNavigation \(url)")

@@ -22,7 +22,6 @@ import WebKit
     @objc var user: ShopLiveUser? { get set }
 
     @objc func configure(with accessKey: String)
-    @objc func configure(with accessKey: String, phase: ShopLive.Phase)
     @objc func preview(with campaignKey: String?, completion: @escaping () -> Void)
     @objc func play(with campaignKey: String?, _ parent: UIViewController?)
     @objc func startPictureInPicture(with position: ShopLive.PipPosition, scale: CGFloat)
@@ -85,7 +84,7 @@ extension ShopLive {
         }
     }
 
-    @objc public enum Phase: Int {
+    @objc enum Phase: Int {
         #if DEMO
         case DEV
         #endif
@@ -245,11 +244,6 @@ extension ShopLive: ShopLiveSDKInterface {
 
     public static func configure(with accessKey: String) {
         shared.instance?.configure(with: accessKey)
-    }
-
-    public static func configure(with accessKey: String, phase: ShopLive.Phase) {
-        ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "configure api called ak: \(accessKey)  phase: \(phase.name)"))
-        shared.instance?.configure(with: accessKey, phase: phase)
     }
 
     public static func preview(with campaignKey: String?, completion: @escaping () -> Void) {

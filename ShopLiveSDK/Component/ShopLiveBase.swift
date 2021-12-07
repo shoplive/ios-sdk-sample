@@ -881,11 +881,6 @@ extension ShopLiveBase: ShopLiveComponent {
         self.phase = .REAL
     }
 
-    @objc func configure(with accessKey: String, phase: ShopLive.Phase) {
-        self.accessKey = accessKey
-        self.phase = phase
-    }
-
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {
         ShopLiveController.loading = true
         previewCallback = completion
