@@ -174,11 +174,12 @@ final class ShopLiveController: NSObject {
 
     func resetOnlyFinished() {
         ShopLiveLogger.debugLog("resetOnlyFinished")
+        customShareAction = nil
+        hookNavigation = nil
         currentPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
     }
-
     private func reset() {
         playItem = nil
         playItem = .init()
@@ -199,9 +200,6 @@ final class ShopLiveController: NSObject {
         pipAnimationg = false
         windowStyle = .none
         needReload = false
-
-        customShareAction = nil
-        hookNavigation = nil
     }
 
     func getSnapShot(completion: @escaping (UIImage?) -> Void) {
