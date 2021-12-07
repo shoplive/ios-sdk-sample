@@ -171,6 +171,10 @@ extension ShopLive: ShopLiveSDKInterface {
         return shared.instance?.isAutoResumeVideoOnCallEnded() ?? false
     }
 
+    public static var sdkVersion: String {
+        return ShopLiveDefines.sdkVersion
+    }
+
     public static var user: ShopLiveUser? {
         get {
             shared.instance?.user
