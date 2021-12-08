@@ -18,6 +18,7 @@ final class SLLoadingIndicator: UIView {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
         return view
     }()
 
@@ -56,6 +57,7 @@ final class SLLoadingIndicator: UIView {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .clear
         self.isHidden = true
+        self.isUserInteractionEnabled = false
         self.addSubviews(indicatorImageView)
         indicatorImageView.fitToSuperView()
     }
