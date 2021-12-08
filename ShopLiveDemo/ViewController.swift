@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var keyAccess: UITextField!
     var phase: ShopLive.Phase = .REAL
 
+    @IBOutlet weak var authToken: UITextField!
+
     @IBOutlet weak var userId: UITextField!
     @IBOutlet weak var userName: UITextField!
     @IBOutlet weak var age: UITextField!
@@ -145,6 +147,14 @@ class ViewController: UIViewController {
         keyPhase.text = phase.name
     }
 
+    private func setupAuthToken() {
+        if let token = self.authToken.text, !token.isEmpty {
+            ShopLive.authToken = token
+        } else {
+            ShopLive.authToken = nil
+        }
+    }
+
     private func setupShare() {
         if self.swShare.isOn {
             ShopLive.setShareScheme("http://www.thehandsome.com/ko/live/liveTVLink?uiel=Moffbile&pUrl=https://www.shoplive.show/v1/player.html?ak=xxqHrKzQu7iwuyoWmDGKgB&ck=d3efd3b06acd&tk=", custom: nil)
@@ -191,6 +201,9 @@ class ViewController: UIViewController {
                 self.userGender = .unknown
                 ShopLive.user = nil
             }
+
+            // authToken
+            setupAuthToken()
 
             // pip
             if self.swPipSetting.isOn {
@@ -247,6 +260,9 @@ class ViewController: UIViewController {
                 self.userGender = .unknown
                 ShopLive.user = nil
             }
+
+            // authToken
+            setupAuthToken()
 
             // pip
             if self.swPipSetting.isOn {

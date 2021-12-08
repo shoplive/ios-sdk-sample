@@ -494,24 +494,31 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     private func setupIndicator() {
-        self.view.addSubviews(indicatorView, customIndicator)
-        let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-        let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-        let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+        if ShopLiveController.shared.shopliveSettings.isCustomIndicator {
+            self.view.addSubviews(customIndicator)
+            let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveController.shared.shopliveSettings.isCustomIndicator ? 60 : 0)
+            let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: ShopLiveController.shared.shopliveSettings.isCustomIndicator ? 60 : 0)
+            let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        let customIndicatorWidth = NSLayoutConstraint.init(item: customIndicator, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-        let customIndicatorHeight = NSLayoutConstraint.init(item: customIndicator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
-        let customIndicatorCenterXConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let customIndicatorCenterYConstraint = NSLayoutConstraint.init(item: customIndicator, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
+            customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
+            self.view.addConstraints([customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
 
-        indicatorView.addConstraints([indicatorWidth, indicatorHeight])
-        customIndicator.addConstraints([customIndicatorWidth, customIndicatorHeight])
-        self.view.addConstraints([centerXConstraint, centerYConstraint, customIndicatorCenterXConstraint, customIndicatorCenterYConstraint])
-        indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
+            customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
+            self.customIndicator.startAnimating()
+        } else {
+            self.view.addSubviews(indicatorView)
+            let indicatorWidth = NSLayoutConstraint.init(item: indicatorView, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let indicatorHeight = NSLayoutConstraint.init(item: indicatorView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 60)
+            let centerXConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerYConstraint = NSLayoutConstraint.init(item: indicatorView, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        customIndicator.configure(images: ShopLiveController.shared.shopliveSettings.customIndicatorImages)
-        ShopLiveController.shared.shopliveSettings.isCustomIndicator ? self.customIndicator.startAnimating() : indicatorView.startAnimating()
+            indicatorView.addConstraints([indicatorWidth, indicatorHeight])
+            self.view.addConstraints([centerXConstraint, centerYConstraint])
+            indicatorView.color = ShopLiveController.shared.shopliveSettings.indicatorColor
+
+            indicatorView.startAnimating()
+        }
     }
 
     private func loadOveray() {
