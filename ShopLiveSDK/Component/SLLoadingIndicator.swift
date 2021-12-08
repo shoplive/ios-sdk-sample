@@ -55,6 +55,7 @@ final class SLLoadingIndicator: UIView {
     private func setupViews() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.backgroundColor = .clear
+        self.isHidden = true
         self.addSubviews(indicatorImageView)
         indicatorImageView.fitToSuperView()
     }

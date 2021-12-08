@@ -95,7 +95,9 @@ import UIKit
 
 @objc protocol ShopLiveSDKInterface: AnyObject {
     @objc static var sdkVersion: String { get }
-
+#if DEMO
+    @objc static var phase: ShopLive.Phase { get set }
+#endif
     @objc static var viewController: ShopLiveViewController? { get }
     @objc static var style: ShopLive.PresentationStyle { get }
     @objc static var pipPosition: ShopLive.PipPosition { get set }

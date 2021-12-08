@@ -209,7 +209,10 @@ class ViewController: UIViewController {
                 ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
             }
             ShopLiveDefines.phase = self.phase
+
             ShopLive.configure(with: key.accessKey)
+
+            ShopLive.phase = self.phase
             ShopLive.preview(with: key.campaignKey) {
                 ShopLive.play(with: key.campaignKey)
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "preview finish"))
@@ -262,7 +265,6 @@ class ViewController: UIViewController {
             if self.swCustomAnimation.isOn {
                 ShopLive.setLoadingAnimation(images: self.loadingImageType.images)
             }
-            ShopLiveDefines.phase = self.phase
             ShopLive.configure(with: key.accessKey)
             /*
             ShopLive.hookNavigation { url in
@@ -281,10 +283,9 @@ class ViewController: UIViewController {
                 }
             }
              */
-
-
+            ShopLive.phase = self.phase
             ShopLive.setKeepAspectOnTabletPortrait(true)
-            ShopLiveLogger.debugLog("play touched")
+            ShopLiveLogger.debugLog("play touched phase \(self.phase.name)")
             ShopLive.play(with: key.campaignKey)
         }
     }

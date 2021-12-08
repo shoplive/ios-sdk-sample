@@ -18,7 +18,7 @@ import WebKit
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
     private var accessKey: String? = nil
-    private var phase: ShopLive.Phase = .REAL {
+    internal var phase: ShopLive.Phase = .REAL {
         didSet {
             ShopLiveDefines.phase = phase
         }
@@ -875,6 +875,16 @@ extension ShopLiveBase: ShopLiveComponent {
             self._user = newValue
         }
     }
+    #if DEMO
+    @objc var demo_phase: ShopLive.Phase {
+        get {
+            return self.phase
+        }
+        set {
+            self.phase = newValue
+        }
+    }
+    #endif
 
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey

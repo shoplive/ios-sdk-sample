@@ -44,6 +44,10 @@ import WebKit
     @objc func setShareScheme(_ scheme: String?, custom: (() -> Void)?)
     @objc func setChatViewFont(inputBoxFont: UIFont, sendButtonFont: UIFont)
     @objc func close()
+    #if DEMO
+    @objc var demo_phase: ShopLive.Phase { get set }
+    #endif
+
 }
 
 @objc public final class ShopLive: NSObject {
@@ -124,6 +128,17 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+
+    #if DEMO
+    static var phase: ShopLive.Phase {
+        set {
+            shared.instance?.demo_phase = newValue
+        }
+        get {
+            return shared.instance?.demo_phase ?? ShopLiveDefines.phase
+        }
+    }
+    #endif
 
     public static func setKeepAspectOnTabletPortrait(_ keep: Bool = true) {
         shared.instance?.setKeepAspectOnTabletPortrait(keep)
