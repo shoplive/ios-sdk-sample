@@ -16,6 +16,22 @@
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
+		BF47196B2765F40700522F6F /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF47196A2765F40700522F6F /* SideMenu */; };
+		BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */; };
+		BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196E2765F48700522F6F /* SideMenuViewController.swift */; };
+		BF4719712765F4E800522F6F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719702765F4E800522F6F /* MainViewController.swift */; };
+		BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */; };
+		BF47197827660CF500522F6F /* SideMenuExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47197727660CF500522F6F /* SideMenuExtensions.swift */; };
+		BF47197D27662F9300522F6F /* shoplive.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF47197F27662F9300522F6F /* shoplive.strings */; };
+		BF4719822766335F00522F6F /* SideMenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719812766335F00522F6F /* SideMenuCell.swift */; };
+		BF4719842766389F00522F6F /* CampaignsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719832766389F00522F6F /* CampaignsViewController.swift */; };
+		BF47198627663BE100522F6F /* UserInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198527663BE100522F6F /* UserInfoViewController.swift */; };
+		BF47198827663C9600522F6F /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198727663C9600522F6F /* OptionsViewController.swift */; };
+		BF47198A27663CB200522F6F /* ProgressSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198927663CB200522F6F /* ProgressSettingViewController.swift */; };
+		BF47198C27663CDE00522F6F /* CouponSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198B27663CDE00522F6F /* CouponSettingsViewController.swift */; };
+		BF47198E27663D6000522F6F /* WebCacheSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198D27663D6000522F6F /* WebCacheSettingViewController.swift */; };
+		BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198F2766523000522F6F /* SideMenuItemViewController.swift */; };
+		BF47199627682DB300522F6F /* Sample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF47199527682DB300522F6F /* Sample.storyboard */; };
 		BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
@@ -135,6 +151,22 @@
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
 		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSideMenuNavagation.swift; sourceTree = "<group>"; };
+		BF47196E2765F48700522F6F /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
+		BF4719702765F4E800522F6F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuBaseViewController.swift; sourceTree = "<group>"; };
+		BF47197727660CF500522F6F /* SideMenuExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuExtensions.swift; sourceTree = "<group>"; };
+		BF47197E27662F9300522F6F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/shoplive.strings; sourceTree = "<group>"; };
+		BF47198027662F9500522F6F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/shoplive.strings; sourceTree = "<group>"; };
+		BF4719812766335F00522F6F /* SideMenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SideMenuCell.swift; sourceTree = "<group>"; };
+		BF4719832766389F00522F6F /* CampaignsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignsViewController.swift; sourceTree = "<group>"; };
+		BF47198527663BE100522F6F /* UserInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoViewController.swift; sourceTree = "<group>"; };
+		BF47198727663C9600522F6F /* OptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsViewController.swift; sourceTree = "<group>"; };
+		BF47198927663CB200522F6F /* ProgressSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressSettingViewController.swift; sourceTree = "<group>"; };
+		BF47198B27663CDE00522F6F /* CouponSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CouponSettingsViewController.swift; sourceTree = "<group>"; };
+		BF47198D27663D6000522F6F /* WebCacheSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCacheSettingViewController.swift; sourceTree = "<group>"; };
+		BF47198F2766523000522F6F /* SideMenuItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuItemViewController.swift; sourceTree = "<group>"; };
+		BF47199527682DB300522F6F /* Sample.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sample.storyboard; sourceTree = "<group>"; };
 		BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtensions.swift; sourceTree = "<group>"; };
 		BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveStorage.swift; sourceTree = "<group>"; };
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -215,6 +247,7 @@
 			files = (
 				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
+				BF47196B2765F40700522F6F /* SideMenu in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,6 +328,50 @@
 			path = ShopLiveSDKTests;
 			sourceTree = "<group>";
 		};
+		BF47197427660C7300522F6F /* SideMenu */ = {
+			isa = PBXGroup;
+			children = (
+				BF47199327682CD700522F6F /* menuItems */,
+				BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */,
+				BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */,
+				BF4719812766335F00522F6F /* SideMenuCell.swift */,
+				BF47196E2765F48700522F6F /* SideMenuViewController.swift */,
+				BF47198F2766523000522F6F /* SideMenuItemViewController.swift */,
+				BF47197727660CF500522F6F /* SideMenuExtensions.swift */,
+				BF47199527682DB300522F6F /* Sample.storyboard */,
+			);
+			path = SideMenu;
+			sourceTree = "<group>";
+		};
+		BF47199227682C4900522F6F /* Sample */ = {
+			isa = PBXGroup;
+			children = (
+				BF47197427660C7300522F6F /* SideMenu */,
+				BF47199427682D4000522F6F /* SDKSettings */,
+			);
+			path = Sample;
+			sourceTree = "<group>";
+		};
+		BF47199327682CD700522F6F /* menuItems */ = {
+			isa = PBXGroup;
+			children = (
+				BF4719832766389F00522F6F /* CampaignsViewController.swift */,
+				BF47198527663BE100522F6F /* UserInfoViewController.swift */,
+				BF47198727663C9600522F6F /* OptionsViewController.swift */,
+				BF47198927663CB200522F6F /* ProgressSettingViewController.swift */,
+				BF47198B27663CDE00522F6F /* CouponSettingsViewController.swift */,
+				BF47198D27663D6000522F6F /* WebCacheSettingViewController.swift */,
+			);
+			path = menuItems;
+			sourceTree = "<group>";
+		};
+		BF47199427682D4000522F6F /* SDKSettings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SDKSettings;
+			sourceTree = "<group>";
+		};
 		BF64082126E8AFE300ABF1A3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -359,6 +436,8 @@
 		BFAD8EAB265A23FD00202160 /* ShopLiveDemo */ = {
 			isa = PBXGroup;
 			children = (
+				BF47199227682C4900522F6F /* Sample */,
+				BF4719702765F4E800522F6F /* MainViewController.swift */,
 				BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */,
 				BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */,
 				BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */,
@@ -372,6 +451,7 @@
 				BFAD8EB5265A23FE00202160 /* Assets.xcassets */,
 				BFAD8EB7265A23FE00202160 /* LaunchScreen.storyboard */,
 				BFAD8EBA265A23FE00202160 /* Info.plist */,
+				BF47197F27662F9300522F6F /* shoplive.strings */,
 			);
 			path = ShopLiveDemo;
 			sourceTree = "<group>";
@@ -471,6 +551,7 @@
 			name = ShopLiveDemo;
 			packageProductDependencies = (
 				BF9BB7E5273A1640006BDEF3 /* SnapKit */,
+				BF47196A2765F40700522F6F /* SideMenu */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */;
@@ -553,6 +634,7 @@
 			mainGroup = 1BA5154325CBDCD100070181;
 			packageReferences = (
 				BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -587,8 +669,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF47199627682DB300522F6F /* Sample.storyboard in Resources */,
 				BFAD8EB9265A23FE00202160 /* LaunchScreen.storyboard in Resources */,
 				BF64082D26E8AFE300ABF1A3 /* Localizable.strings in Resources */,
+				BF47197D27662F9300522F6F /* shoplive.strings in Resources */,
 				BFAD8EB6265A23FE00202160 /* Assets.xcassets in Resources */,
 				BFAD8EB4265A23FD00202160 /* Main.storyboard in Resources */,
 			);
@@ -664,13 +748,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFAD8EDA265A24DA00202160 /* LiveStreamViewModel.swift in Sources */,
+				BF47198C27663CDE00522F6F /* CouponSettingsViewController.swift in Sources */,
 				BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */,
+				BF4719822766335F00522F6F /* SideMenuCell.swift in Sources */,
 				BF9BB7E2273A1571006BDEF3 /* CouponCallbackSettingViewController.swift in Sources */,
 				BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */,
 				BFAD8EB1265A23FD00202160 /* ViewController.swift in Sources */,
 				BFFAD7D426BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFAD8EDB265A24DA00202160 /* OverlayWebView.swift in Sources */,
+				BF47198A27663CB200522F6F /* ProgressSettingViewController.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
 				BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */,
 				BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
@@ -681,16 +768,22 @@
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
 				BFAD8EE0265A24DA00202160 /* VideoView.swift in Sources */,
 				BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */,
+				BF47198827663C9600522F6F /* OptionsViewController.swift in Sources */,
 				BF64080826E7030B00ABF1A3 /* ShopLiveStorage.swift in Sources */,
 				BF64083126E8AFE300ABF1A3 /* KeyboardService.swift in Sources */,
 				BFFAD7CB26BA05CA00C8C5E1 /* CALayerExtensions.swift in Sources */,
+				BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */,
 				BFFAD7C526BA050200C8C5E1 /* ShopLivePlayerView.swift in Sources */,
+				BF47197827660CF500522F6F /* SideMenuExtensions.swift in Sources */,
+				BF4719712765F4E800522F6F /* MainViewController.swift in Sources */,
 				BF64082F26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BF64083326E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
 				BFFAD7C926BA05CA00C8C5E1 /* UIViewExtensions.swift in Sources */,
+				BF47198627663BE100522F6F /* UserInfoViewController.swift in Sources */,
 				BF64083526E8AFE300ABF1A3 /* SLKeychainWrapper.swift in Sources */,
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
 				BFFAD7D026BA06EB00C8C5E1 /* ShopLiveController.swift in Sources */,
+				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
 				BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BF64083726E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift in Sources */,
 				BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */,
@@ -700,7 +793,11 @@
 				BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */,
 				BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */,
 				BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */,
+				BF4719842766389F00522F6F /* CampaignsViewController.swift in Sources */,
+				BF47198E27663D6000522F6F /* WebCacheSettingViewController.swift in Sources */,
 				BFAD8EE3265A24DA00202160 /* ShopLiveLogger.swift in Sources */,
+				BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */,
+				BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */,
 				BF6D31E026CCFAD500B233A4 /* ShopLiveViewLoggerController.swift in Sources */,
 				BF64083926E8AFE300ABF1A3 /* SLKeychainWrapperSubscript.swift in Sources */,
 				BFAD8EDE265A24DA00202160 /* PerfMeasurements.swift in Sources */,
@@ -744,6 +841,15 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		BF47197F27662F9300522F6F /* shoplive.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BF47197E27662F9300522F6F /* en */,
+				BF47198027662F9500522F6F /* ko */,
+			);
+			name = shoplive.strings;
+			sourceTree = "<group>";
+		};
 		BF64082226E8AFE300ABF1A3 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1200,6 +1306,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1211,6 +1325,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		BF47196A2765F40700522F6F /* SideMenu */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */;
+			productName = SideMenu;
+		};
 		BF9BB7E5273A1640006BDEF3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */;

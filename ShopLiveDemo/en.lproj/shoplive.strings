@@ -1,0 +1,16 @@
+/* 
+  shoplive.strings
+  ShopLiveSDK
+
+  Created by ShopLive on 2021/12/12.
+  
+*/
+
+"sdk.play" = "Play";
+"sdk.preview" = "Preview";
+"menu.campaigns" = "방송 목록 관리";
+"menu.userinfo" = "유저 정보 입력";
+"menu.options" = "옵션 설정";
+"menu.progress" = "로딩 프로그레스 설정";
+"menu.coupon" = "쿠폰 응답 설정";
+"menu.removeCache" = "웹 스토리지 데이터 삭제";
