@@ -16,7 +16,7 @@ enum SideMenuTypes: String, CaseIterable {
     case campaigns
     case userinfo
     case options
-    case progress
+    case exit
     case coupon
     case removeCache
 
@@ -38,8 +38,8 @@ final class ShopLiveSideMenu {
         SideMenuTypes.campaigns.sideMenu,
         SideMenuTypes.userinfo.sideMenu,
         SideMenuTypes.options.sideMenu,
-        SideMenuTypes.progress.sideMenu,
         SideMenuTypes.coupon.sideMenu,
+        SideMenuTypes.exit.sideMenu,
         SideMenuTypes.removeCache.sideMenu
     ]
 }
@@ -67,6 +67,7 @@ final class SideMenuViewController: UIViewController {
         menuTableView.delegate = self
         menuTableView.dataSource = self
         menuTableView.separatorStyle = .none
+        menuTableView.alwaysBounceVertical = false
         menuTableView.contentInset = .init(top: 15, left: 0, bottom: 0, right: 0)
         menuTableView.register(SideMenuCell.self, forCellReuseIdentifier: "SideMenuCell")
     }
@@ -103,17 +104,21 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             let page = OptionsViewController()
             self.navigationController?.pushViewController(page, animated: true)
             break
-        case SideMenuTypes.progress.identifier:
-            let page = ProgressSettingViewController()
-            self.navigationController?.pushViewController(page, animated: true)
-            break
         case SideMenuTypes.coupon.identifier:
             let page = CouponSettingsViewController()
             self.navigationController?.pushViewController(page, animated: true)
             break
+        case SideMenuTypes.exit.identifier:
+            /*
+            let page = ProgressSettingViewController()
+            self.navigationController?.pushViewController(page, animated: true)
+             */
+            break
         case SideMenuTypes.removeCache.identifier:
+            /*
             let page = WebCacheSettingViewController()
             self.navigationController?.pushViewController(page, animated: true)
+             */
             break
         default:
             break

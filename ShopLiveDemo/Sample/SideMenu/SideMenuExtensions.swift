@@ -33,3 +33,23 @@ extension String {
         return String(format: self.localized(from: from, comment: comment), argument)
     }
 }
+
+extension Array {
+
+    subscript(safe range: Range<Index>) -> ArraySlice<Element> {
+        return self[Swift.min(range.lowerBound, endIndex)..<Swift.min(range.upperBound, endIndex)]
+    }
+    
+}
+
+extension UITextField {
+    func setPlaceholderColor(_ placeholderColor: UIColor) {
+            attributedPlaceholder = NSAttributedString(
+                string: placeholder ?? "",
+                attributes: [
+                    .foregroundColor: placeholderColor,
+                    .font: font
+                ].compactMapValues { $0 }
+            )
+        }
+}

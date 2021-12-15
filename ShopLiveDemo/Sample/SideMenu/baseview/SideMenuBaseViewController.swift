@@ -9,17 +9,58 @@ import UIKit
 
 class SideMenuBaseViewController: UIViewController {
 
+    var items: [String] = ["CampaignInfoCell", "UserInfoCell"]
+
+    lazy var tableView: UITableView = {
+        let view = UITableView(frame: .zero, style: .plain)
+        view.delegate = self
+        view.dataSource = self
+        view.separatorStyle = .none
+        view.backgroundColor = .white
+        view.register(CampaignInfoCell.self, forCellReuseIdentifier: "CampaignInfoCell")
+        view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
+        view.alwaysBounceVertical = false
+        return view
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
+            target: self,
+            action: #selector(UIViewController.dismissKeyboard))
+
+        view.addGestureRecognizer(tap)
+
+        setupBaseUI()
         setupNavigation()
         setupSDKButtons()
         setupSideMenu()
     }
 }
 
-extension SideMenuBaseViewController {
+extension SideMenuBaseViewController: UITableViewDelegate, UITableViewDataSource {
+    func setupBaseUI() {
+        self.view.backgroundColor = .white
 
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        guard let item = items[safe: indexPath.row], let cell = tableView.dequeueReusableCell(withIdentifier: item, for: indexPath) as? SampleBaseCell else {
+            return UITableViewCell()
+        }
+        cell.configure(parent: self)
+        return cell
+    }
 }
 
 extension SideMenuBaseViewController {

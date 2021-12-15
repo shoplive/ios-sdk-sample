@@ -16,7 +16,10 @@ import Foundation
     private var parameters: [String: String] = [:]
 
     @objc public override init() {
-
+        name = nil
+        gender = nil
+        id = nil
+        age = nil
     }
 
     @objc public init(id: String = "", name: String = "", gender: Gender = .unknown, age: Int = -1) {

@@ -12,7 +12,7 @@ class ProgressSettingViewController: SideMenuItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = SideMenuTypes.progress.stringKey.localized()
+//        self.title = SideMenuTypes.progress.stringKey.localized()
     }
 
 }

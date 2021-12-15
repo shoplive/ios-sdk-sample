@@ -15,6 +15,8 @@
 		1BA5156A25CBDD3F00070181 /* ShopLive.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA5156925CBDD3F00070181 /* ShopLive.swift */; };
 		1BAA0D5A25EDD36200DC22CE /* ShopLiveLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */; };
 		1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */; };
+		BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */; };
+		BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */; };
 		BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */; };
 		BF47196B2765F40700522F6F /* SideMenu in Frameworks */ = {isa = PBXBuildFile; productRef = BF47196A2765F40700522F6F /* SideMenu */; };
 		BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */; };
@@ -32,6 +34,16 @@
 		BF47198E27663D6000522F6F /* WebCacheSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198D27663D6000522F6F /* WebCacheSettingViewController.swift */; };
 		BF4719902766523000522F6F /* SideMenuItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198F2766523000522F6F /* SideMenuItemViewController.swift */; };
 		BF47199627682DB300522F6F /* Sample.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF47199527682DB300522F6F /* Sample.storyboard */; };
+		BF471999276832C700522F6F /* CampaignInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF471998276832C700522F6F /* CampaignInfoCell.swift */; };
+		BF47199B276832E100522F6F /* UserInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199A276832E100522F6F /* UserInfoCell.swift */; };
+		BF47199D27684A8D00522F6F /* SampleBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199C27684A8D00522F6F /* SampleBaseCell.swift */; };
+		BF47199F2768570100522F6F /* SDKConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199E2768570100522F6F /* SDKConfiguration.swift */; };
+		BF4719A127685D8E00522F6F /* GuideTitleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719A027685D8E00522F6F /* GuideTitleButton.swift */; };
+		BF4719A727687C6A00522F6F /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BF4719A627687C6A00522F6F /* DropDown */; };
+		BF4719A927687C7E00522F6F /* DropDown in Frameworks */ = {isa = PBXBuildFile; productRef = BF4719A827687C7E00522F6F /* DropDown */; };
+		BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AA2768836000522F6F /* SampleOptions.swift */; };
+		BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719AE2768AF4700522F6F /* CampaignCell.swift */; };
+		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
 		BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
@@ -150,6 +162,8 @@
 		1BA5156925CBDD3F00070181 /* ShopLive.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLive.swift; sourceTree = "<group>"; };
 		1BAA0D5925EDD36200DC22CE /* ShopLiveLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveLogger.swift; sourceTree = "<group>"; };
 		1BED2D9225DA4BAB002BFEED /* PerfMeasurements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PerfMeasurements.swift; sourceTree = "<group>"; };
+		BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBaseAlertController.swift; sourceTree = "<group>"; };
+		BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInputAlertController.swift; sourceTree = "<group>"; };
 		BF1C0803272797C400F6B2E1 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
 		BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopliveSideMenuNavagation.swift; sourceTree = "<group>"; };
 		BF47196E2765F48700522F6F /* SideMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuViewController.swift; sourceTree = "<group>"; };
@@ -167,6 +181,14 @@
 		BF47198D27663D6000522F6F /* WebCacheSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebCacheSettingViewController.swift; sourceTree = "<group>"; };
 		BF47198F2766523000522F6F /* SideMenuItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuItemViewController.swift; sourceTree = "<group>"; };
 		BF47199527682DB300522F6F /* Sample.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Sample.storyboard; sourceTree = "<group>"; };
+		BF471998276832C700522F6F /* CampaignInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignInfoCell.swift; sourceTree = "<group>"; };
+		BF47199A276832E100522F6F /* UserInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoCell.swift; sourceTree = "<group>"; };
+		BF47199C27684A8D00522F6F /* SampleBaseCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBaseCell.swift; sourceTree = "<group>"; };
+		BF47199E2768570100522F6F /* SDKConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SDKConfiguration.swift; sourceTree = "<group>"; };
+		BF4719A027685D8E00522F6F /* GuideTitleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideTitleButton.swift; sourceTree = "<group>"; };
+		BF4719AA2768836000522F6F /* SampleOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleOptions.swift; sourceTree = "<group>"; };
+		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
+		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
 		BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtensions.swift; sourceTree = "<group>"; };
 		BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveStorage.swift; sourceTree = "<group>"; };
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -229,6 +251,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF1C0804272797C400F6B2E1 /* CoreTelephony.framework in Frameworks */,
+				BF4719A727687C6A00522F6F /* DropDown in Frameworks */,
 				BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -246,6 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
+				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
 				BF47196B2765F40700522F6F /* SideMenu in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
@@ -331,9 +355,9 @@
 		BF47197427660C7300522F6F /* SideMenu */ = {
 			isa = PBXGroup;
 			children = (
+				BF471997276831D900522F6F /* baseview */,
 				BF47199327682CD700522F6F /* menuItems */,
 				BF47196C2765F43000522F6F /* ShopliveSideMenuNavagation.swift */,
-				BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */,
 				BF4719812766335F00522F6F /* SideMenuCell.swift */,
 				BF47196E2765F48700522F6F /* SideMenuViewController.swift */,
 				BF47198F2766523000522F6F /* SideMenuItemViewController.swift */,
@@ -348,6 +372,9 @@
 			children = (
 				BF47197427660C7300522F6F /* SideMenu */,
 				BF47199427682D4000522F6F /* SDKSettings */,
+				BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */,
+				BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */,
+				BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -355,6 +382,7 @@
 		BF47199327682CD700522F6F /* menuItems */ = {
 			isa = PBXGroup;
 			children = (
+				BF4719AE2768AF4700522F6F /* CampaignCell.swift */,
 				BF4719832766389F00522F6F /* CampaignsViewController.swift */,
 				BF47198527663BE100522F6F /* UserInfoViewController.swift */,
 				BF47198727663C9600522F6F /* OptionsViewController.swift */,
@@ -368,8 +396,24 @@
 		BF47199427682D4000522F6F /* SDKSettings */ = {
 			isa = PBXGroup;
 			children = (
+				BF47199E2768570100522F6F /* SDKConfiguration.swift */,
+				BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */,
+				BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */,
+				BF4719AA2768836000522F6F /* SampleOptions.swift */,
 			);
 			path = SDKSettings;
+			sourceTree = "<group>";
+		};
+		BF471997276831D900522F6F /* baseview */ = {
+			isa = PBXGroup;
+			children = (
+				BF47197527660CD300522F6F /* SideMenuBaseViewController.swift */,
+				BF47199C27684A8D00522F6F /* SampleBaseCell.swift */,
+				BF471998276832C700522F6F /* CampaignInfoCell.swift */,
+				BF47199A276832E100522F6F /* UserInfoCell.swift */,
+				BF4719A027685D8E00522F6F /* GuideTitleButton.swift */,
+			);
+			path = baseview;
 			sourceTree = "<group>";
 		};
 		BF64082126E8AFE300ABF1A3 /* Resource */ = {
@@ -441,8 +485,6 @@
 				BF9BB7E0273A1571006BDEF3 /* CouponCallbackSettingViewController.swift */,
 				BF9BB7E1273A1571006BDEF3 /* SDKSettings.swift */,
 				BFE14B65272F69F100C6624B /* ShopLiveDemo.entitlements */,
-				BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */,
-				BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */,
 				BFAD8EAC265A23FD00202160 /* AppDelegate.swift */,
 				BFAD8EAE265A23FD00202160 /* SceneDelegate.swift */,
 				BFAD8EB0265A23FD00202160 /* ViewController.swift */,
@@ -514,6 +556,9 @@
 			dependencies = (
 			);
 			name = ShopLiveSDK;
+			packageProductDependencies = (
+				BF4719A627687C6A00522F6F /* DropDown */,
+			);
 			productName = ShopLiveSDK;
 			productReference = 1BA5154D25CBDCD100070181 /* ShopLiveSDK.framework */;
 			productType = "com.apple.product-type.framework";
@@ -552,6 +597,7 @@
 			packageProductDependencies = (
 				BF9BB7E5273A1640006BDEF3 /* SnapKit */,
 				BF47196A2765F40700522F6F /* SideMenu */,
+				BF4719A827687C7E00522F6F /* DropDown */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */;
@@ -635,6 +681,7 @@
 			packageReferences = (
 				BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */,
+				BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -755,14 +802,18 @@
 				BF9BB7E3273A1571006BDEF3 /* SDKSettings.swift in Sources */,
 				BFAD8EB1265A23FD00202160 /* ViewController.swift in Sources */,
 				BFFAD7D426BA06EB00C8C5E1 /* ShopLivePlayItem.swift in Sources */,
+				BF47199B276832E100522F6F /* UserInfoCell.swift in Sources */,
 				BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */,
 				BFAD8EDB265A24DA00202160 /* OverlayWebView.swift in Sources */,
+				BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */,
 				BF47198A27663CB200522F6F /* ProgressSettingViewController.swift in Sources */,
 				BFAD8EE2265A24DA00202160 /* ShopLive.swift in Sources */,
+				BF47199F2768570100522F6F /* SDKConfiguration.swift in Sources */,
 				BFAD8EE5265A24DA00202160 /* ShopLiveBase.swift in Sources */,
 				BFE14B61272BA9E600C6624B /* SLLoadingIndicator.swift in Sources */,
 				BFAD8EDD265A24DA00202160 /* LiveStreamViewController.swift in Sources */,
 				BFAD8EE6265A24DA00202160 /* ShopLiveUser.swift in Sources */,
+				BF4719A127685D8E00522F6F /* GuideTitleButton.swift in Sources */,
 				BFFAD7D226BA06EB00C8C5E1 /* ShopLivePlayerItem.swift in Sources */,
 				BFAD8EDF265A24DA00202160 /* ShopLiveDefines.swift in Sources */,
 				BFAD8EAD265A23FD00202160 /* AppDelegate.swift in Sources */,
@@ -771,6 +822,7 @@
 				BF47198827663C9600522F6F /* OptionsViewController.swift in Sources */,
 				BF64080826E7030B00ABF1A3 /* ShopLiveStorage.swift in Sources */,
 				BF64083126E8AFE300ABF1A3 /* KeyboardService.swift in Sources */,
+				BF47199D27684A8D00522F6F /* SampleBaseCell.swift in Sources */,
 				BFFAD7CB26BA05CA00C8C5E1 /* CALayerExtensions.swift in Sources */,
 				BF47196D2765F43000522F6F /* ShopliveSideMenuNavagation.swift in Sources */,
 				BFFAD7C526BA050200C8C5E1 /* ShopLivePlayerView.swift in Sources */,
@@ -784,8 +836,12 @@
 				BFAD8EAF265A23FD00202160 /* SceneDelegate.swift in Sources */,
 				BFFAD7D026BA06EB00C8C5E1 /* ShopLiveController.swift in Sources */,
 				BF47197627660CD300522F6F /* SideMenuBaseViewController.swift in Sources */,
+				BF1B57BA276983600002EBB5 /* CustomBaseAlertController.swift in Sources */,
 				BFBBACA8269AD04E00574958 /* ShopLiveConfiguration.swift in Sources */,
 				BF64083726E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift in Sources */,
+				BF1B57BC2769844F0002EBB5 /* CampaignInputAlertController.swift in Sources */,
+				BF4719AF2768AF4700522F6F /* CampaignCell.swift in Sources */,
+				BF471999276832C700522F6F /* CampaignInfoCell.swift in Sources */,
 				BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */,
 				BFAD8EE1265A24DA00202160 /* ShopLiveSDKInterface.swift in Sources */,
 				BF8D724F267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
@@ -794,6 +850,7 @@
 				BFAD8EDC265A24DA00202160 /* ShopLiveWebView.swift in Sources */,
 				BFFAD7C326BA050200C8C5E1 /* ShopLivePlayer.swift in Sources */,
 				BF4719842766389F00522F6F /* CampaignsViewController.swift in Sources */,
+				BF4719AB2768836000522F6F /* SampleOptions.swift in Sources */,
 				BF47198E27663D6000522F6F /* WebCacheSettingViewController.swift in Sources */,
 				BFAD8EE3265A24DA00202160 /* ShopLiveLogger.swift in Sources */,
 				BF47196F2765F48700522F6F /* SideMenuViewController.swift in Sources */,
@@ -1314,6 +1371,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AssistoLab/DropDown.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -1329,6 +1394,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */;
 			productName = SideMenu;
+		};
+		BF4719A627687C6A00522F6F /* DropDown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */;
+			productName = DropDown;
+		};
+		BF4719A827687C7E00522F6F /* DropDown */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */;
+			productName = DropDown;
 		};
 		BF9BB7E5273A1640006BDEF3 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

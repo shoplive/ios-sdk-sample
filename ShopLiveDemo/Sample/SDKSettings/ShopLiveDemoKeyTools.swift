@@ -7,6 +7,12 @@
 
 import Foundation
 
+@objc protocol KeySetObserver {
+    var identifier: String { get }
+    func keysetUpdated()
+    @objc optional func currentKeyUpdated()
+}
+
 final class ShopLiveDemoKeyTools {
 
     private static let saveIdentifier: String = "ShopLiveDemoKeys"
@@ -16,6 +22,39 @@ final class ShopLiveDemoKeyTools {
     static let shared: ShopLiveDemoKeyTools = ShopLiveDemoKeyTools()
 
     private var keys: [ShopLiveKeySet] = []
+    private var observers: [KeySetObserver?] = []
+
+    var keysets: [ShopLiveKeySet] {
+        loadData()
+        return keys
+    }
+
+    private func notifyObservers() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.observers.forEach { observer in
+                observer?.keysetUpdated()
+            }
+//        }
+    }
+
+    private func notifyCurrentKeyObservers() {
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.observers.forEach { observer in
+                observer?.currentKeyUpdated?()
+            }
+//        }
+    }
+
+    func addKeysetObserver(observer: KeySetObserver) {
+        print("addKeysetObserver \(observer.identifier)")
+        if observers.contains(where: { $0?.identifier == observer.identifier }), let index = observers.firstIndex(where: { $0?.identifier == observer.identifier}) {
+            print("addKeysetObserver exist")
+            observers.remove(at: index)
+        }
+
+        print("observers count \(observers.count)")
+        observers.append(observer)
+    }
 
     private var curKey: String = ""
 
@@ -56,11 +95,17 @@ final class ShopLiveDemoKeyTools {
 
     func clearKey() {
         keys.removeAll()
+        saveData()
+        if self.keys.isEmpty {
+            saveCurrentKey(alias: "")
+        }
+        notifyObservers()
     }
 
     func saveCurrentKey(alias: String) {
         curKey = alias
         UserDefaults.standard.setValue(curKey, forKey: ShopLiveDemoKeyTools.currentKeyIdentifier)
+        notifyCurrentKeyObservers()
     }
 
     func currentKey() -> ShopLiveKeySet? {
@@ -104,14 +149,16 @@ final class ShopLiveDemoKeyTools {
         remove(alias: key.alias)
         keys.append(key)
         saveData()
+        notifyObservers()
     }
 
     func delete(alias: String) {
         remove(alias: alias)
         saveData()
-        if self.keys.isEmpty {
+        if self.keys.isEmpty || curKey == alias {
             saveCurrentKey(alias: "")
         }
+        notifyObservers()
     }
 
     func load(alias: String) -> ShopLiveKeySet? {
