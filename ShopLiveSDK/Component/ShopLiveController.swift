@@ -60,6 +60,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var isSuccessCampaignJoin: Bool = false
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
@@ -160,6 +161,10 @@ final class ShopLiveController: NSObject {
         if playerDelegates.isEmpty {
             removePlayerObserver()
         }
+    }
+
+    func initialize() {
+        isSuccessCampaignJoin = false
     }
 
     func clear() {

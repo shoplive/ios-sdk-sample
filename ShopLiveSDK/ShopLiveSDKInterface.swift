@@ -109,6 +109,8 @@ import UIKit
     
     @objc static var authToken: String? { get set }
     @objc static var user: ShopLiveUser? { get set }
+
+    @objc static func isSuccessCampaignJoin() -> Bool
     
     @objc static func configure(with accessKey: String)
     @objc static func preview(with campaignKey: String?, completion: @escaping () -> Void)

@@ -226,6 +226,10 @@ extension OverlayWebView: WKScriptMessageHandler {
             if type == "USER_IMPLEMENTS_CALLBACK" {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
                 ShopLiveLogger.debugLog("[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)")
+                if name == "ON_SUCCESS_CAMPAIGN_JOIN" {
+                    ShopLiveController.shared.isSuccessCampaignJoin = true
+                }
+
                 delegate?.handleReceivedCommand(name, with: parameters)
             } else {
                 ShopLiveViewLogger.shared.addLog(log: .init(logType: .interface, log: "[shopliveEvent] type: \(type) name: \(name) payload: \(parameters)"))
@@ -243,6 +247,7 @@ extension OverlayWebView: WKScriptMessageHandler {
         case .systemInit:
             ShopLiveLogger.debugLog("systemInit")
             self.isSystemInitialized = true
+            ShopLiveController.shared.initialize()
             self.webView?.sendEventToWeb(event: .videoInitialized)
             DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
                 self.webView?.sendEventToWeb(event: .setVideoMute(isMuted: ShopLiveController.isMuted), ShopLiveController.isMuted)

@@ -793,6 +793,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func isSuccessCampaignJoin() -> Bool {
+        return ShopLiveController.shared.isSuccessCampaignJoin
+    }
+
     func setLoadingAnimation(images: [UIImage]) {
         ShopLiveController.shared.shopliveSettings.setLoadingAnimation(images: images)
     }
