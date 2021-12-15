@@ -184,6 +184,7 @@ final class ShopLiveController: NSObject {
         currentPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
+        isSuccessCampaignJoin = false
     }
     private func reset() {
         playItem = nil
