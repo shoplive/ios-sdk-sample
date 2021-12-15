@@ -130,7 +130,7 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
-    static func isSuccessCampaignJoin() -> Bool {
+    public static func isSuccessCampaignJoin() -> Bool {
         return shared.instance?.isSuccessCampaignJoin() ?? false
     }
 
