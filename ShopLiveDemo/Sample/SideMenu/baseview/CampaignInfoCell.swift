@@ -61,6 +61,7 @@ class CampaignInfoCell: SampleBaseCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        currentKeyUpdated()
         ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
     }
 
@@ -101,7 +102,6 @@ class CampaignInfoCell: SampleBaseCell {
 
 extension CampaignInfoCell: GuideTitleButtonDelegate {
     func didTouchGuideTitleButton(_ sender: GuideTitleButton) {
-        print("didTouchGuideTitleButton")
         let page = CampaignsViewController()
         page.selectKeySet = true
         self.parent?.navigationController?.pushViewController(page, animated: true)
@@ -110,7 +110,7 @@ extension CampaignInfoCell: GuideTitleButtonDelegate {
 
 extension CampaignInfoCell: KeySetObserver {
     var identifier: String {
-        return "MainViewController"
+        return "CampaignInfoCell"
     }
 
     func keysetUpdated() {
@@ -118,7 +118,6 @@ extension CampaignInfoCell: KeySetObserver {
     }
 
     func currentKeyUpdated() {
-        print("CampaignInfoCell currentKeyUpdated")
         if let currentKey = ShopLiveDemoKeyTools.shared.currentKey() {
             chooseButton.updateGuide(guide: currentKey.alias)
             campaignKeyInputField.text = currentKey.campaignKey

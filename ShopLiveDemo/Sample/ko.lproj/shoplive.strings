@@ -1,0 +1,78 @@
+/* 
+  shoplive.strings
+  ShopLiveSDK
+
+  Created by ShopLive on 2021/12/12.
+  
+*/
+
+"alert.msg.ok" = "예";
+"alert.msg.no" = "아니오";
+"alert.msg.confirm" = "확인";
+"alert.msg.cancel" = "취소";
+"alert.msg.success" = "성공";
+"alert.msg.failed" = "실패";
+"sdk.play" = "재생";
+"sdk.preview" = "미리보기";
+"sdk.user.delete" = "지우기";
+"sdk.user.save" = "저장";
+"menu.campaigns" = "방송 목록 관리";
+"menu.userinfo" = "유저 정보 입력";
+"menu.options" = "옵션 설정";
+"menu.exit" = "방송 나가기(PIP 종료)";
+"menu.coupon" = "쿠폰 응답 설정";
+"menu.removeCache" = "웹 스토리지 데이터 삭제";
+"base.section.campaignInfo.title" = "방송정보";
+"base.section.campaignInfo.campaign.none.title" = "선택된 방송이 없습니다.";
+"base.section.campaignInof.button.chooseCampaign.title" = "방송 선택";
+"base.section.userinfo.title" = "유저정보";
+"base.section.userinfo.none.title" = "유저 정보를 입력해 보세요.";
+"base.section.userinfo.button.chooseCampaign.input.title" = "입력";
+"base.section.userinfo.button.chooseCampaign.change.title" = "변경";
+"userinfo.userid.placeholder" = "userId(필수)";
+"userinfo.userName.placeholder" = "userName";
+"userinfo.age.placeholder" = "age";
+"userinfo.userScore.placeholder" = "userScore";
+"userinfo.gender.male" = "남";
+"userinfo.gender.female" = "여";
+"userinfo.gender.none" = "선택안함";
+"userinfo.jwt.result.message" = "JWT 생성 안됨";
+"userinfo.jwt.button.generate" = "JWT 생성하기";
+"userinfo.new.button.save" = "저장하기";
+"userinfo.msg.save.success" = "저장 되었습니다.";
+"userinfo.msg.save.failed.noneId" = "userId는 필수입니다.";
+"userinfo.msg.deleteAll.title" = "유저 정보를 모두 삭제 하시겠습니까?";
+"campaign.menu.write" = "직접 입력";
+"campaign.menu.deleteall" = "전체삭제";
+"campaign.msg.wrongurl" = "잘못된 url 입니다.";
+"sdkoption.section.autoPlay.title" = "자동재생";
+"sdkoption.section.share.title" = "공유하기";
+"sdkoption.section.progress.title" = "로딩 프로그레스";
+"sdkoption.section.chatFont.title" = "채팅 폰트";
+"sdkoption.headphoneOption1.title" = "이어폰/헤드셋 옵션";
+"sdkoption.headphoneOption1.description" = "이어폰/헤드셋 연결이 끊기면 영상을 멈추지 않습니다.";
+"sdkoption.callOption.title" = "통화 옵션";
+"sdkoption.callOption.description" = "통화 종료 후, 영상을 자동으로 재생합니다.";
+"sdkoption.customShare.title" = "커스텀 공유하기 사용";
+"sdkoption.customShare.description" = "공유하기 UI를 직접 구현 합니다.";
+"sdkoption.shareScheme.title" = "공유하기 scheme 또는 URL";
+"sdkoption.shareScheme.description" = "공유하기에 사용할 scheme 또는 url을 입력하세요";
+"sdkoption.progressColor.title" = "로딩 프로그레스 색상(#hex값)";
+"sdkoption.progressColor.description" = "설정 안함(기본값 #FFFFFF)";
+"sdkoption.customProgress.title" = "로딩 프로그레스 이미지 애니메이션 사용하기";
+"sdkoption.customProgress.description" = "사용시, 로딩 프로그레스 색상 적용 안됨";
+"sdkoption.chatInputCustomFont.title" = "채팅 입력창 커스텀 폰트 사용하기";
+"sdkoption.chatInputCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
+"sdkoption.chatSendButtonCustomFont.title" = "채팅 전송 버튼 커스텀 폰트 사용하기";
+"sdkoption.chatSendButtonCustomFont.description" = "미사용시, 시스템 기본 폰트가 사용됨";
+"sdk.msg.nonekey" = "선택된 키가 없습니다.";
+"couponresponse.success.default" = "쿠폰 다운로드에 성공 했습니다.";
+"couponresponse.failed.default" = "쿠폰 다운로드에 실패 했습니다.";
+"couponresponse.success.title" = "* 성공시 액션 설정";
+"couponresponse.failed.title" = "* 실패시 액션 설정";
+"couponresponse.msg.message" = "메시지";
+"couponresponse.msg.show" = "쿠폰노출";
+"couponresponse.msg.alert" = "알림";
+"sample.coupon.download" = "쿠폰 다운로드";
+"sample.coupon.id" = "쿠폰 ID";
+"guide.customShare" = "커스텀 공유하기 사용";

@@ -13,6 +13,7 @@ class SideMenuBaseViewController: UIViewController {
 
     lazy var tableView: UITableView = {
         let view = UITableView(frame: .zero, style: .plain)
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.delegate = self
         view.dataSource = self
         view.separatorStyle = .none
@@ -20,6 +21,7 @@ class SideMenuBaseViewController: UIViewController {
         view.register(CampaignInfoCell.self, forCellReuseIdentifier: "CampaignInfoCell")
         view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
         view.alwaysBounceVertical = false
+        view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
         return view
     }()
 

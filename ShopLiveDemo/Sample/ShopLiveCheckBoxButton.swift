@@ -1,23 +1,27 @@
 //
-//  ShopLiveRadioButton.swift
-//  ShopLiveOn
+//  ShopLiveCheckBoxButton.swift
+//  ShopLiveDemo
 //
-//  Created by ShopLive on 2021/09/16.
+//  Created by ShopLive on 2021/12/16.
 //
 
 import UIKit
 
-protocol ShopLiveRadioButtonDelegate: AnyObject {
-    func didSelectRadioButton(_ sender: ShopLiveRadioButton)
+protocol ShopLiveCheckBoxButtonDelegate: AnyObject {
+    func didChecked(_ sender: ShopLiveCheckBoxButton)
 }
 
-final class ShopLiveRadioButton: UIView {
+final class ShopLiveCheckBoxButton: UIView {
 
-    weak var delegate: ShopLiveRadioButtonDelegate?
+    weak var delegate: ShopLiveCheckBoxButtonDelegate?
 
     var identifier: String = ""
 
-    lazy var radioButton: UIButton = {
+    var isChecked: Bool {
+        return checkButton.isSelected
+    }
+
+    lazy var checkButton: UIButton = {
         let view = UIButton(type: .custom)
         view.translatesAutoresizingMaskIntoConstraints = false
 
@@ -32,7 +36,6 @@ final class ShopLiveRadioButton: UIView {
         view.numberOfLines = 1
         view.lineBreakMode = .byTruncatingTail
         view.textColor = .black
-        view.font = .systemFont(ofSize: 12, weight: .medium)
         return view
     }()
 
@@ -40,12 +43,17 @@ final class ShopLiveRadioButton: UIView {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = .clear
-        view.addTarget(self, action: #selector(didTouchRadioButton), for: .touchUpInside)
+        view.addTarget(self, action: #selector(didTouchCheckbox), for: .touchUpInside)
         return view
     }()
 
     var isSelected: Bool {
-        return radioButton.isSelected
+        set {
+            checkButton.isSelected = newValue
+        }
+        get {
+            return checkButton.isSelected
+        }
     }
 
     init() {
@@ -64,17 +72,17 @@ final class ShopLiveRadioButton: UIView {
     private func setupViews() {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(descriptionLabel)
-        self.addSubview(radioButton)
+        self.addSubview(checkButton)
         self.addSubview(touchArea)
 
-        radioButton.snp.makeConstraints {
+        checkButton.snp.makeConstraints {
             $0.leading.top.bottom.equalToSuperview()
             $0.height.equalTo(20)
         }
 
         descriptionLabel.snp.makeConstraints {
             $0.top.bottom.trailing.equalToSuperview()
-            $0.leading.equalTo(radioButton.snp.trailing).offset(5)
+            $0.leading.equalTo(checkButton.snp.trailing).offset(5)
         }
 
         touchArea.snp.makeConstraints {
@@ -87,12 +95,8 @@ final class ShopLiveRadioButton: UIView {
         self.descriptionLabel.text = description
     }
 
-    func updateRadio(selected: Bool) {
-        self.radioButton.isSelected = selected
-    }
-
-    @objc func didTouchRadioButton() {
-        delegate?.didSelectRadioButton(self)
+    @objc func didTouchCheckbox() {
+        checkButton.isSelected = !checkButton.isSelected
+        delegate?.didChecked(self)
     }
 }
-

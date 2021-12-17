@@ -46,13 +46,10 @@ final class ShopLiveDemoKeyTools {
     }
 
     func addKeysetObserver(observer: KeySetObserver) {
-        print("addKeysetObserver \(observer.identifier)")
         if observers.contains(where: { $0?.identifier == observer.identifier }), let index = observers.firstIndex(where: { $0?.identifier == observer.identifier}) {
-            print("addKeysetObserver exist")
             observers.remove(at: index)
         }
 
-        print("observers count \(observers.count)")
         observers.append(observer)
     }
 

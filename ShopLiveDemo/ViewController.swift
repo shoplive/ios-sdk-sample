@@ -93,17 +93,6 @@ class ViewController: UIViewController {
     }
     let loading = SLLoadingIndicator()
 
-    struct BlogPost: Decodable {
-        enum Category: String, Decodable {
-            case swift, combine, debugging, xcode
-        }
-
-        let title: String
-        let url: URL
-        let category: Category
-        let views: Int
-    }
-
     @IBAction private func switchAction(swItem: UISwitch) {
         switch swItem {
         case swSignIn:
@@ -488,20 +477,7 @@ extension ViewController: SFSafariViewControllerDelegate {
 
 }
 
-extension UIViewController
-{
-    func hideKeyboard()
-    {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(UIViewController.dismissKeyboard))
 
-        view.addGestureRecognizer(tap)
-        if let vc = self as? KeySetRegisterController {
-            tap.delegate = vc
-        }
-    }
-}
 
 extension ViewController: ShopLiveSDKDelegate {
     func handleChangeCampaignStatus(status: String) {

@@ -61,16 +61,22 @@ class GuideTitleButton: UIView {
         self.campaignTitleLabel.text = guideTitle
     }
 
+    func updateButtonTitle(_ title: String) {
+        chooseButton.setTitle(title, for: .normal)
+    }
+
     func setupViews() {
         self.backgroundColor = .white
         self.addSubview(campaignTitleLabel)
         self.addSubview(chooseButton)
 
         campaignTitleLabel.snp.makeConstraints {
+            $0.top.greaterThanOrEqualToSuperview().priority(999)
+            $0.bottom.lessThanOrEqualToSuperview().priority(999)
+            $0.centerY.equalTo(chooseButton).priority(1000)
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.lessThanOrEqualTo(chooseButton.snp.leading).offset(-10)
-            $0.centerY.equalToSuperview()
-            $0.height.equalTo(20)
+            $0.height.greaterThanOrEqualTo(20)
         }
 
         chooseButton.snp.makeConstraints {

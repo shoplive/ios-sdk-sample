@@ -35,6 +35,13 @@ import Foundation
         }
     }
 
+    public func remove(key: String) {
+        guard let index = parameters.firstIndex(where: { $0.key == key}) else {
+            return
+        }
+        parameters.remove(at: index)
+    }
+
     public func getParams() -> [String: String] {
         return parameters
     }
