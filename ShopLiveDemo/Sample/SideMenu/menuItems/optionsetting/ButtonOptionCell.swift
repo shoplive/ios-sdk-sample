@@ -10,7 +10,7 @@ import UIKit
 final class ButtonOptionCell: UITableViewCell {
 
     var item: SDKOptionItem?
-    private lazy var optionTitleLabel: UILabel = {
+    lazy var optionTitleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
@@ -99,6 +99,22 @@ final class ButtonOptionCell: UITableViewCell {
             } else {
                 descriptionTitle = item.optionDescription
             }
+            break
+        case .pipScale:
+            if let pipScale = DemoConfiguration.shared.pipScale, pipScale > 0.0, pipScale <= 1.0 {
+                descriptionTitle = String(format: "%.1f",  pipScale)
+            } else {
+                descriptionTitle = item.optionDescription
+            }
+            break
+        case .pipPosition:
+            let pipPosition = DemoConfiguration.shared.pipPosition
+            if pipPosition != ShopLive.PipPosition.default {
+                descriptionTitle = pipPosition.name
+            } else {
+                descriptionTitle = item.optionDescription
+            }
+            break
         default:
             descriptionTitle = item.optionDescription
             break

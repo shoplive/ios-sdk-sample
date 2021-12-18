@@ -104,6 +104,10 @@ class MainViewController: SideMenuBaseViewController {
             }
         }
 
+        // Picture in Picture Setting
+        ShopLive.pipScale = config.pipScale ?? 2/5
+        ShopLive.pipPosition = config.pipPosition
+
         // Phase Setting
         ShopLive.phase =  ShopLiveDevConfiguration.shared.phaseType
     }

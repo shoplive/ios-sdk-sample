@@ -111,6 +111,16 @@ final class DemoConfiguration: NSObject {
         }
     }
 
+    var jwtToken: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "jwtToken")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "jwtToken")
+        }
+    }
+
     var useHeadPhoneOption1: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.headphoneOption1.optionKey)
@@ -270,5 +280,34 @@ final class DemoConfiguration: NSObject {
     var customFont: UIFont? {
         let customFont: String = "NanumBrush"
         return UIFont(name: customFont, size: 16)
+    }
+
+    var pipPosition: ShopLive.PipPosition {
+        set {
+            UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.pipPosition.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            let rawValue = UserDefaults.standard.integer(forKey: SDKOptionType.pipPosition.optionKey)
+            return ShopLive.PipPosition(rawValue: rawValue) ?? ShopLive.PipPosition.default
+        }
+    }
+
+    var pipScale: CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipScale.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let scale = UserDefaults.standard.string(forKey:  SDKOptionType.pipScale.optionKey), !scale.isEmpty else {
+                return nil
+            }
+
+            if let scaleValue = scale.cgfloatValue, scaleValue <= 0.0 || scaleValue > 1.0 {
+                return nil
+            }
+
+            return scale.cgfloatValue
+        }
     }
 }

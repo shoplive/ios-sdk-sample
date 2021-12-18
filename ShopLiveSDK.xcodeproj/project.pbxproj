@@ -44,6 +44,7 @@
 		BF4719B12768C63B00522F6F /* ShopLiveRadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */; };
 		BF4BE67826CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
 		BF4BE67926CFF24D006BE4F2 /* UIScreenExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */; };
+		BF60E1C9276DB1380060531C /* Sample.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF60E1C8276DB1380060531C /* Sample.xcassets */; };
 		BF64080726E6F8F900ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
 		BF64080826E7030B00ABF1A3 /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
 		BF64080926E7065300ABF1A3 /* ShopLiveViewLoggerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6D31DF26CCFAD500B233A4 /* ShopLiveViewLoggerController.swift */; };
@@ -106,6 +107,8 @@
 		BFBBB03C2670ECB10025ED1D /* ShopLiveKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB0392670ECA50025ED1D /* ShopLiveKeySet.swift */; };
 		BFBBB03E2670EF520025ED1D /* ShopLiveDemoKeyTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB03D2670EF520025ED1D /* ShopLiveDemoKeyTools.swift */; };
 		BFBBB04326710E7B0025ED1D /* KeySetRegisterController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBBB04126710E7B0025ED1D /* KeySetRegisterController.swift */; };
+		BFBBF54B276D9ADD003E97DD /* SwiftJWT in Frameworks */ = {isa = PBXBuildFile; productRef = BFBBF54A276D9ADD003E97DD /* SwiftJWT */; };
+		BFBBF54E276D9BA7003E97DD /* CryptoSwift in Frameworks */ = {isa = PBXBuildFile; productRef = BFBBF54D276D9BA7003E97DD /* CryptoSwift */; };
 		BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFC00CBF26957D1600BD8733 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC00CBD26947B2700BD8733 /* Extensions.swift */; };
 		BFD645E3270C37FD00B0B74F /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFD645E2270C37FD00B0B74F /* VideoToolbox.framework */; };
@@ -199,6 +202,7 @@
 		BF4719AE2768AF4700522F6F /* CampaignCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignCell.swift; sourceTree = "<group>"; };
 		BF4719B02768C63B00522F6F /* ShopLiveRadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveRadioButton.swift; sourceTree = "<group>"; };
 		BF4BE67726CFF24D006BE4F2 /* UIScreenExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIScreenExtensions.swift; sourceTree = "<group>"; };
+		BF60E1C8276DB1380060531C /* Sample.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Sample.xcassets; sourceTree = "<group>"; };
 		BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveStorage.swift; sourceTree = "<group>"; };
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF64082426E8AFE300ABF1A3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -287,10 +291,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BFE2195F276B35C000900FB1 /* Toast in Frameworks */,
+				BFBBF54E276D9BA7003E97DD /* CryptoSwift in Frameworks */,
 				BF9BB7E6273A1640006BDEF3 /* SnapKit in Frameworks */,
 				BF4719A927687C7E00522F6F /* DropDown in Frameworks */,
 				BFE14B66272F6E9200C6624B /* CoreTelephony.framework in Frameworks */,
 				BF47196B2765F40700522F6F /* SideMenu in Frameworks */,
+				BFBBF54B276D9ADD003E97DD /* SwiftJWT in Frameworks */,
 				BFF91D87266D2FE800B659C1 /* SafariServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,6 +400,7 @@
 				BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */,
 				BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */,
 				BF47197727660CF500522F6F /* SampleExtensions.swift */,
+				BF60E1C8276DB1380060531C /* Sample.xcassets */,
 			);
 			path = Sample;
 			sourceTree = "<group>";
@@ -667,6 +674,8 @@
 				BF47196A2765F40700522F6F /* SideMenu */,
 				BF4719A827687C7E00522F6F /* DropDown */,
 				BFE2195E276B35C000900FB1 /* Toast */,
+				BFBBF54A276D9ADD003E97DD /* SwiftJWT */,
+				BFBBF54D276D9BA7003E97DD /* CryptoSwift */,
 			);
 			productName = SwiftDemo;
 			productReference = BFAD8EAA265A23FD00202160 /* Shoplive Demo.app */;
@@ -750,6 +759,8 @@
 				BF4719692765F40700522F6F /* XCRemoteSwiftPackageReference "SideMenu" */,
 				BF4719A527687C6A00522F6F /* XCRemoteSwiftPackageReference "DropDown" */,
 				BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				BFBBF549276D9ADD003E97DD /* XCRemoteSwiftPackageReference "Swift-JWT" */,
+				BFBBF54C276D9BA7003E97DD /* XCRemoteSwiftPackageReference "CryptoSwift" */,
 			);
 			productRefGroup = 1BA5154E25CBDCD100070181 /* Products */;
 			projectDirPath = "";
@@ -789,6 +800,7 @@
 				BF64082D26E8AFE300ABF1A3 /* Localizable.strings in Resources */,
 				BF47197D27662F9300522F6F /* shoplive.strings in Resources */,
 				BF8CEFA0276D1C3C0043D5FF /* NanumBrush.ttf in Resources */,
+				BF60E1C9276DB1380060531C /* Sample.xcassets in Resources */,
 				BFAD8EB6265A23FE00202160 /* Assets.xcassets in Resources */,
 				BFAD8EB4265A23FD00202160 /* Main.storyboard in Resources */,
 			);
@@ -1462,6 +1474,22 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		BFBBF549276D9ADD003E97DD /* XCRemoteSwiftPackageReference "Swift-JWT" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Kitura/Swift-JWT.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		BFBBF54C276D9BA7003E97DD /* XCRemoteSwiftPackageReference "CryptoSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzyzanowskim/CryptoSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		BFE2195D276B35C000900FB1 /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
@@ -1487,6 +1515,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF9BB7E4273A1640006BDEF3 /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		BFBBF54A276D9ADD003E97DD /* SwiftJWT */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFBBF549276D9ADD003E97DD /* XCRemoteSwiftPackageReference "Swift-JWT" */;
+			productName = SwiftJWT;
+		};
+		BFBBF54D276D9BA7003E97DD /* CryptoSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BFBBF54C276D9BA7003E97DD /* XCRemoteSwiftPackageReference "CryptoSwift" */;
+			productName = CryptoSwift;
 		};
 		BFE2195E276B35C000900FB1 /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -8,6 +8,8 @@
 import Foundation
 import UIKit
 import Toast
+import SwiftJWT
+import CryptoSwift
 
 extension UIButton {
 
@@ -57,6 +59,18 @@ extension String {
 
     func localized(with argument: CVarArg = [], from: String = "shoplive", comment: String = "") -> String {
         return String(format: self.localized(from: from, comment: comment), argument)
+    }
+
+    func encrypt() -> String {
+        return self
+    }
+
+    func decrypt() -> String {
+        return self
+    }
+
+    var cgfloatValue: CGFloat? {
+        return CGFloat((self as NSString).floatValue)
     }
 }
 

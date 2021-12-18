@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import DropDown
 
 final class OptionsViewController: SideMenuItemViewController {
 
@@ -47,6 +48,13 @@ final class OptionsViewController: SideMenuItemViewController {
     }
 
     private func setupOptions() {
+
+        let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
+        let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption])
+
+        items.append(pipOptions)
+
         let headphoneOption1 = SDKOptionItem(name: "sdkoption.headphoneOption1.title".localized(), optionDescription: "sdkoption.headphoneOption1.description".localized(), optionType: .headphoneOption1)
         let callOption = SDKOptionItem(name: "sdkoption.callOption.title".localized(), optionDescription: "sdkoption.callOption.description".localized(), optionType: .callOption)
 
@@ -95,13 +103,14 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configure(item: item)
             return cell
-        case .showAlert:
+        case .showAlert, .dropdown:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonOptionCell", for: indexPath) as? ButtonOptionCell else {
                 return UITableViewCell()
             }
             cell.configure(item: item)
             return cell
         }
+
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -120,28 +129,86 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let item = items[safe: indexPath.section]?.optionItems[safe: indexPath.row], item.optionType.settingType == .showAlert else { return }
+        guard let item = items[safe: indexPath.section]?.optionItems[safe: indexPath.row] else { return }
 
-        switch item.optionType {
-        case .shareScheme:
-            let schemeAlert = TextItemInputAlertController(header: "공유하기", data: DemoConfiguration.shared.shareScheme, placeHolder: "scheme 또는 url") { scheme in
-                DemoConfiguration.shared.shareScheme = scheme
-                self.tableView.reloadData()
+        switch item.optionType.settingType {
+        case .showAlert:
+            switch item.optionType {
+            case .shareScheme:
+                let schemeAlert = TextItemInputAlertController(header: "공유하기", data: DemoConfiguration.shared.shareScheme, placeHolder: "scheme 또는 url") { scheme in
+                    DemoConfiguration.shared.shareScheme = scheme
+                    self.tableView.reloadData()
+                }
+                schemeAlert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(schemeAlert, animated: false, completion: nil)
+                break
+            case .progressColor:
+                let schemeAlert = TextItemInputAlertController(header: "로딩 프로그레스 색상", data: DemoConfiguration.shared.progressColor, placeHolder: "ex) #FF0000") { color in
+                    DemoConfiguration.shared.progressColor = color
+                    self.tableView.reloadData()
+                }
+                schemeAlert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(schemeAlert, animated: false, completion: nil)
+                break
+            case .pipScale:
+                let pipData = DemoConfiguration.shared.pipScale == nil ? "" : String(format: "%.1f",  DemoConfiguration.shared.pipScale!)
+                let pipScaleAlert = TextItemInputAlertController(header: "PIP Scale", data: pipData, placeHolder: "ex) 0.4") { scale in
+                    DemoConfiguration.shared.pipScale = scale.cgfloatValue
+                    self.tableView.reloadData()
+                }
+                pipScaleAlert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(pipScaleAlert, animated: false, completion: nil)
+                break
+            default:
+                break
             }
-            schemeAlert.modalPresentationStyle = .overCurrentContext
-            self.navigationController?.present(schemeAlert, animated: false, completion: nil)
             break
-        case .progressColor:
-            let schemeAlert = TextItemInputAlertController(header: "로딩 프로그레스 색상", data: DemoConfiguration.shared.progressColor, placeHolder: "ex) #FF0000") { color in
-                DemoConfiguration.shared.progressColor = color
+        case .dropdown:
+            guard let indexPath = tableView.indexPathForSelectedRow else { return }
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonOptionCell", for: indexPath) as? ButtonOptionCell else { return }
+
+            let cellRect = view.convert(tableView.rectForRow(at: indexPath), from: tableView)
+            let anchorView = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: 1))
+            view.backgroundColor = .clear
+            self.view.addSubview(anchorView)
+
+            anchorView.frame = CGRect(origin: .init(x: 20, y: cellRect.origin.y + cell.frame.height), size: anchorView.frame.size)
+
+            let dropdown = DropDown()
+            dropdown.width = 150
+            dropdown.anchorView = anchorView
+            dropdown.dataSource = ["topLeft", "topRight", "bottomLeft","bottomRight"]
+            dropdown.selectionAction = { (index: Int, item: String) in
+                // print("selected item: \(item) index: \(index)")
+                DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
+                /*
+                switch index {
+                case 0: // topLeft
+                    
+                    break
+                case 1: // topRight
+
+                    break
+                case 2: // bottomLeft
+
+                    break
+                case 3: // bottomRight
+
+                    break
+                default:
+                    break
+                }
+                 */
+                anchorView.removeFromSuperview()
                 self.tableView.reloadData()
             }
-            schemeAlert.modalPresentationStyle = .overCurrentContext
-            self.navigationController?.present(schemeAlert, animated: false, completion: nil)
+
+            dropdown.show()
             break
         default:
             break
         }
+
 
     }
 

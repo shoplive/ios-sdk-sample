@@ -1104,3 +1104,20 @@ extension ShopLiveBase: LiveStreamViewControllerDelegate {
         _delegate?.handleCommand(command, with: payload)
     }
 }
+
+extension ShopLive.PipPosition {
+    var name: String {
+        switch self {
+        case .default, .bottomRight:
+            return "bottomRight"
+        case .bottomLeft:
+            return "bottomLeft"
+        case .topLeft:
+            return "topLeft"
+        case .topRight:
+            return "topRight"
+        default:
+            return "bottomRight"
+        }
+    }
+}
