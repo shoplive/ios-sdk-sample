@@ -568,7 +568,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
         ShopLiveLogger.debugLog("scm shareurl: \(queryItems)")
 
-        var urlString: String = ShopLiveDefines.url
+        let urlString: String = ShopLiveDefines.url
         ShopLiveLogger.debugLog("shoplive url : \(urlString)")
         guard let params = URLUtil.query(queryItems) else {
             return URL(string: urlString)

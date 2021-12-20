@@ -28,7 +28,7 @@ class MainViewController: SideMenuBaseViewController {
     }
 
     func setupSampleOptions() {
-        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "Dev-Admin", "Admin", "userinfo.menu.deleteall".localized()]
+        SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (index: Int, item: String) in
             print("selected item: \(item) index: \(index)")
 
@@ -45,7 +45,17 @@ class MainViewController: SideMenuBaseViewController {
                 print("Admin")
                 break
             case 3: // 전체삭제
-                ShopLiveDemoKeyTools.shared.clearKey()
+                guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
+                    return
+                }
+                let alert = UIAlertController(title: "campaign.msg.deleteAll.title".localized(), message: nil, preferredStyle: .alert)
+                alert.addAction(.init(title: "alert.msg.no".localized(), style: .cancel, handler: { action in
+
+                }))
+                alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
+                    ShopLiveDemoKeyTools.shared.clearKey()
+                }))
+                self.present(alert, animated: true, completion: nil)
                 break
             default:
                 break
@@ -56,12 +66,17 @@ class MainViewController: SideMenuBaseViewController {
 
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
-        // user setting
-        let user = config.user
-        if let id = user.id, !id.isEmpty {
-            ShopLive.user = user
+
+        if config.useJWT {
+            ShopLive.authToken = config.jwtToken//JWTTool.jwtToken
         } else {
-            ShopLive.user = nil
+            // user setting
+            let user = config.user
+            if let id = user.id, !id.isEmpty {
+                ShopLive.user = user
+            } else {
+                ShopLive.user = nil
+            }
         }
 
         // Keep play video on headphone unplugged setting
@@ -133,6 +148,7 @@ class MainViewController: SideMenuBaseViewController {
 
         setupShopliveSettings()
         ShopLive.configure(with: currentKey.accessKey)
+
         ShopLive.play(with: currentKey.campaignKey)
     }
 

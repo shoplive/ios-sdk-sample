@@ -8,7 +8,6 @@
 import Foundation
 import UIKit
 import Toast
-import SwiftJWT
 import CryptoSwift
 
 extension UIButton {
@@ -53,6 +52,7 @@ extension UIWindow {
 }
 
 extension String {
+
     func localized(from: String = "shoplive", comment: String = "") -> String {
         return Bundle.main.localizedString(forKey: self, value: nil, table: from)
     }
@@ -61,16 +61,28 @@ extension String {
         return String(format: self.localized(from: from, comment: comment), argument)
     }
 
-    func encrypt() -> String {
-        return self
-    }
-
-    func decrypt() -> String {
-        return self
-    }
-
     var cgfloatValue: CGFloat? {
         return CGFloat((self as NSString).floatValue)
+    }
+
+    var toJsonValue: String {
+        "\"\(self)\""
+    }
+
+    var base64Decoded: String? {
+       guard let decodedData = Data(base64Encoded: self) else { return nil }
+       return String(data: decodedData, encoding: .utf8)
+    }
+
+    var base64Encoded: String? {
+        let plainData = data(using: .utf8)
+        return plainData?.base64EncodedString()
+    }
+}
+
+extension Int {
+    var toJsonValue: String {
+        "\(self)"
     }
 }
 
@@ -144,8 +156,15 @@ extension UIViewController
             action: #selector(UIViewController.dismissKeyboard))
 
         view.addGestureRecognizer(tap)
-        if let vc = self as? KeySetRegisterController {
-            tap.delegate = vc
-        }
+    }
+}
+
+extension Date {
+    static var expiredTime: Int {
+        Int(Date(timeIntervalSinceNow: 60 * 60 * 12).timeIntervalSince1970)
+    }
+
+    static var createdTime: Int {
+        Int(Date().timeIntervalSince1970)
     }
 }

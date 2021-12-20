@@ -6,14 +6,14 @@
 //
 
 import UIKit
-import XCTest
 
-class UserInfoCell: SampleBaseCell {
+final class UserInfoCell: SampleBaseCell {
 
     private var user = DemoConfiguration.shared.user
 
     private var userButtonTitle: String {
-        guard user.id != nil else {
+
+        guard !isNonUser(user) else {
             return "base.section.userinfo.button.chooseCampaign.input.title".localized()
         }
         return "base.section.userinfo.button.chooseCampaign.change.title".localized()
@@ -21,24 +21,30 @@ class UserInfoCell: SampleBaseCell {
 
     private var userDescription: String {
 
-        guard let userId = user.id else {
+        let id = user.id ?? ""
+        let name = user.name ?? ""
+        let gender = user.gender?.description ?? ""
+        let age = user.age
+        let score = user.userScore
+
+        if (id.isEmpty && name.isEmpty && !(gender == "m" || gender == "f") && age == nil && score == nil) {
             return "base.section.userinfo.none.title".localized()
         }
 
-        var description: String = "userId: \(userId)\n"
+        var description: String = "userId: \(id)\n"
         description += "userName: \(user.name ?? "userName: ")\n"
         description += "age: \(user.ageText)\n"
         description += "userScore: \(user.scoreText)\n"
 
-        var userGender: String = "선택안함"
+        var userGender: String = "userinfo.gender.none".localized()
 
         if let gender = user.gender {
             switch gender {
             case .male:
-                userGender = "남"
+                userGender = "userinfo.gender.male".localized()
                 break
             case .female:
-                userGender = "여"
+                userGender = "userinfo.gender.female".localized()
                 break
             default:
                 break
@@ -50,10 +56,77 @@ class UserInfoCell: SampleBaseCell {
         return description
     }
 
-    lazy var chooseButton: GuideTitleButton = {
-        let view = GuideTitleButton(guide: "base.section.userinfo.none.title".localized(), buttonTitle: "base.section.userinfo.button.chooseCampaign.input.title".localized())
+    lazy var userinfoTitleLabel: UILabel = {
+        let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.delegate = self
+        view.numberOfLines = 0
+        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.textColor = .black
+        view.text = "base.section.userinfo.none.title".localized()
+        return view
+    }()
+
+    lazy var jwtTokenTitleLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 0
+        view.font = .systemFont(ofSize: 16, weight: .medium)
+        view.textColor = .black
+        view.text = DemoConfiguration.shared.jwtToken
+        return view
+    }()
+
+    lazy var chooseButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .red
+        view.layer.cornerRadius = 6
+        view.contentEdgeInsets = .init(top: 7, left: 9, bottom: 7, right: 9)
+        view.titleLabel?.font = .systemFont(ofSize: 15, weight: .medium)
+        view.addTarget(self, action: #selector(didTouchButton), for: .touchUpInside)
+        view.setTitle("base.section.userinfo.button.chooseCampaign.input.title".localized(), for: .normal)
+        return view
+    }()
+
+    var radioGroup: [ShopLiveRadioButton] = []
+
+    lazy var authView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        let commonRadio: ShopLiveRadioButton = {
+            let view = ShopLiveRadioButton()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.configure(identifier: "common", description: "userinfo.auth.type.common".localized())
+            view.delegate = self
+            return view
+        }()
+
+        let tokenRadio: ShopLiveRadioButton = {
+            let view = ShopLiveRadioButton()
+            view.translatesAutoresizingMaskIntoConstraints = false
+            view.configure(identifier: "token", description: "userinfo.auth.type.jwt".localized())
+            view.delegate = self
+            return view
+        }()
+
+        self.radioGroup = [commonRadio, tokenRadio]
+        view.addSubview(commonRadio)
+        view.addSubview(tokenRadio)
+
+        commonRadio.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalToSuperview()
+            $0.height.equalTo(20)
+        }
+
+        tokenRadio.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.equalTo(commonRadio.snp.trailing).offset(15)
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.height.equalTo(20)
+        }
+
         return view
     }()
 
@@ -77,47 +150,77 @@ class UserInfoCell: SampleBaseCell {
 
     override func setupViews() {
         super.setupViews()
-
+        self.titleMenuView.addSubview(authView)
+        self.itemView.addSubview(userinfoTitleLabel)
+        self.itemView.addSubview(jwtTokenTitleLabel)
         self.itemView.addSubview(chooseButton)
+
+        authView.snp.makeConstraints {
+            $0.leading.equalToSuperview()
+            $0.trailing.lessThanOrEqualToSuperview()
+            $0.centerY.equalToSuperview()
+            $0.height.equalTo(20)
+        }
+        userinfoTitleLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.top.equalToSuperview().offset(15)
+            $0.trailing.equalTo(chooseButton.snp.leading).offset(-15)
+        }
+
         chooseButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalToSuperview()
-            $0.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.top.equalToSuperview().offset(5)
+            $0.width.equalTo(80)
             $0.height.greaterThanOrEqualTo(35)
+        }
+
+        jwtTokenTitleLabel.snp.makeConstraints {
+            $0.leading.equalTo(userinfoTitleLabel)
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.top.equalTo(userinfoTitleLabel.snp.bottom).offset(15)
+            $0.top.greaterThanOrEqualTo(chooseButton.snp.bottom).offset(15)
+            $0.bottom.equalToSuperview().offset(-15)
         }
 
         self.setSectionTitle(title: "base.section.userinfo.title".localized())
     }
 
-    private func updateUserInfo() {
-        user = DemoConfiguration.shared.user
-        chooseButton.updateGuide(guide: userDescription)
-        chooseButton.updateButtonTitle(userButtonTitle)
-    }
-}
-
-extension UserInfoCell: GuideTitleButtonDelegate {
-    func didTouchGuideTitleButton(_ sender: GuideTitleButton) {
+    @objc private func didTouchButton() {
         let page = UserInfoViewController()
         self.parent?.navigationController?.pushViewController(page, animated: true)
     }
-}
 
-extension UserInfoCell: DemoConfigurationObserver {
-    var identifier: String {
-        "UserInfoCell"
+    private func updateUserInfo() {
+        updateAuthType(identifier: DemoConfiguration.shared.useJWT ? "token" : "common")
+        user = DemoConfiguration.shared.user
+        userinfoTitleLabel.text = userDescription
+        jwtTokenTitleLabel.text = DemoConfiguration.shared.jwtToken ?? ""
+        chooseButton.setTitle(userButtonTitle, for: .normal)
     }
 
-    func updatedValues(keys: [String]) {
-        keys.forEach { key in
-            switch key {
-            case "user":
-                self.updateUserInfo()
-                break
-            default:
-                break
-            }
+    private func isNonUser(_ user: ShopLiveUser) -> Bool {
+
+        if let id = user.id, !id.isEmpty {
+            return false
         }
+
+        if let name = user.name, !name.isEmpty {
+            return false
+        }
+
+        if user.age != nil {
+            return false
+        }
+
+        if user.userScore != nil {
+            return false
+        }
+
+        if let gender = user.gender, (gender.description == "m" || gender.description == "f") {
+            return false
+        }
+
+        return true
     }
 }
 
@@ -142,5 +245,54 @@ extension ShopLiveUser {
             return ""
         }
         return "\(ageValue)"
+    }
+}
+
+extension UserInfoCell: DemoConfigurationObserver {
+    var identifier: String {
+        "UserInfoCell"
+    }
+
+    func updatedValues(keys: [String]) {
+         updateUserInfo()
+//        keys.forEach { key in
+//            switch key {
+//            case "user":
+//
+//                break
+//            case "jwtToken":
+//
+//                break
+//            default:
+//                break
+//            }
+//        }
+    }
+}
+
+extension UserInfoCell: ShopLiveRadioButtonDelegate {
+
+    func updateAuthType(identifier: String) {
+        radioGroup.forEach { radio in
+            radio.updateRadio(selected: radio.identifier == identifier)
+        }
+    }
+
+    func didSelectRadioButton(_ sender: ShopLiveRadioButton) {
+        updateAuthType(identifier: sender.identifier)
+        guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
+            DemoConfiguration.shared.useJWT = false
+            return
+        }
+
+        DemoConfiguration.shared.useJWT = (selected.identifier == "token")
+    }
+
+    var selectedIdentifier: String {
+        guard let selected = radioGroup.first(where: {$0.isSelected == true}) else {
+            return ""
+        }
+
+        return selected.identifier
     }
 }

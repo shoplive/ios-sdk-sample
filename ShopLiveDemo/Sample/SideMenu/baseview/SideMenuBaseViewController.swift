@@ -21,6 +21,8 @@ class SideMenuBaseViewController: UIViewController {
         view.register(CampaignInfoCell.self, forCellReuseIdentifier: "CampaignInfoCell")
         view.register(UserInfoCell.self, forCellReuseIdentifier: "UserInfoCell")
         view.alwaysBounceVertical = false
+        view.rowHeight = UITableView.automaticDimension
+
         view.contentInset = .init(top: 0, left: 0, bottom: ((UIApplication.shared.windows.first?.safeAreaInsets.bottom ?? 0) + 16), right: 0)
         return view
     }()
@@ -33,11 +35,12 @@ class SideMenuBaseViewController: UIViewController {
             action: #selector(UIViewController.dismissKeyboard))
 
         view.addGestureRecognizer(tap)
-
+        ShopLiveDemoKeyTools.shared.addKeysetObserver(observer: self)
         setupBaseUI()
         setupNavigation()
         setupSDKButtons()
         setupSideMenu()
+        DemoConfiguration.shared.addConfigurationObserver(observer: self)
     }
 }
 
@@ -149,4 +152,31 @@ extension SideMenuBaseViewController {
     @objc func play() {
         print("play")
     }
+}
+
+extension SideMenuBaseViewController: DemoConfigurationObserver, KeySetObserver {
+    func keysetUpdated() {
+        tableView.reloadData()
+    }
+
+    func currentKeyUpdated() {
+        tableView.reloadData()
+    }
+
+    var identifier: String {
+        "SideMenuBaseViewController"
+    }
+
+    func updatedValues(keys: [String]) {
+        if keys.contains(where: {$0 == "user"}) || keys.contains(where: {$0 == "jwtToken"}) {
+            keys.forEach { key in
+                print("key: \(key)")
+            }
+
+            print("reloadData")
+            tableView.reloadData()
+        }
+    }
+
+
 }

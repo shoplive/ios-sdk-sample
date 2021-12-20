@@ -115,6 +115,7 @@ final class DemoConfiguration: NSObject {
         set {
             UserDefaults.standard.set(newValue, forKey: "jwtToken")
             UserDefaults.standard.synchronize()
+            notifyObservers(key: "jwtToken")
         }
         get {
             return UserDefaults.standard.string(forKey: "jwtToken")
@@ -308,6 +309,16 @@ final class DemoConfiguration: NSObject {
             }
 
             return scale.cgfloatValue
+        }
+    }
+
+    var useJWT: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "useJWT")
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  "useJWT")
         }
     }
 }

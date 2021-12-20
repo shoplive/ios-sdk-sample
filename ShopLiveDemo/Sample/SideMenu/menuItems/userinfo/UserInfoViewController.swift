@@ -9,6 +9,14 @@ import UIKit
 
 final class UserInfoViewController: SideMenuItemViewController {
 
+    private var secretKeyButtonTitle: String {
+        guard let key = DemoSecretKeyTool.shared.currentKey()?.key, !key.isEmpty else {
+            return "userinfo.button.chooseSecret.input.title".localized()
+        }
+
+        return "userinfo.button.chooseSecret.change.title".localized()
+    }
+
     lazy var userIdInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -131,6 +139,28 @@ final class UserInfoViewController: SideMenuItemViewController {
         return view
     }()
 
+    private lazy var saveUserInfoButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 6
+        view.backgroundColor = .red
+        view.setTitle("userinfo.jwt.button.usersave".localized(), for: .normal)
+        view.titleLabel?.textColor = .white
+        view.addTarget(self, action: #selector(saveAct), for: .touchUpInside)
+        return view
+    }()
+
+    private lazy var authTokenTitle: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 1
+        view.lineBreakMode = .byTruncatingTail
+        view.textColor = .black
+        view.font = .systemFont(ofSize: 18, weight: .bold)
+        view.text = "userinfo.authToken.title".localized()
+        return view
+    }()
+
     lazy var jwtInputField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -143,6 +173,18 @@ final class UserInfoViewController: SideMenuItemViewController {
         let paddingView = UIView(frame: .init(origin: .zero, size: .init(width: 10, height: view.frame.height)))
         view.leftView = paddingView
         view.setPlaceholderColor(.darkGray)
+        view.isUserInteractionEnabled = false
+        view.isEnabled = false
+        return view
+    }()
+
+    lazy var jwtInputButton: UIButton = {
+        let view = UIButton()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.setTitle(secretKeyButtonTitle, for: .normal)
+        view.backgroundColor = .red
+        view.layer.cornerRadius = 6
+        view.addTarget(self, action: #selector(showSecretList), for: .touchUpInside)
         return view
     }()
 
@@ -160,13 +202,16 @@ final class UserInfoViewController: SideMenuItemViewController {
         view.setTitle("userinfo.jwt.button.generate".localized(), for: .normal)
         view.layer.cornerRadius = 6
         view.backgroundColor = .red
+        view.addTarget(self, action: #selector(tokenGenerateSaveAct), for: .touchUpInside)
         return view
     }()
 
     private var user: ShopLiveUser = DemoConfiguration.shared.user
+    private var newUser: ShopLiveUser?
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        DemoSecretKeyTool.shared.addKeysetObserver(observer: self)
         setupNaviItems()
         setupViews()
         updateUserInfo()
@@ -177,12 +222,12 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         let delete = UIBarButtonItem(title: "sdk.user.delete".localized(from: "shoplive"), style: .plain, target: self, action: #selector(deleteAct))
 
-        let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
+//        let save = UIBarButtonItem(title: "sdk.user.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
 
         delete.tintColor = .white
-        save.tintColor = .white
+//        save.tintColor = .white
 
-        self.navigationItem.rightBarButtonItems = [save, delete]
+        self.navigationItem.rightBarButtonItems = [delete] //save,
     }
 
     func setupViews() {
@@ -191,12 +236,12 @@ final class UserInfoViewController: SideMenuItemViewController {
         self.view.addSubview(ageInputField)
         self.view.addSubview(userScoreInputField)
         self.view.addSubview(genderView)
+        self.view.addSubview(saveUserInfoButton)
+        self.view.addSubview(authTokenTitle)
         self.view.addSubview(jwtInputField)
+        self.view.addSubview(jwtInputButton)
         self.view.addSubview(jwtResultLabel)
         self.view.addSubview(jwtGenerateButton)
-        jwtInputField.isHidden = true
-        jwtResultLabel.isHidden = true
-        jwtGenerateButton.isHidden = true
 
         userIdInputField.snp.makeConstraints {
             $0.top.leading.equalToSuperview().offset(15)
@@ -232,10 +277,31 @@ final class UserInfoViewController: SideMenuItemViewController {
             $0.height.equalTo(20)
         }
 
+        saveUserInfoButton.snp.makeConstraints {
+            $0.top.equalTo(genderView.snp.bottom).offset(10)
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.height.equalTo(35)
+        }
+
+        authTokenTitle.snp.makeConstraints {
+            $0.top.equalTo(saveUserInfoButton.snp.bottom).offset(35)
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalToSuperview().offset(-15)
+            $0.height.equalTo(30)
+        }
+
         jwtInputField.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(15)
-            $0.top.equalTo(genderView.snp.bottom).offset(25)
+            $0.top.equalTo(authTokenTitle.snp.bottom).offset(10)
+            $0.trailing.equalTo(jwtInputButton.snp.leading).offset(-15)
+            $0.height.equalTo(35)
+        }
+
+        jwtInputButton.snp.makeConstraints {
+            $0.top.equalTo(jwtInputField)
             $0.trailing.equalToSuperview().offset(-15)
+            $0.width.equalTo(100)
             $0.height.equalTo(35)
         }
 
@@ -262,17 +328,14 @@ final class UserInfoViewController: SideMenuItemViewController {
         }))
         alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
             DemoConfiguration.shared.user = ShopLiveUser()
+            DemoConfiguration.shared.jwtToken = nil
             self.updateUserInfo()
         }))
         self.present(alert, animated: true, completion: nil)
     }
 
-    @objc func saveAct() {
-        guard let userIdText = userIdInputField.text, !userIdText.isEmpty else {
-            UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
-            return
-        }
-        user.id = userIdText
+    private func save() {
+        user.id = userIdInputField.text
         user.name = userNameInputField.text
         user.gender = selectedGender()
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
@@ -285,8 +348,56 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         DemoConfiguration.shared.user = user
 
-        UIWindow.showToast(message: "userinfo.msg.save".localized())
+        UIWindow.showToast(message: "userinfo.msg.save.success".localized())
         handleNaviBack()
+    }
+
+    @objc func saveAct() {
+        dismissKeyboard()
+        if userIdInputField.text == nil || (userIdInputField.text ?? "").isEmpty {
+            /*
+            let alert = UIAlertController(title: "userinfo.msg.save.failed.noneId".localized(), message: nil, preferredStyle: .alert)
+            alert.addAction(.init(title: "alert.msg.no".localized(), style: .cancel, handler: { action in
+
+            }))
+            alert.addAction(.init(title: "alert.msg.ok".localized(), style: .default, handler: { action in
+                self.save()
+            }))
+            self.present(alert, animated: true, completion: nil)
+            */
+            UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
+        } else {
+            save()
+        }
+    }
+
+    @objc func tokenGenerateSaveAct() {
+        makeJWT { isGenerated in
+            guard isGenerated else { return }
+
+            guard let jwt = self.jwtResultLabel.text, !jwt.isEmpty, jwt != "userinfo.jwt.result.message" else {
+                UIWindow.showToast(message: "userinfo.msg.save.failed.noneToken".localized())
+                return
+            }
+
+            self.saveToken()
+        }
+
+    }
+
+    private func saveToken() {
+        if let jwt = jwtResultLabel.text, !jwt.isEmpty {
+            DemoConfiguration.shared.jwtToken = jwt
+        } else {
+            DemoConfiguration.shared.jwtToken = nil
+        }
+        UIWindow.showToast(message: "userinfo.msg.save.success".localized())
+    }
+
+    @objc func showSecretList() {
+        let vc = SecretKeysViewController()
+        vc.selectKeySet = true
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     private func updateUserInfo() {
@@ -298,9 +409,64 @@ final class UserInfoViewController: SideMenuItemViewController {
         updateGender(identifier: user.gender?.description ?? "unknown")
         let userScore = DemoConfiguration.shared.userScore
         userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
+        updateJwtToken()
+        currentSecretKeyUpdated()
+    }
 
-        // jwt 생성 키값이 없으면
-        jwtResultLabel.text = "userinfo.jwt.result.message".localized()
+    func updateJwtToken() {
+        if let jwtToken = DemoConfiguration.shared.jwtToken, !jwtToken.isEmpty {
+            jwtResultLabel.text = jwtToken
+        } else {
+            jwtResultLabel.text = "userinfo.jwt.result.message".localized()
+        }
+    }
+
+    @objc func makeJWT(completion: @escaping (Bool) -> Void) {
+        dismissKeyboard()
+        let makeUser = ShopLiveUser()
+        makeUser.id = userIdInputField.text
+        makeUser.name = userNameInputField.text
+        makeUser.gender = selectedGender()
+        if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
+            makeUser.age = age
+        } else {
+            makeUser.age = nil
+        }
+
+        makeUser.add(["userScore" : userScoreInputField.text])
+
+        guard !isEqualUser(user: makeUser) else {
+            UIWindow.showToast(message: "userinfo.msg.save.failed.sameInfo".localized())
+            completion(false)
+            return
+        }
+        newUser = makeUser
+        guard let newToken = JWTTool.makeJWT(user: makeUser), !newToken.isEmpty else {
+            jwtResultLabel.text = "userinfo.jwt.result.message".localized()
+            completion(false)
+            return
+        }
+
+        jwtResultLabel.text = newToken
+        completion(true)
+
+    }
+
+    private func isEqualUser(user: ShopLiveUser) -> Bool {
+        if newUser == nil {
+            return false
+        }
+
+        if let curUser = newUser,
+            curUser.id == user.id &&
+            curUser.name == user.name &&
+            curUser.age == user.age &&
+            curUser.userScore == user.userScore &&
+            curUser.gender == user.gender {
+            return true
+        }
+
+        return false
     }
 }
 
@@ -333,4 +499,30 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
         }
 
     }
+}
+
+extension UserInfoViewController: SecretKeySetObserver {
+    var identifier: String {
+        "UserInfoViewController"
+    }
+
+    func setretKeysetUpdated() {
+        guard let key = DemoSecretKeyTool.shared.currentKey()?.key else {
+            jwtInputField.text = ""
+            return
+        }
+
+        jwtInputField.text = key
+    }
+
+    func currentSecretKeyUpdated() {
+        if let currentKey = DemoSecretKeyTool.shared.currentKey() {
+            jwtInputField.text = currentKey.name
+        } else {
+            jwtInputField.text = nil
+        }
+
+        jwtInputButton.setTitle(secretKeyButtonTitle, for: .normal)
+    }
+
 }

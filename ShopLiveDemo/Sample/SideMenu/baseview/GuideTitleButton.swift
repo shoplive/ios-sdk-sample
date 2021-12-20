@@ -19,7 +19,6 @@ class GuideTitleButton: UIView {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
-        view.lineBreakMode = .byTruncatingTail
         view.font = .systemFont(ofSize: 16, weight: .medium)
         view.textColor = .black
         return view
@@ -69,18 +68,18 @@ class GuideTitleButton: UIView {
         self.backgroundColor = .white
         self.addSubview(campaignTitleLabel)
         self.addSubview(chooseButton)
-
+//        self.backgroundColor = .green
+//        campaignTitleLabel.backgroundColor = .red
         campaignTitleLabel.snp.makeConstraints {
-            $0.top.greaterThanOrEqualToSuperview().priority(999)
-            $0.bottom.lessThanOrEqualToSuperview().priority(999)
-            $0.centerY.equalTo(chooseButton).priority(1000)
+            $0.top.equalToSuperview().offset(10)
+            $0.bottom.lessThanOrEqualToSuperview().offset(-10)
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.lessThanOrEqualTo(chooseButton.snp.leading).offset(-10)
-            $0.height.greaterThanOrEqualTo(20)
+            $0.height.greaterThanOrEqualTo(30)
         }
 
         chooseButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-15)
             $0.width.greaterThanOrEqualTo(90)
             $0.height.greaterThanOrEqualTo(35)

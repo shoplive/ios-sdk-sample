@@ -17,7 +17,6 @@ final class ShopLiveDemoKeyTools {
 
     private static let saveIdentifier: String = "ShopLiveDemoKeys"
     private static let currentKeyIdentifier: String = "currentKey"
-    private static let phaseIdentifier: String = "phaseInfo"
 
     static let shared: ShopLiveDemoKeyTools = ShopLiveDemoKeyTools()
 
@@ -30,19 +29,15 @@ final class ShopLiveDemoKeyTools {
     }
 
     private func notifyObservers() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.observers.forEach { observer in
-                observer?.keysetUpdated()
-            }
-//        }
+        self.observers.forEach { observer in
+            observer?.keysetUpdated()
+        }
     }
 
     private func notifyCurrentKeyObservers() {
-//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            self.observers.forEach { observer in
-                observer?.currentKeyUpdated?()
-            }
-//        }
+        self.observers.forEach { observer in
+            observer?.currentKeyUpdated?()
+        }
     }
 
     func addKeysetObserver(observer: KeySetObserver) {
@@ -54,20 +49,6 @@ final class ShopLiveDemoKeyTools {
     }
 
     private var curKey: String = ""
-
-    var phase: String {
-        set(phase) {
-            guard self.phase != phase else {
-                return
-            }
-            UserDefaults.standard.setValue(phase, forKey: ShopLiveDemoKeyTools.phaseIdentifier)
-        }
-
-        get {
-            let phaseData: String = (UserDefaults.standard.string(forKey: ShopLiveDemoKeyTools.phaseIdentifier) ?? "")
-            return phaseData.isEmpty ? "REAL" : phaseData
-        }
-    }
 
     private init() {
         loadData()
@@ -87,7 +68,6 @@ final class ShopLiveDemoKeyTools {
 
     private func loadCurrentKey() {
         curKey = UserDefaults.standard.string(forKey: ShopLiveDemoKeyTools.currentKeyIdentifier) ?? ""
-
     }
 
     func clearKey() {
@@ -132,7 +112,8 @@ final class ShopLiveDemoKeyTools {
         }
         do {
             guard let keysetArray = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as? [ShopLiveKeySet] else {
-                fatalError("unArchiveData - Can't get Keysets")
+                return nil
+//                fatalError("unArchiveData - Can't get Keysets")
             }
             return keysetArray
         } catch {
