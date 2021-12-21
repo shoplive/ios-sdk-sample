@@ -1036,7 +1036,7 @@ final class URLUtil {
 
 extension String {
     var urlEncodedString: String? {
-        var customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
+        let customAllowedSet =  NSCharacterSet(charactersIn:"=\"#%/<>?@\\^`{|}+").inverted
         return self.addingPercentEncoding(withAllowedCharacters: customAllowedSet)
     }
 

@@ -40,6 +40,8 @@ class MainViewController: SideMenuBaseViewController {
                 break
             case 1: // Dev-Admin
                 print("Dev-Admin")
+                // getkey
+                DeepLinkManager.shared.sendDeepLink("")
                 break
             case 2: // Admin
                 print("Admin")
