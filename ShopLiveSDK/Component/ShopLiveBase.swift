@@ -199,6 +199,7 @@ import WebKit
 
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
+        self._authToken = nil
         ShopLiveController.shared.resetOnlyFinished()
     }
     
