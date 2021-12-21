@@ -21,6 +21,8 @@ import WebKit
     @objc var authToken: String? { get set }
     @objc var user: ShopLiveUser? { get set }
 
+    @objc func isSuccessCampaignJoin() -> Bool
+
     @objc func configure(with accessKey: String)
     @objc func preview(with campaignKey: String?, completion: @escaping () -> Void)
     @objc func play(with campaignKey: String?, _ parent: UIViewController?)
@@ -128,6 +130,9 @@ extension ShopLive {
 }
 
 extension ShopLive: ShopLiveSDKInterface {
+    public static func isSuccessCampaignJoin() -> Bool {
+        return shared.instance?.isSuccessCampaignJoin() ?? false
+    }
 
     #if DEMO
     static var phase: ShopLive.Phase {

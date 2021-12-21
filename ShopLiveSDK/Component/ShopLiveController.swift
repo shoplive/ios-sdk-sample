@@ -60,6 +60,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var isSuccessCampaignJoin: Bool = false
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
     @objc dynamic var playItem: ShopLivePlayItem? = .init()
@@ -162,6 +163,10 @@ final class ShopLiveController: NSObject {
         }
     }
 
+    func initialize() {
+        isSuccessCampaignJoin = false
+    }
+
     func clear() {
         ShopLiveLogger.debugLog("clear")
         playerDelegates.forEach { delegate in
@@ -179,6 +184,7 @@ final class ShopLiveController: NSObject {
         currentPlayTime = nil
         isReplayMode = false
         keepAspectOnTabletPortrait = true
+        isSuccessCampaignJoin = false
     }
     private func reset() {
         playItem = nil

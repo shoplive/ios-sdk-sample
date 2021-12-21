@@ -199,6 +199,7 @@ import WebKit
 
         self.delegate?.handleCommand("didShopLiveOff", with: ["style" : self.style.rawValue])
         self._style = .unknown
+        self._authToken = nil
         ShopLiveController.shared.resetOnlyFinished()
     }
     
@@ -793,6 +794,10 @@ import WebKit
 }
 
 extension ShopLiveBase: ShopLiveComponent {
+    func isSuccessCampaignJoin() -> Bool {
+        return ShopLiveController.shared.isSuccessCampaignJoin
+    }
+
     func setLoadingAnimation(images: [UIImage]) {
         ShopLiveController.shared.shopliveSettings.setLoadingAnimation(images: images)
     }
