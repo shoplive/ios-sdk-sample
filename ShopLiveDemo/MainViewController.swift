@@ -39,12 +39,12 @@ class MainViewController: SideMenuBaseViewController {
                 self.navigationController?.present(vc, animated: false, completion: nil)
                 break
             case 1: // Dev-Admin
-                print("Dev-Admin")
                 // getkey
-                DeepLinkManager.shared.sendDeepLink("")
+                DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey")
                 break
             case 2: // Admin
-                print("Admin")
+                // getkey
+                DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey")
                 break
             case 3: // 전체삭제
                 guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
@@ -70,14 +70,11 @@ class MainViewController: SideMenuBaseViewController {
         let config = DemoConfiguration.shared
 
         if config.useJWT {
-            ShopLive.authToken = config.jwtToken//JWTTool.jwtToken
+            ShopLive.authToken = config.jwtToken
         } else {
             // user setting
-            let user = config.user
-            if let id = user.id, !id.isEmpty {
-                ShopLive.user = user
-            } else {
-                ShopLive.user = nil
+            if let userId = config.user.id, !userId.isEmpty {
+                ShopLive.user = config.user
             }
         }
 

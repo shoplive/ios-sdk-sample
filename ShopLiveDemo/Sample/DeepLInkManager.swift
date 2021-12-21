@@ -32,16 +32,18 @@ final class DeepLinkManager {
 
         var parameters: [String: Any] = [:]
         urlComponent.queryItems?.forEach({ item in
-            parameters[item.name] = item.value
+            parameters[item.name] = item.value?.removingPercentEncoding?.base64Decoded
         })
 
         switch command {
         case .video:
-            guard let keyName = parameters[""]
+            guard let alias = parameters["alias"] as? String, let ak = parameters["ak"] as? String, let ck = parameters["ck"] as? String else { return }
+            ShopLiveDemoKeyTools.shared.save(key: .init(alias: alias, campaignKey: ck, accessKey: ak))
             break
         default:
             break
         }
+
     }
 
     func sendDeepLink(_ data: String) {
