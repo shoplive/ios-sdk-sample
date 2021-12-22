@@ -435,6 +435,18 @@ final class UserInfoViewController: SideMenuItemViewController {
 
         makeUser.add(["userScore" : userScoreInputField.text])
 
+        guard let userId = makeUser.id, !userId.isEmpty else {
+            UIWindow.showToast(message: "userinfo.msg.save.failed.noneId".localized())
+            completion(false)
+            return
+        }
+
+        guard let secret = JWTTool.secretKey, !secret.isEmpty else {
+            UIWindow.showToast(message: "userinfo.msg.save.failed.secret.notselected".localized())
+            completion(false)
+            return
+        }
+
         guard !isEqualUser(user: makeUser) else {
             UIWindow.showToast(message: "userinfo.msg.save.failed.sameInfo".localized())
             completion(false)

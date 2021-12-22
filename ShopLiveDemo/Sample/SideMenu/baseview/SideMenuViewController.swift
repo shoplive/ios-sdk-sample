@@ -18,6 +18,7 @@ enum SideMenuTypes: String, CaseIterable {
     case options
     case exit
     case coupon
+    case removeCache
 //    case removeCache
 
     var identifier: String {
@@ -40,7 +41,7 @@ final class ShopLiveSideMenu {
         SideMenuTypes.options.sideMenu,
         SideMenuTypes.coupon.sideMenu,
         SideMenuTypes.exit.sideMenu,
-//        SideMenuTypes.removeCache.sideMenu
+        SideMenuTypes.removeCache.sideMenu
     ]
 }
 
@@ -110,17 +111,11 @@ extension SideMenuViewController: UITableViewDelegate, UITableViewDataSource {
             break
         case SideMenuTypes.exit.identifier:
             ShopLive.close()
-            /*
-            let page = ProgressSettingViewController()
-            self.navigationController?.pushViewController(page, animated: true)
-             */
             break
-//        case SideMenuTypes.removeCache.identifier:
-            /*
-            let page = WebCacheSettingViewController()
-            self.navigationController?.pushViewController(page, animated: true)
-             */
-//            break
+        case SideMenuTypes.removeCache.identifier:
+            ShopLiveStorage.removeAll()
+            UIWindow.showToast(message: "menu.msg.removeCache".localized())
+            break
         default:
             break
         }
