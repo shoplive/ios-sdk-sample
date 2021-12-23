@@ -8,10 +8,10 @@
 import Foundation
 
 @objc public class ShopLiveUser: NSObject {
-    var name: String?
-    var gender: Gender?
-    var id: String?
-    var age: Int?
+    public var name: String?
+    public var gender: Gender?
+    public var id: String?
+    public var age: Int?
 
     private var parameters: [String: String] = [:]
 

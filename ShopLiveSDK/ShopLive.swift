@@ -71,6 +71,21 @@ extension ShopLive {
         case bottomLeft
         case bottomRight
         case `default`
+
+        public var name: String {
+            switch self {
+            case .default, .bottomRight:
+                return "bottomRight"
+            case .bottomLeft:
+                return "bottomLeft"
+            case .topLeft:
+                return "topLeft"
+            case .topRight:
+                return "topRight"
+            default:
+                return "bottomRight"
+            }
+        }
     }
 
     @objc public enum PresentationStyle: Int {
@@ -166,7 +181,7 @@ extension ShopLive: ShopLiveSDKInterface {
         shared.instance?.setShareScheme(scheme, custom: custom)
     }
 
-    static func hookNavigation(navigation: @escaping ((URL) -> Void)) {
+    public static func hookNavigation(navigation: @escaping ((URL) -> Void)) {
         shared.instance?.hookNavigation(navigation: navigation)
     }
 
@@ -225,7 +240,7 @@ extension ShopLive: ShopLiveSDKInterface {
         }
     }
 
-    static var indicatorColor: UIColor  {
+    public static var indicatorColor: UIColor  {
         get {
             shared.instance?.indicatorColor ?? .white
         }
