@@ -255,18 +255,6 @@ extension UserInfoCell: DemoConfigurationObserver {
 
     func updatedValues(keys: [String]) {
          updateUserInfo()
-//        keys.forEach { key in
-//            switch key {
-//            case "user":
-//
-//                break
-//            case "jwtToken":
-//
-//                break
-//            default:
-//                break
-//            }
-//        }
     }
 }
 

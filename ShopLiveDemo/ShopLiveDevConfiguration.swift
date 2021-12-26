@@ -33,13 +33,14 @@ final class ShopLiveDevConfiguration {
     }
 
     var phaseType: ShopLive.Phase {
-        let phases: [String: ShopLive.Phase] = [ShopLive.Phase.DEV.name: ShopLive.Phase.DEV, ShopLive.Phase.STAGE.name: ShopLive.Phase.STAGE, ShopLive.Phase.REAL.name: ShopLive.Phase.REAL]
+        let phases: [String: ShopLive.Phase] = [
+            ShopLive.Phase.DEV.name: ShopLive.Phase.DEV,
+            ShopLive.Phase.STAGE.name: ShopLive.Phase.STAGE,
+            ShopLive.Phase.REAL.name: ShopLive.Phase.REAL]
 
-        if let key = phases.keys.first(where: { $0 == phase }) {
-            return phases[key] ?? .DEV
-        } else {
-            return .DEV
-        }
+
+        return phases[phase] ?? .DEV
+
 
     }
 

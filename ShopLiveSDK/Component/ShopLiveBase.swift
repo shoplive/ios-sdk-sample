@@ -662,7 +662,7 @@ import WebKit
         queryItems.append(URLQueryItem(name: "version", value: ShopLiveDefines.sdkVersion))
         queryItems.append(URLQueryItem(name: "keepAspectOnTabletPortrait", value: "\(ShopLiveController.shared.keepAspectOnTabletPortrait ? "true" : "false")"))
         #if DEMO
-            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "applicationName"))
+//            ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: "applicationName"))
             queryItems.append(URLQueryItem(name: "applicationName", value: "shoplive-sdk-sample"))
         #endif
         for item in ShopLiveStorage.allItems {
@@ -894,7 +894,11 @@ extension ShopLiveBase: ShopLiveComponent {
 
     @objc func configure(with accessKey: String) {
         self.accessKey = accessKey
-        self.phase = .REAL
+        #if DEMO
+
+        #else
+            self.phase = .REAL
+        #endif
     }
 
     func preview(with campaignKey: String?, completion: @escaping () -> Void) {

@@ -112,10 +112,10 @@ class MainViewController: SideMenuBaseViewController {
         }
 
         // Custom Font Setting
-        if config.useChatInputCustomFont || config.useChatSendButtonCustomFont {
-            if let customFont = config.customFont {
-                ShopLive.setChatViewFont(inputBoxFont: customFont, sendButtonFont: customFont)
-            }
+        let inputDefaultFont = UIFont.systemFont(ofSize: 14, weight: .regular)
+        let sendButtonDefaultFont = UIFont.systemFont(ofSize: 14, weight: .medium)
+        if let customFont = config.customFont {
+            ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : inputDefaultFont, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : sendButtonDefaultFont)
         }
 
         // Picture in Picture Setting
@@ -123,7 +123,22 @@ class MainViewController: SideMenuBaseViewController {
         ShopLive.pipPosition = config.pipPosition
 
         // Phase Setting
-        ShopLive.phase =  ShopLiveDevConfiguration.shared.phaseType
+        #if DEMO
+        ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
+        ShopLiveDefines.url = setupUrl()
+        #endif
+        
+    }
+
+    func setupUrl() -> String {
+        switch ShopLiveDevConfiguration.shared.phaseType {
+        case .DEV:
+            return "https://dev.shoplive.show/v1/sdk.html"
+        case .STAGE:
+            return "https://stg.shoplive.show/v1/sdk.html"
+        default:
+            return "https://www.shoplive.show/v1/sdk.html"
+        }
     }
 
     override func preview() {
