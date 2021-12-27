@@ -13,18 +13,18 @@ import CoreMedia
 @objc internal final class ShopLiveDefines: NSObject {
     static let sdkVersion: String = "1.2.0"
     static var phase: ShopLive.Phase = .REAL
-    static var url: String = {
-                switch phase {
-                #if DEMO
-                case .DEV:
-                    return "https://dev.shoplive.show/v1/sdk.html"
-                #endif
-                case .STAGE:
-                    return "https://stg.shoplive.show/v1/sdk.html"
-                default:
-                    return "https://www.shoplive.show/v1/sdk.html"
-                }
-            }()
+    static var url: String {
+        switch phase {
+        #if DEMO
+        case .DEV:
+            return "https://dev.shoplive.show/v1/sdk.html"
+        #endif
+        case .STAGE:
+            return "https://stg.shoplive.show/v1/sdk.html"
+        default:
+            return "https://www.shoplive.show/v1/sdk.html"
+        }
+    }
 
     static let webInterface: String = "ShopLiveAppInterface"
     static let osVersion = UIDevice.current.systemVersion

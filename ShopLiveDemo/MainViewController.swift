@@ -125,20 +125,7 @@ class MainViewController: SideMenuBaseViewController {
         // Phase Setting
         #if DEMO
         ShopLiveDefines.phase = ShopLiveDevConfiguration.shared.phaseType
-        ShopLiveDefines.url = setupUrl()
         #endif
-        
-    }
-
-    func setupUrl() -> String {
-        switch ShopLiveDevConfiguration.shared.phaseType {
-        case .DEV:
-            return "https://dev.shoplive.show/v1/sdk.html"
-        case .STAGE:
-            return "https://stg.shoplive.show/v1/sdk.html"
-        default:
-            return "https://www.shoplive.show/v1/sdk.html"
-        }
     }
 
     override func preview() {
