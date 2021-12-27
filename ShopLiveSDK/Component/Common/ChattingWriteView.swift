@@ -203,8 +203,9 @@ internal final class ChattingWriteView: UIView {
                 self.chatTopEqual.isActive = false
                 self.chatTopMin.isActive = true
             } else {
-                self.chatTopEqual.isActive = true
                 self.chatTopMin.isActive = false
+                self.chatTopEqual.isActive = true
+
             }
 
             DispatchQueue.main.async {
