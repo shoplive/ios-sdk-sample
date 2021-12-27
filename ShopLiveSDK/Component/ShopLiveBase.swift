@@ -14,6 +14,7 @@ import WebKit
     private var shopLiveWindow: UIWindow? = nil
     private var videoWindowPanGestureRecognizer: UIPanGestureRecognizer?
     private var videoWindowTapGestureRecognizer: UITapGestureRecognizer?
+    private var videoWindowPinchGestureRecognizer: UIPinchGestureRecognizer?
     private var videoWindowSwipeDownGestureRecognizer: UISwipeGestureRecognizer?
     private var _webViewConfiguration: WKWebViewConfiguration?
     private var isRestoredPip: Bool = false
@@ -114,6 +115,12 @@ import WebKit
         shopLiveWindow?.windowLevel = .statusBar - 1
         shopLiveWindow?.frame = ShopLiveController.shared.isPreview ? pipPosition(with: lastPipScale, position: lastPipPosition) : mainWindow?.frame ?? UIScreen.main.bounds
         shopLiveWindow?.rootViewController = liveStreamViewController
+
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(liveWindowPinchGestureHandler))
+        shopLiveWindow?.addGestureRecognizer(pinchGesture)
+        videoWindowPinchGestureRecognizer = pinchGesture
+        videoWindowPinchGestureRecognizer?.isEnabled = ShopLiveController.shared.isPreview ? true : false
+
         let panGesture = UIPanGestureRecognizer(target: self, action: #selector(liveWindowPanGestureHandler))
         shopLiveWindow?.addGestureRecognizer(panGesture)
         videoWindowPanGestureRecognizer = panGesture
@@ -355,7 +362,7 @@ import WebKit
 
 //        liveStreamViewController?.hideBackgroundPoster()
         ShopLiveController.webInstance?.isHidden = true
-        
+        videoWindowPinchGestureRecognizer?.isEnabled = true
         videoWindowPanGestureRecognizer?.isEnabled = true
         videoWindowTapGestureRecognizer?.isEnabled = true
         videoWindowSwipeDownGestureRecognizer?.isEnabled = false
@@ -397,6 +404,7 @@ import WebKit
         ShopLiveController.shared.pipAnimationg = true
         ShopLiveController.webInstance?.isHidden = false
 
+        videoWindowPinchGestureRecognizer?.isEnabled = false
         videoWindowPanGestureRecognizer?.isEnabled = false
         videoWindowTapGestureRecognizer?.isEnabled = false
         videoWindowSwipeDownGestureRecognizer?.isEnabled = true
@@ -515,7 +523,35 @@ import WebKit
     }
     
     var panGestureInitialCenter: CGPoint = .zero
-    
+
+    @objc private func liveWindowPinchGestureHandler(_ recognizer: UIPinchGestureRecognizer) {
+        guard _style == .pip else { return }
+        guard recognizer.view != nil else { return }
+
+        let maxScale = 0.8
+        let minScale = 0.3
+
+        switch recognizer.state {
+        case .began, .changed:
+
+            let scale = (recognizer.scale * 0.03)
+            if lastPipScale < maxScale && recognizer.scale > 1.0 {
+                lastPipScale += scale
+            } else if lastPipScale > minScale && recognizer.scale < 1.0 {
+                lastPipScale -= scale
+            }
+
+            shopLiveWindow?.frame = pipPosition(with: lastPipScale, position: lastPipPosition)
+            recognizer.scale = 1.0
+            break
+        case .ended:
+//            ShopLiveLogger.debugLog("pinch ended scale: \(recognizer.scale)   lastPipScale \(lastPipScale)")
+            break
+        default:
+            break
+        }
+    }
+
     @objc private func liveWindowPanGestureHandler(_ recognizer: UIPanGestureRecognizer) {
         guard _style == .pip else { return }
         guard let liveWindow = recognizer.view else { return }
