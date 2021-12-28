@@ -215,17 +215,18 @@ extension LiveStreamViewModel: ShopLivePlayerDelegate {
 extension LiveStreamViewModel: AVPlayerItemMetadataOutputPushDelegate {
     func metadataOutput(_ output: AVPlayerItemMetadataOutput, didOutputTimedMetadataGroups groups: [AVTimedMetadataGroup], from track: AVPlayerItemTrack?) {
 
-        ShopLiveLogger.debugLog("whkim meta count: \(groups.first?.items.count)")
-
-        var payloads: NSMutableDictionary = .init()
-        
+        let payloads: NSMutableDictionary = .init()
+        var timedMeta: String = "[timedMeta]\n"
         groups.forEach { group in
             group.items.forEach { item in
 
                 if let key = item.key as? String, let datav = item.value as? Data {
+                    timedMeta += "\(key): \(String(describing: item.value)) \n"
                     payloads[key] = datav.base64EncodedString()
 //                    ShopLiveLogger.debugLog("item base64  \(datav.base64EncodedString())    origin: \(item.value)")
                 }
+
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: timedMeta))
 /*
                 if let dataVa = item.dataValue, let valeng = item.dataValue?.count {
                     let str = String(decoding: dataVa, as: UTF8.self)

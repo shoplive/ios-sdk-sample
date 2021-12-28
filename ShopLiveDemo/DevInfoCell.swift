@@ -11,6 +11,14 @@ final class DevInfoCell: SampleBaseCell {
 
     var radioGroup: [ShopLiveRadioButton] = []
 
+    lazy var loggerViewButton: ShopLiveCheckBoxButton = {
+        let view = ShopLiveCheckBoxButton(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.configure(identifier: "appDebug", description: "앱 디버깅 로그 출력하기")
+        view.delegate = self
+        return view
+    }()
+
     lazy var checkButton: ShopLiveCheckBoxButton = {
         let view = ShopLiveCheckBoxButton(frame: .zero)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -80,7 +88,9 @@ final class DevInfoCell: SampleBaseCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
+        ShopLiveDevConfiguration.shared.addConfigurationObserver(observer: self)
         updateWebDebugSetting()
+        updateAppDebugSetting()
         updatePhase(identifier: ShopLiveDevConfiguration.shared.phase)
     }
 
@@ -102,11 +112,18 @@ final class DevInfoCell: SampleBaseCell {
     override func setupViews() {
         super.setupViews()
 
+        itemView.addSubview(loggerViewButton)
         itemView.addSubview(checkButton)
         itemView.addSubview(phaseView)
 
-        checkButton.snp.makeConstraints {
+        loggerViewButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-10)
+        }
+
+        checkButton.snp.makeConstraints {
+            $0.top.equalTo(loggerViewButton.snp.bottom).offset(10)
             $0.leading.equalToSuperview().offset(10)
             $0.trailing.equalToSuperview().offset(-10)
         }
@@ -126,11 +143,25 @@ final class DevInfoCell: SampleBaseCell {
 
 extension DevInfoCell: ShopLiveCheckBoxButtonDelegate {
     func didChecked(_ sender: ShopLiveCheckBoxButton) {
-        ShopLiveDevConfiguration.shared.useWebLog = sender.isChecked
+        if sender.identifier == "webDebug" {
+            ShopLiveDevConfiguration.shared.useWebLog = sender.isChecked
+        } else if sender.identifier == "appDebug" {
+            ShopLiveViewLogger.shared.setVisible(show: sender.isChecked)
+        }
     }
 
     func updateWebDebugSetting() {
         checkButton.isSelected = ShopLiveDevConfiguration.shared.useWebLog
+    }
+
+    func updateAppDebugSetting() {
+        if ShopLiveDevConfiguration.shared.useAppLog {
+            if !ShopLiveViewLogger.shared.isVisible() {
+                ShopLiveViewLogger.shared.setVisible(show: true)
+            }
+        }
+
+        loggerViewButton.isSelected = ShopLiveDevConfiguration.shared.useAppLog
     }
 }
 
@@ -148,5 +179,17 @@ extension DevInfoCell: ShopLiveRadioButtonDelegate {
         radioGroup.forEach { radio in
             radio.updateRadio(selected: radio.identifier == identifier)
         }
+    }
+}
+
+
+extension DevInfoCell: DevConfigurationObserver {
+    var identifier: String {
+        "DevInfoCell"
+    }
+
+    func updatedValues(keys: [String]) {
+        updateWebDebugSetting()
+        updateAppDebugSetting()
     }
 }

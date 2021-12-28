@@ -842,6 +842,10 @@ extension ShopLiveBase: ShopLiveComponent {
     }
 
     func onTerminated() {
+        #if DEMO
+        ShopLiveDevConfiguration.shared.useAppLog = false
+        #endif
+
         liveStreamViewController?.onTerminated()
     }
     

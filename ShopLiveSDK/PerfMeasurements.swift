@@ -87,8 +87,8 @@ class PerfMeasurements: NSObject {
     }
     
     // The AccessLog associated to the current player item.
-    private var accessLog: AVPlayerItemAccessLog? {
-            return playerItem?.accessLog()
+    var accessLog: AVPlayerItemAccessLog? {
+        return playerItem?.accessLog()
     }
     
     /// The player item monitored.

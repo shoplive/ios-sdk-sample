@@ -63,6 +63,13 @@ final class ShopLiveViewLogger {
 
     func setVisible(show: Bool) {
         logWindow.isHidden = !show
+        #if DEMO
+            ShopLiveDevConfiguration.shared.useAppLog = show
+        #endif
+    }
+
+    func isVisible() -> Bool {
+        return !logWindow.isHidden
     }
 
     func addLog(log: ShopLiveViewLog) {
@@ -152,13 +159,22 @@ final class ShopLiveViewLoggerController: UIViewController, UITableViewDelegate,
         }
 
         func logToString() -> String {
-                    var logdata = ""
-                    logs.forEach { log in
-                        logdata += log.log
-                        logdata += "\n"
-                    }
-                    return logdata
+            var logdata = ""
+
+            if filters.count > 0 {
+                filteredLogs.forEach { log in
+                    logdata += log.log
+                    logdata += "\n"
                 }
+            } else {
+                logs.forEach { log in
+                    logdata += log.log
+                    logdata += "\n"
+                }
+            }
+
+            return logdata
+        }
     }
 
     var viewModel = ViewModel()

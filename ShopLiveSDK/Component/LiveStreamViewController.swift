@@ -74,6 +74,54 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         foregroundImageView = nil
     }
 
+    private var logTimer: Timer?
+
+    private func addQualityLogTimer() {
+        logTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+            if let perf = ShopLiveController.perfMeasurements {
+                var qualityLog = "[play performance]\n"
+//                qualityLog += "비트전송률: \(String(format: "%.2f", perf.timeWeightedIBR))\n"
+//                qualityLog += "총 시청 시간: \(String(format: "%.2f", perf.totalDurationWatched))\n"
+
+                if let playerItem = ShopLiveController.playerItem {
+                    qualityLog += "지연없이 재생될 가능성 여부: \(playerItem.isPlaybackLikelyToKeepUp)\n"
+                    qualityLog += "내부 미디어 버퍼 Full: \(playerItem.isPlaybackBufferFull)\n"
+                    qualityLog += "버퍼링 된 미디어 Empty: \(playerItem.isPlaybackBufferEmpty)\n"
+                }
+
+                if let accessLog = perf.accessLog, let last = accessLog.events.last {
+
+                    qualityLog += "비트전송률: \(String(format: "%.2f", last.averageVideoBitrate / 8 / 1024))\n"
+
+//                    qualityLog += "indicatedBitrate: \(String(format: "%.2f", last.indicatedBitrate))\n"
+//                    qualityLog += "observedBitrate: \(String(format: "%.2f", last.observedBitrate))\n"
+//                    qualityLog += "numberOfBytesTransferred: \(last.numberOfBytesTransferred)\n"
+//                    qualityLog += "durationWatched: \(String(format: "%.2f", last.durationWatched))\n"
+
+
+                    let bitsTransferred = Double(last.numberOfBytesTransferred * 8)
+                    let bitrate =  bitsTransferred / Double(last.segmentsDownloadedDuration)
+//                    print("[bitbit] last.segmentsDownloadedDuration: \(last.segmentsDownloadedDuration)")
+
+
+//                    print("[bitbit] Calculated Bit Rate: \(bitrate)")
+
+
+                    print("[bitbit] Bit Rate: \(last.averageVideoBitrate)")
+                }
+
+
+
+                ShopLiveViewLogger.shared.addLog(log: .init(logType: .applog, log: qualityLog))
+            }
+        }
+    }
+
+    private func removeQuailtyLogTimer() {
+        logTimer?.invalidate()
+        logTimer = nil
+    }
+
     private func addPlayTimeObserver() {
         let time = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         playTimeObserver = ShopLiveController.player?.addPeriodicTimeObserver(forInterval: time, queue: .main, using: { (time) in
@@ -240,6 +288,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //        setupCallState()
         setupAudioConfig()
         addPlayTimeObserver()
+        addQualityLogTimer()
         addObserver()
     }
 
@@ -1013,6 +1062,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         removePlaytimeObserver()
+        removeQuailtyLogTimer()
     }
 
 }
