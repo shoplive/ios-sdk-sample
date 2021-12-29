@@ -18,7 +18,7 @@ class MainViewController: SideMenuBaseViewController {
 
         self.view.backgroundColor = .white
 
-        self.title = "SDK Demo"
+        self.title = "SDK Demo" // "sdk.demo.title".localized()
 
         ShopLive.delegate = self
 
@@ -101,7 +101,7 @@ class MainViewController: SideMenuBaseViewController {
                 // Custom Share Setting
                 ShopLive.setShareScheme(scheme, custom: {
                     let alert = UIAlertController.init(title: "guide.customShare".localized(), message: nil, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { (action) in
+                    alert.addAction(UIAlertAction(title: "alert.msg.confirm".localized(), style: .default, handler: { (action) in
                     }))
                     ShopLive.viewController?.present(alert, animated: true, completion: nil)
                 })

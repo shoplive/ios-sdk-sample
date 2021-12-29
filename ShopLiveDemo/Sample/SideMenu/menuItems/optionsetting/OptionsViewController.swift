@@ -135,7 +135,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
         case .showAlert:
             switch item.optionType {
             case .shareScheme:
-                let schemeAlert = TextItemInputAlertController(header: "공유하기", data: DemoConfiguration.shared.shareScheme, placeHolder: "scheme 또는 url") { scheme in
+                let schemeAlert = TextItemInputAlertController(header: "sdkoption.section.share.title".localized(), data: DemoConfiguration.shared.shareScheme, placeHolder: "scheme 또는 url") { scheme in
                     DemoConfiguration.shared.shareScheme = scheme
                     self.tableView.reloadData()
                 }
@@ -152,7 +152,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 break
             case .pipScale:
                 let pipData = DemoConfiguration.shared.pipScale == nil ? "" : String(format: "%.1f",  DemoConfiguration.shared.pipScale!)
-                let pipScaleAlert = TextItemInputAlertController(header: "PIP Scale", data: pipData, placeHolder: "ex) 0.4") { scale in
+                let pipScaleAlert = TextItemInputAlertController(header: "sdkoption.pipScale.title".localized(), data: pipData, placeHolder: "ex) 0.4") { scale in
                     DemoConfiguration.shared.pipScale = scale.cgfloatValue
                     self.tableView.reloadData()
                 }

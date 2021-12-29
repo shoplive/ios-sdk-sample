@@ -516,10 +516,10 @@
 				BF1B57B9276983600002EBB5 /* CustomBaseAlertController.swift */,
 				BF1B57BB2769844F0002EBB5 /* CampaignInputAlertController.swift */,
 				BF8CEF92276C70DB0043D5FF /* TextItemInputAlertController.swift */,
+				BF60E1D8276F8D970060531C /* SecretKeyInputAlertController.swift */,
 				BFE21968276B4D8800900FB1 /* ShopLiveCheckBoxButton.swift */,
 				BF47197727660CF500522F6F /* SampleExtensions.swift */,
 				BF60E1C8276DB1380060531C /* Sample.xcassets */,
-				BF60E1D8276F8D970060531C /* SecretKeyInputAlertController.swift */,
 				BF60E1DD277175D90060531C /* DeepLInkManager.swift */,
 			);
 			path = Sample;
@@ -530,7 +530,6 @@
 			children = (
 				BF8CEF96276CC5D10043D5FF /* campaigns */,
 				BF8CEF97276CC5E60043D5FF /* userinfo */,
-				BF60E1D3276F6E320060531C /* secretkeys */,
 				BF8CEF98276CC5F60043D5FF /* optionsetting */,
 				BF8CEF99276CC6590043D5FF /* couponsetting */,
 				BF8CEF9A276CC6740043D5FF /* secretkeysetting */,
@@ -567,13 +566,6 @@
 				BF4719A027685D8E00522F6F /* GuideTitleButton.swift */,
 			);
 			path = baseview;
-			sourceTree = "<group>";
-		};
-		BF60E1D3276F6E320060531C /* secretkeys */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = secretkeys;
 			sourceTree = "<group>";
 		};
 		BF64082126E8AFE300ABF1A3 /* Resource */ = {
