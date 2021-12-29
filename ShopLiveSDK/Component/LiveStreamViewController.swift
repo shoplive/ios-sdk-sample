@@ -266,7 +266,9 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 //        setupCallState()
         setupAudioConfig()
         addPlayTimeObserver()
-        addQualityLogTimer()
+        #if DEMO
+            addQualityLogTimer()
+        #endif
         addObserver()
     }
 
@@ -1040,7 +1042,9 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         removePlaytimeObserver()
-        removeQuailtyLogTimer()
+        #if DEMO
+            removeQuailtyLogTimer()
+        #endif
     }
 
 }
