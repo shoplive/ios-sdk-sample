@@ -84,7 +84,6 @@
 		BF60E20D2771CECA0060531C /* SDKOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8CEF90276C6DED0043D5FF /* SDKOption.swift */; };
 		BF60E20E2771CECA0060531C /* OptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47198727663C9600522F6F /* OptionsViewController.swift */; };
 		BF60E20F2771CECA0060531C /* ShopLiveStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64080626E6F8F900ABF1A3 /* ShopLiveStorage.swift */; };
-		BF60E2102771CECA0060531C /* KeyboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082726E8AFE300ABF1A3 /* KeyboardService.swift */; };
 		BF60E2112771CECA0060531C /* SampleBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF47199C27684A8D00522F6F /* SampleBaseCell.swift */; };
 		BF60E2122771CECA0060531C /* CALayerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFAD7C726BA05CA00C8C5E1 /* CALayerExtensions.swift */; };
 		BF60E2132771CECA0060531C /* ShopLiveDevConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE21960276B3BE600900FB1 /* ShopLiveDevConfiguration.swift */; };
@@ -152,8 +151,6 @@
 		BF64082D26E8AFE300ABF1A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = BF64082226E8AFE300ABF1A3 /* Localizable.strings */; };
 		BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
 		BF64082F26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */; };
-		BF64083026E8AFE300ABF1A3 /* KeyboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082726E8AFE300ABF1A3 /* KeyboardService.swift */; };
-		BF64083126E8AFE300ABF1A3 /* KeyboardService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082726E8AFE300ABF1A3 /* KeyboardService.swift */; };
 		BF64083226E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */; };
 		BF64083326E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */; };
 		BF64083426E8AFE300ABF1A3 /* SLKeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF64082926E8AFE300ABF1A3 /* SLKeychainWrapper.swift */; };
@@ -311,7 +308,6 @@
 		BF64082326E8AFE300ABF1A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF64082426E8AFE300ABF1A3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingInternalTextView.swift; sourceTree = "<group>"; };
-		BF64082726E8AFE300ABF1A3 /* KeyboardService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardService.swift; sourceTree = "<group>"; };
 		BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLNextGrowingTextView.swift; sourceTree = "<group>"; };
 		BF64082926E8AFE300ABF1A3 /* SLKeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainWrapper.swift; sourceTree = "<group>"; };
 		BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SLKeychainItemAccessibility.swift; sourceTree = "<group>"; };
@@ -581,7 +577,6 @@
 			isa = PBXGroup;
 			children = (
 				BF64082626E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift */,
-				BF64082726E8AFE300ABF1A3 /* KeyboardService.swift */,
 				BF64082826E8AFE300ABF1A3 /* SLNextGrowingTextView.swift */,
 				BF64082926E8AFE300ABF1A3 /* SLKeychainWrapper.swift */,
 				BF64082A26E8AFE300ABF1A3 /* SLKeychainItemAccessibility.swift */,
@@ -1008,7 +1003,6 @@
 				1BED2D9325DA4BAB002BFEED /* PerfMeasurements.swift in Sources */,
 				BFC00CBE26947B2700BD8733 /* Extensions.swift in Sources */,
 				BF64083226E8AFE300ABF1A3 /* SLNextGrowingTextView.swift in Sources */,
-				BF64083026E8AFE300ABF1A3 /* KeyboardService.swift in Sources */,
 				BF8D724E267AE5BC00ED2750 /* ChattingWriteView.swift in Sources */,
 				BF64082E26E8AFE300ABF1A3 /* SLNextGrowingInternalTextView.swift in Sources */,
 				BFAD8E9E265A211E00202160 /* ShopLiveDefines.swift in Sources */,
@@ -1070,7 +1064,6 @@
 				BF60E20D2771CECA0060531C /* SDKOption.swift in Sources */,
 				BF60E20E2771CECA0060531C /* OptionsViewController.swift in Sources */,
 				BF60E20F2771CECA0060531C /* ShopLiveStorage.swift in Sources */,
-				BF60E2102771CECA0060531C /* KeyboardService.swift in Sources */,
 				BF60E2112771CECA0060531C /* SampleBaseCell.swift in Sources */,
 				BF60E2122771CECA0060531C /* CALayerExtensions.swift in Sources */,
 				BF60E2132771CECA0060531C /* ShopLiveDevConfiguration.swift in Sources */,
@@ -1153,7 +1146,6 @@
 				BF8CEF91276C6DED0043D5FF /* SDKOption.swift in Sources */,
 				BF47198827663C9600522F6F /* OptionsViewController.swift in Sources */,
 				BF64080826E7030B00ABF1A3 /* ShopLiveStorage.swift in Sources */,
-				BF64083126E8AFE300ABF1A3 /* KeyboardService.swift in Sources */,
 				BF47199D27684A8D00522F6F /* SampleBaseCell.swift in Sources */,
 				BFFAD7CB26BA05CA00C8C5E1 /* CALayerExtensions.swift in Sources */,
 				BFE21961276B3BE600900FB1 /* ShopLiveDevConfiguration.swift in Sources */,

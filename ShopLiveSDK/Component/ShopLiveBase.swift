@@ -48,7 +48,6 @@ import WebKit
     
     override init() {
         super.init()
-        ShopLiveController.shared.keyboardHeight = KeyboardService.keyboardHeight()
         addObserver()
     }
 
@@ -718,9 +717,14 @@ import WebKit
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
-    @objc func handleKeyboard() {
+    @objc func handleKeyboard(_ notification: Notification? = nil) {
         guard _style == .pip else { return }
         guard let shopLiveWindow = self.shopLiveWindow else { return }
+
+        if let notification = notification, let keyboardFrameEndUserInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardScreenEndFrame = keyboardFrameEndUserInfo.cgRectValue
+            ShopLiveController.shared.keyboardHeight = keyboardScreenEndFrame.height
+        }
 
         let pipPosition: CGRect = self.pipPosition(with: lastPipScale, position: lastPipPosition)
 
@@ -754,7 +758,7 @@ import WebKit
         case UIResponder.keyboardWillShowNotification:
 //            ShopLiveLogger.debugLog("pip keyboard show")
             isKeyboardShow = true
-            self.handleKeyboard()
+            self.handleKeyboard(notification)
             break
         case UIResponder.keyboardWillHideNotification:
 //            ShopLiveLogger.debugLog("pip keyboard hide")kal
