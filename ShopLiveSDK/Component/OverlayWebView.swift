@@ -21,6 +21,7 @@ internal class OverlayWebView: UIView {
         }
     }
 
+    private var inBuffering: Bool = false
     private var retryTimer: Timer?
     private var retryCount: Int = 0
     private var needSeek: Bool = false
@@ -374,6 +375,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         ShopLiveLogger.debugLog("timeControlStatus: \(ShopLiveController.timeControlStatus.rawValue)")
         switch ShopLiveController.timeControlStatus {
         case .paused: //0
+            self.inBuffering = false
             if ShopLiveController.isReplayMode {
 //                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
                 ShopLiveController.isPlaying = false
@@ -387,18 +389,46 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                 ShopLiveLogger.debugLog("timeControlStatus: pause")
                 ShopLiveController.retryPlay = true
             }
-        case .waitingToPlayAtSpecifiedRate: //버퍼링 1
+        case .waitingToPlayAtSpecifiedRate: //버퍼링
             ShopLiveLogger.debugLog("timeControlStatus: buffering")
-            ShopLiveController.shared.takeSnapShot = true
+
+            if !self.inBuffering, !ShopLiveController.shared.beingTakenSnapshot {
+                ShopLiveLogger.debugLog("buffering snapshot")
+                ShopLiveController.shared.takeSnapShot = true
+            }
+
+            self.inBuffering = true
+
+            // 버퍼링 시에 snapshot 촬영 후 처리
             if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
                 ShopLiveController.shared.needReload = true
             } else {
-                ShopLiveController.retryPlay = true
-            }
+                if !ShopLiveController.shared.beingTakenSnapshot {
+                    if let playerItem = ShopLiveController.playerItem, playerItem.isPlaybackLikelyToKeepUp {
+                        ShopLiveLogger.debugLog("buffering direct play")
+                        ShopLiveController.playControl = .play
+                    } else {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                            if self.inBuffering {
+                                ShopLiveLogger.debugLog("buffering after 1 sec play")
+                                ShopLiveController.playControl = .play
+                            }
+                        }
+                    }
+                } else {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
+                        if self.inBuffering, !ShopLiveController.shared.beingTakenSnapshot {
+                            ShopLiveLogger.debugLog("buffering after 3 sec play")
+                            ShopLiveController.playControl = .play
+                        }
+                    }
+                }
 
+            }
             break
         case .playing: // 2
-
+            ShopLiveLogger.debugLog("buffer playing")
+            self.inBuffering = false
             if ShopLiveController.windowStyle == .osPip, needSeek, !ShopLiveController.isReplayMode {
                 needSeek = false
                 ShopLiveLogger.debugLog("seekToLatest")
@@ -414,6 +444,7 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             ShopLiveController.shared.takeSnapShot = false
             ShopLiveController.isPlaying = true
         @unknown default:
+            self.inBuffering = false
             ShopLiveLogger.debugLog("TimeControlStatus - unknown")
              break
         }

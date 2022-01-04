@@ -267,7 +267,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         setupAudioConfig()
         addPlayTimeObserver()
         #if DEMO
-            addQualityLogTimer()
+//            addQualityLogTimer()
         #endif
         addObserver()
     }
@@ -992,17 +992,20 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleSnapshot() {
+        DispatchQueue.main.async {
         if ShopLiveController.shared.takeSnapShot {
+            ShopLiveController.shared.beingTakenSnapshot = true
             ShopLiveController.shared.getSnapShot { image in
-                self.snapShotView?.image = image
-                self.snapShotView?.isHidden = false
+                    self.snapShotView?.image = image
+                    self.snapShotView?.isHidden = false
+                ShopLiveController.shared.beingTakenSnapshot = false
+                }
 //                ShopLiveController.loading = true
+            } else {
+                self.snapShotView?.isHidden = true
+    //            ShopLiveController.loading = false
             }
-        } else {
-            self.snapShotView?.isHidden = true
-//            ShopLiveController.loading = false
         }
-
     }
 
     func handleLoading() {
@@ -1043,7 +1046,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         removeObserver()
         removePlaytimeObserver()
         #if DEMO
-            removeQuailtyLogTimer()
+//            removeQuailtyLogTimer()
         #endif
     }
 
