@@ -423,7 +423,6 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                         }
                     }
                 }
-
             }
             break
         case .playing: // 2

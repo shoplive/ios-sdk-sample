@@ -31,7 +31,14 @@ class MainViewController: SideMenuBaseViewController {
         SampleOptions.campaignNaviMoreOptions = ["campaign.menu.write".localized(), "Dev-Admin", "Admin", "campaign.menu.deleteall".localized()]
         SampleOptions.campaignNaviMoreSelectionAction = { (index: Int, item: String) in
             print("selected item: \(item) index: \(index)")
-
+            var sourceScheme = ""
+            #if DEMO
+                #if QA
+                    sourceScheme = "shopliveqa"
+                #else
+                    sourceScheme = "shoplive"
+                #endif
+            #endif
             switch index {
             case 0: // 직접 입력
                 let vc = CampaignInputAlertController()
@@ -40,11 +47,11 @@ class MainViewController: SideMenuBaseViewController {
                 break
             case 1: // Dev-Admin
                 // getkey
-                DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey")
+                DeepLinkManager.shared.sendDeepLink("shoplivestudiodev://getkey?source=\(sourceScheme)")
                 break
             case 2: // Admin
                 // getkey
-                DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey")
+                DeepLinkManager.shared.sendDeepLink("shoplivestudio://getkey?source=\(sourceScheme)")
                 break
             case 3: // 전체삭제
                 guard ShopLiveDemoKeyTools.shared.keysets.count > 0 else {
