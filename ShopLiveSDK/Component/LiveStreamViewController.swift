@@ -999,11 +999,10 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                     self.snapShotView?.image = image
                     self.snapShotView?.isHidden = false
                 ShopLiveController.shared.beingTakenSnapshot = false
+                ShopLiveController.playControl = .play
                 }
-//                ShopLiveController.loading = true
             } else {
                 self.snapShotView?.isHidden = true
-    //            ShopLiveController.loading = false
             }
         }
     }

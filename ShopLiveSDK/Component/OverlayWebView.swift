@@ -397,30 +397,20 @@ extension OverlayWebView: ShopLivePlayerDelegate {
                 ShopLiveController.shared.takeSnapShot = true
             }
 
-            self.inBuffering = true
-
-            // 버퍼링 시에 snapshot 촬영 후 처리
             if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
                 ShopLiveController.shared.needReload = true
+            }
+
+            self.inBuffering = true
+            guard !ShopLiveController.shared.beingTakenSnapshot else { return }
+
+            // 버퍼링 시에 snapshot 촬영 후 처리
+            if let playerItem = ShopLiveController.playerItem, playerItem.isPlaybackLikelyToKeepUp {
+                ShopLiveController.playControl = .play
             } else {
-                if !ShopLiveController.shared.beingTakenSnapshot {
-                    if let playerItem = ShopLiveController.playerItem, playerItem.isPlaybackLikelyToKeepUp {
-                        ShopLiveLogger.debugLog("buffering direct play")
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+                    if self.inBuffering {
                         ShopLiveController.playControl = .play
-                    } else {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                            if self.inBuffering {
-                                ShopLiveLogger.debugLog("buffering after 1 sec play")
-                                ShopLiveController.playControl = .play
-                            }
-                        }
-                    }
-                } else {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3)) {
-                        if self.inBuffering, !ShopLiveController.shared.beingTakenSnapshot {
-                            ShopLiveLogger.debugLog("buffering after 3 sec play")
-                            ShopLiveController.playControl = .play
-                        }
                     }
                 }
             }
