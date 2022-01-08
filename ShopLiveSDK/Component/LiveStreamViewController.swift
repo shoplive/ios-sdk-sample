@@ -19,6 +19,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     var webViewConfiguration: WKWebViewConfiguration?
 
+    private var inBuffering: Bool = true
+    private var needSeek: Bool = false
+    private var requireRetryCheck = false
+
     private var overlayView: OverlayWebView?
     private var imageView: UIImageView?
     private var snapShotView: UIImageView?
@@ -106,7 +110,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             let curTime = CMTimeGetSeconds(time)
 //                let duration = CMTimeGetSeconds(ShopLiveController.player?.currentItem?.asset.duration ?? CMTime())
 //                ShopLiveLogger.debugLog("addPlayTimeObserver time: \(time)  duration: \(duration)")
-//            ShopLiveLogger.debugLog("curTime: \(curTime) time: \(time)")
+
             ShopLiveController.shared.currentPlayTime = Int64(curTime)
             ShopLiveController.webInstance?.sendEventToWeb(event: .onVideoTimeUpdated, curTime)
         })
@@ -556,7 +560,7 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     private var playUrl: URL? {
         guard let baseUrl = viewModel.overayUrl else { return nil }
-        var urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
+        let urlComponents = URLComponents(url: baseUrl, resolvingAgainstBaseURL: false)
         var queryItems = urlComponents?.queryItems ?? [URLQueryItem]()
 
         if let authToken = viewModel.authToken, !authToken.isEmpty {
@@ -650,6 +654,55 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             break
         default:
             break
+        }
+    }
+
+    private var retryTimer: Timer?
+    private var retryCount: Int = 0
+    private func resetRetry() {
+        retryTimer?.invalidate()
+        retryTimer = nil
+        retryCount = 0
+    }
+
+    func handleRetryPlay() {
+        ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
+        guard ShopLiveController.windowStyle != .osPip else {
+            resetRetry()
+            return
+        }
+
+//        guard ShopLiveController.playerItemStatus != .readyToPlay else {
+//            resetRetry()
+//            return
+//        }
+
+        if ShopLiveController.retryPlay {
+
+            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
+                self.retryCount += 1
+
+                if ShopLiveController.shared.streamUrl == nil {
+                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay close loop in retry timer")
+                    self.resetRetry()
+                    return
+                }
+
+                ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop \(self.retryCount)")
+                if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                    if let videoUrl = ShopLiveController.streamUrl {
+//                        ShopLiveController.videoUrl = videoUrl
+                        self.viewModel.updatePlayerItem(with: videoUrl)
+                        ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
+                    } else {
+                        ShopLiveController.retryPlay = false
+                        ShopLiveController.shared.takeSnapShot = false
+                        ShopLiveLogger.debugLog("videoUrl: ---nil")
+                    }
+                }
+            }
+        } else {
+            resetRetry()
         }
     }
 }
@@ -991,15 +1044,13 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
 
-    func handleSnapshot() {
+    func takeSnapShot(on: Bool) {
         DispatchQueue.main.async {
-        if ShopLiveController.shared.takeSnapShot {
-            ShopLiveController.shared.beingTakenSnapshot = true
+            if on {
             ShopLiveController.shared.getSnapShot { image in
                     self.snapShotView?.image = image
                     self.snapShotView?.isHidden = false
-                ShopLiveController.shared.beingTakenSnapshot = false
-                ShopLiveController.playControl = .play
+                    ShopLiveController.playControl = .play
                 }
             } else {
                 self.snapShotView?.isHidden = true
@@ -1027,20 +1078,122 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         }
     }
 
+    func handleTimeControlStatus() {
+
+        ShopLiveLogger.debugLog("[REASON] timeControlStatus: \(ShopLiveController.timeControlStatus.name)")
+        switch ShopLiveController.timeControlStatus {
+        case .paused:
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.isPlaying = false
+            } else {
+                if ShopLiveController.windowStyle == .osPip {
+                    ShopLiveController.shared.needReload = true
+                    needSeek = true
+                } else {
+                    ShopLiveLogger.debugLog("[REASON] time paused live do Play")
+                    ShopLiveController.playControl = .play
+                }
+            }
+            break
+        case .playing:
+            requireRetryCheck = false
+            inBuffering = false
+
+            if ShopLiveController.loading {
+                ShopLiveController.loading = false
+            }
+
+            if ShopLiveController.isReplayMode {
+                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
+                ShopLiveLogger.debugLog("[REASON] 00-00-00 ShopLiveController.windowStyle ospip? \(ShopLiveController.windowStyle == .osPip) needSeek \(needSeek)")
+            } else {
+//                if ShopLiveController.windowStyle == .osPip, needSeek {
+//                    needSeek = false
+//                    ShopLiveController.shared.seekToLatest()
+//                } else {
+//                }
+            }
+
+            ShopLiveController.retryPlay = false
+            ShopLiveController.shared.takeSnapShot = false
+            ShopLiveController.isPlaying = true
+
+            break
+        case .waitingToPlayAtSpecifiedRate:
+            if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
+                switch reason {
+                case .toMinimizeStalls:
+                    // TODO: BUFFERING_LIVE_OSPIP
+                    // 라이브 방송, OS PIP 일때 버퍼링이 걸리면 방송을 새로고침 해서 싱크를 맞춰준다.
+                    ShopLiveLogger.debugLog("[REASON] inBuffering \(inBuffering)")
+                    if !inBuffering {
+                        ShopLiveController.shared.takeSnapShot = true
+                        if !ShopLiveController.loading, ShopLiveController.windowStyle != .osPip,
+                            ShopLiveController.shared.campaignStatus != .close {
+                            ShopLiveController.loading = true
+                        }
+//                        if !ShopLiveController.isReplayMode {
+//                            reserveRetry()
+//                        }
+                    }
+
+//                    if ShopLiveController.windowStyle == .osPip {
+//                        if !ShopLiveController.isReplayMode {
+//                            ShopLiveController.shared.needReload = true
+//                        }
+//                    }
+                    break
+                default:
+                    break
+                }
+            }
+
+            inBuffering = true
+            break
+
+        @unknown default:
+            break
+        }
+
+    }
+
+    func reserveRetry(waitSecond: Int = 5) {
+        ShopLiveLogger.debugLog("[REASON] reserveRetry")
+        self.requireRetryCheck = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(waitSecond)) {
+            if self.inBuffering, self.requireRetryCheck {
+                ShopLiveLogger.debugLog("[REASON] time retry run")
+                ShopLiveController.retryPlay = true
+            }
+            self.requireRetryCheck = false
+        }
+    }
+
     func updatedValue(key: ShopLivePlayerObserveValue) {
+        ShopLiveLogger.debugLog("LiveStreamViewController key: \(key)")
         switch key {
         case .playControl:
             handlePlayControl()
-        case .takeSnapShot:
-            handleSnapshot()
+            break
+        case .timeControlStatus:
+            handleTimeControlStatus()
+            break
         case .loading:
             handleLoading()
+            break
+        case .takeSnapShot:
+            takeSnapShot(on: ShopLiveController.shared.takeSnapShot)
+            break
+        case .retryPlay:
+            handleRetryPlay()
+            break
         default:
             break
         }
     }
 
     func clear() {
+        resetRetry()
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
         removeObserver()
         removePlaytimeObserver()
@@ -1080,4 +1233,18 @@ extension String {
         allowed.addCharacters(in: unreserved)
         return addingPercentEncoding(withAllowedCharacters: allowed as CharacterSet)
       }
+}
+
+
+extension AVPlayer.TimeControlStatus {
+    var name: String {
+        switch self {
+        case .playing:
+            return "playing"
+        case .waitingToPlayAtSpecifiedRate:
+            return "waitingToPlayAtSpecifiedRate"
+        case .paused:
+            return "paused"
+        }
+    }
 }

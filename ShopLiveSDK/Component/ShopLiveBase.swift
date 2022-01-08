@@ -486,7 +486,6 @@ import WebKit
             shopLiveWindow.rootViewController?.view.backgroundColor = .black
 //                    ShopLiveController.loading = true
         })
-        _style = .fullScreen
     }
 
     private func alignPipView() {
@@ -1018,6 +1017,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     }
     
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
+        _style = .fullScreen
         ShopLiveController.windowStyle = .normal
 //        if ShopLiveController.shared.isPreview {
 //            if let ck = self.campaignKey {

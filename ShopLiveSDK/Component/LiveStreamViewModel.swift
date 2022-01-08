@@ -38,21 +38,41 @@ internal final class LiveStreamViewModel: NSObject {
         user = nil
     }
 
-    private func updatePlayerItem(with url: URL) {
+    func updatePlayerItem(with url: URL) {
         guard ShopLiveController.player != nil else { return }
-        _ = ShopLiveController.playerItemStatus
-        _ = ShopLiveController.urlAsset?.url == url
-//        guard !isSameUrl || player.timeControlStatus != .playing else { return }
-//        guard !isSameUrl || playerItemStatus != .readyToPlay || player.reasonForWaitingToPlay == .evaluatingBufferingRate else { return }
-//        ShopLiveController.shared.loading = true
+//        _ = ShopLiveController.playerItemStatus
+//        _ = ShopLiveController.urlAsset?.url == url
         resetPlayer()
 
-        ShopLiveController.urlAsset = AVURLAsset(url: url)
+        let asset = AVURLAsset(url: url)
+//        ShopLiveController.urlAsset = AVURLAsset(url: url)
+        let playerItem = AVPlayerItem(asset: asset)
+        if asset.isPlayable {
+            ShopLiveLogger.debugLog("abc")
+            ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+            let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
+            metadataOutput.setDelegate(self, queue: DispatchQueue.main)
+            playerItem.add(metadataOutput)
+            playerItem.preferredForwardBufferDuration = 5
+
+            ShopLiveController.playerItem = playerItem
+            self.playerItem = playerItem
+
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
+            NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
+            ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
+        } else {
+            ShopLiveLogger.debugLog("def")
+        }
     }
 
     private func resetPlayer() {
+        guard ShopLiveController.player != nil else { return }
+        if ShopLiveController.player?.currentItem == nil {
+            return
+        }
         ShopLiveController.videoUrl = nil
-        ShopLiveController.player?.pause()
+//        ShopLiveController.player?.pause()
         ShopLiveController.player?.currentItem?.asset.cancelLoading()
         ShopLiveController.player?.cancelPendingPrerolls()
         ShopLiveController.player?.replaceCurrentItem(with: nil)
@@ -70,28 +90,18 @@ internal final class LiveStreamViewModel: NSObject {
     }
 
     private func handleIsPlayble() {
-        guard let asset = ShopLiveController.urlAsset else { return }
-        let playerItem = AVPlayerItem(asset: asset)
-        ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
-        let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
-        metadataOutput.setDelegate(self, queue: DispatchQueue.main)
-        playerItem.add(metadataOutput)
-        ShopLiveController.playerItem = playerItem
-        self.playerItem = playerItem
-
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
-        ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
-/*
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
-
-        ShopLiveController.player?.replaceCurrentItem(with: _playerItem)
-
-        self.playerItem = _playerItem
-        NotificationCenter.default.removeObserver(self, name: .TimebaseEffectiveRateChangedNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: .AVPlayerItemPlaybackStalled, object: nil)
- */
+//        guard let asset = ShopLiveController.urlAsset else { return }
+//        let playerItem = AVPlayerItem(asset: asset)
+//        ShopLiveController.shared.playItem?.perfMeasurements = PerfMeasurements(playerItem: playerItem)
+//        let metadataOutput = AVPlayerItemMetadataOutput(identifiers: nil)
+//        metadataOutput.setDelegate(self, queue: DispatchQueue.main)
+//        playerItem.add(metadataOutput)
+//        ShopLiveController.playerItem = playerItem
+//        self.playerItem = playerItem
+//
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .TimebaseEffectiveRateChangedNotification, object: self.playerItem?.timebase)
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotification(_:)), name: .AVPlayerItemPlaybackStalled, object: self.playerItem)
+//        ShopLiveController.shared.playerItem?.player?.replaceCurrentItem(with: playerItem)
     }
     
     func play() {
@@ -174,11 +184,14 @@ internal final class LiveStreamViewModel: NSObject {
             }
         case .failed:
             ShopLiveLogger.debugLog("[ViewModel] PlayerItemStatus failed")
+            ShopLiveLogger.debugLog("[REASON] player Item Status 'failed'")
+            ShopLiveController.retryPlay = true
             break
         default:
             break
         }
     }
+
 }
 
 extension LiveStreamViewModel: ShopLivePlayerDelegate {

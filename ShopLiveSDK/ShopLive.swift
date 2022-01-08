@@ -52,6 +52,12 @@ import WebKit
 
 }
 
+enum ShopLiveCampaignStatus: String, CaseIterable {
+    case ready = "READY"
+    case onair = "ONAIR"
+    case close = "CLOSE"
+}
+
 @objc public final class ShopLive: NSObject {
     static var shared: ShopLive = {
         return ShopLive()

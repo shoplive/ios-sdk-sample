@@ -21,6 +21,7 @@ enum ShopLivePlayerObserveValue: String {
     case isHiddenOverlay = "isHiddenOverlay"
     case overlayUrl = "overlayUrl"
     case isMuted = "player.isMuted"
+    case loadedTimeRanges = "player.currentItem.loadedTimeRanges"
     case isPlaying = "isPlaying"
     case retryPlay = "retryPlay"
     case releasePlayer = "releasePlayer"
@@ -60,6 +61,7 @@ final class ShopLiveController: NSObject {
     deinit {
     }
 
+    var campaignStatus: ShopLiveCampaignStatus = .close
     var isSuccessCampaignJoin: Bool = false
     var keepAspectOnTabletPortrait: Bool = true
     private var playerDelegates: [ShopLivePlayerDelegate?] = []
@@ -76,7 +78,6 @@ final class ShopLiveController: NSObject {
     @objc dynamic var takeSnapShot: Bool = true
     @objc dynamic var isPreview: Bool = false
     @objc dynamic var loading: Bool = false
-    var beingTakenSnapshot: Bool = false
 
     lazy var currentPlayTime: Int64? = nil {
         didSet {
@@ -107,6 +108,33 @@ final class ShopLiveController: NSObject {
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         guard let keyPath = keyPath, let key = ShopLivePlayerObserveValue(rawValue: keyPath), let _ = change?[.newKey] else { return }
         switch key {
+        case .loadedTimeRanges:
+            if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
+//                ShopLiveLogger.debugLog("[REASON] time loadedTimeRanges \(loadedTimeRanges)")
+//                ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
+                let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale) // value/timescale = seconds
+//                let loaded = timeLoaded > 0
+                ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name)")
+                if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
+                    ShopLiveLogger.debugLog("[REASON] time Loaded play\n")
+                    ShopLiveController.playControl = .play
+                }
+
+
+/*
+ var ready:Bool {
+         let timeRange = currentItem?.loadedTimeRanges.first as? CMTimeRange
+         guard let duration = timeRange?.duration else { return false }
+         let timeLoaded = Int(duration.value) / Int(duration.timescale) // value/timescale = seconds
+         let loaded = timeLoaded > 0
+
+         return status == .readyToPlay && loaded
+     }
+ */
+
+
+            }
+            break
         case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot, .timeControlStatus:
             postPlayerObservers(key: key)
             break
@@ -120,6 +148,7 @@ final class ShopLiveController: NSObject {
             postPlayerObservers(key: key)
             break
         case .isMuted:
+            
             if let old: Bool = change?[.oldKey] as? Bool, let new: Bool = change?[.newKey] as? Bool {
                 if old != new {
                     postPlayerObservers(key: key)
@@ -187,6 +216,7 @@ final class ShopLiveController: NSObject {
         isReplayMode = false
         keepAspectOnTabletPortrait = true
         isSuccessCampaignJoin = false
+        campaignStatus = .close
     }
     private func reset() {
         playItem = nil
@@ -235,13 +265,14 @@ final class ShopLiveController: NSObject {
 
 // MARK: ShopLive Player Section
 extension ShopLiveController {
-    func addPlayerObserver() { 
+    func addPlayerObserver() {
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlayable.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.playerItemStatus.rawValue, options: .new, context: nil)
         playItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue, options: .new, context: nil)
         playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue, options: .new, context: nil)
+        playerItem?.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue, options: .new, context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue, options: [.initial, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue, options: [.initial, .old, .new], context: nil)
         self.addObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue, options: .new, context: nil)
@@ -259,6 +290,7 @@ extension ShopLiveController {
         playItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.videoUrl.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.timeControlStatus.rawValue)
         playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isMuted.rawValue)
+        playerItem?.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.loadedTimeRanges.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isHiddenOverlay.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.overlayUrl.rawValue)
         self.safeRemoveObserver(self, forKeyPath: ShopLivePlayerObserveValue.isPlaying.rawValue)

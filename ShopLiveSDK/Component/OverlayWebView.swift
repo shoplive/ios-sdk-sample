@@ -22,8 +22,7 @@ internal class OverlayWebView: UIView {
     }
 
     private var inBuffering: Bool = false
-    private var retryTimer: Timer?
-    private var retryCount: Int = 0
+    
     private var needSeek: Bool = false
 
     deinit {
@@ -316,6 +315,7 @@ extension OverlayWebView: WKScriptMessageHandler {
             self.delegate?.didTouchCustomAction(id: id, type: type, payload: payload)
             break
         case .onCampaignStatusChanged(let status):
+            ShopLiveController.shared.campaignStatus = .init(rawValue: status) ?? .close
             delegate?.didChangeCampaignStatus(status: status)
             break
         case .setParam(let key, let value):
@@ -349,94 +349,9 @@ extension OverlayWebView: WKScriptMessageHandler {
 extension OverlayWebView: ShopLivePlayerDelegate {
     func clear() {
         ShopLiveController.shared.removePlayerDelegate(delegate: self)
-        resetRetry()
         removeObserver()
         webView = nil
         delegate = nil
-    }
-
-    func handlePlayerItemStatus() {
-        switch ShopLiveController.playerItemStatus {
-        case .readyToPlay:
-            ShopLiveController.retryPlay = false
-            ShopLiveController.shared.takeSnapShot = false
-            break
-        case .failed:
-            ShopLiveController.retryPlay = true
-            ShopLiveLogger.debugLog("[OverlayWebview] PlayerItemStatus failed")
-            ShopLiveLogger.debugLog("[OverlayWebview] retryPlay = true")
-            break
-        default:
-            break
-        }
-    }
-
-    func handleTimeControlStatus() {
-        ShopLiveLogger.debugLog("timeControlStatus: \(ShopLiveController.timeControlStatus.rawValue)")
-        switch ShopLiveController.timeControlStatus {
-        case .paused: //0
-            self.inBuffering = false
-            if ShopLiveController.isReplayMode {
-//                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: false), false)
-                ShopLiveController.isPlaying = false
-            }
-            if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
-                ShopLiveController.shared.needReload = true
-                ShopLiveLogger.debugLog("timeControlStatus: needSeek true")
-                needSeek = true
-            }
-            if ShopLiveController.playControl == .play {
-                ShopLiveLogger.debugLog("timeControlStatus: pause")
-                ShopLiveController.retryPlay = true
-            }
-        case .waitingToPlayAtSpecifiedRate: //버퍼링
-            ShopLiveLogger.debugLog("timeControlStatus: buffering")
-
-            if !self.inBuffering, !ShopLiveController.shared.beingTakenSnapshot {
-                ShopLiveLogger.debugLog("buffering snapshot")
-                ShopLiveController.shared.takeSnapShot = true
-            }
-
-            if ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode {
-                ShopLiveController.shared.needReload = true
-            }
-
-            self.inBuffering = true
-            guard !ShopLiveController.shared.beingTakenSnapshot else { return }
-
-            // 버퍼링 시에 snapshot 촬영 후 처리
-            if let playerItem = ShopLiveController.playerItem, playerItem.isPlaybackLikelyToKeepUp {
-                ShopLiveController.playControl = .play
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                    if self.inBuffering {
-                        ShopLiveController.playControl = .play
-                    }
-                }
-            }
-            break
-        case .playing: // 2
-            ShopLiveLogger.debugLog("buffer playing")
-            self.inBuffering = false
-            if ShopLiveController.windowStyle == .osPip, needSeek, !ShopLiveController.isReplayMode {
-                needSeek = false
-                ShopLiveLogger.debugLog("seekToLatest")
-                ShopLiveController.shared.seekToLatest()
-            }
-
-            if ShopLiveController.isReplayMode {
-                ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
-            }
-
-            ShopLiveLogger.debugLog("timeControlStatus: play")
-            ShopLiveController.retryPlay = false
-            ShopLiveController.shared.takeSnapShot = false
-            ShopLiveController.isPlaying = true
-        @unknown default:
-            self.inBuffering = false
-            ShopLiveLogger.debugLog("TimeControlStatus - unknown")
-             break
-        }
     }
 
     func handleIsHiddenOverlay() {
@@ -457,59 +372,12 @@ extension OverlayWebView: ShopLivePlayerDelegate {
         }
     }
 
-    private func resetRetry() {
-//        ShopLiveController.shared.takeSnapShot = false
-        retryTimer?.invalidate()
-        retryTimer = nil
-        retryCount = 0
-    }
-
-    func handleRetryPlay() {
-        ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
-        guard ShopLiveController.windowStyle != .osPip else {
-            resetRetry()
-            return
-        }
-        if ShopLiveController.retryPlay {
-
-            retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
-                self.retryCount += 1
-
-                if ShopLiveController.shared.streamUrl == nil {
-                    ShopLiveLogger.debugLog("handleRetryPlay close loop in retry timer")
-                    self.resetRetry()
-                    return
-                }
-
-                ShopLiveLogger.debugLog("handleRetryPlay loop \(self.retryCount)")
-                if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                    if let videoUrl = ShopLiveController.streamUrl {
-                        ShopLiveController.videoUrl = videoUrl
-                        ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
-                    } else {
-                        ShopLiveController.retryPlay = false
-                        ShopLiveController.shared.takeSnapShot = false
-                        ShopLiveLogger.debugLog("videoUrl: ---nil")
-                    }
-                }
-            }
-        } else {
-            resetRetry()
-        }
-    }
-
     var identifier: String {
         return "OverlayWebView"
     }
 
     func updatedValue(key: ShopLivePlayerObserveValue) {
         switch key {
-        case .playerItemStatus:
-            handlePlayerItemStatus()
-            break
-        case .timeControlStatus:
-            handleTimeControlStatus()
-            break
         case .isHiddenOverlay:
             handleIsHiddenOverlay()
             break
@@ -523,10 +391,8 @@ extension OverlayWebView: ShopLivePlayerDelegate {
             break
         case .isPlaying:
             guard self.isSystemInitialized else { return }
+            ShopLiveLogger.debugLog("isPlaying: \(ShopLiveController.isPlaying)")
             ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: ShopLiveController.isPlaying), ShopLiveController.isPlaying)
-            break
-        case .retryPlay:
-            handleRetryPlay()
             break
         default:
             break

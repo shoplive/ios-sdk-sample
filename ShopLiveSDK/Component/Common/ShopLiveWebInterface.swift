@@ -336,6 +336,7 @@ extension WebInterface {
             self = .customAction(id: id, type: type, payload: payload)
         case .onCampaignStatusChanged:
             guard let status = parameters?["status"] as? String else { return nil }
+            ShopLiveLogger.debugLog("campaign status: \(status)")
             self = .onCampaignStatusChanged(status: status)
         case .disableSwipeDown:
             self = .disableSwipeDown
