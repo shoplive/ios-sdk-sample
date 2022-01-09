@@ -110,9 +110,20 @@ internal final class LiveStreamViewModel: NSObject {
             updatePlayerItem(with: url)
         }
         else {
-            if ShopLiveController.isReplayMode, ShopLiveController.isReplayFinished {
-                seek(to: .init(value: 0, timescale: 1))
+            if ShopLiveController.isReplayMode {
+                if ShopLiveController.isReplayFinished {
+                    seek(to: .init(value: 0, timescale: 1))
+                }
             }
+            /*
+            else {
+                if ShopLiveController.shared.needSeek { //}, ShopLiveController.windowStyle == .osPip {
+                    ShopLiveLogger.debugLog("[REASON] time paused live needSeek ---> seek")
+                    ShopLiveController.shared.needSeek = false
+                    ShopLiveController.shared.seekToLatest()
+                }
+            }
+             */
             ShopLiveController.player?.play()
         }
     }
@@ -128,11 +139,17 @@ internal final class LiveStreamViewModel: NSObject {
             ShopLiveController.player?.play()
         } else {
             if let url = ShopLiveController.streamUrl, !url.absoluteString.isEmpty {
-                if ShopLiveController.windowStyle == .osPip {
-                    ShopLiveController.player?.play()
-                } else {
-                    updatePlayerItem(with: url)
+                if ShopLiveController.shared.needSeek {
+                    ShopLiveLogger.debugLog("[REASON] time paused live needSeek ---> resume seek")
+                    ShopLiveController.shared.needSeek = false
+                    ShopLiveController.shared.seekToLatest()
                 }
+                ShopLiveController.player?.play()
+//                if ShopLiveController.windowStyle == .osPip {
+//                    ShopLiveController.player?.play()
+//                } else {
+//                    updatePlayerItem(with: url)
+//                }
             }
         }
     }

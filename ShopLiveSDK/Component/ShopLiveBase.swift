@@ -743,12 +743,18 @@ import WebKit
             self.liveStreamViewController?.onBackground()
             break
         case UIApplication.protectedDataDidBecomeAvailableNotification:
+            ShopLiveLogger.debugLog("[REASON] time paused unlock")
+            ShopLiveController.shared.screenLock = false
             guard ShopLiveController.windowStyle == .osPip, !ShopLiveController.isReplayMode else { return }
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                ShopLiveController.playControl = .resume
+                if !ShopLiveController.shared.screenLock {
+                    ShopLiveController.playControl = .resume
+                }
             }
             break
         case UIApplication.protectedDataWillBecomeUnavailableNotification:
+            ShopLiveLogger.debugLog("[REASON] time paused lock")
+            ShopLiveController.shared.screenLock = true
             ShopLiveController.playControl = .pause
             break
         case UIApplication.willEnterForegroundNotification:
@@ -1009,6 +1015,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureControllerWillStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         ShopLiveController.shared.needReload = false
         ShopLiveController.windowStyle = .osPip
+        ShopLiveController.shared.lastPipPlaying = ShopLiveController.timeControlStatus == .playing
     }
     
     public func pictureInPictureControllerDidStartPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -1019,12 +1026,6 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
     public func pictureInPictureControllerWillStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
         _style = .fullScreen
         ShopLiveController.windowStyle = .normal
-//        if ShopLiveController.shared.isPreview {
-//            if let ck = self.campaignKey {
-//                ShopLiveController.shared.isPreview = false
-//                play(with: ck, nil)
-//            }
-//        }
     }
 
     public func pictureInPictureControllerDidStopPictureInPicture(_ pictureInPictureController: AVPictureInPictureController) {
@@ -1035,10 +1036,22 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
             if ShopLiveController.shared.needReload {
                 ShopLiveController.shared.needReload = false
                 guard !ShopLiveController.isReplayMode else { return }
-                liveStreamViewController?.viewModel.reloadVideo()
+//                liveStreamViewController?.viewModel.reloadVideo()
+
+                ShopLiveLogger.debugLog("[REASON] time paused didstop pip needReload seek")
+                if ShopLiveController.timeControlStatus == .paused {
+//                    liveStreamViewController?.viewModel.reloadVideo()
+//                    ShopLiveController.shared.seekToLatest()
+                    ShopLiveController.shared.playControl = .resume
+                } else {
+                    ShopLiveController.shared.seekToLatest()
+//                    ShopLiveController.shared.playControl = .play
+                }
+
             } else {
                 if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
-                    ShopLiveController.player?.play()
+                    ShopLiveLogger.debugLog("[REASON] time paused didstop pip not reload just play")
+                    ShopLiveController.shared.playControl = .resume
                 }
             }
         }

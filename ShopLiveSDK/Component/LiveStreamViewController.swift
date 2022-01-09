@@ -293,7 +293,8 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func pause() {
-        if !ShopLiveController.isReplayMode {
+        if !ShopLiveController.isReplayMode, ShopLiveController.shared.windowStyle == .osPip {
+            ShopLiveLogger.debugLog("[REASON] time paused marking pause")
             ShopLiveController.shared.needReload = true
         }
         ShopLiveController.player?.pause()
@@ -305,6 +306,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
     }
 
     func resume() {
+        if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.lastPipPlaying {
+            ShopLiveLogger.debugLog("resume return ospip not lastPlaying ")
+            return
+        }
         ShopLiveController.isReplayMode ? ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true) : ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
         viewModel.resume()
     }
@@ -363,14 +368,17 @@ internal final class LiveStreamViewController: ShopLiveViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             if ShopLiveController.timeControlStatus == .paused {
                 if !ShopLiveController.isReplayMode {
+                    ShopLiveLogger.debugLog("[REASON] time paused onForeground resume")
                     ShopLiveController.webInstance?.sendEventToWeb(event: .reloadBtn, false, false)
                     ShopLiveController.playControl = .resume
                 }
             } else {
                 if !ShopLiveController.isReplayMode {
-                    self.reload()
+//                    self.reload()
+                    ShopLiveController.shared.needSeek = true
+                    ShopLiveController.playControl = .resume
                 } else {
-                    ShopLiveController.player?.play()
+//                    ShopLiveController.player?.play()
                 }
             }
 
@@ -1086,18 +1094,32 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             if ShopLiveController.isReplayMode {
                 ShopLiveController.isPlaying = false
             } else {
-                if ShopLiveController.windowStyle == .osPip {
-                    ShopLiveController.shared.needReload = true
-                    needSeek = true
-                } else {
+                ShopLiveLogger.debugLog("[REASON] time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
+                if ShopLiveController.playControl != .pause, ShopLiveController.shared.windowStyle != .osPip {
                     ShopLiveLogger.debugLog("[REASON] time paused live do Play")
-                    ShopLiveController.playControl = .play
+                    if ShopLiveController.isReplayMode {
+                        ShopLiveController.playControl = .play
+                    } else {
+                        ShopLiveController.playControl = .resume
+                    }
+                } else {
+                    ShopLiveLogger.debugLog("[REASON] time paused live do not Play")
                 }
+
+                ShopLiveController.shared.needSeek = true
+                if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
+                    ShopLiveLogger.debugLog("[REASON] time paused lastPipPlaying false")
+                    ShopLiveController.shared.lastPipPlaying = false
+                }
+
+
             }
             break
         case .playing:
             requireRetryCheck = false
             inBuffering = false
+
+            ShopLiveController.shared.lastPipPlaying = true
 
             if ShopLiveController.loading {
                 ShopLiveController.loading = false
@@ -1107,11 +1129,13 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                 ShopLiveController.webInstance?.sendEventToWeb(event: .setIsPlayingVideo(isPlaying: true), true)
                 ShopLiveLogger.debugLog("[REASON] 00-00-00 ShopLiveController.windowStyle ospip? \(ShopLiveController.windowStyle == .osPip) needSeek \(needSeek)")
             } else {
-//                if ShopLiveController.windowStyle == .osPip, needSeek {
-//                    needSeek = false
-//                    ShopLiveController.shared.seekToLatest()
-//                } else {
-//                }
+                /*
+                    if ShopLiveController.windowStyle == .osPip, needSeek {
+                        needSeek = false
+                        ShopLiveController.shared.seekToLatest()
+                    } else {
+                    }
+                */
             }
 
             ShopLiveController.retryPlay = false

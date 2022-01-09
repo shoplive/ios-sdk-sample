@@ -86,7 +86,10 @@ final class ShopLiveController: NSObject {
     }
     var shareScheme: String? = nil
     var needReload: Bool = false
+    var needSeek: Bool = false
     var keyboardHeight: CGFloat = .zero
+    var lastPipPlaying: Bool = false
+    var screenLock: Bool = false
 
     var shopliveSettings: ShopLiveSettings = .init()
 
@@ -110,29 +113,16 @@ final class ShopLiveController: NSObject {
         switch key {
         case .loadedTimeRanges:
             if let loadedTimeRanges = change?[.newKey] as? [NSValue], let timeRange = loadedTimeRanges.last as? CMTimeRange {
-//                ShopLiveLogger.debugLog("[REASON] time loadedTimeRanges \(loadedTimeRanges)")
-//                ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
-                let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale) // value/timescale = seconds
-//                let loaded = timeLoaded > 0
+                /*
+                ShopLiveLogger.debugLog("[REASON] time loadedTimeRanges \(loadedTimeRanges)")
+                ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
+                */
+                let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
                 ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
                     ShopLiveLogger.debugLog("[REASON] time Loaded play\n")
                     ShopLiveController.playControl = .play
                 }
-
-
-/*
- var ready:Bool {
-         let timeRange = currentItem?.loadedTimeRanges.first as? CMTimeRange
-         guard let duration = timeRange?.duration else { return false }
-         let timeLoaded = Int(duration.value) / Int(duration.timescale) // value/timescale = seconds
-         let loaded = timeLoaded > 0
-
-         return status == .readyToPlay && loaded
-     }
- */
-
-
             }
             break
         case .videoUrl, .isPlayable, .playControl, .isHiddenOverlay, .overlayUrl, .isPlaying, .releasePlayer, .takeSnapShot, .timeControlStatus:
@@ -258,7 +248,15 @@ final class ShopLiveController: NSObject {
     }
 
     func seekToLatest() {
-        ShopLiveController.player?.seek(to: CMTimeMakeWithSeconds(Float64(MAXFLOAT), preferredTimescale: Int32(NSEC_PER_SEC)))
+        guard let player = ShopLiveController.player else { return }
+        guard let seekableRange = player.currentItem?.seekableTimeRanges.last?.timeRangeValue else { return }
+
+        let seekableStart = CMTimeGetSeconds(seekableRange.start)
+        let seekableDuration = CMTimeGetSeconds(seekableRange.duration)
+        let livePosition = seekableStart + seekableDuration
+
+        ShopLiveLogger.debugLog("[REASON] time paused seekToLatest")
+        player.seek(to: CMTime(seconds: livePosition, preferredTimescale: 1))
     }
 
 }
