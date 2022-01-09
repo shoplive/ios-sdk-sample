@@ -1039,15 +1039,7 @@ extension ShopLiveBase: AVPictureInPictureControllerDelegate {
 //                liveStreamViewController?.viewModel.reloadVideo()
 
                 ShopLiveLogger.debugLog("[REASON] time paused didstop pip needReload seek")
-                if ShopLiveController.timeControlStatus == .paused {
-//                    liveStreamViewController?.viewModel.reloadVideo()
-//                    ShopLiveController.shared.seekToLatest()
-                    ShopLiveController.shared.playControl = .resume
-                } else {
-                    ShopLiveController.shared.seekToLatest()
-//                    ShopLiveController.shared.playControl = .play
-                }
-
+                ShopLiveController.shared.playControl = .resume
             } else {
                 if ShopLiveController.timeControlStatus == .paused, !ShopLiveController.isReplayMode {
                     ShopLiveLogger.debugLog("[REASON] time paused didstop pip not reload just play")
