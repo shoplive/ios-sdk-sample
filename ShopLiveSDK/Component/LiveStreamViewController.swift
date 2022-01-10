@@ -675,10 +675,6 @@ internal final class LiveStreamViewController: ShopLiveViewController {
 
     func handleRetryPlay() {
         ShopLiveLogger.debugLog("handleRetryPlay in \(ShopLiveController.retryPlay)")
-        guard ShopLiveController.windowStyle != .osPip else {
-            resetRetry()
-            return
-        }
 
 //        guard ShopLiveController.playerItemStatus != .readyToPlay else {
 //            resetRetry()
@@ -690,24 +686,39 @@ internal final class LiveStreamViewController: ShopLiveViewController {
             retryTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { timer in
                 self.retryCount += 1
 
-                if ShopLiveController.shared.streamUrl == nil {
-                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay close loop in retry timer")
-                    self.resetRetry()
-                    return
-                }
+                if ShopLiveController.windowStyle != .osPip {
+                    if ShopLiveController.shared.streamUrl == nil {
+                        ShopLiveLogger.debugLog("[REASON] handleRetryPlay close loop in retry timer")
+                        self.resetRetry()
+                        return
+                    }
 
-                ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop \(self.retryCount)")
-                if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                    if let videoUrl = ShopLiveController.streamUrl {
-//                        ShopLiveController.videoUrl = videoUrl
-                        self.viewModel.updatePlayerItem(with: videoUrl)
-                        ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
-                    } else {
-                        ShopLiveController.retryPlay = false
-                        ShopLiveController.shared.takeSnapShot = false
-                        ShopLiveLogger.debugLog("videoUrl: ---nil")
+                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop inapp \(self.retryCount)")
+                    if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                        if let videoUrl = ShopLiveController.streamUrl {
+    //                        ShopLiveController.videoUrl = videoUrl
+                            self.viewModel.updatePlayerItem(with: videoUrl)
+                            ShopLiveLogger.debugLog("videoUrl: \(videoUrl)")
+                        } else {
+                            ShopLiveController.retryPlay = false
+                            ShopLiveController.shared.takeSnapShot = false
+                            ShopLiveLogger.debugLog("videoUrl: ---nil")
+                        }
+                    }
+                } else {
+                    ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop ospip \(self.retryCount)")
+                    if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
+                        if self.inBuffering {
+                            ShopLiveLogger.debugLog("loop seekToLatest")
+                            ShopLiveController.shared.seekToLatest()
+                        } else {
+                            ShopLiveLogger.debugLog("loop exit")
+                            ShopLiveController.retryPlay = false
+                            ShopLiveController.shared.takeSnapShot = false
+                        }
                     }
                 }
+
             }
         } else {
             resetRetry()
@@ -1087,7 +1098,15 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
     }
 
     func handleTimeControlStatus() {
-
+/*
+ @objc enum SLPlayControl: Int {
+     case none = 0
+     case stop
+     case pause
+     case play
+     case resume
+ }
+ */
         ShopLiveLogger.debugLog("[REASON] timeControlStatus: \(ShopLiveController.timeControlStatus.name)")
         switch ShopLiveController.timeControlStatus {
         case .paused:
@@ -1095,27 +1114,32 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                 ShopLiveController.isPlaying = false
             } else {
                 ShopLiveLogger.debugLog("[REASON] time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
-                if ShopLiveController.playControl != .pause, ShopLiveController.shared.windowStyle != .osPip {
-                    ShopLiveLogger.debugLog("[REASON] time paused live do Play")
-                    if ShopLiveController.isReplayMode {
-                        ShopLiveController.playControl = .play
+                if ShopLiveController.playControl != .pause {
+                    if ShopLiveController.shared.windowStyle != .osPip {
+                        ShopLiveLogger.debugLog("[REASON] time paused live do Play")
+                        if ShopLiveController.isReplayMode {
+                            ShopLiveController.playControl = .play
+                        } else {
+                            ShopLiveController.playControl = .resume
+                        }
                     } else {
-                        ShopLiveController.playControl = .resume
+                        ShopLiveLogger.debugLog("[REASON] time paused live do not Play")
+                        if !ShopLiveController.shared.screenLock { //ShopLiveController.shared.lastPipPlaying,
+//                            ShopLiveController.playControl = .resume
+                            ShopLiveController.shared.lastPipPlaying = false
+                        }
                     }
                 } else {
-                    ShopLiveLogger.debugLog("[REASON] time paused live do not Play")
+                    if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
+                        ShopLiveLogger.debugLog("[REASON] time paused lastPipPlaying false")
+                        ShopLiveController.shared.lastPipPlaying = false
+                    }
                 }
-
                 ShopLiveController.shared.needSeek = true
-                if ShopLiveController.shared.windowStyle == .osPip, !ShopLiveController.shared.screenLock {
-                    ShopLiveLogger.debugLog("[REASON] time paused lastPipPlaying false")
-                    ShopLiveController.shared.lastPipPlaying = false
-                }
-
-
             }
             break
         case .playing:
+            ShopLiveLogger.debugLog("[REASON] playing time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
             requireRetryCheck = false
             inBuffering = false
 
@@ -1144,6 +1168,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
 
             break
         case .waitingToPlayAtSpecifiedRate:
+            ShopLiveLogger.debugLog("[REASON] time waiting ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
             if let reason = ShopLiveController.player?.reasonForWaitingToPlay {
                 switch reason {
                 case .toMinimizeStalls:
@@ -1152,9 +1177,12 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                     ShopLiveLogger.debugLog("[REASON] inBuffering \(inBuffering)")
                     if !inBuffering {
                         ShopLiveController.shared.takeSnapShot = true
-                        if !ShopLiveController.loading, ShopLiveController.windowStyle != .osPip,
+                        if !ShopLiveController.loading,
                             ShopLiveController.shared.campaignStatus != .close {
-                            ShopLiveController.loading = true
+                            if ShopLiveController.windowStyle != .osPip {
+                                ShopLiveController.loading = true
+                            }
+                            reserveRetry(waitSecond: 8)
                         }
 //                        if !ShopLiveController.isReplayMode {
 //                            reserveRetry()
@@ -1170,9 +1198,8 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                 default:
                     break
                 }
+                inBuffering = true
             }
-
-            inBuffering = true
             break
 
         @unknown default:
@@ -1188,6 +1215,9 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
             if self.inBuffering, self.requireRetryCheck {
                 ShopLiveLogger.debugLog("[REASON] time retry run")
                 ShopLiveController.retryPlay = true
+            }
+            else {
+                ShopLiveLogger.debugLog("[REASON] time retry cancel")
             }
             self.requireRetryCheck = false
         }
@@ -1269,6 +1299,8 @@ extension AVPlayer.TimeControlStatus {
             return "waitingToPlayAtSpecifiedRate"
         case .paused:
             return "paused"
+        @unknown default:
+            return ""
         }
     }
 }

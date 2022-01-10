@@ -118,7 +118,7 @@ final class ShopLiveController: NSObject {
                 ShopLiveLogger.debugLog("[REASON] timeLoaded: \(Int(timeRange.duration.value) / Int(timeRange.duration.timescale)) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) readyToPlay: \(ShopLiveController.playerItemStatus == .readyToPlay)\n")
                 */
                 let timeLoaded = Int(timeRange.duration.value) / Int(timeRange.duration.timescale)
-                ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name)")
+                ShopLiveLogger.debugLog("[REASON] time Loaded \(timeLoaded) ShopLiveController.timeControlStatus \(ShopLiveController.timeControlStatus.name) \(ShopLiveController.playerItemStatus.rawValue)")
                 if timeLoaded >= 4 && ShopLiveController.timeControlStatus == .waitingToPlayAtSpecifiedRate {
                     ShopLiveLogger.debugLog("[REASON] time Loaded play\n")
                     ShopLiveController.playControl = .play
@@ -255,8 +255,10 @@ final class ShopLiveController: NSObject {
         let seekableDuration = CMTimeGetSeconds(seekableRange.duration)
         let livePosition = seekableStart + seekableDuration
 
-        ShopLiveLogger.debugLog("[REASON] time paused seekToLatest")
-        player.seek(to: CMTime(seconds: livePosition, preferredTimescale: 1))
+        if livePosition > 0 {
+            ShopLiveLogger.debugLog("[REASON] time paused seekToLatest \(livePosition)")
+            player.seek(to: CMTime(seconds: livePosition, preferredTimescale: 1))
+        }
     }
 
 }
