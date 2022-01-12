@@ -708,11 +708,10 @@ internal final class LiveStreamViewController: ShopLiveViewController {
                 } else {
                     ShopLiveLogger.debugLog("[REASON] handleRetryPlay loop ospip \(self.retryCount)")
                     if (self.retryCount < 20 && self.retryCount % 2 == 0) || (self.retryCount >= 20 && self.retryCount % 5 == 0) {
-                        if self.inBuffering {
-                            ShopLiveLogger.debugLog("loop seekToLatest")
-                            ShopLiveController.shared.seekToLatest()
-                        } else {
+                        if !self.inBuffering {
                             ShopLiveLogger.debugLog("loop exit")
+                            ShopLiveController.shared.seekToLatest()
+                            ShopLiveController.playControl = .resume
                             ShopLiveController.retryPlay = false
                             ShopLiveController.shared.takeSnapShot = false
                         }
@@ -1123,7 +1122,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
                             ShopLiveController.playControl = .resume
                         }
                     } else {
-                        ShopLiveLogger.debugLog("[REASON] time paused live do not Play")
+                        ShopLiveLogger.debugLog("[REASON] time paused live do not Play lastPipPlaying \(ShopLiveController.shared.lastPipPlaying) screenLock \(ShopLiveController.shared.screenLock)")
                         if !ShopLiveController.shared.screenLock { //ShopLiveController.shared.lastPipPlaying,
 //                            ShopLiveController.playControl = .resume
                             ShopLiveController.shared.lastPipPlaying = false

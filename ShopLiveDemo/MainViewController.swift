@@ -18,7 +18,11 @@ class MainViewController: SideMenuBaseViewController {
 
         self.view.backgroundColor = .white
 
-        self.title = "SDK Demo" // "sdk.demo.title".localized()
+        #if QA
+            self.title = "Demo QA"
+        #else
+            self.title = "SDK Demo"
+        #endif
 
         ShopLive.delegate = self
 
