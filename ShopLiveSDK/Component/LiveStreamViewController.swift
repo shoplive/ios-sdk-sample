@@ -1111,7 +1111,7 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         case .paused:
             if ShopLiveController.isReplayMode {
                 ShopLiveController.isPlaying = false
-                if ShopLiveController.playControl != .pause {
+                if ShopLiveController.playControl != .pause, ShopLiveController.shared.windowStyle != .osPip {
                     ShopLiveController.playControl = .play
                 }
             } else {
