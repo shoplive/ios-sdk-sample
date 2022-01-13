@@ -1111,20 +1111,18 @@ extension LiveStreamViewController: ShopLivePlayerDelegate {
         case .paused:
             if ShopLiveController.isReplayMode {
                 ShopLiveController.isPlaying = false
+                if ShopLiveController.playControl != .pause {
+                    ShopLiveController.playControl = .play
+                }
             } else {
                 ShopLiveLogger.debugLog("[REASON] time paused ShopLiveController.playControl \(ShopLiveController.playControl.rawValue)")
                 if ShopLiveController.playControl != .pause {
                     if ShopLiveController.shared.windowStyle != .osPip {
                         ShopLiveLogger.debugLog("[REASON] time paused live do Play")
-                        if ShopLiveController.isReplayMode {
-                            ShopLiveController.playControl = .play
-                        } else {
-                            ShopLiveController.playControl = .resume
-                        }
+                        ShopLiveController.playControl = .resume
                     } else {
                         ShopLiveLogger.debugLog("[REASON] time paused live do not Play lastPipPlaying \(ShopLiveController.shared.lastPipPlaying) screenLock \(ShopLiveController.shared.screenLock)")
-                        if !ShopLiveController.shared.screenLock { //ShopLiveController.shared.lastPipPlaying,
-//                            ShopLiveController.playControl = .resume
+                        if !ShopLiveController.shared.screenLock {
                             ShopLiveController.shared.lastPipPlaying = false
                         }
                     }
