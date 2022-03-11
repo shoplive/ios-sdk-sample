@@ -1,0 +1,103 @@
+/*
+  shoplive.strings
+  ShopLiveSDK
+
+  Created by ShopLive on 2021/12/12.
+
+*/
+
+"alert.msg.confirm" = "OK";
+"alert.msg.cancel" = "Cancel";
+"alert.msg.success" = "Succeed";
+"alert.msg.failed" = "Failed";
+"campaign_setting.accesskey" = "Access Key";
+"campaign_setting.campaignkey" = "Campaign Key";
+"campaign_setting.accesskey.guide" = "Access Key: ";
+"campaign_setting.campaignkey.guide" = "Campaign Key: ";
+"campaign_setting.campaignkey.guide.none" = "Campaign setting information: None";
+"campaign_setting.key.entered" = "Enabled";
+"campaign_setting.key.none" = "none";
+"userinfo.type.guest" = "Guest";
+"userinfo.type.simple" = "Simple AUTH";
+"userinfo.type.token" = "Token AUTH";
+"userinfo.userid.placeholder" = "User ID (Required)";
+"userinfo.userName.placeholder" = "User Name";
+"userinfo.age.placeholder" = "Age";
+"userinfo.userScore.placeholder" = "User Score";
+"userinfo.gender.male" = "Male";
+"userinfo.gender.female" = "Female";
+"userinfo.gender.none" = "Other";
+"userinfo.setting.guide" = "Set to JWT token authentication method.";
+"userinfo.setting.guest.guide" = "Set as guest mode.";
+"userinfo.setting.simple.guide" = "Set as simple authentication.";
+"userinfo.setting.token.guide" = "Set as JWT token authentication.";
+"userinfo.setting.jwt.guide.url" = "https://en.shoplive.guide/docs/use-jwt-auth";
+"sdkoption.section.pip.title" = "PIP mode";
+"sdkoption.section.autoPlay.title" = "Keep Playing";
+"sdkoption.section.share.title" = "Sharing UI";
+"sdkoption.section.progress.title" = "Progress Indicator";
+"sdkoption.section.chatFont.title" = "Using custom font";
+"sdkoption.pipPosition.title" = "Position";
+"sdkoption.pipPosition.description" = "PIP mode will start. \n(Default: Bottom Right)";
+"sdkoption.pipPosition.item1" = "Top Left";
+"sdkoption.pipPosition.item2" = "Top Right";
+"sdkoption.pipPosition.item3" = "Bottom Left";
+"sdkoption.pipPosition.item4" = "Bottom Right";
+"sdkoption.pipScale.title" = "View size";
+"sdkoption.pipScale.description" = "PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)";
+"sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Player action when user taps link";
+"sdkoption.nextActionTypeOnNavigation.description" = "Sets the synchronized Shoplive Player action when a user taps a link.";
+"sdkoption.nextActionTypeOnNavigation.guide" = "When a user taps link";
+"sdkoption.nextActionTypeOnNavigation.item1" = "Switch to PIP mode";
+"sdkoption.nextActionTypeOnNavigation.item2" = "No change";
+"sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
+"sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
+"sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
+"sdkoption.callOption.title" = "When a call ended";
+"sdkoption.callOption.description" = "Enabling this option, the video will keep playing when the call ended.";
+"sdkoption.callOption.setting.guide" = "Call ended";
+"sdkoption.customShare.title" = "Using custom sharing UI";
+"sdkoption.customShare.description" = "Enabling setting this option, implement the custom sharing UI.";
+"sdkoption.customShare.setting.guide" = "Custom";
+"sdkoption.shareScheme.title" = "URL or scheme";
+"sdkoption.shareScheme.description" = "Enter the scheme or URL to share.";
+"sdkoption.shareScheme.alert.placeholder" = "URL or scheme";
+"sdkoption.progressColor.title" = "Color (Hex color code)";
+"sdkoption.progressColor.description" = "Not set (default: #FFFFFF)";
+"sdkoption.progressColor.setting.guide" = "Color";
+"sdkoption.customProgress.title" = "Using image animation progress indicator";
+"sdkoption.customProgress.description" = "Enabling this option, disables applying color to the progress indicator.";
+"sdkoption.customProgress.setting.guide" = "Using image animation";
+"sdkoption.chatInputCustomFont.title" = "Chat UI";
+"sdkoption.chatInputCustomFont.description" = "Disabling this option, will use the system default font.";
+"sdkoption.chatInputCustomFont.setting.guide" = "Chat UI";
+"sdkoption.chatSendButtonCustomFont.title" = "Chat send button";
+"sdkoption.chatSendButtonCustomFont.description" = "Disabling this option, will use the system default font.";
+
+"sdkoption.chatSendButtonCustomFont.setting.guide" = "Chat send button";
+"sample.app.title" = "Shoplive SDK Sample";
+"sample.msg.failed.noneUserId" = "User ID is a mandatory field when using simple authentication";
+"sample.msg.none_key" = "No key is selected";
+"sample.msg.wrongurl" = "This is an invalid URL.";
+"sample.menu.step1" = "Campaign setting";
+"sample.menu.step2" = "User setting";
+"sample.menu.step3" = "Advanced setting";
+"sample.menu.step1.title" = "Campaign setting";
+"sample.menu.step2.title" = "User setting";
+"sample.menu.step3.title" = "Advanced setting";
+"sample.menu.msg.empty.campaign" = "Campaign is not set correctly.";
+"sample.menu.msg.empty.user" = "User is not set correctly.";
+"sample.menu.step2.jwt.lebel.placeholder" = "JWT token is empty.";
+"sample.menu.navi.save" = "OK";
+"sample.button.play" = "Play";
+"sample.button.preview" = "Preview";
+"sample.link.tokenGuide" = "JWT token creation guide";
+"sample.authType.user" = "Simple authentication.";
+"sample.authType.token" = "JWT token authentication.";
+"sample.authType.guest" = "Guest mode.";
+"sample.coupon.download" = "Download a coupon";
+"sample.coupon.coupon_id" = "Coupon ID";
+"sample.couponresponse.success.default" = "The coupon has been downloaded.";
+"sample.couponresponse.failed.default" = "The coupon has not been downloaded.";
+"sample.guide.customShare" = "Use custom sharing";
