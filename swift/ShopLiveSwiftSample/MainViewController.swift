@@ -56,7 +56,7 @@ final class MainViewController: SampleBaseViewController {
         return view
     }()
 
-    private let playButton: UIButton = {
+    private lazy var playButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
@@ -67,7 +67,7 @@ final class MainViewController: SampleBaseViewController {
         return view
     }()
 
-    private let previewButton: UIButton = {
+    private lazy var previewButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
@@ -348,9 +348,25 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         print("handleReceivedCommand command: \(command) payload: \(String(describing: payload))")
+        
+        switch command {
+        case "LOGIN_REQUIRED":
+            let loginAlert = UIAlertController(title: "sample.login.alert.title".localized(), message: "sample.login.alert.message".localized(), preferredStyle: .alert)
+            loginAlert.addAction(.init(title: "alert.msg.cancel".localized(), style: .cancel))
+            loginAlert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: { [weak self] action in
+                ShopLive.startPictureInPicture()
+                let login = LoginViewController()
+                login.delegate = self
+                self?.navigationController?.pushViewController(login, animated: true)
+            }))
+            ShopLive.viewController?.present(loginAlert, animated: true)
+            
+            break
+        default:
+            break
+        }
     }
 }
-
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -399,4 +415,19 @@ extension MainViewController: DemoConfigurationObserver {
     }
 
 
+}
+
+extension MainViewController: LoginDelegate {
+    func loginSuccess() {
+        let config = DemoConfiguration.shared
+        guard let campaign = config.campaign else {
+            UIWindow.showToast(message: "sample.msg.none_key".localized())
+            return
+        }
+        
+        let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
+        ShopLive.user = loginUser
+        
+        ShopLive.play(with: campaign.campaignKey)
+    }
 }

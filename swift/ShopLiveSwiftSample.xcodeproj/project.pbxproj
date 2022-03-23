@@ -42,6 +42,7 @@
 		BFC907B12774689C00D26F3F /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B02774689C00D26F3F /* MenuCell.swift */; };
 		BFC907B32774766000D26F3F /* SampleBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B22774766000D26F3F /* SampleBaseViewController.swift */; };
 		BFC907B52774916800D26F3F /* CampainKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B42774916800D26F3F /* CampainKeySet.swift */; };
+		BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587327EABFA300B920E9 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +111,7 @@
 		BFC907B02774689C00D26F3F /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		BFC907B22774766000D26F3F /* SampleBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBaseViewController.swift; sourceTree = "<group>"; };
 		BFC907B42774916800D26F3F /* CampainKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampainKeySet.swift; sourceTree = "<group>"; };
+		BFF3587327EABFA300B920E9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +173,7 @@
 				BFC90739277448BB00D26F3F /* Sample */,
 				BFC90795277448FA00D26F3F /* MainViewController.swift */,
 				BFAA3EFD2738BE67005AA18E /* misc */,
+				BFF3587327EABFA300B920E9 /* LoginViewController.swift */,
 			);
 			path = ShopLiveSwiftSample;
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */,
 				BFC90790277448BB00D26F3F /* CustomBaseAlertController.swift in Sources */,
 				BFC90796277448FA00D26F3F /* MainViewController.swift in Sources */,
 				BFC90772277448BB00D26F3F /* DemoConfiguration.swift in Sources */,

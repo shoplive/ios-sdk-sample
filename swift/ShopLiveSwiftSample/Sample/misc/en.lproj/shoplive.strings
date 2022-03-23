@@ -101,3 +101,6 @@
 "sample.couponresponse.success.default" = "The coupon has been downloaded.";
 "sample.couponresponse.failed.default" = "The coupon has not been downloaded.";
 "sample.guide.customShare" = "Use custom sharing";
+"sample.login.button.title" = "Login";
+"sample.login.alert.title" = "Alert";
+"sample.login.alert.message" = "Log in to use this feature. \nDo you want to log in?";
