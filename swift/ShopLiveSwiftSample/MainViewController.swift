@@ -216,6 +216,8 @@ final class MainViewController: SampleBaseViewController {
         }
 
         setupShopliveSettings()
+        ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
+        
         
         if config.authType == "USER", (config.user.id == nil || (config.user.id != nil && config.user.id!.isEmpty)) {
             UIWindow.showToast(message: "sample.msg.failed.noneUserId".localized())

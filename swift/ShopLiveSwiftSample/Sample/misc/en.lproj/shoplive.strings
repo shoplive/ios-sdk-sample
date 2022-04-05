@@ -6,6 +6,7 @@
 
 */
 
+"sample.msg.reset" = "Reset";
 "alert.msg.confirm" = "OK";
 "alert.msg.cancel" = "Cancel";
 "alert.msg.success" = "Succeed";
@@ -51,6 +52,8 @@
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch to PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.pipAreaSetting.title" = "PIP moveable area";
+"sdkoption.pipAreaSetting.description" = "Sets the PIP moveable area.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
@@ -90,6 +93,7 @@
 "sample.menu.msg.empty.user" = "User is not set correctly.";
 "sample.menu.step2.jwt.lebel.placeholder" = "JWT token is empty.";
 "sample.menu.navi.save" = "OK";
+"sample.option.navi.save" = "Save";
 "sample.button.play" = "Play";
 "sample.button.preview" = "Preview";
 "sample.link.tokenGuide" = "JWT token creation guide";

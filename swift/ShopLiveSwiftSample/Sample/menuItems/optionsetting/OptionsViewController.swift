@@ -60,7 +60,8 @@ final class OptionsViewController: SampleBaseViewController {
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
         let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
         let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption])
+        let pipAreaOption = SDKOptionItem(name: "sdkoption.pipAreaSetting.title".localized(), optionDescription: "sdkoption.pipAreaSetting.description".localized(), optionType: .pipFloatingOffset)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, nextActionPipOption, pipAreaOption])
 
         items.append(pipOptions)
 
@@ -113,12 +114,14 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configure(item: item)
             return cell
-        case .showAlert, .dropdown:
+        case .showAlert, .dropdown, .routeTo:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonOptionCell", for: indexPath) as? ButtonOptionCell else {
                 return UITableViewCell()
             }
             cell.configure(item: item)
             return cell
+        case .routeTo:
+            return UITableViewCell()
         }
 
     }
@@ -212,6 +215,16 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
 
             dropdown.show()
+            break
+        case .routeTo:
+            switch item.optionType {
+            case .pipFloatingOffset:
+                let pipAreaSetting = PipAreaSettingViewController()
+                self.navigationController?.pushViewController(pipAreaSetting, animated: true)
+                break
+            default:
+                break
+            }
             break
         default:
             break
