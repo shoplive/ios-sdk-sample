@@ -1,6 +1,6 @@
 //
 //  SwitchOptionCell.swift
-//  ShopLiveDemo
+//  ShopLiveSwiftSample
 //
 //  Created by ShopLive on 2021/12/16.
 //
@@ -124,6 +124,12 @@ class SwitchOptionCell: UITableViewCell {
         case .chatSendButtonCustomFont:
             useOption = DemoConfiguration.shared.useChatSendButtonCustomFont
             break
+        case .playWhenPreviewTapped:
+            useOption = DemoConfiguration.shared.usePlayWhenPreviewTapped
+            break
+        case .mute:
+            useOption = DemoConfiguration.shared.isMuted
+            break
         default:
             break
         }
@@ -152,6 +158,12 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .chatSendButtonCustomFont:
             DemoConfiguration.shared.useChatSendButtonCustomFont = useOption
+            break
+        case .playWhenPreviewTapped:
+            DemoConfiguration.shared.usePlayWhenPreviewTapped = useOption
+            break
+        case .mute:
+            DemoConfiguration.shared.isMuted = useOption
             break
         default:
             break

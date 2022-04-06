@@ -1,6 +1,6 @@
 //
 //  ButtonOptionCell.swift
-//  ShopLiveDemo
+//  ShopLiveSwiftSample
 //
 //  Created by ShopLive on 2021/12/16.
 //
@@ -82,6 +82,17 @@ final class ButtonOptionCell: UITableViewCell {
                 break
             }
             itemLabelText = itemLabelText.dropdownValueLabel(string: descriptionTitle)
+            break
+        case .routeTo:
+            switch item.optionType {
+            case .pipFloatingOffset:
+                descriptionTitle = item.optionDescription
+                break
+            default:
+                descriptionTitle = item.optionDescription
+                break
+            }
+            itemLabelText = itemLabelText.descriptionLabel(string: descriptionTitle)
             break
         default:
             switch item.optionType {

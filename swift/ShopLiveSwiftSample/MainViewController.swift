@@ -1,6 +1,6 @@
 //
 //  MainViewController.swift
-//  ShopLiveDemo
+//  ShopLiveSwiftSample
 //
 //  Created by ShopLive on 2021/12/12.
 //
@@ -8,6 +8,7 @@
 import UIKit
 import SideMenu
 import SafariServices
+import Toast
 
 enum MenuItem: String, CaseIterable {
     case step1
@@ -56,7 +57,7 @@ final class MainViewController: SampleBaseViewController {
         return view
     }()
 
-    private let playButton: UIButton = {
+    private lazy var playButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
@@ -67,7 +68,7 @@ final class MainViewController: SampleBaseViewController {
         return view
     }()
 
-    private let previewButton: UIButton = {
+    private lazy var previewButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.masksToBounds = true
@@ -185,6 +186,17 @@ final class MainViewController: SampleBaseViewController {
         
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+        
+        // Pip padding setting
+        let padding = config.pipPadding
+        ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        
+        // Pip floating offset setting
+        let floatingOffset = config.pipFloatingOffset
+        ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        
+        // Mute Sound Setting
+        ShopLive.setMuteWhenPlayStart(config.isMuted)
     }
 
     @objc func preview() {
@@ -204,7 +216,11 @@ final class MainViewController: SampleBaseViewController {
 
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.preview(with: campaign.campaignKey) {
-            ShopLive.play(with: campaign.campaignKey)
+            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
+                ShopLive.play(with: campaign.campaignKey)
+            } else {
+                UIWindow.showToast(message: "tap preview".localized(), curView: self.view)
+            }
         }
     }
 
@@ -216,6 +232,8 @@ final class MainViewController: SampleBaseViewController {
         }
 
         setupShopliveSettings()
+        ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
+        
         
         if config.authType == "USER", (config.user.id == nil || (config.user.id != nil && config.user.id!.isEmpty)) {
             UIWindow.showToast(message: "sample.msg.failed.noneUserId".localized())
@@ -277,8 +295,14 @@ extension MainViewController: ShopLiveSDKDelegate {
         print("handleCampaignInfo")
     }
 
-    func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void) {
-        print("handleDownloadCouponResult")
+    /*
+     // deprecated
+     func handleDownloadCoupon(with couponId: String, completion: @escaping () -> Void)
+    
+     func handleDownloadCouponResult(with couponId: String, completion: @escaping (CouponResult) -> Void)
+    */
+    func handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) {
+        print("handleDownloadCoupon")
         let alert = UIAlertController(title: "sample.coupon.download".localized(), message: "sample.coupon.coupon_id".localized() + ": \(couponId)", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
             DispatchQueue.main.async {
@@ -286,8 +310,8 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let status = DemoConfiguration.shared.downloadCouponFailedStatus
                 let alertType = DemoConfiguration.shared.downloadCouponFailedAlertType
                 DispatchQueue.main.async {
-                    let result = CouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
-                    completion(result)
+                    let couponResult = ShopLiveCouponResult(couponId: couponId, success: false, message: message, status: status, alertType: alertType)
+                    result(couponResult)
                 }
             }
         }))
@@ -296,8 +320,8 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = DemoConfiguration.shared.downloadCouponSuccessStatus
             let alertType = DemoConfiguration.shared.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
-                completion(result)
+                let couponResult = ShopLiveCouponResult(couponId: couponId, success: true, message: message, status: status, alertType: alertType)
+                result(couponResult)
             }
         }))
         ShopLive.viewController?.present(alert, animated: true, completion: nil)
@@ -308,10 +332,12 @@ extension MainViewController: ShopLiveSDKDelegate {
     func handleCustomAction(with id: String, type: String, payload: Any?, completion: @escaping () -> Void) {
         print("handleCustomAction \(id) \(type) \(payload.debugDescription)")
     }
-    */
-
     func handleCustomActionResult(with id: String, type: String, payload: Any?, completion: @escaping (CustomActionResult) -> Void) {
-        print("handleCustomActionResult")
+    }
+     */
+
+    func handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) {
+        print("handleCustomAction")
 
         let alert = UIAlertController(title: "CUSTOM ACTION", message: "id: \(id)\ntype: \(type)\npayload: \(String(describing: payload))", preferredStyle: .alert)
         alert.addAction(.init(title: "alert.msg.failed".localized(), style: .cancel, handler: { _ in
@@ -319,8 +345,8 @@ extension MainViewController: ShopLiveSDKDelegate {
                 let message = DemoConfiguration.shared.downloadCouponFailedMessage
                 let status = DemoConfiguration.shared.downloadCouponFailedStatus
                 let alertType = DemoConfiguration.shared.downloadCouponFailedAlertType
-                let result = CustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
-                completion(result)
+                let customActionResult = ShopLiveCustomActionResult(id: id, success: false, message: message, status: status, alertType: alertType)
+                result(customActionResult)
             }
         }))
         alert.addAction(.init(title: "alert.msg.success".localized(), style: .default, handler: { _ in
@@ -328,8 +354,8 @@ extension MainViewController: ShopLiveSDKDelegate {
             let status = DemoConfiguration.shared.downloadCouponSuccessStatus
             let alertType = DemoConfiguration.shared.downloadCouponSuccessAlertType
             DispatchQueue.main.async {
-                let result = CustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
-                completion(result)
+                let customActionResult = ShopLiveCustomActionResult(id: id, success: true, message: message, status: status, alertType: alertType)
+                result(customActionResult)
             }
         }))
         ShopLive.viewController?.present(alert, animated: true, completion: nil)
@@ -348,9 +374,25 @@ extension MainViewController: ShopLiveSDKDelegate {
 
     func handleReceivedCommand(_ command: String, with payload: Any?) {
         print("handleReceivedCommand command: \(command) payload: \(String(describing: payload))")
+        
+        switch command {
+        case "LOGIN_REQUIRED":
+            let loginAlert = UIAlertController(title: "sample.login.alert.title".localized(), message: "sample.login.alert.message".localized(), preferredStyle: .alert)
+            loginAlert.addAction(.init(title: "alert.msg.cancel".localized(), style: .cancel))
+            loginAlert.addAction(.init(title: "alert.msg.confirm".localized(), style: .default, handler: { [weak self] action in
+                ShopLive.startPictureInPicture()
+                let login = LoginViewController()
+                login.delegate = self
+                self?.navigationController?.pushViewController(login, animated: true)
+            }))
+            ShopLive.viewController?.present(loginAlert, animated: true)
+            
+            break
+        default:
+            break
+        }
     }
 }
-
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -399,4 +441,19 @@ extension MainViewController: DemoConfigurationObserver {
     }
 
 
+}
+
+extension MainViewController: LoginDelegate {
+    func loginSuccess() {
+        let config = DemoConfiguration.shared
+        guard let campaign = config.campaign else {
+            UIWindow.showToast(message: "sample.msg.none_key".localized())
+            return
+        }
+        
+        let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
+        ShopLive.user = loginUser
+        
+        ShopLive.play(with: campaign.campaignKey)
+    }
 }

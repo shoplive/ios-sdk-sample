@@ -1,6 +1,6 @@
 //
 //  CustomBaseAlertController.swift
-//  ShopLiveDemo
+//  ShopLiveSwiftSample
 //
 //  Created by ShopLive on 2021/12/15.
 //
