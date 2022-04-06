@@ -42,6 +42,8 @@
 		BFC907B12774689C00D26F3F /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B02774689C00D26F3F /* MenuCell.swift */; };
 		BFC907B32774766000D26F3F /* SampleBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B22774766000D26F3F /* SampleBaseViewController.swift */; };
 		BFC907B52774916800D26F3F /* CampainKeySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC907B42774916800D26F3F /* CampainKeySet.swift */; };
+		BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587327EABFA300B920E9 /* LoginViewController.swift */; };
+		BFF3587727EB1A8200B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,6 +112,8 @@
 		BFC907B02774689C00D26F3F /* MenuCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		BFC907B22774766000D26F3F /* SampleBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleBaseViewController.swift; sourceTree = "<group>"; };
 		BFC907B42774916800D26F3F /* CampainKeySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampainKeySet.swift; sourceTree = "<group>"; };
+		BFF3587327EABFA300B920E9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -171,6 +175,7 @@
 				BFC90739277448BB00D26F3F /* Sample */,
 				BFC90795277448FA00D26F3F /* MainViewController.swift */,
 				BFAA3EFD2738BE67005AA18E /* misc */,
+				BFF3587327EABFA300B920E9 /* LoginViewController.swift */,
 			);
 			path = ShopLiveSwiftSample;
 			sourceTree = "<group>";
@@ -245,6 +250,7 @@
 				BFC90765277448BB00D26F3F /* campaigns */,
 				BFC90763277448BB00D26F3F /* userinfo */,
 				BFC9075E277448BB00D26F3F /* optionsetting */,
+				BFF3587527EB1A5600B920E9 /* pipsettings */,
 			);
 			path = menuItems;
 			sourceTree = "<group>";
@@ -295,6 +301,14 @@
 				BFC9076C277448BB00D26F3F /* Sample.xcassets */,
 			);
 			path = misc;
+			sourceTree = "<group>";
+		};
+		BFF3587527EB1A5600B920E9 /* pipsettings */ = {
+			isa = PBXGroup;
+			children = (
+				BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */,
+			);
+			path = pipsettings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -447,6 +461,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */,
 				BFC90790277448BB00D26F3F /* CustomBaseAlertController.swift in Sources */,
 				BFC90796277448FA00D26F3F /* MainViewController.swift in Sources */,
 				BFC90772277448BB00D26F3F /* DemoConfiguration.swift in Sources */,
@@ -456,6 +471,7 @@
 				BFC90789277448BB00D26F3F /* OptionSectionHeader.swift in Sources */,
 				1BAEDDDA26042D0D005C5DD4 /* AppDelegate.swift in Sources */,
 				BFC907B52774916800D26F3F /* CampainKeySet.swift in Sources */,
+				BFF3587727EB1A8200B920E9 /* PipAreaSettingViewController.swift in Sources */,
 				BFC9078E277448BB00D26F3F /* CampaignSettingController.swift in Sources */,
 				BFC90771277448BB00D26F3F /* SDKOption.swift in Sources */,
 				BFC9078D277448BB00D26F3F /* UserInfoViewController.swift in Sources */,
@@ -651,7 +667,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ShopLiveSwiftSample/misc/Info.plist;
@@ -677,7 +693,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_TEAM = D237UGRPX6;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = ShopLiveSwiftSample/misc/Info.plist;
@@ -824,7 +840,7 @@
 			repositoryURL = "https://github.com/shoplive/ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.2;
+				minimumVersion = 1.2.3;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {

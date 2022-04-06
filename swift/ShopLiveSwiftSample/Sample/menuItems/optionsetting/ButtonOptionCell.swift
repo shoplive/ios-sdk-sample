@@ -83,6 +83,17 @@ final class ButtonOptionCell: UITableViewCell {
             }
             itemLabelText = itemLabelText.dropdownValueLabel(string: descriptionTitle)
             break
+        case .routeTo:
+            switch item.optionType {
+            case .pipFloatingOffset:
+                descriptionTitle = item.optionDescription
+                break
+            default:
+                descriptionTitle = item.optionDescription
+                break
+            }
+            itemLabelText = itemLabelText.descriptionLabel(string: descriptionTitle)
+            break
         default:
             switch item.optionType {
             case .shareScheme:

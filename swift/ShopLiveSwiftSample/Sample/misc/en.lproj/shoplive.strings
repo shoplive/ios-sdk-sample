@@ -6,6 +6,7 @@
 
 */
 
+"sample.msg.reset" = "Reset";
 "alert.msg.confirm" = "OK";
 "alert.msg.cancel" = "Cancel";
 "alert.msg.success" = "Succeed";
@@ -32,11 +33,17 @@
 "userinfo.setting.simple.guide" = "Set as simple authentication.";
 "userinfo.setting.token.guide" = "Set as JWT token authentication.";
 "userinfo.setting.jwt.guide.url" = "https://en.shoplive.guide/docs/use-jwt-auth";
+"sdkoption.section.sound.title" = "Sound";
+"sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP mode";
 "sdkoption.section.autoPlay.title" = "Keep Playing";
 "sdkoption.section.share.title" = "Sharing UI";
 "sdkoption.section.progress.title" = "Progress Indicator";
 "sdkoption.section.chatFont.title" = "Using custom font";
+"sdkoption.sound.mute.title" = "Muted play starts";
+"sdkoption.sound.mute.description" = "Muted when play starts video";
+"sdkoption.preview.title" = "Preview Tap to Play";
+"sdkoption.preview.description" = "Play When Preview Tapped";
 "sdkoption.pipPosition.title" = "Position";
 "sdkoption.pipPosition.description" = "PIP mode will start. \n(Default: Bottom Right)";
 "sdkoption.pipPosition.item1" = "Top Left";
@@ -51,6 +58,8 @@
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch to PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
+"sdkoption.pipAreaSetting.title" = "PIP moveable area";
+"sdkoption.pipAreaSetting.description" = "Sets the PIP moveable area.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
@@ -90,6 +99,7 @@
 "sample.menu.msg.empty.user" = "User is not set correctly.";
 "sample.menu.step2.jwt.lebel.placeholder" = "JWT token is empty.";
 "sample.menu.navi.save" = "OK";
+"sample.option.navi.save" = "Save";
 "sample.button.play" = "Play";
 "sample.button.preview" = "Preview";
 "sample.link.tokenGuide" = "JWT token creation guide";
@@ -101,3 +111,6 @@
 "sample.couponresponse.success.default" = "The coupon has been downloaded.";
 "sample.couponresponse.failed.default" = "The coupon has not been downloaded.";
 "sample.guide.customShare" = "Use custom sharing";
+"sample.login.button.title" = "Login";
+"sample.login.alert.title" = "Alert";
+"sample.login.alert.message" = "Log in to use this feature. \nDo you want to log in?";

@@ -62,7 +62,7 @@ extension UIWindow {
     }
 
     static func showToast(message: String, curView: UIView? = nil) {
-        guard let view = UIApplication.topWindow ?? curView else { return }
+        guard let view = curView ?? UIApplication.topWindow else { return }
         var toastStyle = ToastStyle()
         toastStyle.titleAlignment = .center
         toastStyle.messageAlignment = .center
@@ -273,4 +273,18 @@ extension NSMutableAttributedString {
         return self
     }
     
+}
+
+extension UserDefaults {
+  func set(_ value: UIEdgeInsets, forKey key: String) {
+    let rectDataArray = [value.top, value.left, value.bottom, value.right]
+    set(rectDataArray, forKey: key)
+  }
+
+  func cgRect(forKey key: String) -> UIEdgeInsets? {
+      guard let rectDataArray = array(forKey: key) as? [CGFloat] else { return nil }
+      guard rectDataArray.count == 4 else { return nil }
+
+      return UIEdgeInsets(top: rectDataArray[0], left: rectDataArray[1], bottom: rectDataArray[2], right: rectDataArray[3])
+  }
 }
