@@ -34,6 +34,8 @@ enum SDKOptionType: String, CaseIterable {
     case customProgress
     case chatInputCustomFont
     case chatSendButtonCustomFont
+    case mute
+    case playWhenPreviewTapped
 
     enum SettingType: Int {
         case showAlert

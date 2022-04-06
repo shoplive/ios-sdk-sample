@@ -62,7 +62,7 @@ extension UIWindow {
     }
 
     static func showToast(message: String, curView: UIView? = nil) {
-        guard let view = UIApplication.topWindow ?? curView else { return }
+        guard let view = curView ?? UIApplication.topWindow else { return }
         var toastStyle = ToastStyle()
         toastStyle.titleAlignment = .center
         toastStyle.messageAlignment = .center

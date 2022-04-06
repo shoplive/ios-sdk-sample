@@ -33,11 +33,17 @@
 "userinfo.setting.simple.guide" = "Set as simple authentication.";
 "userinfo.setting.token.guide" = "Set as JWT token authentication.";
 "userinfo.setting.jwt.guide.url" = "https://en.shoplive.guide/docs/use-jwt-auth";
+"sdkoption.section.sound.title" = "Sound";
+"sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP mode";
 "sdkoption.section.autoPlay.title" = "Keep Playing";
 "sdkoption.section.share.title" = "Sharing UI";
 "sdkoption.section.progress.title" = "Progress Indicator";
 "sdkoption.section.chatFont.title" = "Using custom font";
+"sdkoption.sound.mute.title" = "Muted play starts";
+"sdkoption.sound.mute.description" = "Muted when play starts video";
+"sdkoption.preview.title" = "Preview Tap to Play";
+"sdkoption.preview.description" = "Play When Preview Tapped";
 "sdkoption.pipPosition.title" = "Position";
 "sdkoption.pipPosition.description" = "PIP mode will start. \n(Default: Bottom Right)";
 "sdkoption.pipPosition.item1" = "Top Left";

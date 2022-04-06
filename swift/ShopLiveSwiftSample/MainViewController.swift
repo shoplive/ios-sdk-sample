@@ -8,6 +8,7 @@
 import UIKit
 import SideMenu
 import SafariServices
+import Toast
 
 enum MenuItem: String, CaseIterable {
     case step1
@@ -185,6 +186,9 @@ final class MainViewController: SampleBaseViewController {
         
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
+        
+        // Mute Sound Setting
+        ShopLive.setMuteWhenPlayStart(config.isMuted)
     }
 
     @objc func preview() {
@@ -204,7 +208,11 @@ final class MainViewController: SampleBaseViewController {
 
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.preview(with: campaign.campaignKey) {
-            ShopLive.play(with: campaign.campaignKey)
+            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
+                ShopLive.play(with: campaign.campaignKey)
+            } else {
+                UIWindow.showToast(message: "tap preview".localized(), curView: self.view)
+            }
         }
     }
 
