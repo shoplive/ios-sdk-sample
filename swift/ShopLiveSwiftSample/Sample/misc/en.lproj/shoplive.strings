@@ -11,6 +11,11 @@
 "alert.msg.cancel" = "Cancel";
 "alert.msg.success" = "Succeed";
 "alert.msg.failed" = "Failed";
+"login.id.label" = "User ID";
+"login.id.placeholder" = "Enter User ID";
+"login.pwd.label" = "Password";
+"login.pwd.placeholder" = "Enter Password";
+"login.send.title" = "Log In";
 "campaign_setting.accesskey" = "Access Key";
 "campaign_setting.campaignkey" = "Campaign Key";
 "campaign_setting.accesskey.guide" = "Access Key: ";
@@ -113,4 +118,4 @@
 "sample.guide.customShare" = "Use custom sharing";
 "sample.login.button.title" = "Login";
 "sample.login.alert.title" = "Alert";
-"sample.login.alert.message" = "Log in to use this feature. \nDo you want to log in?";
+"sample.login.alert.message" = "Log in to use this feature. \nAre you sure to log in?";

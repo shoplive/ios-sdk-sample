@@ -47,6 +47,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Shizuru-Regular.ttf</string>
+		<string>NotoSansKR-Medium.otf</string>
+		<string>NotoSansKR-Regular.otf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

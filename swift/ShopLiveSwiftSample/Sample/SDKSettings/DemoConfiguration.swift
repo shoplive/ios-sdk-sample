@@ -1,6 +1,6 @@
 //
 //  DemoConfiguration.swift
-//  ShopLiveDemo
+//  ShopLiveSwiftSample
 //
 //  Created by ShopLive on 2021/12/14.
 //
@@ -302,7 +302,7 @@ final class DemoConfiguration: NSObject {
     }
 
     var customFont: UIFont? {
-        let customFont: String = "Shizuru-Regular"
+        let customFont: String = "NotoSansKR-Regular"
         return UIFont(name: customFont, size: 16)
     }
 
