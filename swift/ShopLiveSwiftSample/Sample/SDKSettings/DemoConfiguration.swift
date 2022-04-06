@@ -245,25 +245,25 @@ final class DemoConfiguration: NSObject {
         }
     }
 
-    var downloadCouponSuccessStatus: ResultStatus {
+    var downloadCouponSuccessStatus: ShopLiveResultStatus {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponSuccessStatus.key)
             UserDefaults.standard.synchronize()
         }
         get {
             let rawValue = UserDefaults.standard.integer(forKey: CouponResponseKey.downloadCouponSuccessStatus.key)
-            return ResultStatus(rawValue: rawValue) ?? .SHOW
+            return ShopLiveResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
 
-    var downloadCouponSuccessAlertType: ResultAlertType {
+    var downloadCouponSuccessAlertType: ShopLiveResultAlertType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponSuccessAlertType.key)
             UserDefaults.standard.synchronize()
         }
         get {
             let rawValue = UserDefaults.standard.integer(forKey: CouponResponseKey.downloadCouponSuccessAlertType.key)
-            return ResultAlertType(rawValue: rawValue) ?? .ALERT
+            return ShopLiveResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
 
@@ -279,25 +279,25 @@ final class DemoConfiguration: NSObject {
         }
     }
 
-    var downloadCouponFailedStatus: ResultStatus {
+    var downloadCouponFailedStatus: ShopLiveResultStatus {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponFailedStatus.key)
             UserDefaults.standard.synchronize()
         }
         get {
             let rawValue = UserDefaults.standard.integer(forKey: CouponResponseKey.downloadCouponFailedStatus.key)
-            return ResultStatus(rawValue: rawValue) ?? .SHOW
+            return ShopLiveResultStatus(rawValue: rawValue) ?? .SHOW
         }
     }
 
-    var downloadCouponFailedAlertType: ResultAlertType {
+    var downloadCouponFailedAlertType: ShopLiveResultAlertType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: CouponResponseKey.downloadCouponFailedAlertType.key)
             UserDefaults.standard.synchronize()
         }
         get {
             let rawValue = UserDefaults.standard.integer(forKey: CouponResponseKey.downloadCouponFailedAlertType.key)
-            return ResultAlertType(rawValue: rawValue) ?? .ALERT
+            return ShopLiveResultAlertType(rawValue: rawValue) ?? .ALERT
         }
     }
 
