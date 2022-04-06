@@ -16,10 +16,10 @@
 "login.pwd.label" = "Password";
 "login.pwd.placeholder" = "Enter Password";
 "login.send.title" = "Log In";
-"campaign_setting.accesskey" = "Access Key";
-"campaign_setting.campaignkey" = "Campaign Key";
-"campaign_setting.accesskey.guide" = "Access Key: ";
-"campaign_setting.campaignkey.guide" = "Campaign Key: ";
+"campaign_setting.accesskey" = "Access key";
+"campaign_setting.campaignkey" = "Campaign key";
+"campaign_setting.accesskey.guide" = "Access key: ";
+"campaign_setting.campaignkey.guide" = "Campaign key: ";
 "campaign_setting.campaignkey.guide.none" = "Campaign setting information: None";
 "campaign_setting.key.entered" = "Enabled";
 "campaign_setting.key.none" = "none";
@@ -41,9 +41,9 @@
 "sdkoption.section.sound.title" = "Sound";
 "sdkoption.section.preview.title" = "Preview";
 "sdkoption.section.pip.title" = "PIP mode";
-"sdkoption.section.autoPlay.title" = "Keep Playing";
+"sdkoption.section.autoPlay.title" = "Keep playing";
 "sdkoption.section.share.title" = "Sharing UI";
-"sdkoption.section.progress.title" = "Progress Indicator";
+"sdkoption.section.progress.title" = "Progress indicator";
 "sdkoption.section.chatFont.title" = "Using custom font";
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
