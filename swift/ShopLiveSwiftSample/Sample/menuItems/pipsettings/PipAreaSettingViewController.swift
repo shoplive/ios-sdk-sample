@@ -181,7 +181,7 @@ final class PipAreaSettingViewController: UIViewController {
     }
 
     func setupNaviItems() {
-        self.title = "sdkoption.pipFloatingOffset.page.title".localized()
+        self.title = "sdkoption.pipAreaSetting.title".localized()
 
         let save = UIBarButtonItem(title: "sample.option.navi.save".localized(from: "shoplive"), style: .plain, target: self, action: #selector(saveAct))
 
