@@ -16,10 +16,21 @@ class SwitchOptionCell: UITableViewCell {
     var item: SDKOptionItem?
     weak var delegate: SwitchOptionCellDelegate?
 
-    private lazy var optionLabel: UILabel = {
+    private lazy var optionTitleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.numberOfLines = 0
+        view.textColor = .black
+        view.font = .systemFont(ofSize: 15, weight: .regular)
+        return view
+    }()
+
+    private lazy var optionDescriptionLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.numberOfLines = 0
+        view.textColor = .lightGray
+        view.font = .systemFont(ofSize: 14, weight: .regular)
         return view
     }()
 
@@ -60,44 +71,47 @@ class SwitchOptionCell: UITableViewCell {
 
     private func setupViews() {
         self.contentView.backgroundColor = .white
-        self.contentView.addSubview(optionLabel)
+        self.contentView.addSubview(optionTitleLabel)
+        self.contentView.addSubview(optionDescriptionLabel)
         self.contentView.addSubview(optionSwitch)
         self.contentView.addSubview(touchArea)
 
+        touchArea.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
         optionSwitch.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-20)
             $0.width.equalTo(50)
-            $0.centerY.equalTo(self.contentView)
+            $0.centerY.equalToSuperview()
         }
         
-        optionLabel.snp.makeConstraints {
+        optionTitleLabel.snp.makeConstraints {
             $0.top.equalToSuperview().offset(20)
             $0.leading.equalToSuperview().offset(15)
             $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.height.greaterThanOrEqualTo(20)
+        }
+        
+        optionDescriptionLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().offset(15)
+            $0.trailing.equalTo(optionSwitch.snp.leading).offset(-10)
+            $0.top.equalTo(optionTitleLabel.snp.bottom).offset(4)
             $0.bottom.equalToSuperview().offset(-20)
         }
 
-        touchArea.snp.makeConstraints {
-            $0.top.bottom.equalTo(optionLabel)
-            $0.leading.trailing.equalToSuperview()
-        }
     }
 
     func configure(item: SDKOptionItem) {
         self.item = item
-        var itemLabelText: NSMutableAttributedString = .init()
-        itemLabelText = itemLabelText.titleLabel(string: item.name + "\n")
-        itemLabelText = itemLabelText.descriptionLabel(string: item.optionDescription + "\n")
-        itemLabelText = itemLabelText.lineHeight(space: 1.5)
-        optionLabel.attributedText = itemLabelText
-        
+        optionTitleLabel.text = item.name
+        optionDescriptionLabel.text = item.optionDescription
         loadConfiguration()
     }
 
     @objc func didTapSwitch() {
         optionSwitch.isOn = !optionSwitch.isOn
 
-        // change DemoConfiguration data
         updateConfiguration()
     }
 
