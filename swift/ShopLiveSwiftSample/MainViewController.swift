@@ -217,7 +217,7 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.preview(with: campaign.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: campaign.campaignKey)
+                ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
             } else {
                 UIWindow.showToast(message: "tap preview".localized(), curView: self.view)
             }
@@ -240,7 +240,7 @@ final class MainViewController: SampleBaseViewController {
             return
         }
         ShopLive.configure(with: campaign.accessKey)
-        ShopLive.play(with: campaign.campaignKey)
+        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
 }
 
@@ -454,6 +454,6 @@ extension MainViewController: LoginDelegate {
         let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
         ShopLive.user = loginUser
         
-        ShopLive.play(with: campaign.campaignKey)
+        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
 }
