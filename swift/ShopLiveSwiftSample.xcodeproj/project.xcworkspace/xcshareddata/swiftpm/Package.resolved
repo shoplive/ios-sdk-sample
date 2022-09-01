@@ -19,15 +19,6 @@
       }
     },
     {
-      "identity" : "ios-sdk",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/shoplive/ios-sdk",
-      "state" : {
-        "revision" : "c04838fce1451054687e0665a58d6a53f3cfa822",
-        "version" : "1.2.6"
-      }
-    },
-    {
       "identity" : "sidemenu",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/jonkykong/SideMenu.git",
