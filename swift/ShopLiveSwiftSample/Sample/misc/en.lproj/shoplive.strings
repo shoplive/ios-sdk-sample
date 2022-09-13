@@ -48,8 +48,11 @@
 "sdkoption.section.chatFont.title" = "Using custom font";
 "sdkoption.section.setupPlayer.tabletAspect.title" = "Aspect ratio for the tablet device";
 "sdkoption.section.setupPlayer.tabletAspect.description" = "Adjust the size of the video to the screen (off) / Adjust the size of screen to the video (on)";
-"sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title" = "플레이어가 실행 중일때 Play 호출시 화면 상태 유지 여부 설정";
-"sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description" = "항상 전체화면으로 실행(false) / 항상 현재 화면 상태를 유지(true) 기본값 false 다른 방송으로 변경시에는 전체화면으로 실행됩니다.";
+"sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title" = "Set whether to keep the play mode (in-app PIP or full screen) when the Shoplive player is called again while the player is running ";
+"sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description" = "Run as full screen (false) / Always maintain current play mode (PIP or full screen) (true)
+Default false
+
+This option is valid only for the same campaign and runs on the full screen always when switching to another campaign, regardless of the setting.";
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 "sdkoption.preview.title" = "Preview Tap to Play";
@@ -62,23 +65,28 @@
 "sdkoption.pipPosition.item4" = "Bottom Right";
 "sdkoption.pipScale.title" = "View size";
 "sdkoption.pipScale.description" = "PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)";
-"sdkoption.fixedPipWidth.title" = "PIP 고정 가로 사이즈";
-"sdkoption.fixedPipWidth.description" = "서로 다른 해상도의 단말에서 가로사이즈를 동일하게 유지하도록 고정 가로 길이를 설정할 수 있습니다. 모든 단말에서 pip크기가 일정하게 설정 해애하는 서비스에서 설정(현재는 무신사 제공 모듈만 적용됨)";
+"sdkoption.fixedPipWidth.title" = "Option to set the size of the PIP by specifying the width of the PIP";
+"sdkoption.fixedPipWidth.description" = "You can set the size of the PIP by specifying the width value.
+
+With this option, the height of the pip is set to match the ratio of the image based on the width set.
+You can set the PIP size to the same size on different devices.";
 "sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Player action when user taps link";
 "sdkoption.nextActionTypeOnNavigation.description" = "Sets the synchronized Shoplive Player action when a user taps a link.";
 "sdkoption.nextActionTypeOnNavigation.guide" = "When a user taps link";
 "sdkoption.nextActionTypeOnNavigation.item1" = "Switch to PIP mode";
 "sdkoption.nextActionTypeOnNavigation.item2" = "No change";
 "sdkoption.nextActionTypeOnNavigation.item3" = "Exit";
-"sdkoption.pipKeepWindowStyle.title" = "OS PIP에서 앱으로 복귀할 때 윈도우스타일 유지 여부 설정";
-"sdkoption.pipKeepWindowStyle.description" = "OS PIP에서 앱으로 복귀할때 옵션을 true로 설정 할 경우 마지막 실행 중이던 상태(앱 내 PIP 또는 Fullscreen)로 복귀되도록 설정. (기본은 유지안함)";
+"sdkoption.pipKeepWindowStyle.title" = "If you switch from OS PIP to a customer app, continue playing with the previous player mode (in-app PIP or full screen mode)";
+"sdkoption.pipKeepWindowStyle.description" = "If you switch from OS PIP to a customer app, continue playing with the previous player mode (in-app PIP or full screen mode)
+True: previous mode, Default: full screen mode";
 "sdkoption.pipAreaSetting.title" = "PIP moveable area";
 "sdkoption.pipAreaSetting.description" = "Sets the PIP moveable area.";
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
-"sdkoption.headphoneOption2.title" = "이어폰/헤드셋 연결이 끊겼을 때 음소거";
-"sdkoption.headphoneOption2.description" = "이 옵션을 활성화 하면 이어폰/헤드셋 연결이 끊겼을 때 음소거 상태로 처리할 수 있습니다. 기본 : false 볼륨 유지, true 음소거 처리.";
+"sdkoption.headphoneOption2.title" = "Mute when earphone/headsets is disconnected";
+"sdkoption.headphoneOption2.description" = "Enabling this option allows you to mute earphones/headsets when they are disconnected.
+Default: keep sound, True: Mute";
 "sdkoption.callOption.title" = "When a call ended";
 "sdkoption.callOption.description" = "Enabling this option, the video will keep playing when the call ended.";
 "sdkoption.callOption.setting.guide" = "Call ended";
