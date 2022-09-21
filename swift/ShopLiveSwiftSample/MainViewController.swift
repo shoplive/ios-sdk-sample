@@ -138,7 +138,7 @@ final class MainViewController: SampleBaseViewController {
         }
 
         // Keep play video on headphone unplugged setting
-        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1)
+        ShopLive.setKeepPlayVideoOnHeadphoneUnplugged(config.useHeadPhoneOption1, isMute: config.useHeadPhoneOption2)
 
         // Auto resume video on call end setting
         ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
@@ -197,6 +197,14 @@ final class MainViewController: SampleBaseViewController {
         
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)
+        
+        // Keep aspect on tablet setting
+        ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
+        
+        // Set fixed pip width
+        ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
+        
+        ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
     }
 
     @objc func preview() {
@@ -217,7 +225,7 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.preview(with: campaign.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: campaign.campaignKey)
+                ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
             } else {
                 UIWindow.showToast(message: "tap preview".localized(), curView: self.view)
             }
@@ -240,11 +248,20 @@ final class MainViewController: SampleBaseViewController {
             return
         }
         ShopLive.configure(with: campaign.accessKey)
-        ShopLive.play(with: campaign.campaignKey)
+        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
 }
 
 extension MainViewController: ShopLiveSDKDelegate {
+    func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
+        print("window gesture state \(state) position \(position)")
+    }
+    
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
+        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
+        print("eventLog \(eventLog.name)")
+    }
+    
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
 
@@ -454,6 +471,6 @@ extension MainViewController: LoginDelegate {
         let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
         ShopLive.user = loginUser
         
-        ShopLive.play(with: campaign.campaignKey)
+        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
 }
