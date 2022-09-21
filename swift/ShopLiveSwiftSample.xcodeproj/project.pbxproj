@@ -15,6 +15,8 @@
 		1BAEDDF126042D0F005C5DD4 /* ShopLiveSwiftSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEDDF026042D0F005C5DD4 /* ShopLiveSwiftSampleTests.swift */; };
 		1BAEDDFC26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
+		BF549E9628C08862007CB8A4 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */; };
+		BF549E9728C08862007CB8A4 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
 		BFAA3EFF2738C783005AA18E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA3EFE2738C783005AA18E /* Extensions.swift */; };
@@ -45,7 +47,6 @@
 		BFE401AF27FD35BD001031E3 /* BaseTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE401AE27FD35BD001031E3 /* BaseTextField.swift */; };
 		BFE401B127FD35EF001031E3 /* LoginTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFE401B027FD35EF001031E3 /* LoginTextField.swift */; };
 		BFE401B327FD3BEC001031E3 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFE401B227FD3BEC001031E3 /* NotoSansKR-Regular.otf */; };
-		BFE401B627FD5321001031E3 /* ShopLive in Frameworks */ = {isa = PBXBuildFile; productRef = BFE401B527FD5321001031E3 /* ShopLive */; };
 		BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587327EABFA300B920E9 /* LoginViewController.swift */; };
 		BFF3587727EB1A8200B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */; };
 /* End PBXBuildFile section */
@@ -74,6 +75,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				BF549E9728C08862007CB8A4 /* ShopLiveSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -95,6 +97,7 @@
 		1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSwiftSampleUITests.swift; sourceTree = "<group>"; };
 		1BAEDDFD26042D0F005C5DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF4408F427BE15280049C7BC /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
+		BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ShopLiveSDK.xcframework; sourceTree = "<group>"; };
 		BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shizuru-Regular.ttf"; sourceTree = "<group>"; };
 		BFAA3EFE2738C783005AA18E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFC091F726779B2800619A19 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -131,11 +134,11 @@
 			files = (
 				BFC9079F27744A3600D26F3F /* Toast in Frameworks */,
 				BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */,
-				BFE401B627FD5321001031E3 /* ShopLive in Frameworks */,
 				BFC092022677AC6600619A19 /* SafariServices.framework in Frameworks */,
 				BFC9079927744A1800D26F3F /* SideMenu in Frameworks */,
 				BFC907A927745A3000D26F3F /* DropDown in Frameworks */,
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
+				BF549E9628C08862007CB8A4 /* ShopLiveSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -159,6 +162,7 @@
 		1BAEDDCD26042D0D005C5DD4 = {
 			isa = PBXGroup;
 			children = (
+				BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */,
 				1BAEDDD826042D0D005C5DD4 /* ShopLiveSwiftSample */,
 				1BAEDDEF26042D0F005C5DD4 /* ShopLiveSwiftSampleTests */,
 				1BAEDDFA26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests */,
@@ -346,7 +350,6 @@
 				BFC9079E27744A3600D26F3F /* Toast */,
 				BFC907A127744A8400D26F3F /* SwiftyJWT */,
 				BFC907A827745A3000D26F3F /* DropDown */,
-				BFE401B527FD5321001031E3 /* ShopLive */,
 			);
 			productName = ShopLiveSwiftSample;
 			productReference = 1BAEDDD626042D0D005C5DD4 /* ShopLiveSwiftSample.app */;
@@ -425,7 +428,6 @@
 				BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */,
 				BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */,
 				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */,
-				BFE401B427FD5321001031E3 /* XCRemoteSwiftPackageReference "ios-sdk" */,
 			);
 			productRefGroup = 1BAEDDD726042D0D005C5DD4 /* Products */;
 			projectDirPath = "";
@@ -891,14 +893,6 @@
 				kind = branch;
 			};
 		};
-		BFE401B427FD5321001031E3 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/shoplive/ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.6;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -926,11 +920,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */;
 			productName = DropDown;
-		};
-		BFE401B527FD5321001031E3 /* ShopLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BFE401B427FD5321001031E3 /* XCRemoteSwiftPackageReference "ios-sdk" */;
-			productName = ShopLive;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

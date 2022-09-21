@@ -158,6 +158,16 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey: SDKOptionType.headphoneOption1.optionKey)
         }
     }
+    
+    var useHeadPhoneOption2: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.headphoneOption2.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: SDKOptionType.headphoneOption2.optionKey)
+        }
+    }
 
     var useCallOption: Bool {
         set {
@@ -335,6 +345,24 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var fixedPipWidth: CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedPipWidth.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let fixedWidth = UserDefaults.standard.string(forKey:  SDKOptionType.fixedPipWidth.optionKey), !fixedWidth.isEmpty else {
+                return nil
+            }
+
+            if let fixedWidthValue = fixedWidth.cgfloatValue, fixedWidthValue <= 0.0 {
+                return nil
+            }
+
+            return fixedWidth.cgfloatValue
+        }
+    }
+    
     var nextActionTypeOnHandleNavigation: ActionType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.nextActionOnHandleNavigation.optionKey)
@@ -376,6 +404,39 @@ final class DemoConfiguration: NSObject {
             }
             
             return padding
+        }
+    }
+    
+    var useAspectOnTablet: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.aspectOnTablet.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.aspectOnTablet.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.aspectOnTablet.optionKey)
+        }
+    }
+    
+    var useKeepWindowStateOnPlayExecuted: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.keepWindowStateOnPlayExecuted.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.keepWindowStateOnPlayExecuted.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.keepWindowStateOnPlayExecuted.optionKey)
+        }
+    }
+    
+    var usePipKeepWindowStyle: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipKeepWindowStyle.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipKeepWindowStyle.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipKeepWindowStyle.optionKey)
         }
     }
     

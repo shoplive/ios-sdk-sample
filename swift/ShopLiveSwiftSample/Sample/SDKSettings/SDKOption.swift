@@ -23,10 +23,12 @@ enum CouponResponseKey: String {
 enum SDKOptionType: String, CaseIterable {
     case pipPosition
     case pipScale
+    case fixedPipWidth
     case pipPadding
     case pipFloatingOffset
     case nextActionOnHandleNavigation
     case headphoneOption1
+    case headphoneOption2
     case callOption
     case customShare
     case shareScheme
@@ -36,6 +38,9 @@ enum SDKOptionType: String, CaseIterable {
     case chatSendButtonCustomFont
     case mute
     case playWhenPreviewTapped
+    case aspectOnTablet
+    case keepWindowStateOnPlayExecuted
+    case pipKeepWindowStyle
 
     enum SettingType: Int {
         case showAlert
@@ -46,7 +51,7 @@ enum SDKOptionType: String, CaseIterable {
 
     var settingType: SettingType {
         switch self {
-        case .shareScheme, .progressColor, .pipScale:
+        case .shareScheme, .progressColor, .pipScale, .fixedPipWidth:
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown

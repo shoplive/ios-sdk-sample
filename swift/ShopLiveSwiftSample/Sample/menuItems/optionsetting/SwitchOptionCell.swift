@@ -123,6 +123,9 @@ class SwitchOptionCell: UITableViewCell {
         case .headphoneOption1:
             useOption = DemoConfiguration.shared.useHeadPhoneOption1
             break
+        case .headphoneOption2:
+            useOption = DemoConfiguration.shared.useHeadPhoneOption2
+            break
         case .callOption:
             useOption = DemoConfiguration.shared.useCallOption
             break
@@ -144,6 +147,15 @@ class SwitchOptionCell: UITableViewCell {
         case .mute:
             useOption = DemoConfiguration.shared.isMuted
             break
+        case .aspectOnTablet:
+            useOption = DemoConfiguration.shared.useAspectOnTablet
+            break
+        case .keepWindowStateOnPlayExecuted:
+            useOption = DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted
+            break
+        case .pipKeepWindowStyle:
+            useOption = DemoConfiguration.shared.usePipKeepWindowStyle
+            break
         default:
             break
         }
@@ -157,6 +169,9 @@ class SwitchOptionCell: UITableViewCell {
         switch item.optionType {
         case .headphoneOption1:
             DemoConfiguration.shared.useHeadPhoneOption1 = useOption
+            break
+        case .headphoneOption2:
+            DemoConfiguration.shared.useHeadPhoneOption2 = useOption
             break
         case .callOption:
             DemoConfiguration.shared.useCallOption = useOption
@@ -178,6 +193,15 @@ class SwitchOptionCell: UITableViewCell {
             break
         case .mute:
             DemoConfiguration.shared.isMuted = useOption
+            break
+        case .aspectOnTablet:
+            DemoConfiguration.shared.useAspectOnTablet = useOption
+            break
+        case .keepWindowStateOnPlayExecuted:
+            DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted = useOption
+            break
+        case .pipKeepWindowStyle:
+            DemoConfiguration.shared.usePipKeepWindowStyle = useOption
             break
         default:
             break
