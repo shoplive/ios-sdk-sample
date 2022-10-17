@@ -15,8 +15,6 @@
 		1BAEDDF126042D0F005C5DD4 /* ShopLiveSwiftSampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEDDF026042D0F005C5DD4 /* ShopLiveSwiftSampleTests.swift */; };
 		1BAEDDFC26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
-		BF549E9628C08862007CB8A4 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */; };
-		BF549E9728C08862007CB8A4 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
 		BFAA3EFF2738C783005AA18E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA3EFE2738C783005AA18E /* Extensions.swift */; };
@@ -75,7 +73,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				BF549E9728C08862007CB8A4 /* ShopLiveSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +94,6 @@
 		1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSwiftSampleUITests.swift; sourceTree = "<group>"; };
 		1BAEDDFD26042D0F005C5DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF4408F427BE15280049C7BC /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
-		BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ShopLiveSDK.xcframework; sourceTree = "<group>"; };
 		BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shizuru-Regular.ttf"; sourceTree = "<group>"; };
 		BFAA3EFE2738C783005AA18E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		BFC091F726779B2800619A19 /* SafariServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SafariServices.framework; path = System/Library/Frameworks/SafariServices.framework; sourceTree = SDKROOT; };
@@ -138,7 +134,6 @@
 				BFC9079927744A1800D26F3F /* SideMenu in Frameworks */,
 				BFC907A927745A3000D26F3F /* DropDown in Frameworks */,
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
-				BF549E9628C08862007CB8A4 /* ShopLiveSDK.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,7 +157,6 @@
 		1BAEDDCD26042D0D005C5DD4 = {
 			isa = PBXGroup;
 			children = (
-				BF549E9428C0885D007CB8A4 /* ShopLiveSDK.xcframework */,
 				1BAEDDD826042D0D005C5DD4 /* ShopLiveSwiftSample */,
 				1BAEDDEF26042D0F005C5DD4 /* ShopLiveSwiftSampleTests */,
 				1BAEDDFA26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests */,
