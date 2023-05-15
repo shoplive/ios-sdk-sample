@@ -1,0 +1,11 @@
+framework module ShopLiveSDK {
+  umbrella header "ShopLiveSDK.h"
+
+  export *
+  module * { export * }
+}
+
+module ShopLiveSDK.Swift {
+  header "ShopLiveSDK-Swift.h"
+  requires objc
+}

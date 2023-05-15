@@ -9,6 +9,7 @@ import UIKit
 import SideMenu
 import SafariServices
 import Toast
+import ShopLiveShortformSDK
 
 enum MenuItem: String, CaseIterable {
     case step1
@@ -78,6 +79,29 @@ final class MainViewController: SampleBaseViewController {
         view.setTitle("sample.button.preview".localized(), for: .normal)
         return view
     }()
+    
+    private lazy var nativeshortformButton : UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.layer.masksToBounds = true
+        btn.setBackgroundColor(.red, for: .normal)
+        btn.layer.cornerRadius = 6
+        btn.addTarget(self, action: #selector(nativeshortform), for: .touchUpInside)
+        btn.setTitle("sample.button.shortform.native".localized(), for: .normal)
+        
+        return btn
+    }()
+    
+    private lazy var hybridshortformButton : UIButton = {
+        let btn = UIButton()
+        btn.layer.masksToBounds = true
+        btn.setBackgroundColor(.red, for: .normal)
+        btn.layer.cornerRadius = 6
+        btn.addTarget(self, action: #selector(hybridshortform), for: .touchUpInside)
+        btn.setTitle("sample.button.shortform.hybrid".localized(), for: .normal)
+        return btn
+    }()
+    
 
     var safari: SFSafariViewController? = nil
 
@@ -96,26 +120,37 @@ final class MainViewController: SampleBaseViewController {
     }
 
     func setupViews() {
-
-        self.view.addSubviews(tableView, playButton, previewButton)
+        
+        let topBtnStack = UIStackView(arrangedSubviews: [playButton,previewButton])
+        topBtnStack.axis = .horizontal
+        topBtnStack.distribution = .fillEqually
+        topBtnStack.spacing = 10
+        
+        let bottomBtnStack = UIStackView(arrangedSubviews: [nativeshortformButton,hybridshortformButton])
+        bottomBtnStack.axis = .horizontal
+        bottomBtnStack.distribution = .fillEqually
+        bottomBtnStack.spacing = 10
+        
+        let btnStack = UIStackView(arrangedSubviews: [topBtnStack,bottomBtnStack])
+        btnStack.translatesAutoresizingMaskIntoConstraints = false
+        btnStack.axis = .vertical
+        btnStack.distribution = .fillEqually
+        btnStack.spacing = 10
+        
+        
+        
+        self.view.addSubviews(tableView, btnStack)
         tableView.snp.makeConstraints {
             $0.top.equalToSuperview().offset(10)
             $0.bottom.equalTo(playButton.snp.top).offset(15)
             $0.leading.trailing.equalToSuperview()
         }
-
-        playButton.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.4)
-            $0.height.equalTo(35)
-            $0.trailing.equalTo(self.view.snp.centerX).offset(-10)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-10)
-        }
-
-        previewButton.snp.makeConstraints {
-            $0.width.equalToSuperview().multipliedBy(0.4)
-            $0.height.equalTo(35)
-            $0.leading.equalTo(self.view.snp.centerX).offset(10)
-            $0.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-10)
+        
+        btnStack.snp.makeConstraints {
+            $0.leading.equalTo(self.view.snp.leading).offset(10)
+            $0.trailing.equalTo(self.view.snp.trailing).offset(-10)
+            $0.bottom.equalTo(self.view.snp.bottom).offset(-15)
+            $0.height.equalTo(35 + 10 + 35)
         }
     }
 
@@ -249,6 +284,37 @@ final class MainViewController: SampleBaseViewController {
         }
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
+    }
+    
+    @objc func nativeshortform() {
+        let webView = ShortFormWebTypeViewController(isforAuthentication: true)
+        webView.viewDidDisAppearCompletionBlock = { [weak self] in
+            guard let self = self else { return }
+            let view = ShortFormTabViewController()
+            if let nav = self.navigationController {
+                nav.pushViewController(view, animated: true)
+            }
+            else {
+                self.present(view, animated: true)
+            }
+        }
+        
+        if let nav = self.navigationController {
+            nav.pushViewController(webView, animated: false)
+        }
+        else {
+            self.present(webView, animated: false)
+        }
+    }
+    
+    @objc func hybridshortform(){
+        let view = ShortFormWebTypeViewController(isforAuthentication: false)
+        if let nav = self.navigationController {
+            nav.pushViewController(view, animated: true)
+        }
+        else {
+            self.present(view, animated: true)
+        }
     }
 }
 
