@@ -126,6 +126,8 @@ Default: keep sound, True: Mute";
 "sample.option.navi.save" = "Save";
 "sample.button.play" = "Play";
 "sample.button.preview" = "Preview";
+"sample.button.shortform.native" = "native ShortForm";
+"sample.button.shortform.hybrid" = "hybrid ShortForm";
 "sample.link.tokenGuide" = "JWT token creation guide";
 "sample.authType.user" = "Simple authentication.";
 "sample.authType.token" = "JWT token authentication.";
