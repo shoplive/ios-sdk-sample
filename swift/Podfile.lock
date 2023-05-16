@@ -1,20 +1,3 @@
-PODS:
-  - ShopLive (1.4.0)
-  - ShopliveShortformSDK (1.4.0)
-
-DEPENDENCIES:
-  - ShopLive (= 1.4.0)
-  - ShopliveShortformSDK (= 1.4.0)
-
-SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
-    - ShopLive
-    - ShopliveShortformSDK
-
-SPEC CHECKSUMS:
-  ShopLive: 5115b3bda65c401bd99f86076b8b32e22185ab67
-  ShopliveShortformSDK: c35309c1ed2e0841812276053f291a41d2ca17d5
-
-PODFILE CHECKSUM: 884b1a675f16aa113f634276a09cb6f093cbc11f
+PODFILE CHECKSUM: 1e9246b7d7751bd7e0d5bae765493c72ab0cdff5
 
 COCOAPODS: 1.11.3
