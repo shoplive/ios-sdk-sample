@@ -128,7 +128,7 @@ final class ShortFormCardTypeViewController : UIViewController {
 }
 extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
     func onError(error: Error) {
-        if let error = error as? ShortsError {
+        if let error = error as? ShortformError {
             if case .other(let error) = error {
                 let alert = UIAlertController(title: "알림", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                 let cancelAction = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: nil)

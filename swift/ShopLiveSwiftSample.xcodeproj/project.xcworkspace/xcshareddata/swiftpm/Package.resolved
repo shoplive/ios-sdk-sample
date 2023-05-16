@@ -5,7 +5,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios.git",
       "state" : {
-        "revision" : "5a365f60eebf8483a968cca37ab350f3d220c5fb",
+        "revision" : "bf5790117b4a3572cd1cff4b2c645a25326b7a3d",
         "version" : "1.4.0"
       }
     },
@@ -28,6 +28,15 @@
       }
     },
     {
+      "identity" : "ios-sdk",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shoplive/ios-sdk.git",
+      "state" : {
+        "revision" : "47ea013add3e51db833db8beab3e99b70e1ac433",
+        "version" : "1.4.0"
+      }
+    },
+    {
       "identity" : "parchment",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/rechsteiner/Parchment",
@@ -41,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "branch" : "main",
-        "revision" : "484ee6b945ef30de5ed538ea3b1b621bae9e473b"
+        "revision" : "31c902df508c26f52b3f9f91f926010dca226701",
+        "version" : "1.4.0"
       }
     },
     {

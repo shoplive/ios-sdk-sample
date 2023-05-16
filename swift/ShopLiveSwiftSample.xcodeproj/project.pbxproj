@@ -21,8 +21,6 @@
 		2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 2F0B85FB2A0E0E6D00165242 /* Parchment */; };
 		2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */; };
 		2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */; };
-		2FE1DE012A0E23D900CACB27 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */; };
-		2FE1DE022A0E23D900CACB27 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
@@ -57,7 +55,6 @@
 		BFE401B327FD3BEC001031E3 /* NotoSansKR-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = BFE401B227FD3BEC001031E3 /* NotoSansKR-Regular.otf */; };
 		BFF3587427EABFA300B920E9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587327EABFA300B920E9 /* LoginViewController.swift */; };
 		BFF3587727EB1A8200B920E9 /* PipAreaSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */; };
-		C49A98C40ECB5EEB7C86A3B9 /* Pods_ShopLiveSwiftSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 994A6C9B7A9321BED3149CE4 /* Pods_ShopLiveSwiftSample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +81,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2FE1DE022A0E23D900CACB27 /* ShopLiveSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -105,15 +101,11 @@
 		1BAEDDF726042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveSwiftSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSwiftSampleUITests.swift; sourceTree = "<group>"; };
 		1BAEDDFD26042D0F005C5DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ShopLiveSDK.xcframework; sourceTree = "<group>"; };
 		2F0B85F12A0E0DDB00165242 /* ShortFormTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormTabViewController.swift; sourceTree = "<group>"; };
 		2F0B85F42A0E0E0600165242 /* ShortFormCardTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormCardTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormHorizontalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormVerticalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormWebTypeViewController.swift; sourceTree = "<group>"; };
-		313EB6D25938A9DD34881D75 /* Pods-ShopLiveSwiftSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSwiftSample.release.xcconfig"; path = "Target Support Files/Pods-ShopLiveSwiftSample/Pods-ShopLiveSwiftSample.release.xcconfig"; sourceTree = "<group>"; };
-		5759B732B717852C3AF97363 /* Pods-ShopLiveSwiftSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSwiftSample.debug.xcconfig"; path = "Target Support Files/Pods-ShopLiveSwiftSample/Pods-ShopLiveSwiftSample.debug.xcconfig"; sourceTree = "<group>"; };
-		994A6C9B7A9321BED3149CE4 /* Pods_ShopLiveSwiftSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopLiveSwiftSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF4408F427BE15280049C7BC /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shizuru-Regular.ttf"; sourceTree = "<group>"; };
 		BFAA3EFE2738C783005AA18E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -151,7 +143,6 @@
 			files = (
 				BFC9079F27744A3600D26F3F /* Toast in Frameworks */,
 				BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */,
-				2FE1DE012A0E23D900CACB27 /* ShopLiveSDK.xcframework in Frameworks */,
 				BFC092022677AC6600619A19 /* SafariServices.framework in Frameworks */,
 				BFC9079927744A1800D26F3F /* SideMenu in Frameworks */,
 				BFC907A927745A3000D26F3F /* DropDown in Frameworks */,
@@ -159,7 +150,6 @@
 				2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */,
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
 				2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */,
-				C49A98C40ECB5EEB7C86A3B9 /* Pods_ShopLiveSwiftSample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -188,7 +178,6 @@
 				1BAEDDFA26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests */,
 				1BAEDDD726042D0D005C5DD4 /* Products */,
 				1BAEDE0C26042EB1005C5DD4 /* Frameworks */,
-				83CDA9BFB891FD98C240A229 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -233,20 +222,9 @@
 		1BAEDE0C26042EB1005C5DD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */,
 				BFC091F726779B2800619A19 /* SafariServices.framework */,
-				994A6C9B7A9321BED3149CE4 /* Pods_ShopLiveSwiftSample.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		83CDA9BFB891FD98C240A229 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				5759B732B717852C3AF97363 /* Pods-ShopLiveSwiftSample.debug.xcconfig */,
-				313EB6D25938A9DD34881D75 /* Pods-ShopLiveSwiftSample.release.xcconfig */,
-			);
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		BFAA3EFD2738BE67005AA18E /* misc */ = {
@@ -371,7 +349,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BAEDE0026042D0F005C5DD4 /* Build configuration list for PBXNativeTarget "ShopLiveSwiftSample" */;
 			buildPhases = (
-				2D76F388CD8E03E6859E2C29 /* [CP] Check Pods Manifest.lock */,
 				1BAEDDD326042D0D005C5DD4 /* Frameworks */,
 				1BAEDDD226042D0D005C5DD4 /* Sources */,
 				1BAEDDD426042D0D005C5DD4 /* Resources */,
@@ -465,13 +442,13 @@
 			mainGroup = 1BAEDDCD26042D0D005C5DD4;
 			packageReferences = (
 				BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */,
-				BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */,
-				BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */,
-				BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */,
-				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */,
+				BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */,
+				BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */,
+				BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */,
+				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */,
 				2F0B85FA2A0E0E6D00165242 /* XCRemoteSwiftPackageReference "Parchment" */,
 				2F95FFEE2A11C7C200A2E58A /* XCRemoteSwiftPackageReference "shortform-ios" */,
-				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */,
+				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */,
 			);
 			productRefGroup = 1BAEDDD726042D0D005C5DD4 /* Products */;
 			projectDirPath = "";
@@ -515,31 +492,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		2D76F388CD8E03E6859E2C29 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ShopLiveSwiftSample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BAEDDD226042D0D005C5DD4 /* Sources */ = {
@@ -755,7 +707,6 @@
 		};
 		1BAEDE0126042D0F005C5DD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5759B732B717852C3AF97363 /* Pods-ShopLiveSwiftSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -785,7 +736,6 @@
 		};
 		1BAEDE0226042D0F005C5DD4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 313EB6D25938A9DD34881D75 /* Pods-ShopLiveSwiftSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -959,7 +909,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */ = {
+		BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
@@ -967,7 +917,7 @@
 				version = 1.4.0;
 			};
 		};
-		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */ = {
+		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
 			requirement = {
@@ -975,7 +925,7 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */ = {
+		BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
 			requirement = {
@@ -983,7 +933,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */ = {
+		BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/polarcop/SwiftyJWT.git";
 			requirement = {
@@ -991,7 +941,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */ = {
+		BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AssistoLab/DropDown.git";
 			requirement = {
@@ -1019,27 +969,27 @@
 		};
 		BF99C22B2A1314F000B0BC64 /* ShopLive */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */;
+			package = BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */;
 			productName = ShopLive;
 		};
 		BFC9079827744A1800D26F3F /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */;
+			package = BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */;
 			productName = SideMenu;
 		};
 		BFC9079E27744A3600D26F3F /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */;
+			package = BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */;
 			productName = Toast;
 		};
 		BFC907A127744A8400D26F3F /* SwiftyJWT */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */;
+			package = BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */;
 			productName = SwiftyJWT;
 		};
 		BFC907A827745A3000D26F3F /* DropDown */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */;
+			package = BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */;
 			productName = DropDown;
 		};
 /* End XCSwiftPackageProductDependency section */
