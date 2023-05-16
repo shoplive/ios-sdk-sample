@@ -21,11 +21,10 @@
 		2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 2F0B85FB2A0E0E6D00165242 /* Parchment */; };
 		2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */; };
 		2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */; };
-		2FE1DE012A0E23D900CACB27 /* ShopLiveSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */; };
-		2FE1DE022A0E23D900CACB27 /* ShopLiveSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
+		BF99C22C2A1314F000B0BC64 /* ShopLive in Frameworks */ = {isa = PBXBuildFile; productRef = BF99C22B2A1314F000B0BC64 /* ShopLive */; };
 		BFAA3EFF2738C783005AA18E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFAA3EFE2738C783005AA18E /* Extensions.swift */; };
 		BFC092022677AC6600619A19 /* SafariServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC091F726779B2800619A19 /* SafariServices.framework */; };
 		BFC9076D277448BB00D26F3F /* SampleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC9073A277448BB00D26F3F /* SampleExtensions.swift */; };
@@ -82,7 +81,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2FE1DE022A0E23D900CACB27 /* ShopLiveSDK.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -103,7 +101,6 @@
 		1BAEDDF726042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveSwiftSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSwiftSampleUITests.swift; sourceTree = "<group>"; };
 		1BAEDDFD26042D0F005C5DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = ShopLiveSDK.xcframework; sourceTree = "<group>"; };
 		2F0B85F12A0E0DDB00165242 /* ShortFormTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormTabViewController.swift; sourceTree = "<group>"; };
 		2F0B85F42A0E0E0600165242 /* ShortFormCardTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormCardTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormHorizontalTypeViewController.swift; sourceTree = "<group>"; };
@@ -146,10 +143,10 @@
 			files = (
 				BFC9079F27744A3600D26F3F /* Toast in Frameworks */,
 				BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */,
-				2FE1DE012A0E23D900CACB27 /* ShopLiveSDK.xcframework in Frameworks */,
 				BFC092022677AC6600619A19 /* SafariServices.framework in Frameworks */,
 				BFC9079927744A1800D26F3F /* SideMenu in Frameworks */,
 				BFC907A927745A3000D26F3F /* DropDown in Frameworks */,
+				BF99C22C2A1314F000B0BC64 /* ShopLive in Frameworks */,
 				2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */,
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
 				2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */,
@@ -225,7 +222,6 @@
 		1BAEDE0C26042EB1005C5DD4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2F0B85ED2A0E0B4A00165242 /* ShopLiveSDK.xcframework */,
 				BFC091F726779B2800619A19 /* SafariServices.framework */,
 			);
 			name = Frameworks;
@@ -371,6 +367,7 @@
 				BFC907A827745A3000D26F3F /* DropDown */,
 				2F0B85FB2A0E0E6D00165242 /* Parchment */,
 				2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */,
+				BF99C22B2A1314F000B0BC64 /* ShopLive */,
 			);
 			productName = ShopLiveSwiftSample;
 			productReference = 1BAEDDD626042D0D005C5DD4 /* ShopLiveSwiftSample.app */;
@@ -451,6 +448,7 @@
 				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */,
 				2F0B85FA2A0E0E6D00165242 /* XCRemoteSwiftPackageReference "Parchment" */,
 				2F95FFEE2A11C7C200A2E58A /* XCRemoteSwiftPackageReference "shortform-ios" */,
+				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */,
 			);
 			productRefGroup = 1BAEDDD726042D0D005C5DD4 /* Products */;
 			projectDirPath = "";
@@ -899,8 +897,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shoplive/shortform-ios";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = exactVersion;
+				version = 1.4.0;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -909,6 +907,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.0.0;
+			};
+		};
+		BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
+			requirement = {
+				kind = exactVersion;
+				version = 1.4.0;
 			};
 		};
 		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
@@ -960,6 +966,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		BF99C22B2A1314F000B0BC64 /* ShopLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */;
+			productName = ShopLive;
 		};
 		BFC9079827744A1800D26F3F /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
