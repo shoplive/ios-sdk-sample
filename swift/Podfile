@@ -6,7 +6,7 @@ use_frameworks!
 
 
 target 'ShopLiveSwiftSample' do
-#  pod 'ShopLive', '1.4.0'
+#  pod 'ShopLive', '1.4.2'
 #  pod 'ShopliveShortformSDK', '1.4.0'
 end
 
