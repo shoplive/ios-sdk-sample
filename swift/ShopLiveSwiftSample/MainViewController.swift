@@ -9,7 +9,8 @@ import UIKit
 import SideMenu
 import SafariServices
 import Toast
-import ShopLiveShortformSDK
+import ShopliveSDKCommon
+
 
 enum MenuItem: String, CaseIterable {
     case step1
@@ -287,28 +288,29 @@ final class MainViewController: SampleBaseViewController {
     }
     
     @objc func nativeshortform() {
-        let webView = ShortFormWebTypeViewController(isforAuthentication: true)
-        webView.viewDidDisAppearCompletionBlock = { [weak self] in
-            guard let self = self else { return }
-            let view = ShortFormTabViewController()
-            if let nav = self.navigationController {
-                nav.pushViewController(view, animated: true)
-            }
-            else {
-                self.present(view, animated: true)
-            }
+        let config = DemoConfiguration.shared
+        guard let campaign = config.campaign else {
+            UIWindow.showToast(message: "sample.msg.none_key".localized())
+            return
         }
-        
-        if let nav = self.navigationController {
-            nav.pushViewController(webView, animated: false)
+        if campaign.accessKey == "" {
+            UIWindow.showToast(message: "sample.msg.none_key".localized())
         }
         else {
-            self.present(webView, animated: false)
+            ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
+        }
+        
+        let view = ShortFormTabViewController()
+        if let nav = self.navigationController {
+            nav.pushViewController(view, animated: true)
+        }
+        else {
+            self.present(view, animated: true)
         }
     }
     
     @objc func hybridshortform(){
-        let view = ShortFormWebTypeViewController(isforAuthentication: false)
+        let view = ShortFormWebTypeViewController()
         if let nav = self.navigationController {
             nav.pushViewController(view, animated: true)
         }

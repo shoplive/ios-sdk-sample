@@ -29,14 +29,11 @@ final class ShortFormWebTypeViewController : UIViewController {
         return webView
     }()
     
-    private var isforAuthentication : Bool = false
+    
     private var productURl : URL?
     
-    var viewDidDisAppearCompletionBlock : (() -> ())?
-    
-    init(isforAuthentication : Bool,productUrl : URL? = nil){
+    init(productUrl : URL? = nil){
         super.init(nibName: nil, bundle: nil)
-        self.isforAuthentication = isforAuthentication
         self.productURl = productUrl
     }
     
@@ -57,29 +54,64 @@ final class ShortFormWebTypeViewController : UIViewController {
         }
 
         ShopLiveShortform.BridgeInterface.connect(webview)
+        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
+        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
+//        setObserver()
     }
     
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        viewDidDisAppearCompletionBlock?()
+//        removeObserver()
     }
     
-    
+//
+//    private func setObserver(){
+//        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifcation(_:)), name: NSNotification.Name("moveToProductPage"), object: nil)
+//    }
+//
+//    private func removeObserver(){
+//        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("moveToProductPage"), object: nil)
+//    }
+//
+//
+//    private func handleNotifcation(_ notification : Notification) {
+//        switch notification.name {
+//        case Notification.Name(rawValue: "moveToProductPage"):
+//            guard let product = notification.userInfo?["product"] as? Product, let urlString = product.url, let url = URL(string: urlString) else { return }
+////            self.webview.load(URLRequest(url: <#T##URLConvertible#>, method: <#T##HTTPMethod#>))
+//            break
+//        default:
+//            break
+//        }
+//    }
     
 }
 extension ShortFormWebTypeViewController : WKNavigationDelegate {
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        if isforAuthentication {
-            if let nav = self.navigationController  {
-                nav.popViewController(animated: false)
-            }
-            else {
-                self.dismiss(animated: false)
-            }
-        }
+        
+    }
+}
+extension ShortFormWebTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
+        
     }
     
+    func handleProductItem(shortsId: String, shortsSrn: String, product: Product) {
+        print(shortsId)
+    }
+}
+extension ShortFormWebTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func onError(error: Error) {
+        
+    }
+    func onEvent(command: String, payload: String?) {
+        print("web command \(command) with payload \(payload)")
+        
+    }
+    func handleShare(shareUrl: String) {
+        
+    }
 }
 
 extension ShortFormWebTypeViewController {

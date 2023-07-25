@@ -79,17 +79,28 @@ final class ShortFormCardTypeViewController : UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
+       
         builder = ShopLiveShortform.CardTypeViewBuilder()
         collectionView = builder!.build(cardViewType: .type1,
+                                        listViewDelegate: self,
                                        enableSnap: currentSnap,
                                        enablePlayVideo: true,
                                        playOnlyOnWifi: false,
                                        cellSpacing: 20).getView()
+        builder?.submit()
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         collectionView?.backgroundColor = .white
         
         setCollectionViewLayout()
+        //see below extension to see how it works
+        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
+        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
+        
+        //hashtag, brand setting
+        //setting hashtag or brand after calling submit(), call reloadItem() to get new datas set
+        //builder?.setHashTags(tags: ["test,test2"], tagSearchOperator: .OR)
+        //builder?.setBrands(brands: ["test"])
+        //builder?.reloadItems()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -126,7 +137,33 @@ final class ShortFormCardTypeViewController : UIViewController {
         
     }
 }
+//MARK: - native handler delegate
+extension ShortFormCardTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+    func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
+        // when webview is connected, preview will shown automatically as configured in admin web
+        // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
+        // use this method to navigate to desired product view or show preview
+        // ex) display preview natively
+        //ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
+        // ShopLiveShortformRelateData contains productId, customerProductId, tags, brands and etc
+        // allocating these values will get related shorts collections
+    }
+    
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
+        // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
+        // use this method to navigate to desired product view or show preview
+    }
+    
+    
+}
+//MARK: - receive Handler delegate
 extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func handleShare(shareUrl: String) {
+        
+    }
+    func onEvent(command: String, payload: String?) {
+        
+    }
     func onError(error: Error) {
         if let error = error as? ShortformError {
             if case .other(let error) = error {
@@ -137,6 +174,12 @@ extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDeleg
                 window.rootViewController?.present(alert, animated: true)
             }
         }
+    }
+}
+//MARK: - list view delegate
+extension ShortFormCardTypeViewController : ShopLiveShortformListViewDelegate {
+    func onListViewError(error: Error) {
+        // by this delegate function you can get api errors and avplayer occured from listviews
     }
 }
 extension ShortFormCardTypeViewController {

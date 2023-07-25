@@ -27,12 +27,10 @@ class ShortFormTabViewController : UIViewController {
         self.view.backgroundColor = .white
         setUpTab()
         setLayout()
-        setObserver()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        tearDownObserver()
     }
     
     private func setUpTab(){
@@ -52,30 +50,6 @@ class ShortFormTabViewController : UIViewController {
         pagingViewController?.collectionView.isScrollEnabled = false
     }
     
-    private func setObserver(){
-        NotificationCenter.default.addObserver(self, selector: #selector(handleNotifcation(_:)), name: NSNotification.Name("moveToProductPage"), object: nil)
-    }
-    
-    private func tearDownObserver(){
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name("moveToProductPage"), object: nil)
-    }
-    
-    @objc private func handleNotifcation(_ notification : Notification){
-        switch notification.name {
-        case Notification.Name("moveToProductPage"):
-            guard let urlString = notification.userInfo?["url"] as? String, let productURL = URL(string: urlString) else { return }
-            let view = ShortFormWebTypeViewController(isforAuthentication: false,productUrl: productURL)
-        
-            if let nav = self.navigationController {
-                nav.pushViewController(view, animated: true)
-            }
-            else {
-                self.present(view, animated: true)
-            }
-        default:
-            break
-        }
-    }
     
 }
 extension ShortFormTabViewController {
