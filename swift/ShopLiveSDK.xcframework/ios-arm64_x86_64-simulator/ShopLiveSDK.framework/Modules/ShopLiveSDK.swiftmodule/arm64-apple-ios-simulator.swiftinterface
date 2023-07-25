@@ -1,0 +1,393 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name ShopLiveSDK
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AVFAudio
+import AVFoundation
+import AVKit
+import CoreMedia
+import ExternalAccessory
+import Foundation
+import MediaPlayer
+import Network
+@_exported import ShopLiveSDK
+import Swift
+import UIKit
+import VideoToolbox
+import WebKit
+import _Concurrency
+import _StringProcessing
+import os.log
+import os
+extension UIKit.UIViewController {
+  @objc @_Concurrency.MainActor(unsafe) dynamic public func shopliveHideKeyboard()
+}
+extension AVFAudio.AVAudioSession {
+  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: Swift.String, observeInfo: Swift.UnsafeMutableRawPointer?, completion: @escaping (Swift.Bool) -> Swift.Void)
+}
+extension ObjectiveC.NSObject {
+  public func safeRemoveObserver(_ observer: Any, forKeyPath keyPath: Swift.String)
+}
+extension Foundation.NotificationCenter {
+  public func safeRemoveObserver(_ observer: Any, name aName: Foundation.NSNotification.Name?, object anObject: Any?)
+}
+@objc public enum ResultStatus : Swift.Int, Swift.CaseIterable {
+  case SHOW
+  case HIDE
+  case KEEP
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ResultStatus]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ResultStatus] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ResultAlertType : Swift.Int, Swift.CaseIterable {
+  case ALERT
+  case TOAST
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ResultAlertType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ResultAlertType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public class CouponResult : ObjectiveC.NSObject {
+  public init(couponId: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ResultStatus, alertType: ShopLiveSDK.ResultAlertType)
+  @objc deinit
+}
+@objc public class CustomActionResult : ObjectiveC.NSObject {
+  public init(id: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ResultStatus, alertType: ShopLiveSDK.ResultAlertType)
+  @objc deinit
+}
+@objc public enum ShopLiveResultStatus : Swift.Int, Swift.CaseIterable {
+  case SHOW
+  case HIDE
+  case KEEP
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ShopLiveResultStatus]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ShopLiveResultStatus] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum ShopLiveResultAlertType : Swift.Int, Swift.CaseIterable {
+  case ALERT
+  case TOAST
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias AllCases = [ShopLiveSDK.ShopLiveResultAlertType]
+  public typealias RawValue = Swift.Int
+  public static var allCases: [ShopLiveSDK.ShopLiveResultAlertType] {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public class ShopLiveCouponResult : ObjectiveC.NSObject {
+  public init(couponId: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ShopLiveResultStatus, alertType: ShopLiveSDK.ShopLiveResultAlertType)
+  @objc deinit
+}
+@objc public class ShopLiveCustomActionResult : ObjectiveC.NSObject {
+  public init(id: Swift.String, success: Swift.Bool, message: Swift.String?, status: ShopLiveSDK.ShopLiveResultStatus, alertType: ShopLiveSDK.ShopLiveResultAlertType)
+  @objc deinit
+}
+@objc public class ShopLiveLog : ObjectiveC.NSObject {
+  @objc public enum Feature : Swift.Int, Swift.CaseIterable {
+    case CLICK, SHOW, ACTION
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias AllCases = [ShopLiveSDK.ShopLiveLog.Feature]
+    public typealias RawValue = Swift.Int
+    public static var allCases: [ShopLiveSDK.ShopLiveLog.Feature] {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public var name: Swift.String
+  public var campaign: Swift.String
+  public var feature: ShopLiveSDK.ShopLiveLog.Feature
+  @available(*, deprecated, message: "use payload: [String : Any] instead")
+  public var parameter: [Swift.String : Swift.String]
+  public var payload: [Swift.String : Any]
+  public init(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, parameter: [Swift.String : Swift.String])
+  public init(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, payload: [Swift.String : Any])
+  @objc deinit
+}
+@objc public enum ActionType : Swift.Int {
+  case PIP
+  case KEEP
+  case CLOSE
+  public var name: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol ShopLiveSDKDelegate {
+  @objc func handleNavigation(with url: Foundation.URL)
+  @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
+  @objc optional func handleDownloadCouponResult(with couponId: Swift.String, completion: @escaping (ShopLiveSDK.CouponResult) -> Swift.Void)
+  @objc optional func handleDownloadCoupon(with couponId: Swift.String, result: @escaping (ShopLiveSDK.ShopLiveCouponResult) -> Swift.Void)
+  @available(*, deprecated, message: "use handleDownloadCoupon(with couponId: String, result: @escaping (ShopLiveCouponResult) -> Void) instead")
+  @objc optional func handleDownloadCoupon(with couponId: Swift.String, completion: @escaping () -> Swift.Void)
+  @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
+  @objc optional func handleCustomActionResult(with id: Swift.String, type: Swift.String, payload: Any?, completion: @escaping (ShopLiveSDK.CustomActionResult) -> Swift.Void)
+  @objc optional func handleCustomAction(with id: Swift.String, type: Swift.String, payload: Any?, result: @escaping (ShopLiveSDK.ShopLiveCustomActionResult) -> Swift.Void)
+  @available(*, deprecated, message: "use handleCustomAction(with id: String, type: String, payload: Any?, result: @escaping (ShopLiveCustomActionResult) -> Void) instead")
+  @objc optional func handleCustomAction(with id: Swift.String, type: Swift.String, payload: Any?, completion: @escaping () -> Swift.Void)
+  @objc func handleChangeCampaignStatus(status: Swift.String)
+  @objc optional func handleChangedPlayerStatus(status: Swift.String)
+  @objc func handleError(code: Swift.String, message: Swift.String)
+  @objc func handleCampaignInfo(campaignInfo: [Swift.String : Any])
+  @objc func handleCommand(_ command: Swift.String, with payload: Any?)
+  @objc func onSetUserName(_ payload: [Swift.String : Any])
+  @objc func handleReceivedCommand(_ command: Swift.String, with payload: Any?)
+  @objc optional func playerPanGesture(state: UIKit.UIGestureRecognizer.State, position: CoreFoundation.CGPoint)
+  @available(*, deprecated, message: "use log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String: Any]) instead")
+  @objc optional func log(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, parameter: [Swift.String : Swift.String])
+  @objc optional func log(name: Swift.String, feature: ShopLiveSDK.ShopLiveLog.Feature, campaign: Swift.String, payload: [Swift.String : Any])
+}
+public typealias ShopLiveViewController = UIKit.UIViewController
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc final public class ShopLive : ObjectiveC.NSObject {
+  @objc deinit
+}
+extension ShopLiveSDK.ShopLive {
+  @objc public enum PlayerMode : Swift.Int {
+    case play
+    case preview
+    case none
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public enum VideoOrientation : Swift.Int {
+    case portrait
+    case landscape
+    case unknown
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ShopLive {
+  @objc public enum PipPosition : Swift.Int {
+    case topLeft
+    case topRight
+    case bottomLeft
+    case bottomRight
+    case `default`
+    public var name: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc public enum PresentationStyle : Swift.Int {
+    case unknown
+    case fullScreen
+    case pip
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ShopLive {
+  @objc public static func removeParameter(key: Swift.String)
+  @objc public static func addParameter(key: Swift.String, value: Swift.String)
+  @objc public static func setAdId(adId: Swift.String?)
+  @objc public static func setMixWithOthers(isMixAudio: Swift.Bool)
+  @objc public static func useCloseButton(_ use: Swift.Bool)
+  @objc public static func awakePlayer()
+  @objc public static func setKeepWindowStyleOnReturnFromOsPip(_ keep: Swift.Bool = false)
+  @objc public static func isKeepWindowStyleOnReturnFromOsPip() -> Swift.Bool
+  @objc public static func setAppVersion(_ appVersion: Swift.String)
+  @objc public static func setUsingLocalStorage(_ use: Swift.Bool)
+  @objc public static func setPictureInPictureFloatingOffset(offset: UIKit.UIEdgeInsets)
+  @objc public static func setPictureInPicturePadding(padding: UIKit.UIEdgeInsets)
+  @objc public static func sendCommandMessage(command: Swift.String, payload: [Swift.String : Any]?)
+  @objc public static func setMuteWhenPlayStart(_ mute: Swift.Bool)
+  @objc public static func setNextActionOnHandleNavigation(actionType: ShopLiveSDK.ActionType)
+  @objc public static func getNextActionTypeOnHandleNavigation() -> ShopLiveSDK.ActionType
+  @objc public static func setEndpoint(_ url: Swift.String?)
+  @objc public static func isSuccessCampaignJoin() -> Swift.Bool
+  @objc public static func setKeepAspectOnTabletPortrait(_ keep: Swift.Bool = true)
+  @objc public static var viewController: ShopLiveSDK.ShopLiveViewController? {
+    @objc get
+  }
+  @objc public static func close()
+  @objc public static func setChatViewFont(inputBoxFont: UIKit.UIFont?, sendButtonFont: UIKit.UIFont?)
+  @objc public static func setShareScheme(_ scheme: Swift.String? = nil, custom: (() -> Swift.Void)?)
+  @objc public static func hookNavigation(navigation: @escaping ((Foundation.URL) -> Swift.Void))
+  @objc public static func onTerminated()
+  @objc public static func setKeepPlayVideoOnHeadphoneUnplugged(_ keepPlay: Swift.Bool, isMute: Swift.Bool = false)
+  @objc public static func isKeepPlayVideoOnHeadPhoneUnplugged() -> Swift.Bool
+  @objc public static func setAutoResumeVideoOnCallEnded(_ autoResume: Swift.Bool)
+  @objc public static func isAutoResumeVideoOnCallEnded() -> Swift.Bool
+  @objc public static var sdkVersion: Swift.String {
+    @objc get
+  }
+  @objc public static var playerMode: ShopLiveSDK.ShopLive.PlayerMode {
+    @objc get
+  }
+  @objc public static var playerWindow: UIKit.UIWindow? {
+    @objc get
+  }
+  @objc public static var fixedPipWidth: Foundation.NSNumber? {
+    @objc get
+    @objc set
+  }
+  @objc public static func mute()
+  @objc public static func unmute()
+  @objc public static var orientationMode: ShopLiveSDK.ShopLive.VideoOrientation {
+    @objc get
+  }
+  @objc public static var user: ShopLiveSDK.ShopLiveUser? {
+    @objc get
+    @objc set
+  }
+  @objc public static var style: ShopLiveSDK.ShopLive.PresentationStyle {
+    @objc get
+  }
+  @objc public static var pipPosition: ShopLiveSDK.ShopLive.PipPosition {
+    @objc get
+    @objc set
+  }
+  @objc public static var pipScale: CoreFoundation.CGFloat {
+    @objc get
+    @objc set
+  }
+  @objc public static var indicatorColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public static var webViewConfiguration: WebKit.WKWebViewConfiguration? {
+    @objc get
+    @objc set
+  }
+  @objc public static var delegate: ShopLiveSDK.ShopLiveSDKDelegate? {
+    @objc get
+    @objc set
+  }
+  @objc public static var authToken: Swift.String? {
+    @objc get
+    @objc set
+  }
+  @objc public static func configure(with accessKey: Swift.String)
+  @objc public static func preview(with campaignKey: Swift.String?, referrer: Swift.String? = nil, completion: @escaping () -> Swift.Void)
+  @objc public static func play(with campaignKey: Swift.String?, keepWindowStateOnPlayExecuted: Swift.Bool = false, referrer: Swift.String? = nil)
+  @objc public static func startPictureInPicture(with position: ShopLiveSDK.ShopLive.PipPosition, scale: CoreFoundation.CGFloat)
+  @objc public static func startPictureInPicture()
+  @objc public static func stopPictureInPicture()
+  @objc public static func setLoadingAnimation(images: [UIKit.UIImage])
+  @objc public static func reloadLive()
+  @objc public static func enablePictureInPictureMode(isEnabled: Swift.Bool)
+}
+@_inheritsConvenienceInitializers @objc public class ShopLiveUser : ObjectiveC.NSObject {
+  public var name: Swift.String?
+  public var gender: ShopLiveSDK.ShopLiveUser.Gender?
+  public var id: Swift.String?
+  public var age: Swift.Int?
+  @objc override dynamic public init()
+  @objc public init(id: Swift.String = "", name: Swift.String = "", gender: ShopLiveSDK.ShopLiveUser.Gender = .unknown, age: Swift.Int = -1)
+  public func add(_ params: [Swift.String : Any?])
+  public func remove(key: Swift.String)
+  public func getParams() -> [Swift.String : Swift.String]
+  @objc deinit
+}
+extension ShopLiveSDK.ShopLiveUser {
+  @objc public enum Gender : Swift.Int, Swift.Codable, Swift.CaseIterable {
+    case female = 1
+    case male = 2
+    case neutral = 3
+    case unknown = 0
+    public var description: Swift.String {
+      get
+    }
+    public init?(rawValue: Swift.Int)
+    public typealias AllCases = [ShopLiveSDK.ShopLiveUser.Gender]
+    public typealias RawValue = Swift.Int
+    public static var allCases: [ShopLiveSDK.ShopLiveUser.Gender] {
+      get
+    }
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+}
+extension ShopLiveSDK.ResultStatus : Swift.Equatable {}
+extension ShopLiveSDK.ResultStatus : Swift.Hashable {}
+extension ShopLiveSDK.ResultStatus : Swift.RawRepresentable {}
+extension ShopLiveSDK.ResultAlertType : Swift.Equatable {}
+extension ShopLiveSDK.ResultAlertType : Swift.Hashable {}
+extension ShopLiveSDK.ResultAlertType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveResultStatus : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveResultAlertType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveLog.Feature : Swift.RawRepresentable {}
+extension ShopLiveSDK.ActionType : Swift.Equatable {}
+extension ShopLiveSDK.ActionType : Swift.Hashable {}
+extension ShopLiveSDK.ActionType : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PlayerMode : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.VideoOrientation : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PipPosition : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Equatable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.Hashable {}
+extension ShopLiveSDK.ShopLive.PresentationStyle : Swift.RawRepresentable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.Equatable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.Hashable {}
+extension ShopLiveSDK.ShopLiveUser.Gender : Swift.RawRepresentable {}
