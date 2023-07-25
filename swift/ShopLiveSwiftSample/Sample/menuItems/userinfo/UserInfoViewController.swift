@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 
 final class UserInfoViewController: SampleBaseViewController {
 
@@ -380,6 +381,7 @@ final class UserInfoViewController: SampleBaseViewController {
         user.id = userIdInputField.text
         user.name = userNameInputField.text
         user.gender = selectedGender()
+        
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
             user.age = age
         } else {
