@@ -121,9 +121,9 @@ class MainViewController: UIViewController {
 ```
 <br>
 
-### 3. How to run `ShopliveShortform SDK for iOS` Player
+### 4. How to run `ShopliveShortform SDK for iOS` Player
 
-#### 3-1. Initializing ShopLiveShortformSDK
+#### 4-1. Initializing ShopLiveShortformSDK
 - Initialize the ShopliveShortform iOS SDK using the prepared Access Key.
 ```Swift
 
@@ -141,7 +141,7 @@ class  AppDelegate: UIResponder, UIApplicationDelegate {
 ```
 <br>
 
-#### 3-2. How to show Shortform CollectionView
+#### 4-2. How to show Shortform CollectionView
 - Shortform CollectionView has 3 types of layout and use builder to make each one of it.  
 CardTypeView  
 VerticalTypeView  
@@ -154,7 +154,8 @@ import ShopliveShortformSDK
 
 class ViewController : UIViewController { 
     lazy private var builder : ShopLiveShortform.CardTypeViewBuilder = {
-        let builder = ShopLiveShortform.CardTypeViewBuilder()
+        // let builder = ShopLiveShortform.ListTypeViewBuilder() // VerticalTypeView & HorizontalTypeView
+        let builder = ShopLiveShortform.CardTypeViewBuilder() // CardTypeView 
         builder.build(cardViewType: .type1,
                       listViewDelegate: self,
                       enableSnap: currentSnap,
@@ -180,7 +181,7 @@ class ViewController : UIViewController {
 ```
 <br>
 
-#### 3-3. How to show Shortform DetailListView
+#### 4-3. How to show Shortform DetailListView
 - Show DetailListView with two Different types of requestData  
 ShortformCollectionData   
 ShortformRelatedData  
@@ -201,7 +202,7 @@ class ViewController : UIViewController {
 ```
 <br>
 
-#### 3-3. How to show Shortform Preview
+#### 4-4. How to show Shortform Preview
 
 - <B>Show Shortform preview</B>
 ```Swift
