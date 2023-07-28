@@ -172,6 +172,8 @@ class ViewController : UIViewController {
     override func viewDidLoad(){
         super.viewDidLoad()
         self.view.addSubView(cardTypeView)
+        // call submit() to initialize data
+        builder.submit()
 }
 
 ```
