@@ -56,8 +56,8 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 
 ```Ruby
 dependencies: [
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.4.4"))
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.4.4"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.4.5"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.4.5"))
 ]
 ```
 
