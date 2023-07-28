@@ -174,6 +174,7 @@ class ViewController : UIViewController {
         self.view.addSubView(cardTypeView)
         // call submit() to initialize data
         builder.submit()
+    }
 }
 
 ```
