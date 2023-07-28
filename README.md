@@ -142,10 +142,10 @@ class  AppDelegate: UIResponder, UIApplicationDelegate {
 <br>
 
 #### 3-2. How to show Shortform CollectionView
-- Shortform CollectionView has 3 types of layout and use builder to make each one of it.
--- CardTypeView
--- VerticalTypeView
--- HorizontalTypeView
+- Shortform CollectionView has 3 types of layout and use builder to make each one of it.  
+CardTypeView  
+VerticalTypeView  
+HorizontalTypeView  
 
 - <B>Building Shortform CollectionView</B>
 ```Swift
@@ -178,9 +178,9 @@ class ViewController : UIViewController {
 <br>
 
 #### 3-3. How to show Shortform DetailListView
-- Show DetailListView with two Different types of requestData
--- ShortformCollectionData 
--- ShortformRelatedData
+- Show DetailListView with two Different types of requestData  
+ShortformCollectionData   
+ShortformRelatedData  
 
 - <B>Show Shortform DetailListView</B>
 ```Swift
