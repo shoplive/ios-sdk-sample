@@ -72,17 +72,17 @@ dependencies: [
 // MainViewController.swift
 class MainViewController: UIViewController {
 ...
-override func viewDidLoad() {
-super.viewDidLoad()
-// Initialize the Shoplive Android SDK using the prepared Access Key.
-ShopLive.configure(with: "{AccessKey}")
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Initialize the Shoplive Android SDK using the prepared Access Key.
+        ShopLive.configure(with: "{AccessKey}")
 
-// Play the video using the campaign key.
-ShopLive.play(with: "{CampaignKey}")
+        // Play the video using the campaign key.
+        ShopLive.play(with: "{CampaignKey}")
 
-// Starts a muted campaign as an in-app PIP.
-ShopLive.preview(with: "{CampaignKey}", completion: nil)
-}
+        // Starts a muted campaign as an in-app PIP.
+        ShopLive.preview(with: "{CampaignKey}", completion: nil)
+    }
 ...
 }
 ```
@@ -108,14 +108,14 @@ Set the Project as follows.
 // MainViewController.swift
 class MainViewController: UIViewController {
 ...
-override func switchingPictureInPicture() {
+    override func switchingPictureInPicture() {
 
-// Switching in-app PIP(picture-in-picture) mode
-ShopLive.startPictureInPicture()
+        // Switching in-app PIP(picture-in-picture) mode
+        ShopLive.startPictureInPicture()
 
-// Switching full-view mode
-ShopLive.stopPictureInPicture()
-}
+        // Switching full-view mode
+        ShopLive.stopPictureInPicture()
+    }
 ...
 }    
 ```
