@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios.git",
       "state" : {
-        "revision" : "0f249697f33103ce081c4fdc1f708d77c119f6fb",
-        "version" : "1.4.4"
+        "revision" : "55b758d00e9afca36a32b6a3e05969691e31d657",
+        "version" : "1.4.5"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
       "state" : {
-        "revision" : "4b0565384d3c4c588af09e660535b2c7c9bf5b39",
-        "version" : "1.4.2"
+        "revision" : "32f641cf24fc7abc1c591a2025e9f2f572648b0f",
+        "version" : "1.7.2"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/ios-sdk.git",
       "state" : {
-        "revision" : "d819498d5cc8c3c784d4e39e7044ae077c264a25",
-        "version" : "1.4.2"
+        "revision" : "ba4ba9f656dc9f5e3ee109cba774acbcb34b8ae0",
+        "version" : "1.4.5"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "54207dfad6b482c0aefec5d3c574896d6009bf95",
-        "version" : "1.4.4"
+        "revision" : "3017dd89bc42f6c3e254a66c80476319d1487db5",
+        "version" : "1.4.5"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit",
       "state" : {
-        "revision" : "d458564516e5676af9c70b4f4b2a9178294f1bc6",
-        "version" : "5.0.1"
+        "revision" : "f222cbdf325885926566172f6f5f06af95473158",
+        "version" : "5.6.0"
       }
     },
     {
