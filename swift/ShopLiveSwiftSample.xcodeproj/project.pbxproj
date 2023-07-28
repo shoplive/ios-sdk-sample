@@ -227,6 +227,18 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2FF2FA312A735A37009C39E0 /* Shortform */ = {
+			isa = PBXGroup;
+			children = (
+				2F0B85F12A0E0DDB00165242 /* ShortFormTabViewController.swift */,
+				2F0B85F42A0E0E0600165242 /* ShortFormCardTypeViewController.swift */,
+				2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */,
+				2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */,
+				2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */,
+			);
+			path = Shortform;
+			sourceTree = "<group>";
+		};
 		BFAA3EFD2738BE67005AA18E /* misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -306,16 +318,12 @@
 		BFF15AE62777279A009327AD /* customviews */ = {
 			isa = PBXGroup;
 			children = (
+				2FF2FA312A735A37009C39E0 /* Shortform */,
 				BFC9073D277448BB00D26F3F /* TextItemInputAlertController.swift */,
 				BFC90768277448BB00D26F3F /* CustomBaseAlertController.swift */,
 				BFE401AE27FD35BD001031E3 /* BaseTextField.swift */,
 				BFE401B027FD35EF001031E3 /* LoginTextField.swift */,
 				BFF3587327EABFA300B920E9 /* LoginViewController.swift */,
-				2F0B85F12A0E0DDB00165242 /* ShortFormTabViewController.swift */,
-				2F0B85F42A0E0E0600165242 /* ShortFormCardTypeViewController.swift */,
-				2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */,
-				2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */,
-				2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */,
 			);
 			path = customviews;
 			sourceTree = "<group>";
@@ -897,8 +905,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shoplive/shortform-ios";
 			requirement = {
-				kind = exactVersion;
-				version = 1.4.4;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.5;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -913,8 +921,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.4.2;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.5;
 			};
 		};
 		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {

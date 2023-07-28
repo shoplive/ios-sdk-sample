@@ -1,5 +1,5 @@
 //
-//  ShortFormHorizontalTypeViewController.swift
+//  ShortFormVerticalTypeViewController.swift
 //  ShopLiveSwiftSample
 //
 //  Created by sangmin han on 2023/05/12.
@@ -10,8 +10,7 @@ import UIKit
 import ShopLiveShortformSDK
 
 
-final class ShortFormHorizontalTypeViewController : UIViewController {
-    
+final class ShortFormVerticalTypeViewController : UIViewController {
     private var snapLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,45 +33,77 @@ final class ShortFormHorizontalTypeViewController : UIViewController {
         return btn
     }()
     
+    private var type1Btn : UIButton = {
+        let btn = UIButton()
+        btn.setTitle("type1", for: .normal)
+        btn.setTitleColor(.black, for: .selected)
+        btn.setTitleColor(.lightGray, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        btn.layer.borderColor = UIColor.lightGray.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 6
+        btn.isSelected = true
+        btn.tag = 1
+        return btn
+    }()
+    
+    private var type2Btn : UIButton = {
+        let btn = UIButton()
+        btn.setTitle("type2", for: .normal)
+        btn.setTitleColor(.black, for: .selected)
+        btn.setTitleColor(.lightGray, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .bold)
+        btn.layer.borderColor = UIColor.lightGray.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 6
+        btn.tag = 2
+        return btn
+    }()
     private var stack = UIStackView()
     private var builder : ShopLiveShortform.ListViewBuilder?
     private var collectionView : UIView?
-    private var currentSnap : Bool = false
-    
+    private var currentSnap = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setLayout()
         
+        
         snapBtn.addTarget(self, action: #selector(snapbtnTapped(sender: )), for: .touchUpInside)
+        type1Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
+        type2Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
+    
     }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         builder = ShopLiveShortform.ListViewBuilder()
-        collectionView = builder!.build(cardViewType: .type2,
-                                       listViewType: .horizontal,
-                                       playableType: .FIRST,
+        collectionView = builder!.build(cardViewType: .type1,
+                                       listViewType: .vertical,
+                                        playableType: .FIRST,
                                         listViewDelegate: self,
                                        enableSnap: currentSnap,
                                        enablePlayVideo: true,
                                        playOnlyOnWifi: false,
                                        cellSpacing: 20).getView()
+        
         builder?.submit()
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         setCollectionViewLayout()
-        
         //see below extension to see how it works
         ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
         ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
         
-        //hashtag, brand setting
-        //setting hashtag or brand after calling submit(), call reloadItem() to get new datas set
-        //builder?.setHashTags(tags: ["test,test2"], tagSearchOperator: .OR)
-        //builder?.setBrands(brands: ["test"])
-        //builder?.reloadItems()
+        //MARK: - hashtag, brand settings
+        /**
+         setting hashtag or brand after calling submit(), call reloadItem() to get new datas set
+         builder?.setHashTags(tags: ["test,test2"], tagSearchOperator: .OR)
+         builder?.setBrands(brands: ["test"])
+         builder?.reloadItems()
+         */
+        
     }
     
     
@@ -94,15 +125,32 @@ final class ShortFormHorizontalTypeViewController : UIViewController {
             builder.disableSnap()
         }
     }
+    
+    @objc func typeBtnTapped(sender : UIButton){
+        guard let builder = builder else { return }
+        
+        if sender.tag == 1 && type1Btn.isSelected == false {
+            type1Btn.isSelected = true
+            type2Btn.isSelected = false
+            builder.setCardViewType(type: .type1)
+        }
+        else if sender.tag == 2 && type2Btn.isSelected == false {
+            type1Btn.isSelected = false
+            type2Btn.isSelected = true
+            builder.setCardViewType(type: .type2)
+        }
+        
+    }
+    
 }
 //MARK: - native handler delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+extension ShortFormVerticalTypeViewController : ShopLiveShortformNativeHandlerDelegate {
     func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
-        // when webview is connected, preview will be shown automatically as configured in admin web
+        // when webview is connected, preview will shown automatically as configured in admin web
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
-        // use this method to navigate to desired product page or show preview
-        // ex) displaying preview natively
-        //ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
+        // use this method to navigate to desired product view or show preview
+        // ex) display preview natively
+        // ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
         // ShopLiveShortformRelateData contains productId, customerProductId, tags, brands and etc
         // allocating these values will get related shorts collections
     }
@@ -112,14 +160,23 @@ extension ShortFormHorizontalTypeViewController : ShopLiveShortformNativeHandler
         // use this method to navigate to desired product view or show preview
     }
 }
+//MARK: - list view delegate
+extension ShortFormVerticalTypeViewController : ShopLiveShortformListViewDelegate {
+    func onListViewError(error: Error) {
+        // by this delegate function you can get api and avplayer errors occured from listviews
+    }
+}
 //MARK: - receive Handler delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
     func handleShare(shareUrl: String) {
         
     }
+    
     func onEvent(command: String, payload: String?) {
-        
+        //from here you can observe shortform event ex) click event on collectionView Item, collectionView initialized event, preview show event and etc, see https://docs.shoplive.kr/docs/api-shortform-events for more informations
+        //payload are configured as JSONstring
     }
+    
     func onError(error: Error) {
         if let error = error as? ShortformError {
             if case .other(let error) = error {
@@ -132,29 +189,29 @@ extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandle
         }
     }
 }
-//MARK: - list view delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformListViewDelegate {
-    func onListViewError(error: Error) {
-        // by this delegate function you can get api errors and avplayer occured from listviews
-    }
-}
-extension ShortFormHorizontalTypeViewController {
+
+extension ShortFormVerticalTypeViewController {
     
     private func setCollectionViewLayout(){
         guard let collectionView = collectionView else { return }
         self.view.addSubview(collectionView)
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: snapBtn.bottomAnchor,constant: 10),
+            collectionView.topAnchor.constraint(equalTo: stack.bottomAnchor,constant: 10),
             collectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 500)
-            
+            collectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
     private func setLayout(){
         self.view.addSubview(snapLabel)
         self.view.addSubview(snapBtn)
+        stack = UIStackView(arrangedSubviews: [type1Btn,type2Btn])
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        stack.axis = .horizontal
+        stack.spacing = 10
+        stack.distribution = .fillEqually
+        self.view.addSubview(stack)
         
         NSLayoutConstraint.activate([
             snapLabel.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10),
@@ -165,7 +222,12 @@ extension ShortFormHorizontalTypeViewController {
             snapBtn.leadingAnchor.constraint(equalTo: snapLabel.trailingAnchor, constant: 10),
             snapBtn.centerYAnchor.constraint(equalTo: snapLabel.centerYAnchor, constant: 0),
             snapBtn.widthAnchor.constraint(equalToConstant: 60),
+            snapBtn.heightAnchor.constraint(equalToConstant: 30),
+            
+            stack.topAnchor.constraint(equalTo: snapBtn.bottomAnchor, constant: 5),
+            stack.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            stack.widthAnchor.constraint(equalToConstant: 110),
+            stack.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
-    
 }

@@ -1,5 +1,5 @@
 //
-//  ShortFormVerticalTypeViewController.swift
+//  ShortFormCardTypeViewExampleViewController.swift
 //  ShopLiveSwiftSample
 //
 //  Created by sangmin han on 2023/05/12.
@@ -7,10 +7,12 @@
 
 import Foundation
 import UIKit
+import ShopliveSDKCommon
 import ShopLiveShortformSDK
 
-
-final class ShortFormVerticalTypeViewController : UIViewController {
+final class ShortFormCardTypeViewController : UIViewController {
+    
+    
     private var snapLabel : UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -60,9 +62,25 @@ final class ShortFormVerticalTypeViewController : UIViewController {
         return btn
     }()
     private var stack = UIStackView()
-    private var builder : ShopLiveShortform.ListViewBuilder?
+    private var builder : ShopLiveShortform.CardTypeViewBuilder?
     private var collectionView : UIView?
     private var currentSnap = false
+    
+    lazy private var builder2 : ShopLiveShortform.CardTypeViewBuilder = {
+        let builder = ShopLiveShortform.CardTypeViewBuilder()
+        builder.build(cardViewType: .type1,
+                       listViewDelegate: self,
+                      enableSnap: currentSnap,
+                      enablePlayVideo: true,
+                      playOnlyOnWifi: false,
+                      cellSpacing: 20)
+        return builder
+    }()
+    
+    lazy private var cardTypeView : UIView = {
+        return builder2.getView()
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,37 +91,37 @@ final class ShortFormVerticalTypeViewController : UIViewController {
         snapBtn.addTarget(self, action: #selector(snapbtnTapped(sender: )), for: .touchUpInside)
         type1Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
         type2Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
-    
     }
-    
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        builder = ShopLiveShortform.ListViewBuilder()
+       
+        builder = ShopLiveShortform.CardTypeViewBuilder()
         collectionView = builder!.build(cardViewType: .type1,
-                                       listViewType: .vertical,
-                                        playableType: .FIRST,
                                         listViewDelegate: self,
                                        enableSnap: currentSnap,
                                        enablePlayVideo: true,
                                        playOnlyOnWifi: false,
                                        cellSpacing: 20).getView()
-        
         builder?.submit()
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.backgroundColor = .white
+        
         setCollectionViewLayout()
         //see below extension to see how it works
         ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
         ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
         
-        //hashtag, brand setting
-        //setting hashtag or brand after calling submit(), call reloadItem() to get new datas set
-        //builder?.setHashTags(tags: ["test,test2"], tagSearchOperator: .OR)
-        //builder?.setBrands(brands: ["test"])
-        //builder?.reloadItems()
+        
+        //MARK: - hashtag, brand settings
+        /**
+         setting hashtag or brand after calling submit(), call reloadItem() to get new datas set
+         builder?.setHashTags(tags: ["test,test2"], tagSearchOperator: .OR)
+         builder?.setBrands(brands: ["test"])
+         builder?.reloadItems()
+         */
         
     }
-    
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
@@ -126,7 +144,6 @@ final class ShortFormVerticalTypeViewController : UIViewController {
     
     @objc func typeBtnTapped(sender : UIButton){
         guard let builder = builder else { return }
-        
         if sender.tag == 1 && type1Btn.isSelected == false {
             type1Btn.isSelected = true
             type2Btn.isSelected = false
@@ -136,13 +153,14 @@ final class ShortFormVerticalTypeViewController : UIViewController {
             type1Btn.isSelected = false
             type2Btn.isSelected = true
             builder.setCardViewType(type: .type2)
+//            ShopLiveShortform.play(requestData: ShopLiveShortformCollectionData())
+//            ShopLiveShortform.play(requestData: ShopLiveShortformRelatedData(reference: ""))
         }
         
     }
-    
 }
 //MARK: - native handler delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+extension ShortFormCardTypeViewController : ShopLiveShortformNativeHandlerDelegate {
     func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
         // when webview is connected, preview will shown automatically as configured in admin web
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
@@ -157,19 +175,17 @@ extension ShortFormVerticalTypeViewController : ShopLiveShortformNativeHandlerDe
         // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
     }
-}
-//MARK: - list view delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformListViewDelegate {
-    func onListViewError(error: Error) {
-        // by this delegate function you can get api errors and avplayer occured from listviews
-    }
+    
+    
 }
 //MARK: - receive Handler delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
     func handleShare(shareUrl: String) {
         
     }
     func onEvent(command: String, payload: String?) {
+        //from here you can observe shortform event ex) click event on collectionView Item, collectionView initialized event, preview show event and etc, see https://docs.shoplive.kr/docs/api-shortform-events for more informations
+        //payload are configured as JSONstring
         
     }
     func onError(error: Error) {
@@ -184,9 +200,13 @@ extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerD
         }
     }
 }
-
-extension ShortFormVerticalTypeViewController {
-    
+//MARK: - list view delegate
+extension ShortFormCardTypeViewController : ShopLiveShortformListViewDelegate {
+    func onListViewError(error: Error) {
+        // by this delegate function you can get api errors and avplayer occured from listviews
+    }
+}
+extension ShortFormCardTypeViewController {
     private func setCollectionViewLayout(){
         guard let collectionView = collectionView else { return }
         self.view.addSubview(collectionView)
@@ -198,9 +218,11 @@ extension ShortFormVerticalTypeViewController {
         ])
     }
     
+    
     private func setLayout(){
         self.view.addSubview(snapLabel)
         self.view.addSubview(snapBtn)
+        stack = UIStackView(arrangedSubviews: [type1Btn,type2Btn])
         stack = UIStackView(arrangedSubviews: [type1Btn,type2Btn])
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .horizontal
@@ -225,4 +247,6 @@ extension ShortFormVerticalTypeViewController {
             stack.heightAnchor.constraint(equalToConstant: 30)
         ])
     }
+    
 }
+

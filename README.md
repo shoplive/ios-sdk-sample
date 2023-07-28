@@ -44,7 +44,10 @@ use_frameworks!
 
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
-    pod 'ShopLive', '1.4.4'
+#livePlayerSDK
+pod 'ShopLive', '1.4.5'
+#shortform SDK
+pod 'ShopliveShortformSDK' , '1.4.5'
 end
 ```
 - Swift Package Manager
@@ -53,11 +56,12 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 
 ```Ruby
 dependencies: [
-    .package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.4.4"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.4.4"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.4.4"))
 ]
 ```
 
-### 2. How to running `Shoplive SDK for iOS` Player
+### 2. How to run `Shoplive SDK for iOS` Player
 - Initialize the Shoplive Android SDK using the prepared Access Key.
 
 |Play the video using the campaign key.  |Starts a muted campaign as an in-app PIP.|
@@ -68,22 +72,22 @@ dependencies: [
 // MainViewController.swift
 class MainViewController: UIViewController {
 ...
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Initialize the Shoplive Android SDK using the prepared Access Key.
-        ShopLive.configure(with: "{AccessKey}")
+override func viewDidLoad() {
+super.viewDidLoad()
+// Initialize the Shoplive Android SDK using the prepared Access Key.
+ShopLive.configure(with: "{AccessKey}")
 
-        // Play the video using the campaign key.
-        ShopLive.play(with: "{CampaignKey}")
-        
-        // Starts a muted campaign as an in-app PIP.
-        ShopLive.preview(with: "{CampaignKey}", completion: nil)
-    }
+// Play the video using the campaign key.
+ShopLive.play(with: "{CampaignKey}")
+
+// Starts a muted campaign as an in-app PIP.
+ShopLive.preview(with: "{CampaignKey}", completion: nil)
+}
 ...
 }
 ```
 
-### 3 How to running Pip(Picture-in-Picture) mode
+### 3 How to run Pip(Picture-in-Picture) mode
 When performing other tasks while watching a campaign, users can switch to picture-in-picture mode.
 
 - <B>Switching in-app PIP(picture-in-picture) mode</B>  
@@ -104,18 +108,111 @@ Set the Project as follows.
 // MainViewController.swift
 class MainViewController: UIViewController {
 ...
-    override func switchingPictureInPicture() {
-        
-        // Switching in-app PIP(picture-in-picture) mode
-        ShopLive.startPictureInPicture()
+override func switchingPictureInPicture() {
 
-        // Switching full-view mode
-        ShopLive.stopPictureInPicture()
-    }
+// Switching in-app PIP(picture-in-picture) mode
+ShopLive.startPictureInPicture()
+
+// Switching full-view mode
+ShopLive.stopPictureInPicture()
+}
 ...
 }    
 ```
 <br>
+
+### 3. How to run `ShopliveShortform SDK for iOS` Player
+
+#### 3-1. Initializing ShopLiveShortformSDK
+- Initialize the ShopliveShortform iOS SDK using the prepared Access Key.
+```Swift
+
+// AppDelegate.swift
+
+@main
+class  AppDelegate: UIResponder, UIApplicationDelegate {
+    var window: UIWindow?
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        ShopLiveCommon.setAccesskey(accessKey : {YOUR_ACCESSKEY})
+        return  true
+    }
+}
+```
+<br>
+
+#### 3-2. How to show Shortform CollectionView
+- Shortform CollectionView has 3 types of layout and use builder to make each one of it.
+-- CardTypeView
+-- VerticalTypeView
+-- HorizontalTypeView
+
+- <B>Building Shortform CollectionView</B>
+```Swift
+import UIKit
+import ShopliveShortformSDK
+
+class ViewController : UIViewController { 
+    lazy private var builder : ShopLiveShortform.CardTypeViewBuilder = {
+        let builder = ShopLiveShortform.CardTypeViewBuilder()
+        builder.build(cardViewType: .type1,
+                      listViewDelegate: self,
+                      enableSnap: currentSnap,
+                      enablePlayVideo: true,
+                      playOnlyOnWifi: false,
+                      cellSpacing: 20)
+        return builder
+    }()
+
+    lazy private var cardTypeView : UIView = {
+        return builder.getView()
+    }()
+}
+
+    override func viewDidLoad(){
+        super.viewDidLoad()
+        self.view.addSubView(cardTypeView)
+}
+
+```
+<br>
+
+#### 3-3. How to show Shortform DetailListView
+- Show DetailListView with two Different types of requestData
+-- ShortformCollectionData 
+-- ShortformRelatedData
+
+- <B>Show Shortform DetailListView</B>
+```Swift
+import UIKit
+import ShopliveShortformSDK
+
+class ViewController : UIViewController { 
+    override func viewDidLoad(){
+        super.viewDidLoad()
+        ShopLiveShortform.player(requestData : ShopLiveShortformCollectionData?)
+        ShopLiveShortform.player(requestData : ShopLiveShortformRelatedData?)
+    }
+}
+
+```
+<br>
+
+#### 3-3. How to show Shortform Preview
+
+- <B>Show Shortform preview</B>
+```Swift
+import UIKit
+import ShopliveShortformSDK
+
+class ViewController : UIViewController { 
+    override func viewDidLoad(){
+        super.viewDidLoad()
+        ShopLiveShortform.showPreview(requestData : ShopLiveShortformRelatedData?)
+}
+
+```
+
 
 ## The guide is available in English and Korean.
 > - [English](https://en.shoplive.guide/docs/shoplive-sdk-for-ios)
