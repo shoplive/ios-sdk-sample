@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -21,6 +21,7 @@
 		2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 2F0B85FB2A0E0E6D00165242 /* Parchment */; };
 		2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */; };
 		2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */; };
+		2FE8BF542AEF78BD003B8B65 /* ShopliveSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE8BF532AEF78BD003B8B65 /* ShopliveSDKCommon */; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
@@ -147,6 +148,7 @@
 				BFC9079927744A1800D26F3F /* SideMenu in Frameworks */,
 				BFC907A927745A3000D26F3F /* DropDown in Frameworks */,
 				BF99C22C2A1314F000B0BC64 /* ShopLive in Frameworks */,
+				2FE8BF542AEF78BD003B8B65 /* ShopliveSDKCommon in Frameworks */,
 				2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */,
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
 				2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */,
@@ -376,6 +378,7 @@
 				2F0B85FB2A0E0E6D00165242 /* Parchment */,
 				2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */,
 				BF99C22B2A1314F000B0BC64 /* ShopLive */,
+				2FE8BF532AEF78BD003B8B65 /* ShopliveSDKCommon */,
 			);
 			productName = ShopLiveSwiftSample;
 			productReference = 1BAEDDD626042D0D005C5DD4 /* ShopLiveSwiftSample.app */;
@@ -457,6 +460,7 @@
 				2F0B85FA2A0E0E6D00165242 /* XCRemoteSwiftPackageReference "Parchment" */,
 				2F95FFEE2A11C7C200A2E58A /* XCRemoteSwiftPackageReference "shortform-ios" */,
 				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */,
+				2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */,
 			);
 			productRefGroup = 1BAEDDD726042D0D005C5DD4 /* Products */;
 			projectDirPath = "";
@@ -906,7 +910,15 @@
 			repositoryURL = "https://github.com/shoplive/shortform-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.5;
+				minimumVersion = 1.5.0;
+			};
+		};
+		2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/shoplive/common-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.0;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -922,7 +934,7 @@
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.4.5;
+				minimumVersion = 1.5.0;
 			};
 		};
 		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
@@ -969,6 +981,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F95FFEE2A11C7C200A2E58A /* XCRemoteSwiftPackageReference "shortform-ios" */;
 			productName = ShopliveShortformSDK;
+		};
+		2FE8BF532AEF78BD003B8B65 /* ShopliveSDKCommon */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */;
+			productName = ShopliveSDKCommon;
 		};
 		BF6C5DD2273B887400C85D2D /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
