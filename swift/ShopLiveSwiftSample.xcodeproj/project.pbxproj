@@ -453,13 +453,13 @@
 			mainGroup = 1BAEDDCD26042D0D005C5DD4;
 			packageReferences = (
 				BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */,
-				BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */,
-				BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */,
-				BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */,
-				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */,
+				BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */,
+				BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */,
+				BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */,
+				BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */,
 				2F0B85FA2A0E0E6D00165242 /* XCRemoteSwiftPackageReference "Parchment" */,
 				2F95FFEE2A11C7C200A2E58A /* XCRemoteSwiftPackageReference "shortform-ios" */,
-				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */,
+				BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */,
 				2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */,
 			);
 			productRefGroup = 1BAEDDD726042D0D005C5DD4 /* Products */;
@@ -929,7 +929,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
+		BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
@@ -937,7 +937,7 @@
 				minimumVersion = 1.5.0;
 			};
 		};
-		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
+		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/jonkykong/SideMenu.git";
 			requirement = {
@@ -945,7 +945,7 @@
 				minimumVersion = 6.0.0;
 			};
 		};
-		BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */ = {
+		BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/scalessec/Toast-Swift.git";
 			requirement = {
@@ -953,7 +953,7 @@
 				minimumVersion = 5.0.0;
 			};
 		};
-		BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */ = {
+		BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/polarcop/SwiftyJWT.git";
 			requirement = {
@@ -961,7 +961,7 @@
 				minimumVersion = 1.0.0;
 			};
 		};
-		BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */ = {
+		BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/AssistoLab/DropDown.git";
 			requirement = {
@@ -994,27 +994,27 @@
 		};
 		BF99C22B2A1314F000B0BC64 /* ShopLive */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk" */;
+			package = BF99C22A2A1314F000B0BC64 /* XCRemoteSwiftPackageReference "ios-sdk.git" */;
 			productName = ShopLive;
 		};
 		BFC9079827744A1800D26F3F /* SideMenu */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */;
+			package = BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu.git" */;
 			productName = SideMenu;
 		};
 		BFC9079E27744A3600D26F3F /* Toast */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift" */;
+			package = BFC9079D27744A3600D26F3F /* XCRemoteSwiftPackageReference "Toast-Swift.git" */;
 			productName = Toast;
 		};
 		BFC907A127744A8400D26F3F /* SwiftyJWT */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT" */;
+			package = BFC907A027744A8400D26F3F /* XCRemoteSwiftPackageReference "SwiftyJWT.git" */;
 			productName = SwiftyJWT;
 		};
 		BFC907A827745A3000D26F3F /* DropDown */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown" */;
+			package = BFC907A727745A3000D26F3F /* XCRemoteSwiftPackageReference "DropDown.git" */;
 			productName = DropDown;
 		};
 /* End XCSwiftPackageProductDependency section */
