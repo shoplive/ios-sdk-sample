@@ -38,7 +38,7 @@ Add the following line to the Podfile.
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Set it as the same minimum supported version of the project.  
-# Shoplive SDK for iOS supports iOS 12.0 and above. You cannot set it below iOS 12.0.
+# Shoplive SDK for iOS supports iOS 11.0 and above. You cannot set it below iOS 11.0.
 platform: ios, '11.0'
 use_frameworks!
 
