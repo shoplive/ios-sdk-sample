@@ -11,8 +11,8 @@
 These are the minimum requirements to use the Shoplive SDK for iOS. If you do not meet these requirements, you cannot use the Shoplive SDK for iOS.
 
 - Xcode 14 and above
-- iOS 12 and above
-- iOS Deployment Target 12.0 and above
+- iOS 11 and above
+- iOS Deployment Target 11.0 and above
 - Swift 5.0 and above
 
 ## Before getting started
@@ -39,7 +39,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 
 # Set it as the same minimum supported version of the project.  
 # Shoplive SDK for iOS supports iOS 12.0 and above. You cannot set it below iOS 12.0.
-platform: ios, '12.0'
+platform: ios, '11.0'
 use_frameworks!
 
 # Set Project Target for Shoplive SDK for iOS installation.
