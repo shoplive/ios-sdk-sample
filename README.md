@@ -11,9 +11,9 @@
 These are the minimum requirements to use the Shoplive SDK for iOS. If you do not meet these requirements, you cannot use the Shoplive SDK for iOS.
 
 - Xcode 14 and above
-- iOS 11 and above
-- iOS Deployment Target 11.0 and above
-- Swift 4.2 and above
+- iOS 12 and above
+- iOS Deployment Target 12.0 and above
+- Swift 5.0 and above
 
 ## Before getting started
 To use the Shoplive SDK for iOS, please request for an admin account and password to a Shoplive representative.
@@ -38,16 +38,17 @@ Add the following line to the Podfile.
 source 'https://github.com/CocoaPods/Specs.git'
 
 # Set it as the same minimum supported version of the project.  
-# Shoplive SDK for iOS supports iOS 11.0 and above. You cannot set it below iOS 11.0.
-platform: ios, '11.0'
+# Shoplive SDK for iOS supports iOS 12.0 and above. You cannot set it below iOS 12.0.
+platform: ios, '12.0'
 use_frameworks!
 
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
 #livePlayerSDK
-pod 'ShopLive', '1.4.7'
+pod 'ShopLive', '1.5.0'
 #shortform SDK
-pod 'ShopliveShortformSDK' , '1.4.7'
+pod 'ShopliveShortformSDK' , '1.5.0'
+pod 'ShopliveSDKCommon' , '1.5.0'
 end
 ```
 - Swift Package Manager
@@ -56,8 +57,11 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 
 ```Ruby
 dependencies: [
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.4.7"))
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.4.7"))
+//player
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.0"))
+//shortform
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.0"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.0"))
 ]
 ```
 
