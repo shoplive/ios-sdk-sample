@@ -158,6 +158,12 @@ final class ShortFormCardTypeViewController : UIViewController {
         }
         
     }
+    
+    //MARK: - notify UIScreen to builder for invalidating layout
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        builder?.notifyViewRotated() // notifying view rotating to builder will result to reCalculating cellsize correctly for orientation
+    }
 }
 //MARK: - native handler delegate
 extension ShortFormCardTypeViewController : ShopLiveShortformNativeHandlerDelegate {
