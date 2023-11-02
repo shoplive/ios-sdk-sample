@@ -157,10 +157,12 @@ final class MainViewController: SampleBaseViewController {
 
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
+        
+        
 
         switch config.authType {
         case "USER":
-            if let userId = config.user.id, !userId.isEmpty {
+            if !config.user.userId.isEmpty {
                 ShopLive.user = config.user
             }
             break
@@ -253,11 +255,6 @@ final class MainViewController: SampleBaseViewController {
 
         setupShopliveSettings()
 
-        if config.authType == "USER", (config.user.id == nil || (config.user.id != nil && config.user.id!.isEmpty)) {
-            UIWindow.showToast(message: "sample.msg.failed.noneUserId".localized())
-            return
-        }
-
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.preview(with: campaign.campaignKey) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
@@ -278,11 +275,6 @@ final class MainViewController: SampleBaseViewController {
         setupShopliveSettings()
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
-        
-        if config.authType == "USER", (config.user.id == nil || (config.user.id != nil && config.user.id!.isEmpty)) {
-            UIWindow.showToast(message: "sample.msg.failed.noneUserId".localized())
-            return
-        }
         ShopLive.configure(with: campaign.accessKey)
         ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
     }
@@ -536,7 +528,7 @@ extension MainViewController: LoginDelegate {
             return
         }
         
-        let loginUser = ShopLiveUser(id: "shoplive", name: "loginUser", gender: .male, age: 20)
+        let loginUser = ShopLiveCommonUser(userId: "shoplive", name: "loginUser", age: 20, gender: .male)
         ShopLive.user = loginUser
         
         ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)

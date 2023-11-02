@@ -336,8 +336,8 @@ final class UserInfoViewController: SampleBaseViewController {
         return view
     }()
 
-    private var user: ShopLiveUser = DemoConfiguration.shared.user
-    private var newUser: ShopLiveUser?
+    private var user: ShopLiveCommonUser = DemoConfiguration.shared.user
+    private var newUser: ShopLiveCommonUser?
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -378,7 +378,7 @@ final class UserInfoViewController: SampleBaseViewController {
 
     @objc private func saveAct() {
 
-        user.id = userIdInputField.text
+        user.userId = userIdInputField.text ?? ""
         user.name = userNameInputField.text
         user.gender = selectedGender()
         
@@ -387,8 +387,7 @@ final class UserInfoViewController: SampleBaseViewController {
         } else {
             user.age = nil
         }
-
-        user.add(["userScore" : userScoreInputField.text])
+        user.custom?["userScore"] = userScoreInputField.text
 
         DemoConfiguration.shared.authType = selectedType()
 
@@ -406,11 +405,11 @@ final class UserInfoViewController: SampleBaseViewController {
     private func updateUserInfo() {
         updateUserType(identifier: DemoConfiguration.shared.authType)
         user = DemoConfiguration.shared.user
-        userIdInputField.text = user.id ?? ""
+        userIdInputField.text = user.userId ?? ""
         userNameInputField.text = user.name ?? ""
         let age = user.age ?? -1
         ageInputField.text = age >= 0 ? "\(age)" : ""
-        updateGender(identifier: user.gender?.description ?? "unknown")
+        updateGender(identifier: user.gender?.rawValue ?? ShopliveCommonUserGender.netural.rawValue)
         let userScore = DemoConfiguration.shared.userScore
         userScoreInputField.text = userScore != nil ? "\(userScore!)" : ""
 
@@ -467,20 +466,20 @@ extension UserInfoViewController: ShopLiveRadioButtonDelegate {
         return selected.identifier
     }
 
-    func selectedGender() -> ShopLiveUser.Gender {
+    func selectedGender() -> ShopliveCommonUserGender {
         guard let selected = genderRadioGroup.first(where: {$0.isSelected == true}) else {
-            return .unknown
+            return .netural
         }
 
         switch selected.identifier {
-        case ShopLiveUser.Gender.male.description:
+        case ShopliveCommonUserGender.male.rawValue:
             return .male
-        case ShopLiveUser.Gender.female.description:
+        case ShopliveCommonUserGender.female.rawValue:
             return .female
-        case ShopLiveUser.Gender.unknown.description:
-            return .unknown
+        case ShopliveCommonUserGender.netural.rawValue:
+            return .netural
         default:
-            return .unknown
+            return .netural
         }
 
     }

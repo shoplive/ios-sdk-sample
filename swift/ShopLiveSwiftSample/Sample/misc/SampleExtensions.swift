@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import Toast
+import ShopliveSDKCommon
 
 extension UIButton {
 
@@ -211,14 +212,7 @@ extension Date {
     }
 }
 
-extension ShopLiveUser {
-    var userScore: Int? {
-        if let userScoreObj = self.getParams().first(where: { $0.key == "userScore" }) {
-            return Int(userScoreObj.value)
-        } else {
-            return nil
-        }
-    }
+extension ShopLiveCommonUser {
 
     var scoreText: String {
         guard let scoreValue = self.userScore else {

@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopLiveSDK
+import ShopliveSDKCommon
 
 @objc protocol DemoConfigurationObserver {
     var identifier: String { get }
@@ -55,27 +56,22 @@ final class DemoConfiguration: NSObject {
         }
     }
 
-    func setUserInfo(user: ShopLiveUser, jwtToken: String?) {
+    func setUserInfo(user: ShopLiveCommonUser, jwtToken: String?) {
         self.user = user
         self.jwtToken = jwtToken
         notifyObservers(key: "userInfo")
     }
 
-    var user: ShopLiveUser {
+    var user: ShopLiveCommonUser {
         set {
-            userId = newValue.id
+            userId = newValue.userId
             userName = newValue.name
             userAge = newValue.age
             userGender = newValue.gender
             userScore = newValue.userScore
         }
         get {
-            let user = ShopLiveUser()
-            user.id = userId
-            user.name = userName
-            user.age = userAge
-            user.gender = userGender
-            user.add(["userScore" : userScore])
+            let user = ShopLiveCommonUser(userId: userId ?? "null" ,name: userName,age: userAge,gender: userGender, userScore: userScore )
             return user
         }
     }
@@ -113,13 +109,13 @@ final class DemoConfiguration: NSObject {
         }
     }
 
-    var userGender: ShopLiveUser.Gender? {
+    var userGender: ShopliveCommonUserGender? {
         set {
-            UserDefaults.standard.set(newValue?.description, forKey: "userGender")
+            UserDefaults.standard.set(newValue?.rawValue, forKey: "userGender")
             UserDefaults.standard.synchronize()
         }
         get {
-            guard let genderDescription = UserDefaults.standard.string(forKey: "userGender"), let gender = ShopLiveUser.Gender.allCases.first(where: {$0.description == genderDescription}) else {
+            guard let genderDescription = UserDefaults.standard.string(forKey: "userGender"), let gender = ShopliveCommonUserGender.allCases.first(where: {$0.rawValue == genderDescription}) else {
                 return nil
             }
             return gender
