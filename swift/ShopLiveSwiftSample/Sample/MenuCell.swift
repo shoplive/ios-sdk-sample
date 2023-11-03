@@ -159,12 +159,6 @@ class MenuCell: UITableViewCell {
             userDescription += "sdkoption.section.pip.title".localized()  + "\n"
             let position = DemoConfiguration.shared.pipPosition.optionName
             userDescription += "• " + "sdkoption.pipPosition.title".localized() + ": \(position)"
-
-            if let pipScale = DemoConfiguration.shared.pipScale {
-                userDescription += "\n"
-                
-                userDescription += "• " + "sdkoption.pipScale.title".localized() + ": \(String(format: "%.1fx",  pipScale))"
-            }
             
             userDescription += "\n"
             let nextActionTypeOnHandleNavigation = DemoConfiguration.shared.nextActionTypeOnHandleNavigation

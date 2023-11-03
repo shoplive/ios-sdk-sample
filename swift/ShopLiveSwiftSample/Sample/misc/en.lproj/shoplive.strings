@@ -55,21 +55,22 @@ Default false
 This option is valid only for the same campaign and runs on the full screen always when switching to another campaign, regardless of the setting.";
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
+
+
 "sdkoption.preview.title" = "Preview Tap to Play";
 "sdkoption.preview.description" = "Play When Preview Tapped";
+"sdkoption.preview.closebutton.title" = "Use close button";
+"sdkoption.preview.closebutton.description" = "Use close button on InAppPip and Preview(default : false)";
+//Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)
+
+
 "sdkoption.pipPosition.title" = "Position";
 "sdkoption.pipPosition.description" = "PIP mode will start. \n(Default: Bottom Right)";
 "sdkoption.pipPosition.item1" = "Top Left";
 "sdkoption.pipPosition.item2" = "Top Right";
 "sdkoption.pipPosition.item3" = "Bottom Left";
 "sdkoption.pipPosition.item4" = "Bottom Right";
-"sdkoption.pipScale.title" = "View size";
-"sdkoption.pipScale.description" = "PIP view size.\nDisplays the scaled size based on the View width. (value between 0.1 and 1.0)";
-"sdkoption.fixedPipWidth.title" = "Option to set the size of the PIP by specifying the width of the PIP";
-"sdkoption.fixedPipWidth.description" = "You can set the size of the PIP by specifying the width value.
 
-With this option, the height of the pip is set to match the ratio of the image based on the width set.
-You can set the PIP size to the same size on different devices.";
 "sdkoption.nextActionTypeOnNavigation.title" = "Synchronized Player action when user taps link";
 "sdkoption.nextActionTypeOnNavigation.description" = "Sets the synchronized Shoplive Player action when a user taps a link.";
 "sdkoption.nextActionTypeOnNavigation.guide" = "When a user taps link";
@@ -79,8 +80,17 @@ You can set the PIP size to the same size on different devices.";
 "sdkoption.pipKeepWindowStyle.title" = "If you switch from OS PIP to a customer app, continue playing with the previous player mode (in-app PIP or full screen mode)";
 "sdkoption.pipKeepWindowStyle.description" = "If you switch from OS PIP to a customer app, continue playing with the previous player mode (in-app PIP or full screen mode)
 True: previous mode, Default: full screen mode";
+
+"sdkoption.setupPlayer.mixAudio.title" = "Player mix audio option";
+"sdkoption.setupPlayer.mixAudio.description" = "Enables to play sounds with other app";
+
+
 "sdkoption.pipAreaSetting.title" = "PIP moveable area";
 "sdkoption.pipAreaSetting.description" = "Sets the PIP moveable area.";
+"sdkoption.pipEnableSwipeOutOption.title" = "Enable InAppPip swipe out";
+"sdkoption.pipEnableSwipeOutOption.description" = "By enabling this option, you can close InAppPip by swiping it out(default : false). This option doesn't take effect on preview";
+//화면 밖으로 PIP를 SWIPE 하는 경우 플레이어를 종료시킬지 여부를 설정합니다. preview는 해당없음. in-app pip만 적용되는 옵션입니다. (기본은 종료, 설정해제 시 종료되지 않음.)
+
 "sdkoption.headphoneOption1.title" = "When an earphone/headset is disconnected";
 "sdkoption.headphoneOption1.description" = "Enabling this option, the video will keep playing even if the earphone/headset is disconnected.";
 "sdkoption.headphoneOption1.setting.guide" = "Earphone or headset is disconnected";
@@ -107,6 +117,8 @@ Default: keep sound, True: Mute";
 "sdkoption.chatInputCustomFont.setting.guide" = "Chat UI";
 "sdkoption.chatSendButtonCustomFont.title" = "Chat send button";
 "sdkoption.chatSendButtonCustomFont.description" = "Disabling this option, will use the system default font.";
+
+
 
 "sdkoption.chatSendButtonCustomFont.setting.guide" = "Chat send button";
 "sample.app.title" = "Shoplive SDK Sample";
