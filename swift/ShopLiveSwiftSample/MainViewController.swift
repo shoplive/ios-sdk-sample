@@ -10,6 +10,8 @@ import SideMenu
 import SafariServices
 import Toast
 import ShopliveSDKCommon
+import ShopLiveSDK
+import ShopLiveShortformSDK
 
 
 enum MenuItem: String, CaseIterable {
@@ -108,7 +110,10 @@ final class MainViewController: SampleBaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print("ShopLiveSDK version \(ShopLive.sdkVersion)")
+        print("ShopLiveCommonSDK version \(ShopLiveCommon.sdkVersion)")
+        print("ShopLiveShortformSDK version \(ShopLiveShortform.sdkVersion)")
+        
         self.view.backgroundColor = .white
 
         self.title = "sample.app.title".localized()
@@ -158,15 +163,15 @@ final class MainViewController: SampleBaseViewController {
     func setupShopliveSettings() {
         let config = DemoConfiguration.shared
         
-        
-
         switch config.authType {
         case "USER":
             if !config.user.userId.isEmpty {
+                //MARK: - ShopLive.user will be deprecated at v2, Use ShopLiveCommon.setUser(user : ShopLiveCommonUser) instead
                 ShopLive.user = config.user
             }
             break
         case "TOKEN":
+            //MARK: - ShopLive.user authToken be deprecated at v2, Use ShopLiveCommon.setUserJwt() instead
             ShopLive.authToken = config.jwtToken
             break
         case "GUEST":
@@ -218,29 +223,37 @@ final class MainViewController: SampleBaseViewController {
             ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : inputDefaultFont, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : sendButtonDefaultFont)
         }
 
-        // Picture in Picture Setting
-        ShopLive.pipScale = config.pipScale ?? 2/5
-        ShopLive.pipPosition = config.pipPosition
+        
+        //MARK: - will be deprecated in v2 please use ShopLiveInAppPipConfiguration instead
+//        ShopLive.pipPosition = config.pipPosition
         
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
         
         // Pip padding setting
         let padding = config.pipPadding
-        ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        let isPaddingSuccess  = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
         
         // Pip floating offset setting
         let floatingOffset = config.pipFloatingOffset
-        ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        let isFloatingSuccess = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        
+        // Picture in Picture Setting
+        let inAppPipConfig = ShopLiveInAppPipConfiguration(pipMaxSize: 200,
+                                                           useCloseButton: config.useCloseButton,
+                                                           pipPosition: config.pipPosition,
+                                                           enableSwipeOut: config.pipEnableSwipeOut)
+        
+        ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
         // Mute Sound Setting
         ShopLive.setMuteWhenPlayStart(config.isMuted)
         
+        // AVAudiosession option .mixWithOthers option
+        ShopLive.setMixWithOthers(isMixAudio: config.mixAudio)
+        
         // Keep aspect on tablet setting
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
-        
-        // Set fixed pip width
-        ShopLive.fixedPipWidth = DemoConfiguration.shared.fixedPipWidth as? NSNumber
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
     }
@@ -314,7 +327,7 @@ final class MainViewController: SampleBaseViewController {
 
 extension MainViewController: ShopLiveSDKDelegate {
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
-        print("window gesture state \(state) position \(position)")
+//        print("window gesture state \(state) position \(position)")
     }
     
     func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {

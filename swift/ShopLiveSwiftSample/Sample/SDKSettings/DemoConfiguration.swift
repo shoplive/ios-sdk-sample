@@ -323,42 +323,6 @@ final class DemoConfiguration: NSObject {
         }
     }
 
-    var pipScale: CGFloat? {
-        set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipScale.optionKey)
-            UserDefaults.standard.synchronize()
-        }
-        get {
-            guard let scale = UserDefaults.standard.string(forKey:  SDKOptionType.pipScale.optionKey), !scale.isEmpty else {
-                return nil
-            }
-
-            if let scaleValue = scale.cgfloatValue, scaleValue <= 0.0 || scaleValue > 1.0 {
-                return nil
-            }
-
-            return scale.cgfloatValue
-        }
-    }
-    
-    var fixedPipWidth: CGFloat? {
-        set {
-            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedPipWidth.optionKey)
-            UserDefaults.standard.synchronize()
-        }
-        get {
-            guard let fixedWidth = UserDefaults.standard.string(forKey:  SDKOptionType.fixedPipWidth.optionKey), !fixedWidth.isEmpty else {
-                return nil
-            }
-
-            if let fixedWidthValue = fixedWidth.cgfloatValue, fixedWidthValue <= 0.0 {
-                return nil
-            }
-
-            return fixedWidth.cgfloatValue
-        }
-    }
-    
     var nextActionTypeOnHandleNavigation: ActionType {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: SDKOptionType.nextActionOnHandleNavigation.optionKey)
@@ -436,6 +400,30 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var pipEnableSwipeOut: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipEnableSwipeOut.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipEnableSwipeOut.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.pipEnableSwipeOut.optionKey)
+        }
+    }
+    
+    var useCloseButton: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.useCloseButton.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.useCloseButton.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.useCloseButton.optionKey)
+        }
+    }
+    
+    
+    
     var isMuted: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.mute.optionKey)
@@ -446,6 +434,18 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.mute.optionKey)
         }
     }
+    
+    var mixAudio: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.mixAudio.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.mixAudio.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.mixAudio.optionKey)
+        }
+    }
+    
 
     var usePlayWhenPreviewTapped: Bool {
         set {

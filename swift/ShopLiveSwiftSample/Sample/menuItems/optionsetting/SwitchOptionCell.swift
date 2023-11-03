@@ -156,6 +156,12 @@ class SwitchOptionCell: UITableViewCell {
         case .pipKeepWindowStyle:
             useOption = DemoConfiguration.shared.usePipKeepWindowStyle
             break
+        case .pipEnableSwipeOut:
+            useOption = DemoConfiguration.shared.pipEnableSwipeOut
+        case .mixAudio:
+            useOption = DemoConfiguration.shared.mixAudio
+        case .useCloseButton:
+            useOption = DemoConfiguration.shared.useCloseButton
         default:
             break
         }
@@ -200,9 +206,16 @@ class SwitchOptionCell: UITableViewCell {
         case .keepWindowStateOnPlayExecuted:
             DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted = useOption
             break
+        case .pipEnableSwipeOut:
+            DemoConfiguration.shared.pipEnableSwipeOut = useOption
+            break
         case .pipKeepWindowStyle:
             DemoConfiguration.shared.usePipKeepWindowStyle = useOption
             break
+        case .mixAudio:
+            DemoConfiguration.shared.mixAudio = useOption
+        case .useCloseButton:
+            DemoConfiguration.shared.useCloseButton = useOption
         default:
             break
         }

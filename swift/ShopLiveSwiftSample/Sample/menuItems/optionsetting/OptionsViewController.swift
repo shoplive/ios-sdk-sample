@@ -59,7 +59,10 @@ final class OptionsViewController: SampleBaseViewController {
 
         let aspectOnTabletOption = SDKOptionItem(name: "sdkoption.section.setupPlayer.tabletAspect.title".localized(), optionDescription: "sdkoption.section.setupPlayer.tabletAspect.description".localized(), optionType: .aspectOnTablet)
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption])
+        
+        let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
+        
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption])
         
         items.append(setupPlayerOptions)
         
@@ -69,18 +72,22 @@ final class OptionsViewController: SampleBaseViewController {
         items.append(muteOptions)
         
         let previewOption = SDKOptionItem(name: "sdkoption.preview.title".localized(), optionDescription: "sdkoption.preview.description".localized(), optionType: .playWhenPreviewTapped)
-        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption])
+        let closeButtonOption = SDKOptionItem(name: "sdkoption.preview.closebutton.title".localized(), optionDescription: "sdkoption.preview.closebutton.description".localized(), optionType: .useCloseButton)
+        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption,closeButtonOption])
         
         items.append(previewOptions)
         
+        //MARK: - Pip Modes
         let pipPositionOption = SDKOptionItem(name: "sdkoption.pipPosition.title".localized(), optionDescription: "sdkoption.pipPosition.description".localized(), optionType: .pipPosition)
-        let pipScaleOption = SDKOptionItem(name: "sdkoption.pipScale.title".localized(), optionDescription: "sdkoption.pipScale.description".localized(), optionType: .pipScale)
-        let fixedPipWidthOption = SDKOptionItem(name: "sdkoption.fixedPipWidth.title".localized(), optionDescription: "sdkoption.fixedPipWidth.description".localized(), optionType: .fixedPipWidth)
+        
         let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let pipKeepWindowStyle = SDKOptionItem(name: "sdkoption.pipKeepWindowStyle.title".localized(), optionDescription: "sdkoption.pipKeepWindowStyle.description".localized(), optionType: .pipKeepWindowStyle)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipAreaSetting.title".localized(), optionDescription: "sdkoption.pipAreaSetting.description".localized(), optionType: .pipFloatingOffset)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, pipScaleOption, fixedPipWidthOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption])
-
+        
+        let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
+        
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption,pipEnableSwipeOutOption])
+        
         items.append(pipOptions)
 
         let headphoneOption1 = SDKOptionItem(name: "sdkoption.headphoneOption1.title".localized(), optionDescription: "sdkoption.headphoneOption1.description".localized(), optionType: .headphoneOption1)
@@ -181,24 +188,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 }
                 schemeAlert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(schemeAlert, animated: false, completion: nil)
-                break
-            case .pipScale:
-                let pipData = DemoConfiguration.shared.pipScale == nil ? "" : String(format: "%.1f",  DemoConfiguration.shared.pipScale!)
-                let pipScaleAlert = TextItemInputAlertController(header: "sdkoption.pipScale.title".localized(), data: pipData, placeHolder: "ex) 0.4") { scale in
-                    DemoConfiguration.shared.pipScale = scale.cgfloatValue
-                    self.tableView.reloadData()
-                }
-                pipScaleAlert.modalPresentationStyle = .overCurrentContext
-                self.navigationController?.present(pipScaleAlert, animated: false, completion: nil)
-                break
-            case .fixedPipWidth:
-                let fixedPipWidth = DemoConfiguration.shared.fixedPipWidth == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.fixedPipWidth!)
-                let fixedPipWidthAlert = TextItemInputAlertController(header: "sdkoption.fixedPipWidth.title".localized(), data: fixedPipWidth, placeHolder: "ex) 200") { fixedWidth in
-                    DemoConfiguration.shared.fixedPipWidth = fixedWidth.cgfloatValue
-                    self.tableView.reloadData()
-                }
-                fixedPipWidthAlert.modalPresentationStyle = .overCurrentContext
-                self.navigationController?.present(fixedPipWidthAlert, animated: false, completion: nil)
                 break
             default:
                 break
