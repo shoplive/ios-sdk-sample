@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ShopliveSDKCommon
 
 final class PipAreaSettingViewController: UIViewController {
 
@@ -171,7 +172,7 @@ final class PipAreaSettingViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -191,7 +192,7 @@ final class PipAreaSettingViewController: UIViewController {
     }
 
     @objc func handleNaviBack() {
-        shopliveHideKeyboard()
+        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
 

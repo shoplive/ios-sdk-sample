@@ -457,4 +457,15 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.playWhenPreviewTapped.optionKey)
         }
     }
+    
+    var statusBarVisibility : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.statusBarVisibility.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.statusBarVisibility.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.statusBarVisibility.optionKey)
+        }
+    }
 }

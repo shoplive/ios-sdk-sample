@@ -61,8 +61,8 @@ final class OptionsViewController: SampleBaseViewController {
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
-        
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption])
+        let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption,statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         

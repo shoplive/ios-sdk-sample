@@ -42,7 +42,8 @@ enum SDKOptionType: String, CaseIterable {
     case pipKeepWindowStyle
     case useCloseButton
     case mixAudio
-
+    case statusBarVisibility
+    
     enum SettingType: Int {
         case showAlert
         case switchControl

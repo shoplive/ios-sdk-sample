@@ -53,6 +53,10 @@
 Default false
 
 This option is valid only for the same campaign and runs on the full screen always when switching to another campaign, regardless of the setting.";
+
+"sdkoption.statusbarvisibility.title" = "Player statusBar Visibility Option";
+"sdkoption.statusbarvisibility.description" = "Visible player's status bar (default : on)";
+
 "sdkoption.sound.mute.title" = "Muted play starts";
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 

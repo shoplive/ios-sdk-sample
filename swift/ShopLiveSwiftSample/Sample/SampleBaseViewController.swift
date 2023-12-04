@@ -44,7 +44,7 @@ class SampleBaseViewController: UIViewController {
     }
 
     @objc func handleNaviBack() {
-        shopliveHideKeyboard()
+//        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
 
@@ -52,7 +52,7 @@ class SampleBaseViewController: UIViewController {
         guard gesture.state == .recognized else {
             return
         }
-        shopliveHideKeyboard()
+//        shopliveHideKeyboard_SL()
         self.navigationController?.popViewController(animated: true)
     }
 

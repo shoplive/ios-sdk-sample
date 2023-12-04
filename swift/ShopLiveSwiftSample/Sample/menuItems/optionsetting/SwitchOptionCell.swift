@@ -162,6 +162,8 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.mixAudio
         case .useCloseButton:
             useOption = DemoConfiguration.shared.useCloseButton
+        case .statusBarVisibility:
+            useOption = DemoConfiguration.shared.statusBarVisibility
         default:
             break
         }
@@ -216,6 +218,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.mixAudio = useOption
         case .useCloseButton:
             DemoConfiguration.shared.useCloseButton = useOption
+        case .statusBarVisibility:
+            DemoConfiguration.shared.statusBarVisibility = useOption
         default:
             break
         }

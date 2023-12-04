@@ -256,6 +256,9 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.setKeepAspectOnTabletPortrait(config.useAspectOnTablet)
         
         ShopLive.setKeepWindowStyleOnReturnFromOsPip(config.usePipKeepWindowStyle)
+        
+        ShopLive.setVisibleStatusBar(isVisible: config.statusBarVisibility)
+        
     }
 
     @objc func preview() {
@@ -269,7 +272,8 @@ final class MainViewController: SampleBaseViewController {
         setupShopliveSettings()
 
         ShopLive.configure(with: campaign.accessKey)
-        ShopLive.preview(with: campaign.campaignKey) {
+        
+        ShopLive.preview(data: .init(campaignKey: campaign.campaignKey)) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
                 ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
             } else {
@@ -289,7 +293,7 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
         ShopLive.configure(with: campaign.accessKey)
-        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
+        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: true))
     }
     
     @objc func nativeshortform() {
