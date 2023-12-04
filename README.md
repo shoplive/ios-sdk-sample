@@ -84,10 +84,10 @@ class MainViewController: UIViewController {
         ShopLive.configure(with: "{AccessKey}")
 
         // Play the video using the campaign key.
-        ShopLive.play(with: "{CampaignKey}")
+        ShopLive.play(data: .init(campaignKey : "{CampaignKey}"))
 
         // Starts a muted campaign as an in-app PIP.
-        ShopLive.preview(with: "{CampaignKey}", completion: nil)
+        ShopLive.preview(data: .init(campaignKey : "{CampaignKey}"), completion: nil)
     }
 ...
 }
