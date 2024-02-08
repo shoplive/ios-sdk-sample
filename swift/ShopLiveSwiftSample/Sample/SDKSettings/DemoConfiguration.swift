@@ -322,6 +322,61 @@ final class DemoConfiguration: NSObject {
             return ShopLive.PipPosition(rawValue: rawValue) ?? ShopLive.PipPosition.default
         }
     }
+    
+    var maxPipSize: CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.maxPipSize.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.maxPipSize.optionKey), !pipSize.isEmpty else {
+                return nil
+            }
+
+            if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
+                return nil
+            }
+
+            return pipSize.cgfloatValue
+        }
+    }
+    
+    var fixedHeightPipSize : CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedHeightPipSize.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.fixedHeightPipSize.optionKey), !pipSize.isEmpty else {
+                return nil
+            }
+
+            if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
+                return nil
+            }
+
+            return pipSize.cgfloatValue
+        }
+    }
+    
+    var fixedWidthPipSize : CGFloat? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.fixedWidthPipSize.optionKey)
+            UserDefaults.standard.synchronize()
+        }
+        get {
+            guard let pipSize = UserDefaults.standard.string(forKey:  SDKOptionType.fixedWidthPipSize.optionKey), !pipSize.isEmpty else {
+                return nil
+            }
+
+            if let pipSize = pipSize.cgfloatValue, pipSize <= 0.0 {
+                return nil
+            }
+
+            return pipSize.cgfloatValue
+        }
+    }
+    
 
     var nextActionTypeOnHandleNavigation: ActionType {
         set {
