@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios",
       "state" : {
-        "revision" : "3a1d203be483196795350b8d3e4717426b5131c3",
-        "version" : "1.5.2"
+        "revision" : "1e32d476c134c5b284db7d992f4ee5861195e339",
+        "version" : "1.5.4"
       }
     },
     {
@@ -14,8 +14,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
       "state" : {
-        "revision" : "db51c407d3be4a051484a141bf0bff36c43d3b1e",
-        "version" : "1.8.0"
+        "revision" : "7892a123f7e8d0fe62f9f03728b17bbd4f94df5c",
+        "version" : "1.8.1"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/ios-sdk.git",
       "state" : {
-        "revision" : "4ad5d96a0c58386f5a11040aba0090cce0069954",
-        "version" : "1.5.2"
+        "revision" : "55386309c63bb4fd6f52d01d48e52b3a079a6e31",
+        "version" : "1.5.4"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "0cdd9a144ca56c8c4e13d7ad74777a3ab39b17a7",
-        "version" : "1.5.2"
+        "revision" : "94e128336a38883e34697ee0315e387cc7274e89",
+        "version" : "1.5.4"
       }
     },
     {
@@ -68,8 +68,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit",
       "state" : {
-        "revision" : "f222cbdf325885926566172f6f5f06af95473158",
-        "version" : "5.6.0"
+        "revision" : "e74fe2a978d1216c3602b129447c7301573cc2d8",
+        "version" : "5.7.0"
       }
     },
     {
@@ -86,8 +86,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scalessec/Toast-Swift.git",
       "state" : {
-        "revision" : "0c9493eeacb102cc614da385cfaaf475379f4ab4",
-        "version" : "5.0.1"
+        "revision" : "404ac98e0080a3d9f0630e007838284e04528bcd",
+        "version" : "5.1.0"
       }
     }
   ],
