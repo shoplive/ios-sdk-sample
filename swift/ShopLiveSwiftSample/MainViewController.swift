@@ -201,14 +201,16 @@ final class MainViewController: SampleBaseViewController {
         if let scheme = config.shareScheme, !scheme.isEmpty {
             if config.useCustomShare {
                 // Custom Share Setting
-                ShopLive.setShareScheme(scheme, custom: {
-                    let customShareVC = CustomShareViewController()
-                    customShareVC.modalPresentationStyle = .overFullScreen
-                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
-                })
+                ShopLive.setShareScheme(scheme, shareDelegate: self)
+                
+//                ShopLive.setShareScheme(scheme, custom: {
+//                    let customShareVC = CustomShareViewController()
+//                    customShareVC.modalPresentationStyle = .overFullScreen
+//                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
+//                })
             } else {
                 // Default iOS Share
-                ShopLive.setShareScheme(scheme, custom: nil)
+                ShopLive.setShareScheme(scheme, shareDelegate: nil)
             }
         }
         
@@ -239,10 +241,24 @@ final class MainViewController: SampleBaseViewController {
         let isFloatingSuccess = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
         
         // Picture in Picture Setting
-        let inAppPipConfig = ShopLiveInAppPipConfiguration(pipMaxSize: 200,
-                                                           useCloseButton: config.useCloseButton,
+        
+        
+        let pipSize : ShopLiveInAppPipSize
+        if let max = DemoConfiguration.shared.maxPipSize {
+            pipSize = .init(pipMaxSize: max)
+        }
+        else if let fixedHeight = DemoConfiguration.shared.fixedHeightPipSize {
+            pipSize = .init(pipFixedHeight: fixedHeight)
+        }
+        else {
+            pipSize = .init(pipFixedWidth: DemoConfiguration.shared.fixedWidthPipSize ?? 100)
+        }
+        
+        
+        let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: config.useCloseButton,
                                                            pipPosition: config.pipPosition,
-                                                           enableSwipeOut: config.pipEnableSwipeOut)
+                                                           enableSwipeOut: config.pipEnableSwipeOut,
+                                                           pipSize: pipSize)
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
@@ -487,7 +503,11 @@ extension MainViewController: ShopLiveSDKDelegate {
         }
     }
 }
-
+extension MainViewController : ShopLivePlayerShareDelegate {
+    func handleShare(data: ShopLivePlayerShareData) {
+        //show share sheet
+    }
+}
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         items.count

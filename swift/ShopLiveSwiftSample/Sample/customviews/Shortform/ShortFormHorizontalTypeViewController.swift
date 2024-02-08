@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import ShopLiveShortformSDK
+import ShopliveSDKCommon
 
 
 final class ShortFormHorizontalTypeViewController : UIViewController {
@@ -133,8 +134,15 @@ extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandle
     }
     
     func onError(error: Error) {
-        if let error = error as? ShortformError {
-            if case .other(let error) = error {
+        if let error = error as? ShopLiveCommonError {
+            if let message = error.message {
+                let alert = UIAlertController(title: "알림", message: message, preferredStyle: UIAlertController.Style.alert)
+                let cancelAction = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: nil)
+                alert.addAction(cancelAction)
+                guard let window = UIApplication.shared.windows.first else { return }
+                window.rootViewController?.present(alert, animated: true)
+            }
+            else if let rawError = error.error {
                 let alert = UIAlertController(title: "알림", message: error.localizedDescription, preferredStyle: UIAlertController.Style.alert)
                 let cancelAction = UIAlertAction(title: "cancel", style: UIAlertAction.Style.cancel, handler: nil)
                 alert.addAction(cancelAction)

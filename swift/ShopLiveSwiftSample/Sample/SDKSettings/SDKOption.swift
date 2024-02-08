@@ -22,6 +22,9 @@ enum CouponResponseKey: String {
 
 enum SDKOptionType: String, CaseIterable {
     case pipPosition
+    case maxPipSize
+    case fixedHeightPipSize
+    case fixedWidthPipSize
     case pipPadding
     case pipFloatingOffset
     case pipEnableSwipeOut
@@ -53,7 +56,7 @@ enum SDKOptionType: String, CaseIterable {
 
     var settingType: SettingType {
         switch self {
-        case .shareScheme, .progressColor:
+        case .shareScheme, .progressColor,.maxPipSize, .fixedHeightPipSize, .fixedWidthPipSize:
             return .showAlert
         case .pipPosition, .nextActionOnHandleNavigation:
             return .dropdown
