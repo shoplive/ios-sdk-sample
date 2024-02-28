@@ -466,6 +466,18 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var pipCornerRadius: Double {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.pipCornerRadius.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.pipCornerRadius.optionKey)
+        }
+        get {
+            return UserDefaults.standard.double(forKey: SDKOptionType.pipCornerRadius.optionKey)
+        }
+    }
+    
+    
     var useCloseButton: Bool {
         set {
             UserDefaults.standard.set(newValue, forKey: SDKOptionType.useCloseButton.optionKey)

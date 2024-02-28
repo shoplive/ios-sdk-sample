@@ -258,7 +258,8 @@ final class MainViewController: SampleBaseViewController {
         let inAppPipConfig = ShopLiveInAppPipConfiguration(useCloseButton: config.useCloseButton,
                                                            pipPosition: config.pipPosition,
                                                            enableSwipeOut: config.pipEnableSwipeOut,
-                                                           pipSize: pipSize)
+                                                           pipSize: pipSize,
+                                                           pipRadius: CGFloat(config.pipCornerRadius))
         
         ShopLive.setInAppPipConfiguration(config: inAppPipConfig)
         
