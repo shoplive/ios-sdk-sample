@@ -92,7 +92,7 @@ extension ShortFormWebTypeViewController : WKNavigationDelegate {
         
     }
 }
-extension ShortFormWebTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+extension ShortFormWebTypeViewController : ShopLiveShortformDetailHandlerDelegate {
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
         
     }

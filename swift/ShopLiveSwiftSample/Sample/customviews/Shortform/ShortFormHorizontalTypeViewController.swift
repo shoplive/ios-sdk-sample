@@ -106,7 +106,7 @@ final class ShortFormHorizontalTypeViewController : UIViewController {
     
 }
 //MARK: - native handler delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformNativeHandlerDelegate {
+extension ShortFormHorizontalTypeViewController : ShopLiveShortformDetailHandlerDelegate {
     func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
         // when webview is connected, preview will be shown automatically as configured in admin web
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)

@@ -82,16 +82,12 @@ final class OptionsViewController: SampleBaseViewController {
         let pipMaxSizeOption = SDKOptionItem(name: "sdkOption.pipMaxSize.title".localized(), optionDescription: "sdkOption.pipMaxSize.description".localized(), optionType: .maxPipSize)
         let pipFixedHeightOption = SDKOptionItem(name: "sdkOption.pipFixedHeight.title".localized(), optionDescription: "sdkOption.pipFixedHeight.description".localized(), optionType: .fixedHeightPipSize)
         let pipFixedWidthOption = SDKOptionItem(name: "sdkOption.pipFixedWidth.title".localized(), optionDescription: "sdkOption.pipFixedWidth.description".localized(), optionType: .fixedWidthPipSize)
-        
-        
-        
         let nextActionPipOption = SDKOptionItem(name: "sdkoption.nextActionTypeOnNavigation.title".localized(), optionDescription: "sdkoption.nextActionTypeOnNavigation.description".localized(), optionType: .nextActionOnHandleNavigation)
         let pipKeepWindowStyle = SDKOptionItem(name: "sdkoption.pipKeepWindowStyle.title".localized(), optionDescription: "sdkoption.pipKeepWindowStyle.description".localized(), optionType: .pipKeepWindowStyle)
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipAreaSetting.title".localized(), optionDescription: "sdkoption.pipAreaSetting.description".localized(), optionType: .pipFloatingOffset)
-        
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
-        
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption,pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption,pipEnableSwipeOutOption])
+        let pipCornerRadius = SDKOptionItem(name: "sdkOption.pipCornerRadius.title".localized(), optionDescription: "sdkOption.pipCornerRadius.description".localized(), optionType: .pipCornerRadius)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption,pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption,pipEnableSwipeOutOption,pipCornerRadius])
         
         items.append(pipOptions)
 
@@ -227,6 +223,14 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 alert.modalPresentationStyle = .overCurrentContext
                 self.navigationController?.present(alert, animated: false, completion: nil)
                 break
+            case .pipCornerRadius:
+                let size = DemoConfiguration.shared.pipCornerRadius == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius)
+                let alert = TextItemInputAlertController(header: "sdkOption.pipCornerRadius.title".localized(), data: size, placeHolder: "ex) 10") { size in
+                    DemoConfiguration.shared.pipCornerRadius = Double(size) ?? 10
+                    self.tableView.reloadData()
+                }
+                alert.modalPresentationStyle = .overCurrentContext
+                self.navigationController?.present(alert, animated: false, completion: nil)
             default:
                 break
             }
