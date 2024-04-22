@@ -503,6 +503,17 @@ extension MainViewController: ShopLiveSDKDelegate {
             break
         }
     }
+    
+    //  this delegate function is available after 1.5.8 version,
+    // to get info abound sellers under 1.5.7 use handleReceivedCommand(_ command: String, with payload: Any?) instead
+    func handleReceivedCommand(_ command: String, data: [String : Any]?) {
+        switch command {
+        case "ON_RECEIVED_SELLER_CONFIG","ON_CLICK_VIEW_SELLER_STORE","ON_CLICK_SELLER_SUBSCRIPTION":
+            SellerManager.shared.parseCommand(command: command, payload: data)
+        default:
+            break
+        }
+    }
 }
 extension MainViewController : ShopLivePlayerShareDelegate {
     func handleShare(data: ShopLivePlayerShareData) {

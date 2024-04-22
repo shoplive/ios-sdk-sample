@@ -50,7 +50,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "06f8d96e3ba23422b51f04a1ab04c9f5e1c6bd70",
+        "revision" : "82c4a0d4c2397ee97dc6d8d006bdfd3c2c9ed511",
         "version" : "1.5.6"
       }
     },

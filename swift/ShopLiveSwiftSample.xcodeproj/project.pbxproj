@@ -21,6 +21,10 @@
 		2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 2F0B85FB2A0E0E6D00165242 /* Parchment */; };
 		2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */; };
 		2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */; };
+		2FC4CAA52BD6601B00B92E41 /* SellerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA12BD6601B00B92E41 /* SellerData.swift */; };
+		2FC4CAA62BD6601B00B92E41 /* SellerStoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA22BD6601B00B92E41 /* SellerStoreData.swift */; };
+		2FC4CAA72BD6601B00B92E41 /* SellerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA32BD6601B00B92E41 /* SellerManager.swift */; };
+		2FC4CAA82BD6601B00B92E41 /* SellerSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA42BD6601B00B92E41 /* SellerSubscriptionData.swift */; };
 		2FE8BF542AEF78BD003B8B65 /* ShopliveSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE8BF532AEF78BD003B8B65 /* ShopliveSDKCommon */; };
 		5F27D122BCB6EFD881381892 /* Pods_ShopLiveSwiftSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73A76B0F5FCA4BEF753E1A2 /* Pods_ShopLiveSwiftSample.framework */; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
@@ -109,6 +113,10 @@
 		2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormHorizontalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormVerticalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormWebTypeViewController.swift; sourceTree = "<group>"; };
+		2FC4CAA12BD6601B00B92E41 /* SellerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerData.swift; sourceTree = "<group>"; };
+		2FC4CAA22BD6601B00B92E41 /* SellerStoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerStoreData.swift; sourceTree = "<group>"; };
+		2FC4CAA32BD6601B00B92E41 /* SellerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerManager.swift; sourceTree = "<group>"; };
+		2FC4CAA42BD6601B00B92E41 /* SellerSubscriptionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerSubscriptionData.swift; sourceTree = "<group>"; };
 		B73A76B0F5FCA4BEF753E1A2 /* Pods_ShopLiveSwiftSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopLiveSwiftSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF4408F427BE15280049C7BC /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shizuru-Regular.ttf"; sourceTree = "<group>"; };
@@ -236,6 +244,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2FC4CAA02BD6600500B92E41 /* SellerSample */ = {
+			isa = PBXGroup;
+			children = (
+				2FC4CAA12BD6601B00B92E41 /* SellerData.swift */,
+				2FC4CAA32BD6601B00B92E41 /* SellerManager.swift */,
+				2FC4CAA22BD6601B00B92E41 /* SellerStoreData.swift */,
+				2FC4CAA42BD6601B00B92E41 /* SellerSubscriptionData.swift */,
+			);
+			path = SellerSample;
+			sourceTree = "<group>";
+		};
 		2FF2FA312A735A37009C39E0 /* Shortform */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,6 +293,7 @@
 		BFC90739277448BB00D26F3F /* Sample */ = {
 			isa = PBXGroup;
 			children = (
+				2FC4CAA02BD6600500B92E41 /* SellerSample */,
 				BFC907B02774689C00D26F3F /* MenuCell.swift */,
 				BFC907B22774766000D26F3F /* SampleBaseViewController.swift */,
 				BFC90757277448BB00D26F3F /* menuItems */,
@@ -566,14 +586,18 @@
 				1BAEDDDA26042D0D005C5DD4 /* AppDelegate.swift in Sources */,
 				BFE401B127FD35EF001031E3 /* LoginTextField.swift in Sources */,
 				BFC907B52774916800D26F3F /* CampainKeySet.swift in Sources */,
+				2FC4CAA82BD6601B00B92E41 /* SellerSubscriptionData.swift in Sources */,
 				2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */,
 				BFF3587727EB1A8200B920E9 /* PipAreaSettingViewController.swift in Sources */,
+				2FC4CAA72BD6601B00B92E41 /* SellerManager.swift in Sources */,
 				BFC9078E277448BB00D26F3F /* CampaignSettingController.swift in Sources */,
 				BFE401AF27FD35BD001031E3 /* BaseTextField.swift in Sources */,
 				BFC90771277448BB00D26F3F /* SDKOption.swift in Sources */,
 				BFC9078D277448BB00D26F3F /* UserInfoViewController.swift in Sources */,
 				BFAA3EFF2738C783005AA18E /* Extensions.swift in Sources */,
 				1BAEDDDC26042D0D005C5DD4 /* SceneDelegate.swift in Sources */,
+				2FC4CAA52BD6601B00B92E41 /* SellerData.swift in Sources */,
+				2FC4CAA62BD6601B00B92E41 /* SellerStoreData.swift in Sources */,
 				BFC907B32774766000D26F3F /* SampleBaseViewController.swift in Sources */,
 				BFC9076F277448BB00D26F3F /* TextItemInputAlertController.swift in Sources */,
 				BFC9078C277448BB00D26F3F /* OptionsViewController.swift in Sources */,
