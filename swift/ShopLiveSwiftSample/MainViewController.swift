@@ -276,6 +276,11 @@ final class MainViewController: SampleBaseViewController {
         
         ShopLive.setVisibleStatusBar(isVisible: config.statusBarVisibility)
         
+        
+        ShopLive.setEnabledPictureInPictureMode(isEnabled: config.enablePip)
+        
+        ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
+        
     }
 
     @objc func preview() {
@@ -287,16 +292,26 @@ final class MainViewController: SampleBaseViewController {
         }
 
         setupShopliveSettings()
-
-        ShopLive.configure(with: campaign.accessKey)
         
-        ShopLive.preview(data: .init(campaignKey: campaign.campaignKey)) {
+        ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
+        
+        let playerData = ShopLivePlayerData(campaignKey: campaign.campaignKey,
+                                            keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                            referrer: "customReferrer",
+                                            isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
+            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
+        } brandHandler: { brand in
+            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
+        }
+        
+        ShopLive.preview(data: playerData) {
             if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
-            } else {
-                UIWindow.showToast(message: "tap preview".localized(), curView: self.view)
+                ShopLive.play(with: campaign.campaignKey,
+                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                              referrer: "customReferrer")
             }
         }
+        
     }
 
     @objc func play() {
@@ -309,8 +324,8 @@ final class MainViewController: SampleBaseViewController {
         setupShopliveSettings()
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
-        ShopLive.configure(with: campaign.accessKey)
-        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: true))
+        ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
+        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted))
     }
     
     @objc func nativeshortform() {

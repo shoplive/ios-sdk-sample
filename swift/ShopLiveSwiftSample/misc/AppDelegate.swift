@@ -20,7 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         UserDefaults.standard.register(defaults: [SDKOptionType.pipEnableSwipeOut.optionKey: false,
                                                   SDKOptionType.mixAudio.optionKey : true,
                                                   SDKOptionType.useCloseButton.optionKey : true,
-                                                  SDKOptionType.statusBarVisibility.optionKey : true])
+                                                  SDKOptionType.statusBarVisibility.optionKey : true,
+                                                  SDKOptionType.enablePreviewSound.optionKey : false,
+                                                  SDKOptionType.enablePip.optionKey : true,
+                                                  SDKOptionType.enableOSPip.optionKey : true])
         
         return true
     }
