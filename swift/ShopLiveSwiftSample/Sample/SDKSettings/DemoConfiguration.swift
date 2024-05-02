@@ -65,13 +65,13 @@ final class DemoConfiguration: NSObject {
     var user: ShopLiveCommonUser {
         set {
             userId = newValue.userId
-            userName = newValue.name
+            userName = newValue.userName
             userAge = newValue.age
             userGender = newValue.gender
             userScore = newValue.userScore
         }
         get {
-            let user = ShopLiveCommonUser(userId: userId ?? "null" ,name: userName,age: userAge,gender: userGender, userScore: userScore )
+            let user = ShopLiveCommonUser(userId: userId ?? "null" ,userName: userName,age: userAge,gender: userGender, userScore: userScore )
             return user
         }
     }

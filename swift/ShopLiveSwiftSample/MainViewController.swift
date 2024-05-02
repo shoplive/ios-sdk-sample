@@ -577,7 +577,7 @@ extension MainViewController: LoginDelegate {
             return
         }
         
-        let loginUser = ShopLiveCommonUser(userId: "shoplive", name: "loginUser", age: 20, gender: .male)
+        let loginUser = ShopLiveCommonUser(userId: "shoplive", age: 20, gender: .male)
         ShopLive.user = loginUser
         
         ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
