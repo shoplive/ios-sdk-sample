@@ -66,6 +66,8 @@ This option is valid only for the same campaign and runs on the full screen alwa
 "sdkoption.preview.closebutton.title" = "Use close button";
 "sdkoption.preview.closebutton.description" = "Use close button on InAppPip and Preview(default : false)";
 //Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)
+"sdkoption.preview.enableSound.title" = "Preview muted";
+"sdkoption.preview.enableSound.description" = "Set whether to mute in Preview. (Default is true)";
 
 
 "sdkoption.pipPosition.title" = "Position";
@@ -105,6 +107,12 @@ True: previous mode, Default: full screen mode";
 "sdkOption.pipFixedWidth.description" = "Show PIP video with fixed width regardless of device screen ratio";
 "sdkOption.pipCornerRadius.title" = "InAppPip cornerRadius";
 "sdkOption.pipCornerRadius.description" = "Set cornerRadius of InAppPip(deafult 10)";
+
+"sdkoption.enablepip.title" = "Enable PIP";
+"sdkoption.enablepip.description" = "Enables InAppPip,Preview,OSPIP (default : true)";
+
+"sdkoption.enableOspip.title" = "Enable OSPIP";
+"sdkoption.enableOspip.description" = "Enables OSPIP (Default : true)";
 
 
 

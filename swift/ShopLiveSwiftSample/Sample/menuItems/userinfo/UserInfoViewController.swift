@@ -379,7 +379,7 @@ final class UserInfoViewController: SampleBaseViewController {
     @objc private func saveAct() {
 
         user.userId = userIdInputField.text ?? ""
-        user.name = userNameInputField.text
+        user.userName = userNameInputField.text
         user.gender = selectedGender()
         
         if let ageText = ageInputField.text, !ageText.isEmpty, let age = Int(ageText), age >= 0 {
@@ -406,7 +406,7 @@ final class UserInfoViewController: SampleBaseViewController {
         updateUserType(identifier: DemoConfiguration.shared.authType)
         user = DemoConfiguration.shared.user
         userIdInputField.text = user.userId ?? ""
-        userNameInputField.text = user.name ?? ""
+        userNameInputField.text = user.userName ?? ""
         let age = user.age ?? -1
         ageInputField.text = age >= 0 ? "\(age)" : ""
         updateGender(identifier: user.gender?.rawValue ?? ShopliveCommonUserGender.netural.rawValue)

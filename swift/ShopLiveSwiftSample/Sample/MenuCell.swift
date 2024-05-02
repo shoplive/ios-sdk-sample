@@ -101,7 +101,7 @@ class MenuCell: UITableViewCell {
                 userDescription += "sample.authType.user".localized() + "\n\n"
                 let user = DemoConfiguration.shared.user
                 let id = user.userId ?? ""
-                let name = user.name ?? ""
+                let name = user.userName ?? ""
                 let gender = user.gender?.rawValue ?? ""
                 let age = user.age
                 let score = user.userScore
@@ -111,7 +111,7 @@ class MenuCell: UITableViewCell {
                     break
                 }
                 var description: String = "• " + "User ID: \(user.userId ?? "User ID: ")\n"
-                description += "• " + "User Name: \(user.name ?? "User Name: ")\n"
+                description += "• " + "User Name: \(user.userName ?? "User Name: ")\n"
                 description += "• " + "Age: \(user.ageText)\n"
                 description += "• " + "User Score: \(user.scoreText)\n"
 

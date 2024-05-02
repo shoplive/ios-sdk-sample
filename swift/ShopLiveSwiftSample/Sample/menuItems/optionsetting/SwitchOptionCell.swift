@@ -164,6 +164,12 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.useCloseButton
         case .statusBarVisibility:
             useOption = DemoConfiguration.shared.statusBarVisibility
+        case .enablePreviewSound:
+            useOption = !DemoConfiguration.shared.enablePreviewSound
+        case .enablePip:
+            useOption = DemoConfiguration.shared.enablePip
+        case .enableOSPip:
+            useOption = DemoConfiguration.shared.enableOsPip
         default:
             break
         }
@@ -220,6 +226,13 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.useCloseButton = useOption
         case .statusBarVisibility:
             DemoConfiguration.shared.statusBarVisibility = useOption
+        case .enablePreviewSound:
+            DemoConfiguration.shared.enablePreviewSound = !useOption
+            break
+        case .enablePip:
+            DemoConfiguration.shared.enablePip = useOption
+        case .enableOSPip:
+            DemoConfiguration.shared.enableOsPip = useOption
         default:
             break
         }

@@ -66,8 +66,7 @@ final class ShortFormHorizontalTypeViewController : UIViewController {
         setCollectionViewLayout()
         
         //see below extension to see how it works
-        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
+        ShopLiveShortform.Delegate.setDelegate(self)
         
         //MARK: - hashtag, brand settings
         /**
@@ -106,24 +105,22 @@ final class ShortFormHorizontalTypeViewController : UIViewController {
     
 }
 //MARK: - native handler delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformDetailHandlerDelegate {
-    func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
-        // when webview is connected, preview will be shown automatically as configured in admin web
+extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
+        // when webview is connected, preview will shown automatically as configured in admin web
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
-        // use this method to navigate to desired product page or show preview
-        // ex) displaying preview natively
-        //ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
+        // use this method to navigate to desired product view or show preview
+        // ex) display preview natively
+        // ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
         // ShopLiveShortformRelateData contains productId, customerProductId, tags, brands and etc
         // allocating these values will get related shorts collections
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
         // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
     }
-}
-//MARK: - receive Handler delegate
-extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    
     func handleShare(shareUrl: String) {
         
     }
@@ -154,6 +151,10 @@ extension ShortFormHorizontalTypeViewController : ShopLiveShortformReceiveHandle
 }
 //MARK: - list view delegate
 extension ShortFormHorizontalTypeViewController : ShopLiveShortformListViewDelegate {
+    func onShortsSettingsInitialized() {
+        
+    }
+    
     func onListViewError(error: Error) {
         // by this delegate function you can get api errors and avplayer occured from listviews
     }

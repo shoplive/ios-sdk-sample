@@ -54,8 +54,7 @@ final class ShortFormWebTypeViewController : UIViewController {
         }
 
         ShopLiveShortform.BridgeInterface.connect(webview)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
-        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
+        ShopLiveShortform.Delegate.setDelegate(self)
 //        setObserver()
     }
     
@@ -92,25 +91,26 @@ extension ShortFormWebTypeViewController : WKNavigationDelegate {
         
     }
 }
-extension ShortFormWebTypeViewController : ShopLiveShortformDetailHandlerDelegate {
+extension ShortFormWebTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func onError(error: Error) {
+        
+    }
+    
+    func onEvent(command: String, payload: String?) {
+        print("web command \(command) with payload \(payload)")
+        
+    }
+    
+    func handleShare(shareUrl: String) {
+        
+    }
+    
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
         
     }
     
     func handleProductItem(shortsId: String, shortsSrn: String, product: Product) {
         print(shortsId)
-    }
-}
-extension ShortFormWebTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
-    func onError(error: Error) {
-        
-    }
-    func onEvent(command: String, payload: String?) {
-        print("web command \(command) with payload \(payload)")
-        
-    }
-    func handleShare(shareUrl: String) {
-        
     }
 }
 

@@ -95,8 +95,7 @@ final class ShortFormVerticalTypeViewController : UIViewController {
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         setCollectionViewLayout()
         //see below extension to see how it works
-        ShopLiveShortform.ShortsReceiveInterface.setNativeHandler(self)
-        ShopLiveShortform.ShortsReceiveInterface.setHandler(self)
+        ShopLiveShortform.Delegate.setDelegate(self)
         
         //MARK: - hashtag, brand settings
         /**
@@ -152,9 +151,9 @@ final class ShortFormVerticalTypeViewController : UIViewController {
     
     
 }
-//MARK: - native handler delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformDetailHandlerDelegate {
-    func handleProductItem(shortsId: String, shortsSrn: String, product: ShopLiveShortformSDK.Product) {
+//MARK: - receive Handler delegate
+extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    func handleProductItem(shortsId : String, shortsSrn : String, product : ProductData) {
         // when webview is connected, preview will shown automatically as configured in admin web
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
@@ -164,19 +163,11 @@ extension ShortFormVerticalTypeViewController : ShopLiveShortformDetailHandlerDe
         // allocating these values will get related shorts collections
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
         // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
     }
-}
-//MARK: - list view delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformListViewDelegate {
-    func onListViewError(error: Error) {
-        // by this delegate function you can get api and avplayer errors occured from listviews
-    }
-}
-//MARK: - receive Handler delegate
-extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerDelegate {
+    
     func handleShare(shareUrl: String) {
         
     }
@@ -203,6 +194,16 @@ extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerD
                 window.rootViewController?.present(alert, animated: true)
             }
         }
+    }
+}
+//MARK: - list view delegate
+extension ShortFormVerticalTypeViewController : ShopLiveShortformListViewDelegate {
+    func onShortsSettingsInitialized() {
+        
+    }
+    
+    func onListViewError(error: Error) {
+        // by this delegate function you can get api and avplayer errors occured from listviews
     }
 }
 

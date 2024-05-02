@@ -45,11 +45,11 @@ use_frameworks!
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
 #livePlayerSDK
-pod 'ShopLive', '1.5.5'
-pod 'ShopliveSDKCommon' , '1.5.5'
+pod 'ShopLive', '1.5.8'
+pod 'ShopliveSDKCommon' , '1.5.8'
 #shortform SDK
-pod 'ShopliveShortformSDK' , '1.5.5'
-pod 'ShopliveSDKCommon' , '1.5.5'
+pod 'ShopliveShortformSDK' , '1.5.8'
+pod 'ShopliveSDKCommon' , '1.5.8'
 end
 ```
 - Swift Package Manager
@@ -59,11 +59,11 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 ```Ruby
 dependencies: [
 //player
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.5"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.5"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.8"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.8"))
 //shortform
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.5"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.5"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.8"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.8"))
 ]
 ```
 
@@ -81,7 +81,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Initialize the Shoplive Android SDK using the prepared Access Key.
-        ShopLive.configure(with: "{AccessKey}")
+        ShopLiveCommon.setAccessKey(accessKey : "{AccessKey}")
 
         // Play the video using the campaign key.
         ShopLive.play(data: .init(campaignKey : "{CampaignKey}"))
@@ -218,7 +218,7 @@ import ShopliveShortformSDK
 class ViewController : UIViewController { 
     override func viewDidLoad(){
         super.viewDidLoad()
-        ShopLiveShortform.showPreview(requestData : ShopLiveShortformRelatedData?)
+        ShopLiveShortform.showPreview(requestData : ShopLiveShortformPreviewData?)
 }
 
 ```

@@ -73,7 +73,8 @@ final class OptionsViewController: SampleBaseViewController {
         
         let previewOption = SDKOptionItem(name: "sdkoption.preview.title".localized(), optionDescription: "sdkoption.preview.description".localized(), optionType: .playWhenPreviewTapped)
         let closeButtonOption = SDKOptionItem(name: "sdkoption.preview.closebutton.title".localized(), optionDescription: "sdkoption.preview.closebutton.description".localized(), optionType: .useCloseButton)
-        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption,closeButtonOption])
+        let previewSoundOption = SDKOptionItem(name: "sdkoption.preview.enableSound.title".localized(), optionDescription: "sdkoption.preview.enableSound.description".localized(), optionType: .enablePreviewSound)
+        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption,closeButtonOption,previewSoundOption])
         
         items.append(previewOptions)
         
@@ -87,7 +88,9 @@ final class OptionsViewController: SampleBaseViewController {
         let pipAreaOption = SDKOptionItem(name: "sdkoption.pipAreaSetting.title".localized(), optionDescription: "sdkoption.pipAreaSetting.description".localized(), optionType: .pipFloatingOffset)
         let pipEnableSwipeOutOption = SDKOptionItem(name: "sdkoption.pipEnableSwipeOutOption.title".localized(), optionDescription: "sdkoption.pipEnableSwipeOutOption.description".localized(), optionType: .pipEnableSwipeOut)
         let pipCornerRadius = SDKOptionItem(name: "sdkOption.pipCornerRadius.title".localized(), optionDescription: "sdkOption.pipCornerRadius.description".localized(), optionType: .pipCornerRadius)
-        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption,pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption,pipEnableSwipeOutOption,pipCornerRadius])
+        let enablePip = SDKOptionItem(name: "sdkoption.enablepip.title".localized(), optionDescription: "sdkoption.enablepip.description".localized(), optionType: .enablePip)
+        let enableOSPip = SDKOptionItem(name: "sdkoption.enableOspip.title".localized(), optionDescription: "sdkoption.enableOspip.description".localized(), optionType: .enableOSPip)
+        let pipOptions = SDKOption(optionTitle: "sdkoption.section.pip.title".localized(), optionItems: [pipPositionOption,pipMaxSizeOption,pipFixedHeightOption,pipFixedWidthOption, nextActionPipOption, pipKeepWindowStyle, pipAreaOption,pipEnableSwipeOutOption,pipCornerRadius,enablePip,enableOSPip])
         
         items.append(pipOptions)
 

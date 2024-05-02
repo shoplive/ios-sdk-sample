@@ -65,13 +65,13 @@ final class DemoConfiguration: NSObject {
     var user: ShopLiveCommonUser {
         set {
             userId = newValue.userId
-            userName = newValue.name
+            userName = newValue.userName
             userAge = newValue.age
             userGender = newValue.gender
             userScore = newValue.userScore
         }
         get {
-            let user = ShopLiveCommonUser(userId: userId ?? "null" ,name: userName,age: userAge,gender: userGender, userScore: userScore )
+            let user = ShopLiveCommonUser(userId: userId ?? "null" ,userName: userName,age: userAge,gender: userGender, userScore: userScore )
             return user
         }
     }
@@ -535,4 +535,37 @@ final class DemoConfiguration: NSObject {
             return UserDefaults.standard.bool(forKey:  SDKOptionType.statusBarVisibility.optionKey)
         }
     }
+    
+    var enablePip : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePip.optionKey)
+            notifyObservers(key: SDKOptionType.enablePip.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePip.optionKey)
+        }
+    }
+    
+    var enableOsPip : Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enableOSPip.optionKey)
+            notifyObservers(key: SDKOptionType.enableOSPip.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enableOSPip.optionKey)
+        }
+    }
+    
+    var enablePreviewSound: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: SDKOptionType.enablePreviewSound.optionKey)
+            UserDefaults.standard.synchronize()
+            notifyObservers(key: SDKOptionType.enablePreviewSound.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey:  SDKOptionType.enablePreviewSound.optionKey)
+        }
+    }
+
+    
 }
