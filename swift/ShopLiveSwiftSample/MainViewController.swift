@@ -366,10 +366,33 @@ extension MainViewController: ShopLiveSDKDelegate {
 //        print("window gesture state \(state) position \(position)")
     }
     
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, parameter: [String : String]) {
-        let eventLog = ShopLiveLog(name: name, feature: feature, campaign: campaign, parameter: parameter)
-        print("eventLog \(eventLog.name)")
+    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+        switch name {
+        case "video_muted":
+            break
+        case "video_unmuted":
+            break
+        case "product_list":
+            guard feature == .CLICK else { return }
+            handleProductList(payload: payload)
+        default:
+            break
+        }
     }
+    
+    private func handleProductList(payload: [String : Any]) {
+        ShopLiveEvent.sendConversionEvent(data: .init(type: "purchase",
+                                                      products: [.init(productId: payload["goodsId"] as? String,
+                                                                       sku: payload["sku"] as? String,
+                                                                       url: payload["url"] as? String,
+                                                                       purchaseQuantity: 1,
+                                                                       purchaseUnitPrice: payload["discountedPrice"] as? Double )],
+                                                      orderId: "customOrderId",
+                                                     referrer: "customReferrer",
+                                                      custom: ["key" : "value" ]))
+    }
+    
+   
     
     func handleNavigation(with url: URL) {
         print("handleNavigation \(url)")
