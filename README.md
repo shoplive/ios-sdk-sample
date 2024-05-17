@@ -45,11 +45,11 @@ use_frameworks!
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
 #livePlayerSDK
-pod 'ShopLive', '1.5.8'
-pod 'ShopliveSDKCommon' , '1.5.8'
+pod 'ShopLive', '1.5.9'
+pod 'ShopliveSDKCommon' , '1.5.9'
 #shortform SDK
-pod 'ShopliveShortformSDK' , '1.5.8'
-pod 'ShopliveSDKCommon' , '1.5.8'
+pod 'ShopliveShortformSDK' , '1.5.9'
+pod 'ShopliveSDKCommon' , '1.5.9'
 end
 ```
 - Swift Package Manager
@@ -59,11 +59,11 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 ```Ruby
 dependencies: [
 //player
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.8"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.8"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.9"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.9"))
 //shortform
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.8"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.8"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.9"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.9"))
 ]
 ```
 
@@ -80,8 +80,11 @@ class MainViewController: UIViewController {
 ...
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Initialize the Shoplive Android SDK using the prepared Access Key.
+        // Initialize the Shoplive iOS SDK using the prepared Access Key.
         ShopLiveCommon.setAccessKey(accessKey : "{AccessKey}")
+        
+        // SetUser
+        ShopLiveCommon.setUser(user: ShopLiveCommonUser)
 
         // Play the video using the campaign key.
         ShopLive.play(data: .init(campaignKey : "{CampaignKey}"))
