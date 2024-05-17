@@ -291,11 +291,11 @@ final class MainViewController: SampleBaseViewController {
             return
         }
 
-        setupShopliveSettings()
-        
         ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
         
-        let playerData = ShopLivePlayerData(campaignKey: campaign.campaignKey,
+        setupShopliveSettings()
+        
+        let playerData = ShopLivePreviewData(campaignKey: campaign.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                             referrer: "customReferrer",
                                             isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
@@ -321,10 +321,11 @@ final class MainViewController: SampleBaseViewController {
             return
         }
 
+        ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
         setupShopliveSettings()
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
-        ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
+        
         ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted))
     }
     
