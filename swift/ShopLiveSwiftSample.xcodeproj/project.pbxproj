@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -978,7 +978,7 @@
 			repositoryURL = "https://github.com/shoplive/shortform-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.8;
+				minimumVersion = 1.5.9;
 			};
 		};
 		2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */ = {
@@ -986,7 +986,7 @@
 			repositoryURL = "https://github.com/shoplive/common-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.8;
+				minimumVersion = 1.5.9;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -1002,7 +1002,7 @@
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.8;
+				minimumVersion = 1.5.9;
 			};
 		};
 		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
