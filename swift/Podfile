@@ -6,8 +6,8 @@ use_frameworks!
 
 #if latest version is not downloaded, try 'pod repo update' command to reload your cocoapod repo
 target 'ShopLiveSwiftSample' do
-  #pod 'ShopLive' #latest version 1.5.8
-  #pod 'ShopliveShortformSDK' #latest versi0n 1.5.8
-  #pod 'ShopliveSDKCommon' #latest version 1.5.8
+  #pod 'ShopLive' #latest version 1.5.9
+  #pod 'ShopliveShortformSDK' #latest version 1.5.9
+  #pod 'ShopliveSDKCommon' #latest version 1.5.9
 end
 
