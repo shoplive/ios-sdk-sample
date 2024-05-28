@@ -186,7 +186,7 @@ final class MainViewController: SampleBaseViewController {
         // Auto resume video on call end setting
         ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
         
-        //Keep aspect ratio of video(CENTER_CROP,FIT, default is CENTER_CROP)
+        //Keep aspect ratio of video or not(CENTER_CROP,FIT, default is CENTER_CROP)
         ShopLive.setResizeMode(mode: config.resizeMode)
 
         // Custom Image Animation Indicator setting

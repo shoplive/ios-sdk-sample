@@ -91,6 +91,17 @@ final class ShortFormCardTypeViewController : UIViewController {
         snapBtn.addTarget(self, action: #selector(snapbtnTapped(sender: )), for: .touchUpInside)
         type1Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
         type2Btn.addTarget(self, action: #selector(typeBtnTapped(sender: )), for: .touchUpInside)
+        
+        //Keep aspect ratio of video or not(CENTER_CROP,FIT, default is CENTER_CROP)
+        ShopLiveShortform.setResizeMode(mode: .CENTER_CROP)
+
+        
+        let detailViewVisibleData = ShopLiveShortformVisibleDetailData(isBookMarkVisible: true,
+                                                                       isShareButtonVisible: true,
+                                                                       isCommentButtonVisible: true,
+                                                                       isLikeButtonVisible: true)
+        // set visibility of btns in detailView
+        ShopLiveShortform.setVisibileDetailViews(options: detailViewVisibleData)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -152,8 +163,6 @@ final class ShortFormCardTypeViewController : UIViewController {
             type1Btn.isSelected = false
             type2Btn.isSelected = true
             builder.setCardViewType(type: .type2)
-//            ShopLiveShortform.play(requestData: ShopLiveShortformCollectionData())
-//            ShopLiveShortform.play(requestData: ShopLiveShortformRelatedData(reference: ""))
         }
         
     }
@@ -171,9 +180,18 @@ extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDeleg
         // when webview is not connected with ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
         // ex) display preview natively
-        // ShopLiveShortform.showPreview(requestData: ShopLiveShortformRelatedData)
-        // ShopLiveShortformRelateData contains productId, customerProductId, tags, brands and etc
+        
+        let previewData = ShopLiveShortformPreviewData(shortsId: "{SHORTS_ID}",
+                                                       isMuted: true, // mute option for preview only
+                                                       maxCount: 10, // number of videoCounts in preview
+                                                       useCustomAction: true) {
+            //overred preview tap event by setting this completion and useCustomAction to true
+        }
+        // ShopLiveShortformPreviewData contains productId, customerProductId, tags, brands and etc
         // allocating these values will get related shorts collections
+        ShopLiveShortform.showPreview(requestData: previewData)
+        
+        
     }
     
     func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
