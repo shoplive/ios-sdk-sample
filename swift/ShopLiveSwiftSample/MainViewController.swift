@@ -225,13 +225,13 @@ final class MainViewController: SampleBaseViewController {
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
         
-        // Pip padding setting
+        // Pip padding setting(return false if unable to set padding)
         let padding = config.pipPadding
-        let isPaddingSuccess  = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        let _  = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
         
-        // Pip floating offset setting
+        // Pip floating offset setting(return false if unable to set offset)
         let floatingOffset = config.pipFloatingOffset
-        let isFloatingSuccess = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        let _ = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
         
         // Picture in Picture Setting
         let pipSize : ShopLiveInAppPipSize
