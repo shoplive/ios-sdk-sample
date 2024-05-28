@@ -107,6 +107,8 @@ final class MainViewController: SampleBaseViewController {
     
 
     var safari: SFSafariViewController? = nil
+    
+    private let previewCoverMaker = PreviewCoverViewMaker()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -166,13 +168,11 @@ final class MainViewController: SampleBaseViewController {
         switch config.authType {
         case "USER":
             if !config.user.userId.isEmpty {
-                //MARK: - ShopLive.user will be deprecated at v2, Use ShopLiveCommon.setUser(user : ShopLiveCommonUser) instead
-                ShopLive.user = config.user
+                ShopLiveCommon.setUser(user: config.user)
             }
             break
         case "TOKEN":
-            //MARK: - ShopLive.user authToken be deprecated at v2, Use ShopLiveCommon.setUserJwt() instead
-            ShopLive.authToken = config.jwtToken
+            ShopLiveCommon.setAuthToken(authToken: config.jwtToken)
             break
         case "GUEST":
             break
@@ -185,6 +185,9 @@ final class MainViewController: SampleBaseViewController {
 
         // Auto resume video on call end setting
         ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
+        
+        //Keep aspect ratio of video or not(CENTER_CROP,FIT, default is CENTER_CROP)
+        ShopLive.setResizeMode(mode: config.resizeMode)
 
         // Custom Image Animation Indicator setting
         if config.useCustomProgress {
@@ -202,12 +205,6 @@ final class MainViewController: SampleBaseViewController {
             if config.useCustomShare {
                 // Custom Share Setting
                 ShopLive.setShareScheme(scheme, shareDelegate: self)
-                
-//                ShopLive.setShareScheme(scheme, custom: {
-//                    let customShareVC = CustomShareViewController()
-//                    customShareVC.modalPresentationStyle = .overFullScreen
-//                    ShopLive.viewController?.present(customShareVC, animated: false, completion: nil)
-//                })
             } else {
                 // Default iOS Share
                 ShopLive.setShareScheme(scheme, shareDelegate: nil)
@@ -224,25 +221,19 @@ final class MainViewController: SampleBaseViewController {
         if let customFont = config.customFont {
             ShopLive.setChatViewFont(inputBoxFont: config.useChatInputCustomFont ? customFont : inputDefaultFont, sendButtonFont: config.useChatSendButtonCustomFont ? customFont : sendButtonDefaultFont)
         }
-
-        
-        //MARK: - will be deprecated in v2 please use ShopLiveInAppPipConfiguration instead
-//        ShopLive.pipPosition = config.pipPosition
         
         // handle Navigation Action Type
         ShopLive.setNextActionOnHandleNavigation(actionType: DemoConfiguration.shared.nextActionTypeOnHandleNavigation)
         
-        // Pip padding setting
+        // Pip padding setting(return false if unable to set padding)
         let padding = config.pipPadding
-        let isPaddingSuccess  = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
+        let _  = ShopLive.setPictureInPicturePadding(padding: .init(top: padding.top, left: padding.left, bottom: padding.bottom, right: padding.right))
         
-        // Pip floating offset setting
+        // Pip floating offset setting(return false if unable to set offset)
         let floatingOffset = config.pipFloatingOffset
-        let isFloatingSuccess = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
+        let _ = ShopLive.setPictureInPictureFloatingOffset(offset: .init(top: floatingOffset.top, left: floatingOffset.left, bottom: floatingOffset.bottom, right: floatingOffset.right))
         
         // Picture in Picture Setting
-        
-        
         let pipSize : ShopLiveInAppPipSize
         if let max = DemoConfiguration.shared.maxPipSize {
             pipSize = .init(pipMaxSize: max)
@@ -281,6 +272,10 @@ final class MainViewController: SampleBaseViewController {
         
         ShopLive.setEnabledOSPictureInPictureMode(isEnabled: config.enableOsPip)
         
+        
+        //Customize preview CoverView(make sure to set useCloseButton = false)
+//        previewCoverMaker.setCustomerPreviewCoverView()
+        
     }
 
     @objc func preview() {
@@ -298,19 +293,14 @@ final class MainViewController: SampleBaseViewController {
         let playerData = ShopLivePreviewData(campaignKey: campaign.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                             referrer: "customReferrer",
-                                            isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
-            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title)")
+                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
+            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title ?? "")")
         } brandHandler: { brand in
-            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name) \n brand Image : \(brand.imageUrl) \n brand Identifier : \(brand.identifier)")
+            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name ?? "") \n brand Image : \(brand.imageUrl ?? "") \n brand Identifier : \(brand.identifier ?? "")")
         }
         
-        ShopLive.preview(data: playerData) {
-            if DemoConfiguration.shared.usePlayWhenPreviewTapped {
-                ShopLive.play(with: campaign.campaignKey,
-                              keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                              referrer: "customReferrer")
-            }
-        }
+        ShopLive.preview(data: playerData)
         
     }
 
@@ -326,7 +316,9 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
         
-        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted))
+        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,
+                                  keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                  isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey))
     }
     
     @objc func nativeshortform() {
@@ -364,10 +356,10 @@ final class MainViewController: SampleBaseViewController {
 
 extension MainViewController: ShopLiveSDKDelegate {
     func playerPanGesture(state: UIGestureRecognizer.State, position: CGPoint) {
-//        print("window gesture state \(state) position \(position)")
+        
     }
     
-    func log(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
+    func onEvent(name: String, feature: ShopLiveLog.Feature, campaign: String, payload: [String : Any]) {
         switch name {
         case "video_muted":
             break
@@ -619,6 +611,6 @@ extension MainViewController: LoginDelegate {
         let loginUser = ShopLiveCommonUser(userId: "shoplive", age: 20, gender: .male)
         ShopLive.user = loginUser
         
-        ShopLive.play(with: campaign.campaignKey, keepWindowStateOnPlayExecuted: true)
+        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: true))
     }
 }

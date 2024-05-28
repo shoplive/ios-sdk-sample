@@ -567,5 +567,40 @@ final class DemoConfiguration: NSObject {
         }
     }
 
+    var resizeMode : ShopLiveResizeMode {
+        set {
+            switch newValue {
+            case .CENTER_CROP:
+                UserDefaults.standard.set("CENTER_CROP", forKey: SDKOptionType.resizeMode.optionKey)
+            case .FIT:
+                UserDefaults.standard.set("FIT", forKey: SDKOptionType.resizeMode.optionKey)
+            default:
+                break
+            }
+
+            notifyObservers(key: SDKOptionType.resizeMode.optionKey)
+        }
+        get {
+            let result = UserDefaults.standard.string(forKey: SDKOptionType.resizeMode.optionKey)
+            switch result {
+            case "CENTER_CROP":
+                return .CENTER_CROP
+            case "FIT":
+                return .FIT
+            default:
+                return .CENTER_CROP
+            }
+        }
+    }
+    
+    var isEnabledVolumeKey : Bool {
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: SDKOptionType.isEnabledVolumeKey.optionKey)
+            notifyObservers(key: SDKOptionType.isEnabledVolumeKey.optionKey)
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: SDKOptionType.isEnabledVolumeKey.optionKey)
+        }
+    }
     
 }

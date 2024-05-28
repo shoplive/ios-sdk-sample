@@ -61,8 +61,10 @@ final class OptionsViewController: SampleBaseViewController {
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
+        let isEnabledVolumeKey = SDKOptionItem(name: "sdkoption.setupPlayer.isEnabledVolumeKey.title".localized(), optionDescription: "sdkoption.setupPlayer.isEnabledVolumeKey.description".localized(), optionType: .isEnabledVolumeKey)
+        let resizeModeOption = SDKOptionItem(name: "sdkoption.setupPlayer.resizeMode.title".localized(), optionDescription: "sdkoption.setupPlayer.resizeMode.description".localized(), optionType: .resizeMode)
         let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption,statusBarVisibilityOption])
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption, isEnabledVolumeKey, resizeModeOption,statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         
@@ -150,8 +152,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
             }
             cell.configure(item: item)
             return cell
-        case .routeTo:
-            return UITableViewCell()
         }
 
     }
@@ -227,7 +227,7 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 self.navigationController?.present(alert, animated: false, completion: nil)
                 break
             case .pipCornerRadius:
-                let size = DemoConfiguration.shared.pipCornerRadius == nil ? "" : String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius)
+                let size = String(format: "%.0f",  DemoConfiguration.shared.pipCornerRadius)
                 let alert = TextItemInputAlertController(header: "sdkOption.pipCornerRadius.title".localized(), data: size, placeHolder: "ex) 10") { size in
                     DemoConfiguration.shared.pipCornerRadius = Double(size) ?? 10
                     self.tableView.reloadData()
@@ -257,7 +257,6 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 case .nextActionOnHandleNavigation:
                 dropdown.dataSource = ["sdkoption.nextActionTypeOnNavigation.item1".localized(), "sdkoption.nextActionTypeOnNavigation.item2".localized(), "sdkoption.nextActionTypeOnNavigation.item3".localized()]
                     dropdown.selectionAction = { (index: Int, item: String) in
-                        // print("selected item: \(item) index: \(index)")
                         DemoConfiguration.shared.nextActionTypeOnHandleNavigation = ActionType(rawValue: index) ?? .PIP
                         anchorView.removeFromSuperview()
                         self.tableView.reloadData()
@@ -266,12 +265,23 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                 case .pipPosition:
                 dropdown.dataSource = ["sdkoption.pipPosition.item1".localized(), "sdkoption.pipPosition.item2".localized(), "sdkoption.pipPosition.item3".localized(),"sdkoption.pipPosition.item4".localized()]
                     dropdown.selectionAction = { (index: Int, item: String) in
-                        // print("selected item: \(item) index: \(index)")
                         DemoConfiguration.shared.pipPosition = ShopLive.PipPosition(rawValue: index) ?? .bottomRight
                         anchorView.removeFromSuperview()
                         self.tableView.reloadData()
                     }
                     break
+            case .resizeMode:
+                dropdown.dataSource = ["CENTER_CROP","FIT"]
+                dropdown.selectionAction = { [weak self] (index, item ) in
+                    if index == 1 {
+                        DemoConfiguration.shared.resizeMode = .FIT
+                    }
+                    else {
+                        DemoConfiguration.shared.resizeMode = .CENTER_CROP
+                    }
+                    anchorView.removeFromSuperview()
+                    self?.tableView.reloadData()
+                }
                 default:
                     break
             }

@@ -38,15 +38,15 @@ class SellerManager {
     }
     
     private func onClickViewSellerStore(payload : [String : Any]) {
-        var sellerStoreData = SellerStoreData(dict: payload)
+        let sellerStoreData = SellerStoreData(dict: payload)
         if let urlString = sellerStoreData.seller?.storeUrl, let url = URL(string: urlString)  {
             UIApplication.shared.canOpenURL(url)
         }
     }
     
     private func onClickSellerSubscription(payload : [String : Any]) {
-        var sellerSubsciptionData = SellerSubscriptionData(dict: payload)
-        var sellerSavedData : [String : Any] = ["saved" : !(sellerSubsciptionData.saved ?? true)]
+        let sellerSubsciptionData = SellerSubscriptionData(dict: payload)
+        let sellerSavedData : [String : Any] = ["saved" : !(sellerSubsciptionData.saved ?? true)]
         
         ShopLive.sendCommandMessage(command: "SET_SELLER_SAVED_STATE", payload: sellerSavedData)
     }
