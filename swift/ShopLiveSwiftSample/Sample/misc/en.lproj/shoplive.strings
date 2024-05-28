@@ -90,6 +90,11 @@ True: previous mode, Default: full screen mode";
 "sdkoption.setupPlayer.mixAudio.title" = "Player mix audio option";
 "sdkoption.setupPlayer.mixAudio.description" = "Enables to play sounds with other app";
 
+"sdkoption.setupPlayer.isEnabledVolumeKey.title" = "HW volume btn Event Option";
+"sdkoption.setupPlayer.isEnabledVolumeKey.description" = "Enable listening to hardware volume key events (default : false)";
+
+"sdkoption.setupPlayer.resizeMode.title" = "Player View resize option";
+"sdkoption.setupPlayer.resizeMode.description" = "Set Players render option (default : CENTER_CROP)";
 
 "sdkoption.pipAreaSetting.title" = "PIP moveable area";
 "sdkoption.pipAreaSetting.description" = "Sets the PIP moveable area.";

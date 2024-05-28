@@ -185,6 +185,9 @@ final class MainViewController: SampleBaseViewController {
 
         // Auto resume video on call end setting
         ShopLive.setAutoResumeVideoOnCallEnded(config.useCallOption)
+        
+        //Keep aspect ratio of video(CENTER_CROP,FIT, default is CENTER_CROP)
+        ShopLive.setResizeMode(mode: config.resizeMode)
 
         // Custom Image Animation Indicator setting
         if config.useCustomProgress {
@@ -290,7 +293,8 @@ final class MainViewController: SampleBaseViewController {
         let playerData = ShopLivePreviewData(campaignKey: campaign.campaignKey,
                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
                                             referrer: "customReferrer",
-                                            isMuted: !DemoConfiguration.shared.enablePreviewSound) { campaign in
+                                             isMuted: !DemoConfiguration.shared.enablePreviewSound,
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title ?? "")")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name ?? "") \n brand Image : \(brand.imageUrl ?? "") \n brand Identifier : \(brand.identifier ?? "")")
@@ -312,7 +316,9 @@ final class MainViewController: SampleBaseViewController {
         ShopLive.setEndpoint("https://www.shoplive.show/v1/sdk.html")
         
         
-        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted))
+        ShopLive.play(data: .init(campaignKey: campaign.campaignKey,
+                                  keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                  isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey))
     }
     
     @objc func nativeshortform() {

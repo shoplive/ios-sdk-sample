@@ -61,8 +61,10 @@ final class OptionsViewController: SampleBaseViewController {
         let keepWindowStateOnPlayExecutedOption = SDKOptionItem(name: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.title".localized(), optionDescription: "sdkoption.section.setupPlayer.keepWindowStateOnPlayExecuted.description".localized(), optionType: .keepWindowStateOnPlayExecuted)
         
         let mixAudioOption = SDKOptionItem(name: "sdkoption.setupPlayer.mixAudio.title".localized(), optionDescription: "sdkoption.setupPlayer.mixAudio.description".localized(), optionType: .mixAudio)
+        let isEnabledVolumeKey = SDKOptionItem(name: "sdkoption.setupPlayer.isEnabledVolumeKey.title".localized(), optionDescription: "sdkoption.setupPlayer.isEnabledVolumeKey.description".localized(), optionType: .isEnabledVolumeKey)
+        let resizeModeOption = SDKOptionItem(name: "sdkoption.setupPlayer.resizeMode.title".localized(), optionDescription: "sdkoption.setupPlayer.resizeMode.description".localized(), optionType: .resizeMode)
         let statusBarVisibilityOption = SDKOptionItem(name: "sdkoption.statusbarvisibility.title".localized(), optionDescription: "sdkoption.statusbarvisibility.description".localized(), optionType: .statusBarVisibility)
-        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption,statusBarVisibilityOption])
+        let setupPlayerOptions = SDKOption(optionTitle: "sdkoption.section.setupPlayer.title".localized(), optionItems: [aspectOnTabletOption, keepWindowStateOnPlayExecutedOption,mixAudioOption, isEnabledVolumeKey, resizeModeOption,statusBarVisibilityOption])
         
         items.append(setupPlayerOptions)
         
@@ -272,6 +274,18 @@ extension OptionsViewController: UITableViewDelegate, UITableViewDataSource {
                         self.tableView.reloadData()
                     }
                     break
+            case .resizeMode:
+                dropdown.dataSource = ["CENTER_CROP","FIT"]
+                dropdown.selectionAction = { [weak self] (index, item ) in
+                    if index == 1 {
+                        DemoConfiguration.shared.resizeMode = .FIT
+                    }
+                    else {
+                        DemoConfiguration.shared.resizeMode = .CENTER_CROP
+                    }
+                    anchorView.removeFromSuperview()
+                    self?.tableView.reloadData()
+                }
                 default:
                     break
             }
