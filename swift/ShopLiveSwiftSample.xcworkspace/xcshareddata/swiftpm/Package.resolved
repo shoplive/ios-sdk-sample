@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios",
       "state" : {
-        "revision" : "0830cd0f13df02b041e90c89b8a77fb3dc7ed2b5",
-        "version" : "1.5.12"
+        "revision" : "7886eb0a0f4e41e8acbb7ab2d60eb97d6108cd6a",
+        "version" : "1.5.13"
       }
     },
     {
@@ -32,8 +32,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/ios-sdk.git",
       "state" : {
-        "revision" : "7eef0e273d215a0b9d5bc4ade8c2971afea2a4a7",
-        "version" : "1.5.12"
+        "revision" : "60170d5bfd9574ac56ba269a36eaa23dd63ec731",
+        "version" : "1.5.13"
       }
     },
     {
@@ -50,8 +50,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "b04d543123ff13419b1d9edc5d17838706028167",
-        "version" : "1.5.12"
+        "revision" : "689f673f5edc0bab1a212d747ef75981eb7b61e8",
+        "version" : "1.5.13"
       }
     },
     {
