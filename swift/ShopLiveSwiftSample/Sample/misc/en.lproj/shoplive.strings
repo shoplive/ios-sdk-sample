@@ -171,6 +171,7 @@ Default: keep sound, True: Mute";
 "sample.button.preview" = "Preview";
 "sample.button.shortform.native" = "native ShortForm";
 "sample.button.shortform.hybrid" = "hybrid ShortForm";
+"sample.button.player.preview" = "Preview(UIView)";
 "sample.link.tokenGuide" = "JWT token creation guide";
 "sample.authType.user" = "Simple authentication.";
 "sample.authType.token" = "JWT token authentication.";
