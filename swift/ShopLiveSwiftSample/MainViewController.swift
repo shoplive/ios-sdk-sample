@@ -105,6 +105,19 @@ final class MainViewController: SampleBaseViewController {
         return btn
     }()
     
+        
+    //Unlike Preview btn on Tabbar
+    //We provide Preview as UIView which can be implemented in your ViewController, or View, UIWindow etc.
+    private lazy var uiPreviewButton : UIButton = {
+        let btn = UIButton()
+        btn.layer.masksToBounds = true
+        btn.setBackgroundColor(.red, for: .normal)
+        btn.layer.cornerRadius = 6
+        btn.addTarget(self, action: #selector(uiPreviewButtontapped), for: .touchUpInside)
+        btn.setTitle("sample.button.player.preview".localized(), for: .normal)
+        return btn
+    }()
+    
 
     var safari: SFSafariViewController? = nil
     
@@ -129,17 +142,23 @@ final class MainViewController: SampleBaseViewController {
 
     func setupViews() {
         
-        let topBtnStack = UIStackView(arrangedSubviews: [playButton,previewButton])
-        topBtnStack.axis = .horizontal
-        topBtnStack.distribution = .fillEqually
-        topBtnStack.spacing = 10
+        let firstBtnStack = UIStackView(arrangedSubviews: [playButton,previewButton])
+        firstBtnStack.axis = .horizontal
+        firstBtnStack.distribution = .fillEqually
+        firstBtnStack.spacing = 10
         
-        let bottomBtnStack = UIStackView(arrangedSubviews: [nativeshortformButton,hybridshortformButton])
-        bottomBtnStack.axis = .horizontal
-        bottomBtnStack.distribution = .fillEqually
-        bottomBtnStack.spacing = 10
+        let secondBtnStack = UIStackView(arrangedSubviews: [nativeshortformButton,hybridshortformButton])
+        secondBtnStack.axis = .horizontal
+        secondBtnStack.distribution = .fillEqually
+        secondBtnStack.spacing = 10
         
-        let btnStack = UIStackView(arrangedSubviews: [topBtnStack,bottomBtnStack])
+        let thirdBtnStack = UIStackView(arrangedSubviews: [uiPreviewButton,UIButton()])
+        thirdBtnStack.axis = .horizontal
+        thirdBtnStack.distribution = .fillEqually
+        thirdBtnStack.spacing = 10
+
+        
+        let btnStack = UIStackView(arrangedSubviews: [firstBtnStack,secondBtnStack,thirdBtnStack])
         btnStack.translatesAutoresizingMaskIntoConstraints = false
         btnStack.axis = .vertical
         btnStack.distribution = .fillEqually
@@ -158,7 +177,7 @@ final class MainViewController: SampleBaseViewController {
             $0.leading.equalTo(self.view.snp.leading).offset(10)
             $0.trailing.equalTo(self.view.snp.trailing).offset(-10)
             $0.bottom.equalTo(self.view.snp.bottom).offset(-15)
-            $0.height.equalTo(35 + 10 + 35)
+            $0.height.equalTo(35 + 10 + 35 + 10 + 35)
         }
     }
 
@@ -350,6 +369,25 @@ final class MainViewController: SampleBaseViewController {
         }
         else {
             self.present(view, animated: true)
+        }
+    }
+    
+    @objc func uiPreviewButtontapped() {
+        let config = DemoConfiguration.shared
+        guard let campaign = config.campaign else {
+            UIWindow.showToast(message: "sample.msg.none_key".localized())
+            return
+        }
+
+        ShopLiveCommon.setAccessKey(accessKey: campaign.accessKey)
+        setupShopliveSettings()
+        
+        let vc = UIPreviewSampleViewController(accessKey: campaign.accessKey, campaignkey: campaign.campaignKey)
+        if let nav = self.navigationController {
+            nav.pushViewController(vc, animated: true)
+        }
+        else {
+            self.present(vc, animated: true)
         }
     }
 }

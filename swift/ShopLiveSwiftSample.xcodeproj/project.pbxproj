@@ -20,6 +20,7 @@
 		2F0B85F92A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */; };
 		2F0B85FC2A0E0E6D00165242 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 2F0B85FB2A0E0E6D00165242 /* Parchment */; };
 		2F0B85FE2A0E10E200165242 /* ShortFormWebTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */; };
+		2F7ADED42CA21C78004B9334 /* UIPreviewSampleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F7ADED32CA21C78004B9334 /* UIPreviewSampleViewController.swift */; };
 		2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2F95FFEF2A11C7C200A2E58A /* ShopliveShortformSDK */; };
 		2F96DD1C2C0593A6007549FC /* PreviewCover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F96DD1B2C0593A6007549FC /* PreviewCover.swift */; };
 		2FC4CAA52BD6601B00B92E41 /* SellerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA12BD6601B00B92E41 /* SellerData.swift */; };
@@ -114,6 +115,7 @@
 		2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormHorizontalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F82A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormVerticalTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85FD2A0E10E200165242 /* ShortFormWebTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormWebTypeViewController.swift; sourceTree = "<group>"; };
+		2F7ADED32CA21C78004B9334 /* UIPreviewSampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPreviewSampleViewController.swift; sourceTree = "<group>"; };
 		2F96DD1B2C0593A6007549FC /* PreviewCover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCover.swift; sourceTree = "<group>"; };
 		2FC4CAA12BD6601B00B92E41 /* SellerData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerData.swift; sourceTree = "<group>"; };
 		2FC4CAA22BD6601B00B92E41 /* SellerStoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerStoreData.swift; sourceTree = "<group>"; };
@@ -246,6 +248,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F7ADED22CA21C68004B9334 /* UIPreview */ = {
+			isa = PBXGroup;
+			children = (
+				2F7ADED32CA21C78004B9334 /* UIPreviewSampleViewController.swift */,
+			);
+			path = UIPreview;
+			sourceTree = "<group>";
+		};
 		2F96DD1A2C059397007549FC /* PreviewCover */ = {
 			isa = PBXGroup;
 			children = (
@@ -367,6 +377,7 @@
 		BFF15AE62777279A009327AD /* customviews */ = {
 			isa = PBXGroup;
 			children = (
+				2F7ADED22CA21C68004B9334 /* UIPreview */,
 				2FF2FA312A735A37009C39E0 /* Shortform */,
 				BFC9073D277448BB00D26F3F /* TextItemInputAlertController.swift */,
 				BFC90768277448BB00D26F3F /* CustomBaseAlertController.swift */,
@@ -614,6 +625,7 @@
 				BFC9076F277448BB00D26F3F /* TextItemInputAlertController.swift in Sources */,
 				BFC9078C277448BB00D26F3F /* OptionsViewController.swift in Sources */,
 				BFC907B12774689C00D26F3F /* MenuCell.swift in Sources */,
+				2F7ADED42CA21C78004B9334 /* UIPreviewSampleViewController.swift in Sources */,
 				BFC9078A277448BB00D26F3F /* ButtonOptionCell.swift in Sources */,
 				BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */,
 				2F0B85F92A0E0E3400165242 /* ShortFormVerticalTypeViewController.swift in Sources */,
@@ -990,7 +1002,7 @@
 			repositoryURL = "https://github.com/shoplive/shortform-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.13;
+				minimumVersion = 1.5.15;
 			};
 		};
 		2FE8BF522AEF78BD003B8B65 /* XCRemoteSwiftPackageReference "common-ios" */ = {
@@ -998,7 +1010,7 @@
 			repositoryURL = "https://github.com/shoplive/common-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.13;
+				minimumVersion = 1.5.15;
 			};
 		};
 		BF6C5DD1273B887400C85D2D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
@@ -1014,7 +1026,7 @@
 			repositoryURL = "https://github.com/shoplive/ios-sdk.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.5.13;
+				minimumVersion = 1.5.15;
 			};
 		};
 		BFC9079727744A1800D26F3F /* XCRemoteSwiftPackageReference "SideMenu" */ = {
