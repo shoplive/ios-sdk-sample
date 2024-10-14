@@ -47,6 +47,7 @@ enum SDKOptionType: String, CaseIterable {
     case useCloseButton
     case mixAudio
     case statusBarVisibility
+    case previewResolution
     case enablePreviewSound
     case enablePip
     case enableOSPip

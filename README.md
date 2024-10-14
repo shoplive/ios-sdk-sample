@@ -45,11 +45,11 @@ use_frameworks!
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
 #livePlayerSDK
-pod 'ShopLive', '1.5.15'
-pod 'ShopliveSDKCommon' , '1.5.15'
+pod 'ShopLive', '1.5.16'
+pod 'ShopliveSDKCommon' , '1.5.16'
 #shortform SDK
-pod 'ShopliveShortformSDK' , '1.5.15'
-pod 'ShopliveSDKCommon' , '1.5.15'
+pod 'ShopliveShortformSDK' , '1.5.16'
+pod 'ShopliveSDKCommon' , '1.5.16'
 end
 ```
 - Swift Package Manager
@@ -59,11 +59,11 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 ```Ruby
 dependencies: [
 //player
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.15"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.15"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.5.16"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.16"))
 //shortform
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.15"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.15"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.5.16"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.5.16"))
 ]
 ```
 

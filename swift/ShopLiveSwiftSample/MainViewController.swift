@@ -310,10 +310,11 @@ final class MainViewController: SampleBaseViewController {
         setupShopliveSettings()
         
         let playerData = ShopLivePreviewData(campaignKey: campaign.campaignKey,
-                                            keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
-                                            referrer: "customReferrer",
+                                             keepWindowStateOnPlayExecuted: DemoConfiguration.shared.useKeepWindowStateOnPlayExecuted,
+                                             referrer: "customReferrer",
                                              isMuted: !DemoConfiguration.shared.enablePreviewSound,
-                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey) { campaign in
+                                             isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
+                                             resolution: .PREVIEW) { campaign in
             ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title ?? "")")
         } brandHandler: { brand in
             ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name ?? "") \n brand Image : \(brand.imageUrl ?? "") \n brand Identifier : \(brand.identifier ?? "")")
