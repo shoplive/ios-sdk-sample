@@ -603,4 +603,15 @@ final class DemoConfiguration: NSObject {
         }
     }
     
+    var previewResolution : ShopLivePlayerPreviewResolution {
+        set {
+            let value = newValue == .LIVE ? "LIVE" : "PREVIEW"
+            UserDefaults.standard.setValue(value, forKey: SDKOptionType.previewResolution.optionKey)
+            notifyObservers(key: SDKOptionType.previewResolution.optionKey)
+        }
+        get {
+            let value = UserDefaults.standard.string(forKey: SDKOptionType.previewResolution.optionKey)
+            return value == "LIVE" ? .LIVE : .PREVIEW
+        }
+    }
 }

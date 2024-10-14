@@ -61,14 +61,18 @@ This option is valid only for the same campaign and runs on the full screen alwa
 "sdkoption.sound.mute.description" = "Muted when play starts video";
 
 
-"sdkoption.preview.title" = "Preview Tap to Play";
-"sdkoption.preview.description" = "Play When Preview Tapped";
+"sdkoption.preview.taptoplay.title" = "Preview Tap to Play";
+"sdkoption.preview.taptoplay.description" = "Play When Preview Tapped";
+
 "sdkoption.preview.closebutton.title" = "Use close button";
 "sdkoption.preview.closebutton.description" = "Use close button on InAppPip and Preview(default : false)";
+
 //Preview 와 Inapp PIP에서 닫기버튼 사용여부를 설정합니다.(기본은 사용안함)
 "sdkoption.preview.enableSound.title" = "Preview muted";
 "sdkoption.preview.enableSound.description" = "Set whether to mute in Preview. (Default is true)";
 
+"sdkoption.player.preview.title" = "Preview resolution type";
+"sdkoption.player.preview.description" = "Set resolution type in preview. (Default is preview type, ON -> Preview)";
 
 "sdkoption.pipPosition.title" = "Position";
 "sdkoption.pipPosition.description" = "PIP mode will start. \n(Default: Bottom Right)";

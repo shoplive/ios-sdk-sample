@@ -74,7 +74,7 @@ class UIPreviewSampleViewController : UIViewController {
                 break
             case .handleShopLivePlayerCampaign(_):
                 break
-            case .handleShopLivePlayeBrand(_):
+            case .handleShopLivePlayerBrand(_):
                 break
             @unknown default:
                 break

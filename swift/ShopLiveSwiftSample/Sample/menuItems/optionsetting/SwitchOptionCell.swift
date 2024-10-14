@@ -172,6 +172,8 @@ class SwitchOptionCell: UITableViewCell {
             useOption = DemoConfiguration.shared.enableOsPip
         case .isEnabledVolumeKey:
             useOption = DemoConfiguration.shared.isEnabledVolumeKey
+        case .previewResolution:
+            useOption = DemoConfiguration.shared.previewResolution == .LIVE ? false : true
         default:
             break
         }
@@ -237,6 +239,8 @@ class SwitchOptionCell: UITableViewCell {
             DemoConfiguration.shared.enableOsPip = useOption
         case .isEnabledVolumeKey:
             DemoConfiguration.shared.isEnabledVolumeKey = useOption
+        case .previewResolution:
+            DemoConfiguration.shared.previewResolution = useOption ? ShopLivePlayerPreviewResolution.PREVIEW : ShopLivePlayerPreviewResolution.LIVE
         default:
             break
         }

@@ -73,10 +73,13 @@ final class OptionsViewController: SampleBaseViewController {
         
         items.append(muteOptions)
         
-        let previewOption = SDKOptionItem(name: "sdkoption.preview.title".localized(), optionDescription: "sdkoption.preview.description".localized(), optionType: .playWhenPreviewTapped)
+        let previewOption = SDKOptionItem(name: "sdkoption.preview.taptoplay.title".localized(), optionDescription: "sdkoption.preview.taptoplay.description".localized(), optionType: .playWhenPreviewTapped)
         let closeButtonOption = SDKOptionItem(name: "sdkoption.preview.closebutton.title".localized(), optionDescription: "sdkoption.preview.closebutton.description".localized(), optionType: .useCloseButton)
         let previewSoundOption = SDKOptionItem(name: "sdkoption.preview.enableSound.title".localized(), optionDescription: "sdkoption.preview.enableSound.description".localized(), optionType: .enablePreviewSound)
-        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption,closeButtonOption,previewSoundOption])
+        
+        let playerPreviewResolutionOption = SDKOptionItem(name: "sdkoption.player.preview.title".localized(), optionDescription: "sdkoption.player.preview.description".localized(), optionType: .previewResolution)
+        
+        let previewOptions = SDKOption(optionTitle: "sdkoption.section.preview.title".localized(), optionItems: [previewOption,closeButtonOption,previewSoundOption,playerPreviewResolutionOption])
         
         items.append(previewOptions)
         
