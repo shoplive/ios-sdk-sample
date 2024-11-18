@@ -69,7 +69,8 @@ final class ShortFormCardTypeViewController : UIViewController {
     lazy private var builder2 : ShopLiveShortform.CardTypeViewBuilder = {
         let builder = ShopLiveShortform.CardTypeViewBuilder()
         builder.build(cardViewType: .type1,
-                       listViewDelegate: self,
+                      listViewDelegate: self,
+                      shortsCollectionDelegate: nil,
                       enableSnap: currentSnap,
                       enablePlayVideo: true,
                       playOnlyOnWifi: false,
@@ -110,6 +111,7 @@ final class ShortFormCardTypeViewController : UIViewController {
         builder = ShopLiveShortform.CardTypeViewBuilder()
         collectionView = builder!.build(cardViewType: .type1,
                                         listViewDelegate: self,
+                                        shortsCollectionDelegate: nil,
                                        enableSnap: currentSnap,
                                        enablePlayVideo: true,
                                        playOnlyOnWifi: false,
@@ -119,8 +121,6 @@ final class ShortFormCardTypeViewController : UIViewController {
         collectionView?.backgroundColor = .white
         
         setCollectionViewLayout()
-        //see below extension to see how it works
-        ShopLiveShortform.Delegate.setDelegate(self)
         
         
         //MARK: - hashtag, brand settings
@@ -181,20 +181,26 @@ extension ShortFormCardTypeViewController : ShopLiveShortformReceiveHandlerDeleg
         // use this method to navigate to desired product view or show preview
         // ex) display preview natively
         
+        
+        
         let previewData = ShopLiveShortformPreviewData(shortsId: "{SHORTS_ID}",
                                                        isMuted: true, // mute option for preview only
                                                        maxCount: 10, // number of videoCounts in preview
-                                                       useCustomAction: true) {
+                                                       useCustomAction: true,
+                                                       clickEventCallBack: {
             //overred preview tap event by setting this completion and useCustomAction to true
-        }
+        }, delegate: nil)
+        
+        
+        
+        
         // ShopLiveShortformPreviewData contains productId, customerProductId, tags, brands and etc
         // allocating these values will get related shorts collections
         ShopLiveShortform.showPreview(requestData: previewData)
-        
-        
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
+    
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
         // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
     }

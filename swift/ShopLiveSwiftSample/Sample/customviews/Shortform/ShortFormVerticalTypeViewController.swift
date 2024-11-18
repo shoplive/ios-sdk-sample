@@ -86,6 +86,7 @@ final class ShortFormVerticalTypeViewController : UIViewController {
                                        listViewType: .vertical,
                                         playableType: .FIRST,
                                         listViewDelegate: self,
+                                        shortsCollectionDelegate: nil,
                                        enableSnap: currentSnap,
                                        enablePlayVideo: true,
                                        playOnlyOnWifi: false,
@@ -94,8 +95,6 @@ final class ShortFormVerticalTypeViewController : UIViewController {
         builder?.submit()
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         setCollectionViewLayout()
-        //see below extension to see how it works
-        ShopLiveShortform.Delegate.setDelegate(self)
         
         //MARK: - hashtag, brand settings
         /**
@@ -163,7 +162,7 @@ extension ShortFormVerticalTypeViewController : ShopLiveShortformReceiveHandlerD
         // allocating these values will get related shorts collections
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShortsDetailData) {
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformDetailData) {
         // when webview is not connected with ShopLive ShopLiveShortform.BridgeInterface.connect(<#T##webview: WKWebView##WKWebView#>)
         // use this method to navigate to desired product view or show preview
     }

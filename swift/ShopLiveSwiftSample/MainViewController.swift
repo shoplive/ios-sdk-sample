@@ -12,6 +12,9 @@ import Toast
 import ShopliveSDKCommon
 import ShopLiveSDK
 import ShopLiveShortformSDK
+import ShopLiveShortformEditorSDK
+
+
 
 
 enum MenuItem: String, CaseIterable {
@@ -118,6 +121,40 @@ final class MainViewController: SampleBaseViewController {
         return btn
     }()
     
+    private lazy var editorBtn : UIButton = {
+        let btn = UIButton()
+        btn.layer.masksToBounds = true
+        btn.setBackgroundColor(.red, for: .normal)
+        btn.layer.cornerRadius = 6
+        btn.addTarget(self, action: #selector(editorButtonTapped), for: .touchUpInside)
+        btn.setTitle("sample.button.shortform.editor".localized(), for: .normal)
+        return btn
+    }()
+    
+    lazy private var editorPopUp : EditorOptionPopUp = {
+        let popup = EditorOptionPopUp()
+        popup.translatesAutoresizingMaskIntoConstraints = false
+        popup.alpha = 0
+        popup.vc = self
+        return popup
+    }()
+    
+    lazy var coverPickerImageResultPopUp : CoverPickerResultPopUp = {
+        let view = CoverPickerResultPopUp(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0
+        return view
+    }()
+    
+    lazy var videoEditorResultPopUp : VideoEditorResultPopUp = {
+        let view = VideoEditorResultPopUp(frame: .zero)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.alpha = 0
+        return view
+    }()
+    
 
     var safari: SFSafariViewController? = nil
     
@@ -152,7 +189,7 @@ final class MainViewController: SampleBaseViewController {
         secondBtnStack.distribution = .fillEqually
         secondBtnStack.spacing = 10
         
-        let thirdBtnStack = UIStackView(arrangedSubviews: [uiPreviewButton,UIButton()])
+        let thirdBtnStack = UIStackView(arrangedSubviews: [uiPreviewButton,editorBtn])
         thirdBtnStack.axis = .horizontal
         thirdBtnStack.distribution = .fillEqually
         thirdBtnStack.spacing = 10
@@ -178,6 +215,22 @@ final class MainViewController: SampleBaseViewController {
             $0.trailing.equalTo(self.view.snp.trailing).offset(-10)
             $0.bottom.equalTo(self.view.snp.bottom).offset(-15)
             $0.height.equalTo(35 + 10 + 35 + 10 + 35)
+        }
+        
+        self.view.addSubview(editorPopUp)
+        editorPopUp.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        
+        self.view.addSubview(coverPickerImageResultPopUp)
+        coverPickerImageResultPopUp.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
+        
+        self.view.addSubview(videoEditorResultPopUp)
+        videoEditorResultPopUp.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
         }
     }
 
@@ -390,6 +443,18 @@ final class MainViewController: SampleBaseViewController {
         else {
             self.present(vc, animated: true)
         }
+    }
+    
+    @objc func editorButtonTapped() {
+//        let config = DemoConfiguration.shared
+//        guard let campaign = config.campaign else {
+//            UIWindow.showToast(message: "sample.msg.none_key".localized())
+//            return
+//        }
+
+        ShopLiveCommon.setAccessKey(accessKey: "a1AW6QRCXeoZ9MEWRdDQ")
+        setupShopliveSettings()
+        editorPopUp.alpha = 1
     }
 }
 
@@ -651,5 +716,89 @@ extension MainViewController: LoginDelegate {
         ShopLive.user = loginUser
         
         ShopLive.play(data: .init(campaignKey: campaign.campaignKey,keepWindowStateOnPlayExecuted: true))
+    }
+}
+extension MainViewController : ShopLiveShortformEditorDelegate {
+    func onShopliveShortformError(error: ShopliveSDKCommon.ShopLiveCommonError) {
+ 
+    }
+    
+    func onShopliveShortformMediaPickerDismiss() {
+        print("onShortformEditorMediaPickerDismiss")
+    }
+    
+    
+    func onShopliveShortformUploadSuccess() {
+        print("onShortformEditorSuccess")
+        ShopLiveShortformEditor().close()
+    }
+    
+    func onShortformUploadError(error: ShopLiveCommonError) {
+
+    }
+}
+extension MainViewController : ShopLiveVideoEditorDelegate {
+    func onShopLiveVideoEditorError(error: ShopLiveCommonError) {
+        print("videoeditor error \(error.codes) \(error.message)")
+    }
+    
+    func onShopLiveVideoEditorVideoConvertSuccess(videoPath: String) {
+        print("videoEditor videoPath \(videoPath)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.videoEditorResultPopUp.setVideoPath(videoPath: videoPath)
+            self.videoEditorResultPopUp.alpha = 1
+        }
+    }
+    
+    func onShopLiveVideoEditorUploadSuccess(shortsId: String) {
+        print(" onShopLiveVideoEditorUploadSuccess shortsId \(shortsId)")
+        ShopliveVideoEditor.shared.close()
+    }
+    
+    func onShopLiveVideoEditorClosed() {
+        
+    }
+    
+}
+extension MainViewController : ShopLiveMediaPickerDelegate {
+    func onShopLiveMediaPickerCancelled() {
+        print("onShopLiveMediaPickerCancelled")
+    }
+    
+    func onShopLiveMediaPickerDidPickVideo(absoluteUrl: URL, relativeUrl: URL) {
+        print("Picker Video Selected absoluteUrl: \(absoluteUrl) relativeUrl : \(relativeUrl)")
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
+            self.videoEditorResultPopUp.alpha = 1
+            ShopLiveMediaPicker.shared.close()
+        }
+    }
+    
+    func onShopLiveMediaPickerDidPickImage(imageUrl: URL) {
+        print("Picker Image Selected image: \(imageUrl)")
+        let image = UIImage(contentsOfFile: imageUrl.path)
+        coverPickerImageResultPopUp.setResultImage(image: image)
+        coverPickerImageResultPopUp.alpha = 1
+        ShopLiveMediaPicker.shared.close()
+    }
+}
+extension MainViewController : ShopLiveCoverPickerDelegate {
+    func onShopLiveCoverPickerClosed() {
+        print("coverPicker closed")
+    }
+    
+    func onShopLiveCoverPickerError(error: ShopLiveCommonError) {
+        print("coverPicker error \(error.message)")
+    }
+    
+    func onShopLiveCoverPickerCoverImageSuccess(image: UIImage?) {
+        coverPickerImageResultPopUp.setResultImage(image: image)
+        coverPickerImageResultPopUp.alpha = 1
+    }
+    
+    func onShopLiveCoverPickerUploadSuccess(shortsId: String) {
+        print("coverPicker upload success shortsid \(shortsId)")
     }
 }

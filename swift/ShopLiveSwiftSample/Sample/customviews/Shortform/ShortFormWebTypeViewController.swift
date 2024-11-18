@@ -53,8 +53,6 @@ final class ShortFormWebTypeViewController : UIViewController {
             webview.load(.init(url: URL(string : "https://shopliveshorts.cafe24.com/index.html")!))
         }
 
-        ShopLiveShortform.BridgeInterface.connect(webview)
-        ShopLiveShortform.Delegate.setDelegate(self)
 //        setObserver()
     }
     
