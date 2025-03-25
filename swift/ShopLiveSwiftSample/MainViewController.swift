@@ -159,6 +159,10 @@ final class MainViewController: SampleBaseViewController {
     var safari: SFSafariViewController? = nil
     
     private let previewCoverMaker = PreviewCoverViewMaker()
+    
+    var mediaPickerViewController : UIViewController?
+    var editorViewController : UIViewController?
+    var coverPickerViewController : UIViewController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -368,9 +372,7 @@ final class MainViewController: SampleBaseViewController {
                                              isMuted: !DemoConfiguration.shared.enablePreviewSound,
                                              isEnabledVolumeKey: DemoConfiguration.shared.isEnabledVolumeKey,
                                              resolution: .PREVIEW) { campaign in
-            ShopLiveLogger.debugLog(" campaign callBack campaign Title : \(campaign.title ?? "")")
         } brandHandler: { brand in
-            ShopLiveLogger.debugLog(" brand callback brand Name : \(brand.name ?? "") \n brand Image : \(brand.imageUrl ?? "") \n brand Identifier : \(brand.identifier ?? "")")
         }
         
         ShopLive.preview(data: playerData)
@@ -753,7 +755,6 @@ extension MainViewController : ShopLiveVideoEditorDelegate {
     
     func onShopLiveVideoEditorUploadSuccess(shortsId: String) {
         print(" onShopLiveVideoEditorUploadSuccess shortsId \(shortsId)")
-        ShopliveVideoEditor.shared.close()
     }
     
     func onShopLiveVideoEditorClosed() {
@@ -772,7 +773,6 @@ extension MainViewController : ShopLiveMediaPickerDelegate {
             guard let self = self else { return }
             self.videoEditorResultPopUp.setVideoPath(videoPath: absoluteUrl.absoluteString)
             self.videoEditorResultPopUp.alpha = 1
-            ShopLiveMediaPicker.shared.close()
         }
     }
     
@@ -781,7 +781,6 @@ extension MainViewController : ShopLiveMediaPickerDelegate {
         let image = UIImage(contentsOfFile: imageUrl.path)
         coverPickerImageResultPopUp.setResultImage(image: image)
         coverPickerImageResultPopUp.alpha = 1
-        ShopLiveMediaPicker.shared.close()
     }
 }
 extension MainViewController : ShopLiveCoverPickerDelegate {

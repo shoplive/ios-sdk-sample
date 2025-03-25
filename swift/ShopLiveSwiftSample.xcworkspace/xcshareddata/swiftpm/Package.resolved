@@ -1,13 +1,13 @@
 {
-  "originHash" : "3ca9cb74a3db10f6a44fb93e01eb52ee1aa43c269df810712255120077ec2720",
+  "originHash" : "6e954f79a6555773122ffd40906f8c779f1d1e3ef7e72732b07966712655cba4",
   "pins" : [
     {
       "identity" : "common-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios",
       "state" : {
-        "revision" : "b4cc84642b87fb280e9911dba7fdf35167a2dba5",
-        "version" : "1.6.0"
+        "revision" : "f0ab505ba5209866246beb274c394a0c8ba9db64",
+        "version" : "1.6.8"
       }
     },
     {
@@ -15,8 +15,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/krzyzanowskim/CryptoSwift.git",
       "state" : {
-        "revision" : "7892a123f7e8d0fe62f9f03728b17bbd4f94df5c",
-        "version" : "1.8.1"
+        "revision" : "729e01bc9b9dab466ac85f21fb9ee2bc1c61b258",
+        "version" : "1.8.4"
       }
     },
     {
@@ -34,7 +34,7 @@
       "location" : "https://github.com/tylerjonesio/ffmpeg-kit-spm",
       "state" : {
         "branch" : "main",
-        "revision" : "41ebacfeb8556abe49e8a81512d09e506f0062f4"
+        "revision" : "6053b0e4f8607314ff5e14e0b18fc250c0f87c9b"
       }
     },
     {
@@ -42,8 +42,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/ios-sdk.git",
       "state" : {
-        "revision" : "364dd0b76c86f78fa0120b54f472e075a763de23",
-        "version" : "1.6.0"
+        "revision" : "1268bf4ae322954a337b5c8c0865c2ed5439bdea",
+        "version" : "1.6.8"
       }
     },
     {
@@ -52,7 +52,7 @@
       "location" : "https://github.com/rechsteiner/Parchment",
       "state" : {
         "branch" : "main",
-        "revision" : "13aad3e9308e8a4e38cb579430dbf66465418777"
+        "revision" : "dfb23ea5118ca8bfbc578065627fccf4ec4a362e"
       }
     },
     {
@@ -60,8 +60,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-editor-ios",
       "state" : {
-        "revision" : "ec9fbdf0c741de7cd49c468bc7a2db76e841b414",
-        "version" : "1.6.0"
+        "revision" : "5ec79ed28babe8fee8556670d688b52072e27c59",
+        "version" : "1.6.8"
       }
     },
     {
@@ -69,8 +69,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "ff520f5e31d2d3c07d3bf9bd34862017066bdcf5",
-        "version" : "1.6.0"
+        "revision" : "a88563300cbb9424f4452a6a91145c5df39efc9d",
+        "version" : "1.6.8"
       }
     },
     {
@@ -87,8 +87,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/SnapKit/SnapKit",
       "state" : {
-        "revision" : "e74fe2a978d1216c3602b129447c7301573cc2d8",
-        "version" : "5.7.0"
+        "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
+        "version" : "5.7.1"
       }
     },
     {
@@ -105,8 +105,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/scalessec/Toast-Swift.git",
       "state" : {
-        "revision" : "404ac98e0080a3d9f0630e007838284e04528bcd",
-        "version" : "5.1.0"
+        "revision" : "ddccd20d6fb718448d9b179c454c561653fda7d5",
+        "version" : "5.1.1"
       }
     }
   ],
