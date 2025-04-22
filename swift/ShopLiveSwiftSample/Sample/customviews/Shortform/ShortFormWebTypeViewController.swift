@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 import WebKit
+import ShopliveSDKCommon
 import ShopLiveShortformSDK
 
 
@@ -103,12 +104,12 @@ extension ShortFormWebTypeViewController : ShopLiveShortformReceiveHandlerDelega
         
     }
     
-    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String, shortsDetail: ShopLiveShortformSDK.ShortsDetail) {
+    func handleProductItem(shortsId: String, shortsSrn: String, product: ProductData) {
         
     }
     
-    func handleProductItem(shortsId: String, shortsSrn: String, product: Product) {
-        print(shortsId)
+    func handleProductBanner(shortsId: String, shortsSrn: String, scheme: String) {
+        
     }
 }
 
