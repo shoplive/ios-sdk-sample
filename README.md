@@ -230,5 +230,5 @@ class ViewController : UIViewController {
 
 
 ## The guide is available in English and Korean.
-> - [English](https://en.shoplive.guide/docs/shoplive-sdk-for-ios)
-> - [한국어](https://docs.shoplive.kr/docs/ios-shoplive-sdk)
+> - [English](https://docs.shoplive.cloud/docs/en/live-ios-before-start)
+> - [한국어](https://docs.shoplive.cloud/docs/live-ios-before-start)
