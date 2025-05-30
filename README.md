@@ -45,11 +45,11 @@ use_frameworks!
 # Set Project Target for Shoplive SDK for iOS installation.
 target 'PlayShopLive' do
 #livePlayerSDK
-pod 'ShopLive', '1.7.0'
-pod 'ShopliveSDKCommon' , '1.7.0'
+pod 'ShopLive', '1.7.1'
+pod 'ShopliveSDKCommon' , '1.7.1'
 #shortform SDK
-pod 'ShopliveShortformSDK' , '1.7.0'
-pod 'ShopliveSDKCommon' , '1.7.0'
+pod 'ShopliveShortformSDK' , '1.7.1'
+pod 'ShopliveSDKCommon' , '1.7.1'
 end
 ```
 - Swift Package Manager
@@ -59,13 +59,13 @@ Once you have your Swift package set up, adding Shoplive SDK for iOS as a depend
 ```Ruby
 dependencies: [
 //player
-.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.7.0"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.7.0"))
+.package(url: "https://github.com/shoplive/ios-sdk.git", .upToNextMajor(from: "1.7.1"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.7.1"))
 //shortform
-.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.7.0"))
-.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.7.0"))
+.package(url: "https://github.com/shoplive/shortform-ios", .upToNextMajor(from: "1.7.1"))
+.package(url: "https://github.com/shoplive/common-ios", .upToNextMajor(from: "1.7.1"))
 //editor
-..package(url: "https://github.com/shoplive/shortform-editor-ios", .upToNextMajor(from: "1.7.0"))
+..package(url: "https://github.com/shoplive/shortform-editor-ios", .upToNextMajor(from: "1.7.1"))
 ]
 ```
 
