@@ -39,7 +39,6 @@
 		2FC4CAA72BD6601B00B92E41 /* SellerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA32BD6601B00B92E41 /* SellerManager.swift */; };
 		2FC4CAA82BD6601B00B92E41 /* SellerSubscriptionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC4CAA42BD6601B00B92E41 /* SellerSubscriptionData.swift */; };
 		2FE8BF542AEF78BD003B8B65 /* ShopliveSDKCommon in Frameworks */ = {isa = PBXBuildFile; productRef = 2FE8BF532AEF78BD003B8B65 /* ShopliveSDKCommon */; };
-		5F27D122BCB6EFD881381892 /* Pods_ShopLiveSwiftSample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B73A76B0F5FCA4BEF753E1A2 /* Pods_ShopLiveSwiftSample.framework */; };
 		BF4408F527BE15280049C7BC /* CustomShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4408F427BE15280049C7BC /* CustomShareViewController.swift */; };
 		BF6C5DD3273B887400C85D2D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BF6C5DD2273B887400C85D2D /* SnapKit */; };
 		BF73C9DA27BB9531008E3A1D /* Shizuru-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */; };
@@ -121,7 +120,6 @@
 		1BAEDDF726042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ShopLiveSwiftSampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BAEDDFB26042D0F005C5DD4 /* ShopLiveSwiftSampleUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopLiveSwiftSampleUITests.swift; sourceTree = "<group>"; };
 		1BAEDDFD26042D0F005C5DD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2AD3C3723904270E2B95448B /* Pods-ShopLiveSwiftSample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSwiftSample.debug.xcconfig"; path = "Target Support Files/Pods-ShopLiveSwiftSample/Pods-ShopLiveSwiftSample.debug.xcconfig"; sourceTree = "<group>"; };
 		2F0B85F12A0E0DDB00165242 /* ShortFormTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormTabViewController.swift; sourceTree = "<group>"; };
 		2F0B85F42A0E0E0600165242 /* ShortFormCardTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormCardTypeViewController.swift; sourceTree = "<group>"; };
 		2F0B85F62A0E0E1700165242 /* ShortFormHorizontalTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortFormHorizontalTypeViewController.swift; sourceTree = "<group>"; };
@@ -133,7 +131,6 @@
 		2FC4CAA22BD6601B00B92E41 /* SellerStoreData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerStoreData.swift; sourceTree = "<group>"; };
 		2FC4CAA32BD6601B00B92E41 /* SellerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerManager.swift; sourceTree = "<group>"; };
 		2FC4CAA42BD6601B00B92E41 /* SellerSubscriptionData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SellerSubscriptionData.swift; sourceTree = "<group>"; };
-		B73A76B0F5FCA4BEF753E1A2 /* Pods_ShopLiveSwiftSample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ShopLiveSwiftSample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF4408F427BE15280049C7BC /* CustomShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomShareViewController.swift; sourceTree = "<group>"; };
 		BF73C9D927BB9531008E3A1D /* Shizuru-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Shizuru-Regular.ttf"; sourceTree = "<group>"; };
 		BFAA3EFE2738C783005AA18E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -162,7 +159,6 @@
 		BFE401B227FD3BEC001031E3 /* NotoSansKR-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NotoSansKR-Regular.otf"; sourceTree = "<group>"; };
 		BFF3587327EABFA300B920E9 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BFF3587627EB1A8200B920E9 /* PipAreaSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipAreaSettingViewController.swift; sourceTree = "<group>"; };
-		EDA9628D92092A35E8BA15D5 /* Pods-ShopLiveSwiftSample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ShopLiveSwiftSample.release.xcconfig"; path = "Target Support Files/Pods-ShopLiveSwiftSample/Pods-ShopLiveSwiftSample.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -189,7 +185,6 @@
 				BFC907A227744A8400D26F3F /* SwiftyJWT in Frameworks */,
 				2F66B4A42CEB857400962D28 /* libavutil in Frameworks */,
 				2F95FFF02A11C7C200A2E58A /* ShopliveShortformSDK in Frameworks */,
-				5F27D122BCB6EFD881381892 /* Pods_ShopLiveSwiftSample.framework in Frameworks */,
 				2F66B49E2CEB857400962D28 /* libavdevice in Frameworks */,
 				2F66B4A82CEB857400962D28 /* libswscale in Frameworks */,
 				2F66B4A62CEB857400962D28 /* libswresample in Frameworks */,
@@ -269,7 +264,6 @@
 			isa = PBXGroup;
 			children = (
 				BFC091F726779B2800619A19 /* SafariServices.framework */,
-				B73A76B0F5FCA4BEF753E1A2 /* Pods_ShopLiveSwiftSample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -316,8 +310,6 @@
 		5B26BE04DC11F8AF2F522E9F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				2AD3C3723904270E2B95448B /* Pods-ShopLiveSwiftSample.debug.xcconfig */,
-				EDA9628D92092A35E8BA15D5 /* Pods-ShopLiveSwiftSample.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -444,7 +436,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BAEDE0026042D0F005C5DD4 /* Build configuration list for PBXNativeTarget "ShopLiveSwiftSample" */;
 			buildPhases = (
-				5D72FBBD7DE08ECE066579B7 /* [CP] Check Pods Manifest.lock */,
 				1BAEDDD326042D0D005C5DD4 /* Frameworks */,
 				1BAEDDD226042D0D005C5DD4 /* Sources */,
 				1BAEDDD426042D0D005C5DD4 /* Resources */,
@@ -605,31 +596,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		5D72FBBD7DE08ECE066579B7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-ShopLiveSwiftSample-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1BAEDDD226042D0D005C5DD4 /* Sources */ = {
@@ -851,7 +817,6 @@
 		};
 		1BAEDE0126042D0F005C5DD4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2AD3C3723904270E2B95448B /* Pods-ShopLiveSwiftSample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -863,6 +828,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ShopLiveSwiftSample/misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -881,7 +847,6 @@
 		};
 		1BAEDE0226042D0F005C5DD4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EDA9628D92092A35E8BA15D5 /* Pods-ShopLiveSwiftSample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -893,6 +858,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = ShopLiveSwiftSample/misc/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

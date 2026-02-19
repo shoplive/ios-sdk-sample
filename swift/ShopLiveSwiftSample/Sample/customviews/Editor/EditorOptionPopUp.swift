@@ -154,6 +154,7 @@ class EditorOptionPopUp : UIView {
                                                                    visibleContents: visibleContents,
                                                                    videoOutputOption: nil,
                                                                    mediaPickerVideoDurationOption: .init(),
+                                                                   videoUploadOption: .none,
                                                                    minVideoDuration: 3,
                                                                    maxVideoDuration: 90))
             .setDelegate(delegate: vc)
@@ -290,7 +291,9 @@ extension EditorOptionPopUp : UIImagePickerControllerDelegate, UINavigationContr
             .setConfiguration(.init(videoCropOption: cropOption,
                                     videoOutputOption: videoOutPutOption,
                                     videoTrimOption: trimOption,
-                                    visibleContents: visibleContents))
+                                    visibleContents: visibleContents,
+                                    videoUploadOption: .none
+                                   ))
             .setDelegate(vc)
             .build(data: .init(videoUrl: localUrl,isCreatedShortform: true), completion: { [weak self] editorViewController in
                 guard let self = self else { return }
