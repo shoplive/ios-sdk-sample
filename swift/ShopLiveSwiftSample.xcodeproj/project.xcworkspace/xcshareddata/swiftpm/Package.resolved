@@ -1,12 +1,13 @@
 {
+  "originHash" : "6e954f79a6555773122ffd40906f8c779f1d1e3ef7e72732b07966712655cba4",
   "pins" : [
     {
       "identity" : "common-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/common-ios",
       "state" : {
-        "revision" : "3eef451f877cb4f8ddf2f7f95fcf7c87f23e57e0",
-        "version" : "1.5.16"
+        "revision" : "b6e5db1143a5cf3dfd4782dedcde1a223f681a8c",
+        "version" : "1.8.2"
       }
     },
     {
@@ -28,12 +29,21 @@
       }
     },
     {
+      "identity" : "ffmpeg-kit-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tylerjonesio/ffmpeg-kit-spm",
+      "state" : {
+        "branch" : "main",
+        "revision" : "6053b0e4f8607314ff5e14e0b18fc250c0f87c9b"
+      }
+    },
+    {
       "identity" : "ios-sdk",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/ios-sdk.git",
       "state" : {
-        "revision" : "d7d5e53060b876ae67fb04272e0eb18c899d84a5",
-        "version" : "1.5.16"
+        "revision" : "0aae749e2fd30286b9519e6cdcfc8cf65e98a4a3",
+        "version" : "1.8.2"
       }
     },
     {
@@ -46,12 +56,21 @@
       }
     },
     {
+      "identity" : "shortform-editor-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/shoplive/shortform-editor-ios",
+      "state" : {
+        "revision" : "0218c37a53fe581ded66036de4358882f9a32671",
+        "version" : "1.8.2"
+      }
+    },
+    {
       "identity" : "shortform-ios",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/shoplive/shortform-ios",
       "state" : {
-        "revision" : "b24d9bb73bcc50f03fcde7cf32693602081d1122",
-        "version" : "1.5.16"
+        "revision" : "0384bf7e2110a60fe9a255ec9f53a1dd2edc93db",
+        "version" : "1.8.2"
       }
     },
     {
@@ -91,5 +110,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
